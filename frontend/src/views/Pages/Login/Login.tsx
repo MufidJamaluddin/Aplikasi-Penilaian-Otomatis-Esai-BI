@@ -45,7 +45,7 @@ class Login extends Component {
                   <CardBody className="text-center">
                     <div>
                       <h2>Penilaian Otomatis Ujian Esai Berbahasa Indonesia</h2>
-                      <p>Aplikasi untuk mengadakan ujian esai berbahasa indonesia dengan penilaian Jawaban Esai secara Otomatis menggunakan Teknologi <i>Machine Learning</i>.</p>
+                      <p>Aplikasi untuk mengadakan ujian esai berbahasa indonesia dengan penilaian Jawaban Esai secara Otomatis menggunakan Teknologi Kecerdasan Buatan. Aplikasi akan mempelajari esai yang telah dinilai guru sebagai rujukan penilaian.</p>
                       
                     </div>
                   </CardBody>
