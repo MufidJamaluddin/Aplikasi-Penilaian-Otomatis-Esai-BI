@@ -1,5 +1,12 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# python
+__pycache__/
+/app/venv/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
 # dependencies
 /dashboard/node_modules
 /dashboard/.pnp
