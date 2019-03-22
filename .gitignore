@@ -2,10 +2,14 @@
 
 # python
 __pycache__/
-/app/venv/
+venv/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
+
+# map js
+*.js.map
+*.css.map
 
 # dependencies
 /dashboard/node_modules

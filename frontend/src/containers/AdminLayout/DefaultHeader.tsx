@@ -3,8 +3,8 @@ import { Nav } from 'reactstrap';
 
 var Template = require('@coreui/react/lib');
 
-const logo = "assets/img/brand/logo.svg";
-const sygnet = "assets/img/brand/sygnet.svg";
+const logo = "static/img/brand/logo.svg";
+const sygnet = "static/img/brand/sygnet.svg";
 
 interface DefaultHeaderPropsModel { onLogout: (e:any)=>void; }
 
