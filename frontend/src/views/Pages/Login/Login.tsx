@@ -33,10 +33,17 @@ class Login extends Component {
                       </InputGroup>
                       <Row>
                         <Col xs="6">
-						<Link to="./profil">
+						            <Link to="./profil">
                           <Button color="primary" className="px-4">Masuk</Button>
-						</Link>
+						            </Link>   
                         </Col>
+
+                        <Link to="./gantipassword">
+                        <Col xs="6">
+                          <Button color="link" className="px-0">Ganti password?</Button>
+                        </Col>
+                        </Link>
+
                       </Row>
                     </Form>
                   </CardBody>

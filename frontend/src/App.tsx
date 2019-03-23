@@ -17,7 +17,6 @@ const DefaultLayout = Loadable({
 // Pages
 const Login = Loadable({
   loader: () => import('./views/Pages/Login/Login'),
-
   loading
 });
 
@@ -25,6 +24,12 @@ const UjianEsai = Loadable({
   loader: () => import('./views/Pages/UjianEsai/UjianEsai'),
   loading
 });
+
+const BukanUjian = Loadable({
+  loader: () => import('./views/Pages/BukanUjian/BukanUjian'),
+  loading
+});
+
 
 const Gantipassword = Loadable({
   loader: () => import('./views/Pages/Gantipassword/Gantipassword'),
@@ -41,6 +46,7 @@ class App extends Component
             <Route exact path="/login" name="Login Page" component={Login} />
             <Route exact path="/gantipassword" name="Ganti Password" component={Gantipassword} />
             <Route exact path="/ujianesai" name="Ujian Esai" component={UjianEsai} />
+            <Route exact path="/bukanujian" name="Bukan Ujian" component={BukanUjian} />
             <Route path="/" name="Home" component={DefaultLayout} />
           </Switch>
       </BrowserRouter>
