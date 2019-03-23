@@ -1,8 +1,8 @@
-from ujian_app.penilaian.pemrosesan_teks.casefolder import CaseFolder
-from ujian_app.penilaian.pemrosesan_teks.tokenizer import Tokenizer
-from ujian_app.penilaian.pemrosesan_teks.stopwordremover import StopwordRemoverFactory
-from ujian_app.penilaian.pemrosesan_teks.stemmer import StemmerFactory
-from ujian_app.penilaian.pemrosesan_teks.ngram import TfUnigram, TfBigram
+from .casefolder import CaseFolder
+from .tokenizer import Tokenizer
+from .stopwordremover import StopwordRemoverFactory
+from .stemmer import StemmerFactory
+from .ngram import TfUnigram, TfBigram
 
 class Preprocesser(object):
     """
