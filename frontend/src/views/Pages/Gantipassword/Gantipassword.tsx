@@ -62,7 +62,7 @@ class Gantipassword extends Component<GantipasswordModel, GantipasswordStateMode
                         <Input type="password" placeholder="Password Lama" autoComplete="current-password" required />
                       </InputGroup>
 
-					  <InputGroup className="mb-4">
+					          <InputGroup className="mb-4">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
                             <i className="icon-lock"></i>
@@ -70,6 +70,16 @@ class Gantipassword extends Component<GantipasswordModel, GantipasswordStateMode
                         </InputGroupAddon>
                         <Input type="password" placeholder="Password Baru" autoComplete="current-password" required />
                       </InputGroup>
+
+                      <InputGroup className="mb-4">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i className="icon-lock"></i>
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input type="password" placeholder="Retype Password Baru" autoComplete="current-password" required />
+                      </InputGroup>
+
 
                       <Row>
 
