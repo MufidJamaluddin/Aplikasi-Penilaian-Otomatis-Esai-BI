@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import Loadable from 'react-loadable';
-
 import '@coreui/icons/css/coreui-icons.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'simple-line-icons/scss/simple-line-icons.scss';
@@ -18,6 +17,12 @@ const DefaultLayout = Loadable({
 // Pages
 const Login = Loadable({
   loader: () => import('./views/Pages/Login/Login'),
+
+  loading
+});
+
+const UjianEsai = Loadable({
+  loader: () => import('./views/Pages/UjianEsai/UjianEsai'),
   loading
 });
 
@@ -35,6 +40,7 @@ class App extends Component
           <Switch>
             <Route exact path="/login" name="Login Page" component={Login} />
             <Route exact path="/gantipassword" name="Ganti Password" component={Gantipassword} />
+            <Route exact path="/ujianesai" name="Ujian Esai" component={UjianEsai} />
             <Route path="/" name="Home" component={DefaultLayout} />
           </Switch>
       </BrowserRouter>

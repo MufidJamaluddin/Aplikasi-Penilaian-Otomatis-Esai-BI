@@ -73,7 +73,7 @@ class Profil extends Component<ProfilModel, ProfilStateModeel>
 										<dd className="col-sm-3">Prof. DR. H. Lucky Ramdani M.Pd, SST</dd>
 
 										<dt className="col-sm-3 text-truncate">Username</dt>
-										<dd className="col-sm-3">luckyramdani</dd>
+										<dd className="col-sm-3">luckramdani</dd>
 
 										<dt className="col-sm-3 text-truncate">Password</dt>
 										<dd className="col-sm-3">luckyramdani</dd>
