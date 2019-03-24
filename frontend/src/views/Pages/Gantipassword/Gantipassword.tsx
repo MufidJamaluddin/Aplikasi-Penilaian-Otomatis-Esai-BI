@@ -79,8 +79,6 @@ class Gantipassword extends Component<GantipasswordModel, GantipasswordStateMode
                         </InputGroupAddon>
                         <Input type="password" placeholder="Retype Password Baru" autoComplete="current-password" required />
                       </InputGroup>
-
-
                       <Row>
 
 						<Col xs="6">

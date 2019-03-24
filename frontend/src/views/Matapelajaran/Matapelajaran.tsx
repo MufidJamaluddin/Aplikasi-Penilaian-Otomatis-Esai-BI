@@ -117,16 +117,16 @@ class Matapelajaran extends Component<MatapelajaranModel, MatapelajaranStateMode
                     <Button color="success" onClick={this.toggleImportMatapelajaran}>Import</Button>{' '}
                   </ModalFooter>
                 </Modal>
-				<Col sm="4">
-					<Input bsSize="sm" type="text" placeholder="Nama Mata Pelajaran" required/>
+				<Col sm="3">
+					<Input  type="text" placeholder="Nama Mata Pelajaran" required/>
 				</Col>
-				<Col sm="2">
-					<Button bgSize="sm" color="success" className="px-1"><i className="fa fa-plus"></i><span>Tambah Mata Pelajaran</span></Button>
+				<Col sm="3">
+					<Button bgSize="sm" color="success" className="px-4"><i className="fa fa-plus"></i><span>Tambah Mata Pelajaran</span></Button>
 				</Col>
 				
 				</FormGroup>
 			</Form>	
-                <Table responsive bgSize="sm">
+        <Table responsive size="sm">
                   <thead>
                   <tr>
                     <th>Nama Mata Pelajaran</th>
@@ -218,29 +218,54 @@ class Matapelajaran extends Component<MatapelajaranModel, MatapelajaranStateMode
 						<Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
 						<Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
 					</td>
+                  </tr><tr>
+                    <td>Geografi</td>
+					<td></td>
+					<td></td>
+                	<td></td>
+                    <td>
+						<Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
+						<Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
+					</td>
+                  </tr><tr>
+                    <td>Geografi</td>
+					<td></td>
+					<td></td>
+                	<td></td>
+                    <td>
+						<Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
+						<Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
+					</td>
+                  </tr><tr>
+                    <td>Geografi</td>
+					<td></td>
+					<td></td>
+                	<td></td>
+                    <td>
+						<Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
+						<Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
+					</td>
+                  </tr><tr>
+                    <td>Geografi</td>
+					<td></td>
+					<td></td>
+                	<td></td>
+                    <td>
+						<Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
+						<Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
+					</td>
+                  </tr><tr>
+                    <td>Geografi</td>
+					<td></td>
+					<td></td>
+                	<td></td>
+                    <td>
+						<Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
+						<Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
+					</td>
                   </tr>
                   </tbody>
                 </Table>
-                <Pagination size="sm">
-                  <PaginationItem>
-                    <PaginationLink previous tag="button"></PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem active>
-                    <PaginationLink tag="button">1</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink tag="button">2</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink tag="button">3</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink tag="button">4</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink next tag="button"></PaginationLink>
-                  </PaginationItem>
-                </Pagination>
               </CardBody>
             </Card>
           </Col>

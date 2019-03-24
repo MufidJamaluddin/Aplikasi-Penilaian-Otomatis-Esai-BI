@@ -25,8 +25,8 @@ export default {
                   icon: 'icon-people',
             },
             {
-                  name: 'Ujian Esai',
-                  url: '/UjianEsai',
+                  name: 'Ujian',
+                  url: '/ujian',
                   icon: 'icon-note',
             },
             {

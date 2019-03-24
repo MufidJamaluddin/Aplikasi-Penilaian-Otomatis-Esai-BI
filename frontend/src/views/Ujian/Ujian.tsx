@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Badge, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table, Button,Form, FormGroup, FormText, FormFeedback, Input, InputGroup, InputGroupAddon, InputGroupText,Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { Link } from 'react-router-dom';
-
-interface UjianStateModel { modal:boolean; state:boolean; primary:boolean; }
+interface UjianStateModel { modal:boolean; state:boolean; danger:boolean; }
 
 interface UjianPropsModel { className?: string; }
 
@@ -13,13 +12,13 @@ class Ujian extends Component<UjianPropsModel, UjianStateModel>
     super(props);
 
     this.state = {
-      primary: false,
+      danger: false,
       modal: false,
       state: false
     };
 
     this.toggle = this.toggle.bind(this);
-    this.toggleMulaiUjian = this.toggleMulaiUjian.bind(this);
+    this.toggleDeleteUjian = this.toggleDeleteUjian.bind(this);
   }
 
 
@@ -30,15 +29,12 @@ class Ujian extends Component<UjianPropsModel, UjianStateModel>
     });
   }
   
-  public toggleMulaiUjian() : void
+  public toggleDeleteUjian() : void
   {
     this.setState({
-      primary: !this.state.primary,
+      danger: !this.state.danger,
     });
   }
-
-
-  
 
   public render() : JSX.Element 
   {
@@ -59,82 +55,93 @@ class Ujian extends Component<UjianPropsModel, UjianStateModel>
               </CardHeader>
 			  
               <CardBody>
+              <Link to="./tambahujian">
+                <Button size="sm"className="btn-vine btn-brand mr-1 mb-1 "><i className="fa fa-plus"></i><span>Tambah Ujian</span></Button>
+              </Link>
                 <Table responsive size="sm">
-                  <thead>
+                
+                <thead>
                   <tr>
                     <th>No. Ujian</th>
-					<th>Nama Ujian</th>
-					<th>Mata Pelajaran</th>
-					<th>Waktu Ujian</th>
-					<th></th>
+                    <th>Nama Ujian</th>
+                    <th>Mata Pelajaran</th>
+                    <th>Status Ujian</th>
+                    <th></th>
                   </tr>
-                  </thead>
-                  <tbody>
+                </thead>
+                
+                <tbody>
                   <tr>
-                	<td>TST00001</td>
-					<td>Struktur Tanah</td>
-					<td>Geografi</td>
-					<td>01/02/2018</td>
-					<td><b>Telah dikerjakan</b></td>
-                  </tr>
-				  <tr>
-                	<td>TST00002</td>
-					<td>Cara Bersosialisasi</td>
-					<td>Sosiologi</td>
-					<td>02/02/2018</td>
-					<td>Ujian Ditutup</td>
-                  </tr>
-				  <tr>
-                	<td>TST00003</td>
-					<td>Cara Bersosialisasi</td>
-					<td>Sosiologi</td>
-					<td>02/02/2018</td>
-					<td>Ujian Ditutup</td>
-                  </tr>
-                  <tr>
+                    <td>TST00001</td>
+                    <td>Pendidikan Kewarganegaraan</td>
+                    <td>PKN Bab 1</td>
+                    <td><span className="badge badge-success">Terlaksana</span></td>
+                    <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button></td>
+                 </tr>
+
+                 <tr>
+                    <td>TST00002</td>
+                    <td>Pendidikan Kewarganegaraan</td>
+                    <td>PKN Bab 2</td>
+                    <td><span className="badge badge-success">Terlaksana</span></td>
+                    <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button></td>
+                 </tr>
+
+                 <tr>
+                    <td>TST00003</td>
+                    <td>Biologi</td>
+                    <td>Biologi Bab 1</td>
+                    <td><span className="badge badge-danger">Belum Terlaksana</span></td>
+                    <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
+                        <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
+                        <Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
+                    </td>
+                 </tr>
+
+                 
+                 <tr>
                     <td>TST00004</td>
-					<td>Anatomy Tumbuhan</td>
-					<td>Biologi</td>
-					<td>03/02/2018</td>
-                    <td>
-						<Button size="sm" type="button" onClick={this.toggleMulaiUjian} color="primary">Mulai Ujian</Button>
-						<Modal isOpen={this.state.primary} toggle={this.toggleMulaiUjian} className={'modal-primary ' + this.props.className}>
-						  <ModalHeader toggle={this.toggleMulaiUjian}>Mulai Ujian</ModalHeader>
-						  <ModalBody>
-							<FormGroup row>
-								
-										<dt className="col-sm-6 text-truncate">No. Ujian</dt>
-										<dd className="col-sm-6">TST00004</dd>
-										
-										<dt className="col-sm-6 text-truncate">Nama Ujian</dt>
-										<dd className="col-sm-6">Anatomy Tumbuhan</dd>
-										
-										<dt className="col-sm-6 text-truncate">Mata Pelajaran</dt>
-										<dd className="col-sm-6">Biologi</dd>
-										
-										<dt className="col-sm-6 text-truncate">jumlah Soal</dt>
-										<dd className="col-sm-6">36</dd>
-										
-										<dt className="col-sm-6 text-truncate">Durasi Ujian</dt>
-										<dd className="col-sm-6">90:00 Menit</dd>
-									
-							</FormGroup>
-								  
-						  </ModalBody>
-						  <ModalFooter>
-							<Button color="danger" onClick={this.toggleMulaiUjian}>Tidak</Button>
-							<Link to="./soal"><Button color="success" >Ya</Button></Link>
-						  </ModalFooter>
-						</Modal>
-					</td>
-                  </tr>
-				  <tr>
+                    <td>Biologi</td>
+                    <td>Biologi Bab 2</td>
+                    <td><span className="badge badge-primary">Sedang Berlangsung</span></td>
+                    <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button></td>
+                 </tr>
+
+                 
+                 <tr>
                     <td>TST00005</td>
-					<td>Toleransi Beragama</td>
-					<td>Pendidikan Kewarganegaraan</td>
-					<td>03/02/2018</td>
-                    <td>Ujian Ditutup</td>
-                  </tr>
+                    <td>Biologi</td>
+                    <td>Biologi Bab 3</td>
+                    <td><span className="badge badge-danger">Belum Terlaksana</span></td>
+                    <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
+                        <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
+                        <Button className="btn-youtube btn-brand icon btn-sm" onClick={this.toggleDeleteUjian}><i className="fa fa-trash"></i></Button>
+                            
+                            <Modal isOpen={this.state.danger} toggle={this.toggleDeleteUjian} className={'modal-danger ' + this.props.className}>
+                              <ModalHeader toggle={this.toggleDeleteUjian}>Delete Ujian</ModalHeader>
+                              <ModalBody>
+					                        <p> Apakah anda yakin ingin menghapus ujian <b></b> dari daftar Ujian ?</p>
+                              </ModalBody>
+                              <ModalFooter>
+				                        <Button color="danger" onClick={this.toggleDeleteUjian}>Tidak</Button>
+                                <Button color="success" onClick={this.toggleDeleteUjian}>Ya</Button>{' '}
+                              </ModalFooter>
+                             </Modal>
+				
+                    </td>
+                 </tr>
+
+                 <tr>
+                    <td>TST00006</td>
+                    <td>Biologi</td>
+                    <td>Biologi Bab 4</td>
+                    <td><span className="badge badge-danger">Belum Terlaksana</span></td>
+                    <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
+                        <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
+                        <Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
+                    </td>
+                 </tr>
+
 				  </tbody>
                 </Table>
                 <Pagination size="sm">

@@ -6,6 +6,7 @@ const Profil = React.lazy(() => import('./views/Profil/Profil'));
 const Siswa = React.lazy(() => import('./views/Siswa/Siswa'));
 const Kelas = React.lazy(() => import('./views/Kelas/Kelas'));
 const Ujian = React.lazy(() => import('./views/Ujian/Ujian'));
+const TambahUjian = React.lazy(() => import('./views/Ujian/TambahUjian'));
 const Soal = React.lazy(() => import('./views/Soal/Soal'));
 const Matapelajaran = React.lazy(() => import('./views/Matapelajaran/Matapelajaran'));
 const Users = React.lazy(() => import('./views/Users/Users'));
@@ -19,6 +20,7 @@ const routes = [
   { path: '/siswa', name: 'Siswa', component: Siswa },
   { path: '/kelas', name: 'Kelas', component: Kelas },
   { path: '/ujian', name: 'Ujian', component: Ujian },
+  { path: '/tambahujian', name: 'TambahUjian', component: TambahUjian },
   { path: '/soal', name: 'Soal', component: Soal },
   { path: '/matapelajaran', name: 'Matapelajaran', component: Matapelajaran },
   { path: '/users', exact: true,  name: 'Users', component: Users },
