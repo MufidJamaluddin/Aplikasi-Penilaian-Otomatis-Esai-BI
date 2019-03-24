@@ -113,7 +113,7 @@ class Kelas extends Component<KelasModel, KelasStateModeel>
                   </ModalFooter>
                 </Modal>
 				<Col sm="4">
-					<Input bsSize="sm" type="text" placeholder="Nama Kelas" required/>
+					<Input type="text" placeholder="Nama Kelas" required/>
 				</Col>
 				<Col sm="2">
 					<Button bsSize="sm" color="success" className="px-4"><i className="fa fa-plus"></i><span>Tambah Kelas</span></Button>
@@ -121,7 +121,7 @@ class Kelas extends Component<KelasModel, KelasStateModeel>
 				
 				</FormGroup>
 			</Form>	
-                <Table responsive size="sm">
+                <Table responsive reflow size="sm">
                   <thead>
                   <tr>
                     <th>Nama Kelas</th>
@@ -190,6 +190,87 @@ class Kelas extends Component<KelasModel, KelasStateModeel>
                     <td>X-IPA1</td>
 					<td></td>
 					<td></td>
+                    <td></td>
+                	<td>
+						<Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
+						<Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
+					</td>
+                  </tr><tr>
+                    <td>X-IPA1</td>
+					<td></td>
+					<td></td>
+                    <td></td>
+                	<td>
+						<Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
+						<Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
+					</td>
+                  </tr><tr>
+                    <td>X-IPA1</td>
+					<td></td>
+					<td></td>
+                    <td></td>
+                	<td>
+						<Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
+						<Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
+					</td>
+                  </tr><tr>
+                    <td>X-IPA1</td>
+					<td></td>
+					<td></td>
+                    <td></td>
+                	<td>
+						<Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
+						<Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
+					</td>
+                  </tr><tr>
+                    <td>X-IPA1</td>
+					<td></td>
+					<td></td>
+                    <td></td>
+                	<td>
+						<Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
+						<Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
+					</td>
+                  </tr><tr>
+                    <td>X-IPA1</td>
+					<td></td>
+					<td></td>
+                    <td></td>
+                	<td>
+						<Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
+						<Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
+					</td>
+                  </tr><tr>
+                    <td>X-IPA1</td>
+					<td></td>
+					<td></td>
+                    <td></td>
+                	<td>
+						<Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
+						<Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
+					</td>
+                  </tr><tr>
+                    <td>X-IPA1</td>
+					<td></td>
+					<td></td>
+                    <td></td>
+                	<td>
+						<Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
+						<Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
+					</td>
+                  </tr><tr>
+                    <td>X-IPA1</td>
+					<td></td>
+					<td></td>
+                    <td></td>
+                	<td>
+						<Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
+						<Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
+					</td>
+                  </tr><tr>
+                    <td>X-IPA1</td>
+					<td></td>
+					<td></td>
                 	<td></td>
                     <td>
 						<Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
@@ -216,26 +297,6 @@ class Kelas extends Component<KelasModel, KelasStateModeel>
                   </tr>
                   </tbody>
                 </Table>
-                <Pagination size="sm">
-                  <PaginationItem>
-                    <PaginationLink previous tag="button"></PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem active>
-                    <PaginationLink tag="button">1</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink tag="button">2</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink tag="button">3</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink tag="button">4</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink next tag="button"></PaginationLink>
-                  </PaginationItem>
-                </Pagination>
               </CardBody>
             </Card>
           </Col>

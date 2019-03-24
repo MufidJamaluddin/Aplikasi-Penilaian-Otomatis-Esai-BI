@@ -4,8 +4,9 @@ import Matapelajaran from './Matapelajaran/Matapelajaran';
 import Profil from './Profil/Profil';
 import Kelas from './Kelas/Kelas';
 import Ujian from './Ujian/Ujian';
+import TambahUjian from './Ujian/TambahUjian';
 import Soal from './Soal/Soal';
-import { Login, Gantipassword, UjianEsai, BukanUjian } from './Pages';
+import { Login, Gantipassword, UjianEsai, BukanUjian} from './Pages';
 
 export {
   Guru,
@@ -13,6 +14,7 @@ export {
   Matapelajaran,
   Kelas,
   Ujian,
+  TambahUjian,
   Soal,
   UjianEsai,
   BukanUjian,

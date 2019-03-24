@@ -61,7 +61,7 @@ class BukanUjian extends Component<BukanUjianPropsModel, BukanUjianStateModel>
                                     <h1 className="text-right"><b>58:44</b></h1>
                                     <h5 className="text-center">SOAL <b>5</b></h5>
                                     <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
-                                    <p><Input type="textarea"  rows="5" placeholder="Input Jawaban" noresize /></p>
+                                    <p><Input type="textarea"  rows="5" placeholder="Input Jawaban" autofocus /></p>
                             
                                     <Col className="col-sm-12 text-center">
                                     <p>

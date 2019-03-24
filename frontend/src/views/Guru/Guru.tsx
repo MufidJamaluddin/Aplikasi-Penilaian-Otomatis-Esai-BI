@@ -121,49 +121,50 @@ class Guru extends Component<GuruModel, GuruStateModeel>
                        className={'modal-success modal-lg ' + this.props.className}>
                   <ModalHeader toggle={this.toggleTambahGuru}>Tambah Guru</ModalHeader>
                   <ModalBody>
-                    <Form action="" method="post" className="form-horizontal">
-					  <h6>Data Pribadi</h6>
-					  <FormGroup row>
-						<Col sm="3">
-						  <p><Input bsSize="sm" type="text" placeholder="NIP" required /></p>
-						</Col>
-						<Col sm="3">
-						  <p><Input bsSize="sm" type="text" placeholder="Nama Guru" required/></p>
-						</Col>
-						<Col sm="3">
-						  <p><Input bsSize="sm" type="text" placeholder="Username" required/></p>
-						</Col>
-						<Col sm="">
-						  <p><Input bsSize="sm" type="text" placeholder="Password" required/></p>
-						</Col>
-					  </FormGroup>
-					  
-					  <h6>Data Mengajar</h6>
-					  <FormGroup row>
-						<Col sm="5">
-						  <p><Input bsSize="sm" type="select">
-							<option value="">Pilih Mata Pelajaran ...</option>
-							<option value="Biologi">Biologi</option>
-							<option value="Geografi">Geografi</option>
-							<option value="Sejarah">Sejarah</option>
-							<option value="Pendidikan Kewarganegaraan">Pendidikan Kewarganegaraan</option>
-						  </Input></p>
-						</Col>
-						
-						<Col sm="5">
-						  <p><Input bsSize="sm" type="select">
-							<option value="">Pilih Kelas ...</option>
-							<option value="X-IPA1">X-IPA1</option>
-							<option value="X-IPA2">X-IPA2</option>
-							<option value="X-IPA3">X-IPA3</option>
-							<option value="X-IPA4">X-IPA4</option>
-						  </Input></p>
-						</Col>
-						
-						<Col sm="2">
-							<p><Button bsSize="sm" color="success">+Tambah</Button></p>
-						</Col>
-						
+								
+										<Form action="" method="post" className="form-horizontal">
+										<h6>Data Pribadi</h6>
+										<FormGroup row>
+										<Col sm="3">
+											<p><Input bsSize="sm" type="text" placeholder="NIP" required /></p>
+										</Col>
+										<Col sm="3">
+											<p><Input bsSize="sm" type="text" placeholder="Nama Guru" required/></p>
+										</Col>
+										<Col sm="3">
+											<p><Input bsSize="sm" type="text" placeholder="Username" required/></p>
+										</Col>
+										<Col sm="">
+											<p><Input bsSize="sm" type="text" placeholder="Password" required/></p>
+										</Col>
+										</FormGroup>
+										
+									<h6>Data Mengajar</h6>
+									<FormGroup row>
+									<Col sm="5">
+										<p><Input bsSize="sm" type="select">
+										<option value="">Pilih Mata Pelajaran ...</option>
+										<option value="Biologi">Biologi</option>
+										<option value="Geografi">Geografi</option>
+										<option value="Sejarah">Sejarah</option>
+										<option value="Pendidikan Kewarganegaraan">Pendidikan Kewarganegaraan</option>
+										</Input></p>
+									</Col>
+									
+									<Col sm="5">
+										<p><Input bsSize="sm" type="select">
+										<option value="">Pilih Kelas ...</option>
+										<option value="X-IPA1">X-IPA1</option>
+										<option value="X-IPA2">X-IPA2</option>
+										<option value="X-IPA3">X-IPA3</option>
+										<option value="X-IPA4">X-IPA4</option>
+										</Input></p>
+									</Col>
+									
+									<Col sm="2">
+										<p><Button bsSize="sm" color="success">+Tambah</Button></p>
+									</Col>
+									
 						<Col sm="12">
 						<Table responsive bsSize="sm">
 						  <thead>
@@ -238,7 +239,7 @@ class Guru extends Component<GuruModel, GuruStateModeel>
                     <th>Nama Guru</th>
                     <th>Username</th>
                     <th>Password</th>
-					<th>Aksi</th>
+										<th>Aksi</th>
                   </tr>
                   </thead>
                   <tbody>
