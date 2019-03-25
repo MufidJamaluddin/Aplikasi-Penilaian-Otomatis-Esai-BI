@@ -21,7 +21,7 @@ class TfBigram(object):
     """
     Bertugas Menghitung TF paa term Bigram
     """
-    def unify_term_bigram(self, firstTokenIndex:int, tokens:list):
+    def get_term_bigram(self, firstTokenIndex:int, tokens:list):
         """
         Menggabungkan Dua String (Bigram)
         """
@@ -37,7 +37,7 @@ class TfBigram(object):
         sz = len(tokens) - 1
 
         for i in range(sz):
-            bigram_token = self.unify_term_bigram(i, tokens)
+            bigram_token = self.get_term_bigram(i, tokens)
 
             if bigram_token in dictTfBigram:
                 dictTfBigram[bigram_token] = dictTfBigram[bigram_token] + 1
