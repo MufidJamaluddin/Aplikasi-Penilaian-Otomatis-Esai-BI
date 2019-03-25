@@ -12,7 +12,7 @@ class StopwordRemover(object):
         """
         Menghilangkan Stopword dari List Tokens
         """
-        clean_tokens = [token for token in tokens if token in self.stoplist]
+        clean_tokens = [token for token in tokens if not token in self.stoplist]
         return clean_tokens
 
 class StopwordRemoverFactory(object):

@@ -3,5 +3,6 @@ class Tokenizer(object):
     Bertugas Melakukan Tokenisasi Terhadap Teks
     """
 
-    def apply(self, teks:str):
-        return teks.split(' ')
+    def tokenize(self, teks:str):
+        tokens = teks.split(' ')
+        return tokens

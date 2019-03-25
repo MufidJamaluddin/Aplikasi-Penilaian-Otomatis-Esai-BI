@@ -35,8 +35,8 @@ class Preprocesser(object):
         """
         Melakukan Pemrosesan Teks dari Teks menjadi list token
         """
-        result_text = self.case_folder.apply(teks)
-        result_tokens = self.tokenizer.apply(result_text)
+        result_text = self.case_folder.case_fold(teks)
+        result_tokens = self.tokenizer.tokenize(result_text)
         result_tokens = self.stopword_remover.filter(result_tokens)
         result_tokens = self.stemmer.stem_tokens(result_tokens)
         
