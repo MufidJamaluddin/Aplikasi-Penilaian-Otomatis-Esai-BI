@@ -20,12 +20,12 @@ class StopwordRemoverFactory(object):
     Membuat StopwordRemover
     """
     def create(self):
-        stoplist = self.get_stop_word_dictionary()
-        stopword_remover = StopwordRemover(stoplist)
+        stop_words = self.get_stop_words_dict()
+        stopword_remover = StopwordRemover(stop_words)
         return stopword_remover
 
     @lru_cache
-    def get_stop_word_dictionary(self):
+    def get_stop_words_dict(self):
         """
         Mendapatkan Stop Word dalam tipe dictionary python
         """
