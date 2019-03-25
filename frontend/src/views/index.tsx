@@ -9,6 +9,8 @@ import UpdateUjian from './Ujian/UpdateUjian';
 import UpdateSoal from './Ujian/UpdateSoal';
 import BuatSoal from './Ujian/BuatSoal';
 import Soal from './Soal/Soal';
+import HasilUjian from './Hasil/HasilUjian';
+import DetailHasilUjian from './Hasil/DetailHasilUjian';
 import { Login, Gantipassword, UjianEsai, BukanUjian} from './Pages';
 
 export {
@@ -25,6 +27,8 @@ export {
   BuatSoal,
   BukanUjian,
   Login,
+  HasilUjian,
+  DetailHasilUjian,
   Profil,
   Gantipassword
 };
