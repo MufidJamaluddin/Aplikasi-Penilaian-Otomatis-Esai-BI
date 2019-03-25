@@ -64,3 +64,14 @@ class DocNumberTermDataStore(object):
                 doc_num =+ self.doc_num_term_data[temp_score].get(term, 0)
 
         return doc_num
+
+class RfMaxDataStore(object):
+    """
+    Bertugas Mengembalikan Nilai RF Maksimal
+    pada Tiap Term
+    """
+    def get_max_rf(self, term:str):
+        #
+        # RETRIEVE DATA DARI DATABASE!
+        #
+        pass

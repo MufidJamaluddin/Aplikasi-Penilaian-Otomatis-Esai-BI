@@ -16,7 +16,7 @@ class Preprocesser(object):
         self.stopword_remover = stopword_remover_factory.create()
 
         stemmer_factory = StemmerFactory()
-        self.stemmer = stemmer_factory.create_stemmer()
+        self.stemmer = stemmer_factory.create()
 
         self.tf_unigram = TfUnigram()
         self.tf_bigram = TfBigram()

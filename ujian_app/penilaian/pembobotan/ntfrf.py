@@ -1,9 +1,11 @@
-from .tfdata import TfMaxDataStore, DocNumberTermDataStore
+from abc import ABC, abstractclassmethod
 from math import log
+from .tfdata import TfMaxDataStore, DocNumberTermDataStore, RfMaxDataStore
 
-class NtfRfWeighter(object):
+class NtfRfLabeledWeighter(object):
     """
     Bertugas Melakukan Pembobotan Term
+    Data Berlabel (Training)
     """
 
     def __init__(self, max_tf_data: TfMaxDataStore, doc_term_data: DocNumberTermDataStore):
@@ -38,3 +40,40 @@ class NtfRfWeighter(object):
         ntf_rf = ntf * rf
 
         return ntf_rf
+
+class NtfRfUnlabeledWeighter(object):
+    """
+    Bertugas Melakukan Pembobotan Term NTF.RF
+    Pada Dataset yang Tidak Berlabel (Fase Pengujian)
+    """
+    def __init__(self, max_tf_data: TfMaxDataStore, max_rf_data: RfMaxDataStore):
+        self.max_tf_data = max_tf_data
+        self.max_rf_data = max_rf_data
+    
+    def calculate_ntf(self, tf:int, term:str):
+        """
+        Menghitung Normalized Term Frequency (ntf)
+        Data Tidak Berlabel (Data Uji)
+        """
+        ntf = tf / self.max_tf_data.get_max_tf_or_one(term)
+        return ntf
+
+    def get_max_rf(self, term:str):
+        """
+        Menghitung Relevance Frequency (rf)
+        Data Tidak Berlabel (Data Uji)
+        Rumus Category-Independent
+        """
+        rf = self.max_rf_data.get_max_rf(term)
+        return rf
+    
+    def calculate(self, tf:int, term:str):
+        """
+        Menghitung NTF.RF Data Tidak Berlabel
+        """
+        tf = self.calculate_ntf(tf, term)
+        rf = self.get_max_rf(term)
+
+        tf_rf = tf * rf
+
+        return tf_rf

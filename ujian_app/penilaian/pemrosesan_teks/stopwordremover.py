@@ -24,7 +24,7 @@ class StopwordRemoverFactory(object):
         stopword_remover = StopwordRemover(stoplist)
         return stopword_remover
 
-    @lru_cache()
+    @lru_cache
     def get_stop_word_dictionary(self):
         """
         Mendapatkan Stop Word dalam tipe dictionary python
