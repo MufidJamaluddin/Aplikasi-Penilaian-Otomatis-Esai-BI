@@ -42,9 +42,9 @@ class Preprocesser(object):
         
         return result_tokens
 
-    def apply(self, teks:str):
+    def preprocess_text(self, teks:str):
         """
-        Melakukan Pemrosesan Teks
+        Mengekstrak fitur dari teks
         """
         tokens = self.text_to_tokens(teks)
         features = self.get_features(tokens)
