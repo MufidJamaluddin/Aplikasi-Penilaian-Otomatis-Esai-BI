@@ -151,16 +151,15 @@ class Matapelajaran extends Component<MatapelajaranModel, MatapelajaranStateMode
 				<Modal isOpen={this.state.warning} toggle={this.toggleUpdateMatapelajaran}className={'modal-warning  ' + this.props.className}>
 							  
 				  <ModalHeader toggle={this.toggleUpdateMatapelajaran}>Update Mata Pelajaran</ModalHeader>
-                  <ModalBody>
-                    <Form action="" method="post" className="form-horizontal">
-					  <FormGroup row>
-						<Col sm="12">
-						  <p><Input  type="text" placeholder="Nama Mata Pelajaran" required /></p>
-						</Col>
-					  </FormGroup>
-					</Form>
-					
-                  </ModalBody>		  
+          <ModalBody>
+            <Form action="" method="post" className="form-horizontal">
+              <FormGroup row>
+              <Col sm="12">
+                <p><Input  type="text" placeholder="Nama Mata Pelajaran" required /></p>
+              </Col>
+              </FormGroup>
+            </Form>
+          </ModalBody>		  
 				  <ModalFooter>
 						<Button color="danger" onClick={this.toggleUpdateMatapelajaran}>Cancel</Button>
 						<Button color="success" onClick={this.toggleUpdateMatapelajaran}>Update</Button>{' '}

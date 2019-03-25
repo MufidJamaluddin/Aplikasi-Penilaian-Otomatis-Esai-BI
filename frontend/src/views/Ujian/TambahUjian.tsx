@@ -110,7 +110,9 @@ class TambahUjian extends Component<TambahUjianPropsModel, TambahUjianStateModel
                                         <Link to="./ujian">
                                             <Button className="text-right" color="primary" >Kembali</Button>
                                         </Link>
+                                        <Link to="./buatsoal">
                                             <Button className="text-right" color="success" >Selanjutnya</Button>
+                                        </Link>
                                      </Col>
 
 								</FormGroup>

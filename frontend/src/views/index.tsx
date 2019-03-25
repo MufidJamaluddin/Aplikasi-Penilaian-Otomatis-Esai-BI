@@ -5,6 +5,7 @@ import Profil from './Profil/Profil';
 import Kelas from './Kelas/Kelas';
 import Ujian from './Ujian/Ujian';
 import TambahUjian from './Ujian/TambahUjian';
+import BuatSoal from './Ujian/BuatSoal';
 import Soal from './Soal/Soal';
 import { Login, Gantipassword, UjianEsai, BukanUjian} from './Pages';
 
@@ -17,6 +18,7 @@ export {
   TambahUjian,
   Soal,
   UjianEsai,
+  BuatSoal,
   BukanUjian,
   Login,
   Profil,
