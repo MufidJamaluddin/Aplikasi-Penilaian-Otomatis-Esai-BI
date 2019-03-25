@@ -93,7 +93,9 @@ class Ujian extends Component<UjianPropsModel, UjianStateModel>
                     <td>Biologi Bab 1</td>
                     <td><span className="badge badge-danger">Belum Terlaksana</span></td>
                     <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
-                        <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
+                        <Link to="./updateujian">
+                          <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
+                        </Link>
                         <Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
                     </td>
                  </tr>
@@ -114,7 +116,9 @@ class Ujian extends Component<UjianPropsModel, UjianStateModel>
                     <td>Biologi Bab 3</td>
                     <td><span className="badge badge-danger">Belum Terlaksana</span></td>
                     <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
-                        <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
+                        <Link to="./updateujian">
+                          <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
+                        </Link>
                         <Button className="btn-youtube btn-brand icon btn-sm" onClick={this.toggleDeleteUjian}><i className="fa fa-trash"></i></Button>
                             
                             <Modal isOpen={this.state.danger} toggle={this.toggleDeleteUjian} className={'modal-danger ' + this.props.className}>
@@ -137,7 +141,9 @@ class Ujian extends Component<UjianPropsModel, UjianStateModel>
                     <td>Biologi Bab 4</td>
                     <td><span className="badge badge-danger">Belum Terlaksana</span></td>
                     <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
-                        <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
+                        <Link to="./updateujian">
+                          <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
+                         </Link>
                         <Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
                     </td>
                  </tr>

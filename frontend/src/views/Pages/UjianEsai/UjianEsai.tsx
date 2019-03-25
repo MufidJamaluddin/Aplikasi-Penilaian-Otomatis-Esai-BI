@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, FormGroup,Modal,ModalHeader,ModalBody,ModalFooter,  Card, CardBody, CardHeader, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 
-interface BukanUjianStateModel { success:boolean; modal: boolean; }
+interface UjianEsaiStateModel { success:boolean; modal: boolean; }
 
-interface BukanUjianPropsModel { className: string; }
+interface UjianEsaiPropsModel { className: string; }
 
-class BukanUjian extends Component<BukanUjianPropsModel, BukanUjianStateModel>
+class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
 {
 	constructor(props:any) 
 	{
@@ -110,4 +110,4 @@ class BukanUjian extends Component<BukanUjianPropsModel, BukanUjianStateModel>
   }
 }
 
-export default BukanUjian;
+export default UjianEsai;
