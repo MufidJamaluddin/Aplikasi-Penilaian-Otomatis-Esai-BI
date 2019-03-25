@@ -158,7 +158,9 @@ class BuatSoal extends Component<BuatSoalPropsModel, BuatSoalStateModel>
                           <Col className="col-sm-3 text-right">
                             <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
                           </Col>
-                          <Input type="textarea"  rows="5" placeholder="Input Soal" required/>                       
+                          <Col sm="12">
+                            <Input type="textarea"  rows="5" placeholder="Input Soal" required/> 
+                          </Col>   
                         </FormGroup>
                       </TabPane>
 
@@ -218,7 +220,9 @@ class BuatSoal extends Component<BuatSoalPropsModel, BuatSoalStateModel>
                           <Col className="col-sm-3 text-right">
                             <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
                           </Col>
-                          <Input type="textarea"  rows="5" placeholder="Input Soal" required/>                       
+                          <Col sm="12">
+                            <Input type="textarea"  rows="5" placeholder="Input Soal" required/> 
+                          </Col> 
                         </FormGroup>
                       </TabPane>
                     </TabContent>
