@@ -42,6 +42,6 @@ class TfBigram(object):
             if bigram_token in dictTfBigram:
                 dictTfBigram[bigram_token] = dictTfBigram[bigram_token] + 1
             else:
-                dictTfBigram[bigram_token] = 0
+                dictTfBigram[bigram_token] = 1
 
         return dictTfBigram
