@@ -13,7 +13,6 @@ import LihatSoal from './Ujian/LihatSoal';
 import Soal from './Soal/Soal';
 import HasilUjian from './Hasil/HasilUjian';
 import DetailHasilUjian from './Hasil/DetailHasilUjian';
-import { Login, Gantipassword, UjianEsai, BukanUjian} from './Pages';
 
 export {
   Guru,
@@ -26,13 +25,9 @@ export {
   UpdateSoal,
   Soal,
   LihatSoal,
-  UjianEsai,
   BuatSoal,
   DetailUjian,
-  BukanUjian,
-  Login,
   HasilUjian,
   DetailHasilUjian,
-  Profil,
-  Gantipassword
+  Profil
 };

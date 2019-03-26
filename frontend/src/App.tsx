@@ -8,31 +8,28 @@ import './App.scss';
 
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
 
-// Containers
-const DefaultLayout = Loadable({
-  loader: () => import('./containers/DefaultLayout'),
+const AdminLayout = Loadable({
+  loader: () => import('./admin_templates/AdminLayout'),
   loading
 });
 
-// Pages
 const Login = Loadable({
-  loader: () => import('./views/Pages/Login/Login'),
+  loader: () => import('./page_views/Login/Login'),
   loading
 });
 
 const UjianEsai = Loadable({
-  loader: () => import('./views/Pages/UjianEsai/UjianEsai'),
+  loader: () => import('./page_views/UjianEsai/UjianEsai'),
   loading
 });
 
 const BukanUjian = Loadable({
-  loader: () => import('./views/Pages/BukanUjian/BukanUjian'),
+  loader: () => import('./page_views/BukanUjian/BukanUjian'),
   loading
 });
 
-
 const Gantipassword = Loadable({
-  loader: () => import('./views/Pages/Gantipassword/Gantipassword'),
+  loader: () => import('./page_views/Gantipassword/Gantipassword'),
   loading
 });
 
@@ -47,7 +44,7 @@ class App extends Component
             <Route exact path="/gantipassword" name="Ganti Password" component={Gantipassword} />
             <Route exact path="/ujianesai" name="Ujian Esai" component={UjianEsai} />
             <Route exact path="/bukanujian" name="Bukan Ujian" component={BukanUjian} />
-            <Route path="/" name="Home" component={DefaultLayout} />
+            <Route path="/" name="Home" component={AdminLayout} />
           </Switch>
       </BrowserRouter>
     );
