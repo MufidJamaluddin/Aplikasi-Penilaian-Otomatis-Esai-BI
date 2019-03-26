@@ -106,7 +106,7 @@ class Ujian extends Component<UjianPropsModel, UjianStateModel>
                     <td>Biologi</td>
                     <td>Biologi Bab 2</td>
                     <td><span className="badge badge-primary">Sedang Berlangsung</span></td>
-                    <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button></td>
+                    <td><Link to="./detailujian"><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button></Link></td>
                  </tr>
 
                  

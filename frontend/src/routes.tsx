@@ -10,7 +10,10 @@ const TambahUjian = React.lazy(() => import('./views/Ujian/TambahUjian'));
 const UpdateUjian = React.lazy(() => import('./views/Ujian/UpdateUjian'));
 const UpdateSoal = React.lazy(() => import('./views/Ujian/UpdateSoal'));
 const BuatSoal = React.lazy(() => import('./views/Ujian/BuatSoal'));
+const DetailUjian = React.lazy(() => import('./views/Ujian/DetailUjian'));
 const Soal = React.lazy(() => import('./views/Soal/Soal'));
+const HasilUjian = React.lazy(() => import('./views/Hasil/HasilUjian'));
+const DetailHasilUjian = React.lazy(() => import('./views/Hasil/DetailHasilUjian'));
 const Matapelajaran = React.lazy(() => import('./views/Matapelajaran/Matapelajaran'));
 const Users = React.lazy(() => import('./views/Users/Users'));
 const User = React.lazy(() => import('./views/Users/User'));
@@ -23,7 +26,10 @@ const routes = [
   { path: '/siswa', name: 'Siswa', component: Siswa },
   { path: '/kelas', name: 'Kelas', component: Kelas },
   { path: '/ujian', name: 'Ujian', component: Ujian },
+  { path: '/hasilujian', name: 'Hasil Ujian', component: HasilUjian },
+  { path: '/detailhasilujian', name: 'Detail Hasil Ujian', component: DetailHasilUjian },
   { path: '/buatsoal', name: 'Buat Soal', component: BuatSoal },
+  { path: '/detailujian', name: 'Detail Ujian', component: DetailUjian },
   { path: '/tambahujian', name: 'Tambah Ujian', component: TambahUjian },
   { path: '/updateujian', name: 'Update Ujian', component: UpdateUjian },
   { path: '/updatesoal', name: 'Update Soal', component: UpdateSoal },
