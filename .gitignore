@@ -15,23 +15,23 @@ __pycache__/
 *.css.map
 
 # dependencies
-/dashboard/node_modules
-/dashboard/.pnp
-/dashboard/.pnp.js
+/frontend/node_modules
+/frontend/.pnp
+/frontend/.pnp.js
 
 # testing
-/dashboard/coverage
+/frontend/coverage
 
 # production
-/dashboard/build
+/frontend/build
 
 # misc
-/dashboard/.DS_Store
-/dashboard/.env.local
-/dashboard/.env.development.local
-/dashboard/.env.test.local
-/dashboard/.env.production.local
+/frontend/.DS_Store
+/frontend/.env.local
+/frontend/.env.development.local
+/frontend/.env.test.local
+/frontend/.env.production.local
 
-/dashboard/npm-debug.log*
-/dashboard/yarn-debug.log*
-/dashboard/yarn-error.log*
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
