@@ -1,15 +1,45 @@
 var ncp = require("ncp");
+var path = require("path");
+var fs = require("fs");
 
-ncp("build/static","../ujian_app/static", callback);
+const dir_path = path.join(__dirname, 'build');
 
-ncp("build/index.html", "../ujian_app/static/index.html", callback);
+/**
+ * Copy File Hasil Build Reactjs
+ * ke Proyek Python 
+ */
+function copy_file()
+{
+    console.log('Copy File CSS, JS, IMG, dan Media ke "ujian_app/static"');    
+    ncp("build/static","../ujian_app/static", callback);
 
-ncp("build/asset-manifest.json","../ujian_app/static/asset-manifest.json", callback);
+    fs.readdir(dir_path, function(err, files){
+        if(err)
+        {
+            console.error(err);
+            console.log('Gagal Copy File!');
+        }
+        else
+        {
+            files.forEach(function(file)
+            {
+                if(file !== 'static')
+                {
+                    console.log('Copy File ' + file + ' ke "ujian_app/static"');
+                    ncp('build/' + file, '../ujian_app/static/' + file, callback);
+                }
+            });
+        }
+    });
+}
 
-ncp("build/favicon.ico","../ujian_app/static/favicon.ico", callback);
-
-ncp("build/service-worker.js","../ujian_app/static/service-worker.js", callback);
-
-function callback(){
-
+function callback(error)
+{
+    if(error) 
+    {
+        console.log(error);
+        console.log('GAGAL Copy File ke "ujian_app/static"!');
+    }
 } 
+
+copy_file();
