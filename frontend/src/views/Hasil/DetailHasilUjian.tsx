@@ -22,11 +22,11 @@ class DetailHasilUjian extends Component<DetailHasilUjianPropsModel, DetailHasil
             <Card>
               <CardHeader>
 
-				 <Col md="12">
+				            <Col md="12">
                       <h5>No Test : TST00001</h5>
                       <h5>Pendidikan Kewarganegaraan</h5>
                       <h5>PKN Bab 1</h5>
-                </Col>
+                    </Col>
 
               </CardHeader>
 			  
@@ -106,7 +106,15 @@ class DetailHasilUjian extends Component<DetailHasilUjianPropsModel, DetailHasil
                   </tr>
 
 				  </tbody>
-                </Table>
+        </Table>
+        
+        <Col className="col-sm-12 text-right">
+          <Link to="./ujian">
+            <Button className="text-right" color="primary" >Kembali</Button>
+          </Link>
+        </Col>
+                                       
+
               </Form>
               </CardBody>
 
