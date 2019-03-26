@@ -9,7 +9,7 @@ class Stemmer(StemmerSastrawi):
     """
     Bertugas untuk Mengubah Kata Menjadi Kata Dasar
     """
-    @lru_cache
+    @lru_cache()
     def stem_word(self, word):
         """Stem Kata"""
         if self.is_plural(word):
@@ -42,7 +42,7 @@ class StemmerFactory(StemmerFactorySastrawi):
         stemmer = Stemmer(dictionary)
         return stemmer
 
-    @lru_cache
+    @lru_cache()
     def get_root_words_dict(self):
         """
         Mendapatkan Kata Dasar

@@ -18,7 +18,7 @@ class CaseFolder(object):
         """
         result = re.sub(r'[^a-z]', ' ', teks)
         result = re.sub(r'( +)', ' ', result)
-        return result
+        return result.strip()
 
     def case_fold(self, teks:str):
         result = self.lowercase(teks)
