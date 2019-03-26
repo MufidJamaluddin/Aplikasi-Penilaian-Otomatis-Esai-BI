@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { Badge, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table, Button,Form, FormGroup, FormText, FormFeedback, Input, InputGroup, InputGroupAddon, InputGroupText,Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-interface DetailUjianStateModel { modal:boolean; state:boolean; danger:boolean; }
+interface DetailUjianStateModel { 
+  modal: boolean;
+	primary: boolean;
+	}
 
 interface DetailUjianPropsModel { className?: string; }
 
@@ -11,8 +14,27 @@ class DetailUjian extends Component<DetailUjianPropsModel, DetailUjianStateModel
   constructor(props: Readonly<DetailUjianPropsModel>) 
   {
     super(props);
-
+    this.state = {
+      modal: false,
+      primary: false,
+    };
+    this.toggle = this.toggle.bind(this);
+    this.toggleMulaiUjian = this.toggleMulaiUjian.bind(this);
   }
+  public toggle() : void 
+  {
+    this.setState({
+      modal: !this.state.modal,
+    });
+  }
+ 
+  public toggleMulaiUjian() : void
+  {
+    this.setState({
+      primary: !this.state.primary,
+    });
+  }
+
 
   public render() : JSX.Element 
   {
@@ -36,7 +58,9 @@ class DetailUjian extends Component<DetailUjianPropsModel, DetailUjianStateModel
                                    
                                     <Col sm="12">
                                         <Col className="col-sm-12 text-right">
+                                          <Link to="./lihatsoal">
                                             <Button className="btn btn-sm btn-success"><b><i className="icon-note"></i> LIHAT SOAL</b></Button>
+                                          </Link>
                                         </Col>
                                         <Table responsive size="sm">
                                         <thead>
@@ -83,7 +107,18 @@ class DetailUjian extends Component<DetailUjianPropsModel, DetailUjianStateModel
                                             <td>x-IPA5</td>
                                             <td>-</td>
                                             <td><span className="badge badge-danger">Belum terlaksana</span></td>
-                                            <td><Button className="btn-twitter btn-brand icon btn-sm">Mulai Ujian</Button></td>
+                                            <td><Button className="btn-twitter btn-brand icon btn-sm" onClick={this.toggleMulaiUjian}>Mulai Ujian</Button></td>
+                                            <Modal isOpen={this.state.primary} toggle={this.toggleMulaiUjian} className={'modal-primary ' + this.props.className}>
+                                              <ModalHeader toggle={this.toggleMulaiUjian}>Mulai Ujian</ModalHeader>
+                                              <ModalBody>
+                                              <p> Apakah anda yakin ingin memulai ujian di kelas <b>X-IPA5</b>?</p>
+                                              </ModalBody>
+                                              <ModalFooter>
+                                                <Button color="danger" onClick={this.toggleMulaiUjian}>Tidak</Button>
+                                                <Button color="success" onClick={this.toggleMulaiUjian}>Ya</Button>{' '}
+                                              </ModalFooter>
+                                            </Modal>
+
                                             <td></td>
                                             <td></td>
                                         </tr>

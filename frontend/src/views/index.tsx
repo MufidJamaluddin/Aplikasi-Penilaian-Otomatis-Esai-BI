@@ -9,6 +9,7 @@ import UpdateUjian from './Ujian/UpdateUjian';
 import UpdateSoal from './Ujian/UpdateSoal';
 import BuatSoal from './Ujian/BuatSoal';
 import DetailUjian from './Ujian/DetailUjian';
+import LihatSoal from './Ujian/LihatSoal';
 import Soal from './Soal/Soal';
 import HasilUjian from './Hasil/HasilUjian';
 import DetailHasilUjian from './Hasil/DetailHasilUjian';
@@ -24,6 +25,7 @@ export {
   UpdateUjian,
   UpdateSoal,
   Soal,
+  LihatSoal,
   UjianEsai,
   BuatSoal,
   DetailUjian,
