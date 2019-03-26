@@ -5,8 +5,13 @@ import Profil from './Profil/Profil';
 import Kelas from './Kelas/Kelas';
 import Ujian from './Ujian/Ujian';
 import TambahUjian from './Ujian/TambahUjian';
+import UpdateUjian from './Ujian/UpdateUjian';
+import UpdateSoal from './Ujian/UpdateSoal';
 import BuatSoal from './Ujian/BuatSoal';
+import DetailUjian from './Ujian/DetailUjian';
 import Soal from './Soal/Soal';
+import HasilUjian from './Hasil/HasilUjian';
+import DetailHasilUjian from './Hasil/DetailHasilUjian';
 import { Login, Gantipassword, UjianEsai, BukanUjian} from './Pages';
 
 export {
@@ -16,11 +21,16 @@ export {
   Kelas,
   Ujian,
   TambahUjian,
+  UpdateUjian,
+  UpdateSoal,
   Soal,
   UjianEsai,
   BuatSoal,
+  DetailUjian,
   BukanUjian,
   Login,
+  HasilUjian,
+  DetailHasilUjian,
   Profil,
   Gantipassword
 };

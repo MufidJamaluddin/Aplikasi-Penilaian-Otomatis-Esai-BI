@@ -1,28 +1,30 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, FormGroup,Modal,ModalHeader,ModalBody,ModalFooter,  Card, CardBody, CardHeader, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
+import { Modal, Form, CardGroup,  ModalBody, ModalFooter, ModalHeader, Badge, Input, Button, Card, CardBody, CardHeader, Col, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText, Row, TabContent, TabPane, Container } from 'reactstrap';
+import FormGroup from 'reactstrap/lib/FormGroup';
 
-interface BukanUjianStateModel { success:boolean; modal: boolean; }
+interface UjianEsaiStateModel { activeTab: number; success:boolean; modal: boolean; }
 
-interface BukanUjianPropsModel { className: string; }
+interface UjianEsaiPropsModel { className: string; }
 
-class BukanUjian extends Component<BukanUjianPropsModel, BukanUjianStateModel>
+class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
 {
 	constructor(props:any) 
 	{
 		super(props);
-		
+		this.toggle = this.toggle.bind(this);
     this.state = {
+      activeTab: 1,
 			success: false,
 			modal: false 
     };
 
-    this.toggle = this.toggle.bind(this);
+    this.modal= this.modal.bind(this);
     this.toggleSubmitUjian = this.toggleSubmitUjian.bind(this);
   }
 
 
-	public toggle() : void
+	public modal() : void
 	{
     this.setState({
       modal: !this.state.modal,
@@ -34,6 +36,14 @@ class BukanUjian extends Component<BukanUjianPropsModel, BukanUjianStateModel>
     this.setState({
       success: !this.state.success,
     });
+  }
+
+  toggle(tab:any) {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab
+      });
+    }
   }
 
 	public render() : JSX.Element
@@ -54,35 +64,201 @@ class BukanUjian extends Component<BukanUjianPropsModel, BukanUjianStateModel>
                     </CardHeader>
                         
                     <CardBody>
-                        <Form action="" method="" className="form-horizontal">
+                      <Row>
+                        <Col xs="12">
+                          <TabContent activeTab={this.state.activeTab}>
                             
-                            <FormGroup row>
-                                <Col sm="12">
+                            <TabPane tabId={0} >
+                              <FormGroup row>
+                                <Col className="col-sm-3">
+                                  <h5>Soal 1 :</h5>
+                                </Col>    
+                                <Col className="col-sm-9 text-right">
                                     <h1 className="text-right"><b>58:44</b></h1>
-                                    <h5 className="text-center">SOAL <b>5</b></h5>
-                                    <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
-                                    <p><Input type="textarea"  rows="5" placeholder="Input Jawaban" autofocus /></p>
-                            
-                                    <Col className="col-sm-12 text-center">
-                                    <p>
-                                        <Button size='md' color="success">01</Button>
-                                        <Button size='md' color="success">02</Button>
-                                        <Button size='md' color="success">03</Button>
-                                        <Button size='md' color="success">04</Button>
-                                        <Button size='md' color="primary">05</Button>
-                                        <Button size='md' color="danger">06</Button>
-                                        <Button size='md' color="danger">07</Button>
-                                        <Button size='md' color="danger">08</Button>
-                                        <Button size='md' color="danger">09</Button>
-                                        <Button size='md' color="danger">10</Button>
-                                    </p>
-                                    
-                                </Col>	
+                                </Col>
+                                <Col sm="12">
+                                  <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
+                                </Col>
+                                <Col sm="12">
+                                  <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
+                                </Col>                      
+                              </FormGroup>
+                            </TabPane>
 
-                                    <Col className="col-sm-12 text-right">
-                                        <Button className="text-right" color="success" onClick={this.toggleSubmitUjian}>Submit Ujian</Button>
-                                    </Col>
-                                        <Modal isOpen={this.state.success} toggle={this.toggleSubmitUjian} className={'modal-success ' + this.props.className}>
+                            <TabPane tabId={1}>
+                              <FormGroup row>
+                                <Col className="col-sm-3">
+                                  <h5>Soal 2 :</h5>
+                                </Col>    
+                                <Col className="col-sm-9 text-right">
+                                    <h1 className="text-right"><b>58:44</b></h1>
+                                </Col>
+                                <Col sm="12">
+                                  <p>Apa definisi Demokrasi menurut Aristoteles ?</p>
+                                </Col>
+                                <Col sm="12">
+                                  <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
+                                </Col>                      
+                              </FormGroup>
+                            </TabPane>
+                            
+                            <TabPane tabId={2}>
+                               <FormGroup row>
+                                <Col className="col-sm-3">
+                                  <h5>Soal 3 :</h5>
+                                </Col>    
+                                <Col className="col-sm-9 text-right">
+                                    <h1 className="text-right"><b>58:44</b></h1>
+                                </Col>
+                                <Col sm="12">
+                                  <p>Apa definisi Demokrasi menurut Aristoteles ?</p>
+                                </Col>
+                                <Col sm="12">
+                                  <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
+                                </Col>                      
+                              </FormGroup>
+                            </TabPane>
+
+                            <TabPane tabId={3}>
+                                <FormGroup row>
+                                  <Col className="col-sm-3">
+                                    <h5>Soal 4 :</h5>
+                                  </Col>    
+                                  <Col className="col-sm-9 text-right">
+                                      <h1 className="text-right"><b>58:44</b></h1>
+                                  </Col>
+                                  <Col sm="12">
+                                    <p>Sebutkan bunyi dari UUD 1945 Pasal 30 ayat 1?</p>
+                                  </Col>
+                                  <Col sm="12">
+                                    <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
+                                  </Col>                      
+                              </FormGroup>
+                            </TabPane>
+                            
+                            <TabPane tabId={4}>
+                              <FormGroup row>
+                                <Col className="col-sm-3">
+                                  <h5>Soal 5 :</h5>
+                                </Col>    
+                                <Col className="col-sm-9 text-right">
+                                    <h1 className="text-right"><b>58:44</b></h1>
+                                </Col>
+                                <Col sm="12">
+                                  <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
+                                </Col>
+                                <Col sm="12">
+                                  <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
+                                </Col>                      
+                              </FormGroup>
+                            </TabPane>
+                            
+
+                            <TabPane tabId={5}>
+                            <FormGroup row>
+                                <Col className="col-sm-3">
+                                  <h5>Soal 6 :</h5>
+                                </Col>    
+                                <Col className="col-sm-9 text-right">
+                                    <h1 className="text-right"><b>58:44</b></h1>
+                                </Col>
+                                <Col sm="12">
+                                  <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
+                                </Col>
+                                <Col sm="12">
+                                  <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
+                                </Col>                      
+                              </FormGroup>
+                            </TabPane>
+
+                            <TabPane tabId={6}>
+                              <FormGroup row>
+                                <Col className="col-sm-3">
+                                  <h5>Soal 7 :</h5>
+                                </Col>    
+                                <Col className="col-sm-9 text-right">
+                                    <h1 className="text-right"><b>58:44</b></h1>
+                                </Col>
+                                <Col sm="12">
+                                  <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
+                                </Col>
+                                <Col sm="12">
+                                  <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
+                                </Col>                      
+                              </FormGroup>
+                            </TabPane>
+
+                            <TabPane tabId={7}>
+                              <FormGroup row>
+                                <Col className="col-sm-3">
+                                  <h5>Soal 8 :</h5>
+                                </Col>    
+                                <Col className="col-sm-9 text-right">
+                                    <h1 className="text-right"><b>58:44</b></h1>
+                                </Col>
+                                <Col sm="12">
+                                  <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
+                                </Col>
+                                <Col sm="12">
+                                  <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
+                                </Col>                      
+                              </FormGroup>
+                            </TabPane>
+
+                            <TabPane tabId={8}>
+                              <FormGroup row>
+                                <Col className="col-sm-3">
+                                  <h5>Soal 9 :</h5>
+                                </Col>    
+                                <Col className="col-sm-9 text-right">
+                                    <h1 className="text-right"><b>58:44</b></h1>
+                                </Col>
+                                <Col sm="12">
+                                  <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
+                                </Col>
+                                <Col sm="12">
+                                  <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
+                                </Col>                      
+                              </FormGroup>
+                            </TabPane>
+
+                            <TabPane tabId={9}>
+                              <FormGroup row>
+                                <Col className="col-sm-3">
+                                  <h5>Soal 10 :</h5>
+                                </Col>    
+                                <Col className="col-sm-9 text-right">
+                                    <h1 className="text-right"><b>58:44</b></h1>
+                                </Col>
+                                <Col sm="12">
+                                  <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
+                                </Col>
+                                <Col sm="12">
+                                  <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
+                                </Col>                      
+                              </FormGroup>
+                            </TabPane>
+                          </TabContent>
+                        </Col>
+                            <Col className="col-sm-12 text-center">
+                              <p>
+                                  <Button size='md' color="default" className=" btn-outline-primary" onClick={() => this.toggle(0)} action active={this.state.activeTab === 0} >01</Button>
+                                  <Button size='md' color="default" className=" btn-outline-primary" onClick={() => this.toggle(1)} action active={this.state.activeTab === 1} >02</Button>
+                                  <Button size='md' color="default" className=" btn-outline-primary" onClick={() => this.toggle(2)} action active={this.state.activeTab === 2} >03</Button>
+                                  <Button size='md' color="default" className=" btn-outline-primary" onClick={() => this.toggle(3)} action active={this.state.activeTab === 3} >04</Button>
+                                  <Button size='md' color="default" className=" btn-outline-primary" onClick={() => this.toggle(4)} action active={this.state.activeTab === 4} >05</Button>
+                                  <Button size='md' color="default" className=" btn-outline-primary" onClick={() => this.toggle(5)} action active={this.state.activeTab === 5} >06</Button>
+                                  <Button size='md' color="default" className=" btn-outline-primary" onClick={() => this.toggle(6)} action active={this.state.activeTab === 6} >07</Button>
+                                  <Button size='md' color="default" className=" btn-outline-primary" onClick={() => this.toggle(7)} action active={this.state.activeTab === 7} >08</Button>
+                                  <Button size='md' color="default" className=" btn-outline-primary" onClick={() => this.toggle(8)} action active={this.state.activeTab === 8} >09</Button>
+                                  <Button size='md' color="default" className=" btn-outline-primary" onClick={() => this.toggle(9)} action active={this.state.activeTab === 9} >10</Button>
+                                </p>  
+                              </Col>
+
+                              <Col className="col-sm-12 text-right">
+                              
+                                <Button  color="success"  onClick={this.toggleSubmitUjian} >Submit Ujian</Button>
+                                <Modal isOpen={this.state.success} toggle={this.toggleSubmitUjian} className={'modal-success ' + this.props.className}>
                                         <ModalHeader toggle={this.toggleSubmitUjian}>Submit Ujian</ModalHeader>
                                         <ModalBody>
                                         
@@ -94,10 +270,9 @@ class BukanUjian extends Component<BukanUjianPropsModel, BukanUjianStateModel>
                                             <Link to="./bukanujian"><Button color="success" onClick={this.toggleSubmitUjian}>Ya</Button></Link>
                                         </ModalFooter>
                                         </Modal>
-                                </Col>
-                                
-                            </FormGroup>
-                        </Form>
+                              </Col>
+              
+                      </Row>
                     </CardBody>
                     
                 </Card>
@@ -110,4 +285,4 @@ class BukanUjian extends Component<BukanUjianPropsModel, BukanUjianStateModel>
   }
 }
 
-export default BukanUjian;
+export default UjianEsai;

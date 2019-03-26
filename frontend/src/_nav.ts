@@ -30,6 +30,11 @@ export default {
                   icon: 'icon-note',
             },
             {
+                  name: 'Hasil Ujian',
+                  url: '/hasilujian',
+                  icon: 'icon-note',
+            },
+            {
                   name: 'Logout',
                   url: '/login',
                   icon: 'icon-logout',

@@ -20,7 +20,7 @@ class CaseFolder(object):
         result = re.sub(r'( +)', ' ', result)
         return result
 
-    def apply(self, teks:str):
+    def case_fold(self, teks:str):
         result = self.lowercase(teks)
         result = self.remove_punctuation(result)
         return result

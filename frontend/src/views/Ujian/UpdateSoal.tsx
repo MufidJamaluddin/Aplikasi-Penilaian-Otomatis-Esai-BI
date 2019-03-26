@@ -4,13 +4,13 @@ import { Modal, ModalBody, ModalFooter, ModalHeader, Badge, Input, Button, Card,
 import FormGroup from 'reactstrap/lib/FormGroup';
 
 
-interface BuatSoalStateModel { activeTab: number; modal:boolean; success:boolean; danger:boolean }
+interface UpdateSoalStateModel { activeTab: number; modal:boolean; success:boolean; danger:boolean }
 
-interface BuatSoalPropsModel { className?: string; }
+interface UpdateSoalPropsModel { className?: string; }
 
-class BuatSoal extends Component<BuatSoalPropsModel, BuatSoalStateModel>
+class UpdateSoal extends Component<UpdateSoalPropsModel, UpdateSoalStateModel>
 {
-  constructor(props: Readonly<BuatSoalPropsModel>) 
+  constructor(props: Readonly<UpdateSoalPropsModel>) 
   {
     super(props);
     this.toggle = this.toggle.bind(this);
@@ -64,7 +64,7 @@ class BuatSoal extends Component<BuatSoalPropsModel, BuatSoalStateModel>
 
             <Card>
               <CardHeader>
-                <h4 className="text-center">INPUT SOAL UJIAN</h4>
+                <h4 className="text-center">UPDATE SOAL UJIAN</h4>
               </CardHeader>
               <CardBody>
                 <Row>
@@ -158,9 +158,7 @@ class BuatSoal extends Component<BuatSoalPropsModel, BuatSoalStateModel>
                           <Col className="col-sm-3 text-right">
                             <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
                           </Col>
-                          <Col sm="12">
-                            <Input type="textarea"  rows="5" placeholder="Input Soal" required/> 
-                          </Col>   
+                          <Input type="textarea"  rows="5" placeholder="Input Soal" required/>                       
                         </FormGroup>
                       </TabPane>
 
@@ -220,9 +218,7 @@ class BuatSoal extends Component<BuatSoalPropsModel, BuatSoalStateModel>
                           <Col className="col-sm-3 text-right">
                             <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
                           </Col>
-                          <Col sm="12">
-                            <Input type="textarea"  rows="5" placeholder="Input Soal" required/> 
-                          </Col> 
+                          <Input type="textarea"  rows="5" placeholder="Input Soal" required/>                       
                         </FormGroup>
                       </TabPane>
                     </TabContent>
@@ -248,11 +244,11 @@ class BuatSoal extends Component<BuatSoalPropsModel, BuatSoalStateModel>
                           <Modal isOpen={this.state.danger} toggle={this.toggleBatalUjian} className={'modal-danger ' + this.props.className}>
                             <ModalHeader toggle={this.toggleBatalUjian}>Batal Input Soal</ModalHeader>
                               <ModalBody>
-                                <p> Apakah anda yakin ingin membatalkan input soal ? <b>jika tekan "YA", maka semua soal yang anda inputkan sebelumnya tidak akan disimpan</b> dari data guru ?</p>
+                                <p> Apakah anda yakin ingin membatalkan update soal ? <b>jika tekan "YA", maka semua soal yang anda inputkan sebelumnya tidak akan disimpan</b> dari data guru ?</p>
                               </ModalBody>
                             <ModalFooter>
                               <Button color="danger" onClick={this.toggleBatalUjian}>Tidak</Button>
-                              <Link to="./tambahujian">
+                              <Link to="./updateujian">
                                 <Button color="success" onClick={this.toggleBatalUjian}>Ya</Button>
                               </Link>
                             </ModalFooter>
@@ -284,4 +280,4 @@ class BuatSoal extends Component<BuatSoalPropsModel, BuatSoalStateModel>
   }
 }
 
-export default BuatSoal;
+export default UpdateSoal;

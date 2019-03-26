@@ -16,7 +16,7 @@ class Preprocesser(object):
         self.stopword_remover = stopword_remover_factory.create()
 
         stemmer_factory = StemmerFactory()
-        self.stemmer = stemmer_factory.create_stemmer()
+        self.stemmer = stemmer_factory.create()
 
         self.tf_unigram = TfUnigram()
         self.tf_bigram = TfBigram()
@@ -35,16 +35,16 @@ class Preprocesser(object):
         """
         Melakukan Pemrosesan Teks dari Teks menjadi list token
         """
-        result_text = self.case_folder.apply(teks)
-        result_tokens = self.tokenizer.apply(result_text)
+        result_text = self.case_folder.case_fold(teks)
+        result_tokens = self.tokenizer.tokenize(result_text)
         result_tokens = self.stopword_remover.filter(result_tokens)
         result_tokens = self.stemmer.stem_tokens(result_tokens)
         
         return result_tokens
 
-    def apply(self, teks:str):
+    def preprocess_text(self, teks:str):
         """
-        Melakukan Pemrosesan Teks
+        Mengekstrak fitur dari teks
         """
         tokens = self.text_to_tokens(teks)
         features = self.get_features(tokens)
