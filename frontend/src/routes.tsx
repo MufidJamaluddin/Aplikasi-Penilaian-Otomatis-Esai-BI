@@ -18,6 +18,8 @@ const LihatSoal = React.lazy(() => import('./admin_views/Ujian/LihatSoal'));
 const DetailUjian = React.lazy(() => import('./admin_views/Ujian/DetailUjian'));
 const Soal = React.lazy(() => import('./admin_views/Soal/Soal'));
 const HasilUjian = React.lazy(() => import('./admin_views/Hasil/HasilUjian'));
+const Penilaian = React.lazy(() => import('./admin_views/Penilaian/Penilaian'));
+const NilaiUjian = React.lazy(() => import('./admin_views/Penilaian/NilaiUjian'));
 const DetailHasilUjian = React.lazy(() => import('./admin_views/Hasil/DetailHasilUjian'));
 const Matapelajaran = React.lazy(() => import('./admin_views/Matapelajaran/Matapelajaran'));
 const Users = React.lazy(() => import('./admin_views/Users/Users'));
@@ -38,6 +40,8 @@ const routes = [
   { path: '/detailujian', name: 'Detail Ujian', component: DetailUjian },
   { path: '/tambahujian', name: 'Tambah Ujian', component: TambahUjian },
   { path: '/updateujian', name: 'Update Ujian', component: UpdateUjian },
+  { path: '/penilaian', name: 'Penilaian Ujian', component: Penilaian },
+  { path: '/nilaiujian', name: 'Nilai Ujian', component: NilaiUjian },
   { path: '/updatesoal', name: 'Update Soal', component: UpdateSoal },
   { path: '/soal', name: 'Soal', component: Soal },
   { path: '/matapelajaran', name: 'Mata Pelajaran', component: Matapelajaran },

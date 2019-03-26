@@ -6,6 +6,8 @@ import Kelas from './Kelas/Kelas';
 import Ujian from './Ujian/Ujian';
 import TambahUjian from './Ujian/TambahUjian';
 import UpdateUjian from './Ujian/UpdateUjian';
+import Penilaian from './Penilaian/Penilaian';
+import NilaiUjian from './Penilaian/NilaiUjian';
 import UpdateSoal from './Ujian/UpdateSoal';
 import BuatSoal from './Ujian/BuatSoal';
 import DetailUjian from './Ujian/DetailUjian';
@@ -28,6 +30,8 @@ export {
   BuatSoal,
   DetailUjian,
   HasilUjian,
+  Penilaian,
+  NilaiUjian,
   DetailHasilUjian,
   Profil
 };
