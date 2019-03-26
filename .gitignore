@@ -10,6 +10,9 @@ venv/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 
+# Static File
+/ujian_app/static
+
 # map js
 *.js.map
 *.css.map
