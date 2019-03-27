@@ -1,3 +1,3 @@
 import Layout from './AdminLayout/Layout';
 
-export default Layout;
+export default Layout ;

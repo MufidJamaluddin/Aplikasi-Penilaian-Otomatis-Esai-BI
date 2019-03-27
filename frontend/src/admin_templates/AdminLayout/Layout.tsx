@@ -3,16 +3,6 @@ import { Redirect, Route, Switch, RouteComponentProps } from 'react-router-dom';
 import { Container } from 'reactstrap';
 
 /**
- * Mendapatkan Navigasi untuk Menu Sidebar
- */
-import navigation from '../../_nav';
-
-/**
- * Mendapatkan Konfigurasi Route 
- */
-import routes from '../../routes';
-
-/**
  * Template CoreUI
  */
 var Template = require('@coreui/react/lib');
@@ -24,9 +14,37 @@ const Footer = React.lazy(() => import('./Footer'));
 const Header = React.lazy(() => import('./Header'));
 
 /**
+ * Model Cust KoPL 9
+ */
+interface RouteConfigItem
+{
+    path: string;
+    exact?: boolean;
+    name: string;
+    component: any;
+}
+
+interface NavigationItem
+{
+    name: string;
+    url: string;
+    icon: string;
+    badge?: any; 
+}
+
+interface SidebarNavConfig { items: Array<NavigationItem>; }
+
+interface AdminLayoutModel
+{
+    admin_routes: Array<RouteConfigItem>;
+    admin_nav: SidebarNavConfig;
+    redirect_root_to: string;
+}
+
+/**
  * Layout Admin
  */
-class Layout extends Component<RouteComponentProps<any>>
+class Layout extends Component<RouteComponentProps<any> & AdminLayoutModel>
 {
 
   public loading() : JSX.Element
@@ -62,7 +80,7 @@ class Layout extends Component<RouteComponentProps<any>>
             <Template.AppSidebarHeader />
               <Template.AppSidebarForm />
                 <Suspense fallback={this.loading}>
-                  <Template.AppSidebarNav navConfig={navigation} {...this.props} />
+                  <Template.AppSidebarNav navConfig={ this.props.admin_nav } {...this.props} />
                 </Suspense>
               <Template.AppSidebarFooter />
             <Template.AppSidebarMinimizer />
@@ -71,14 +89,14 @@ class Layout extends Component<RouteComponentProps<any>>
 
           {/* PAGE UTAMA */}
           <main className="main">
-            <Template.AppBreadcrumb appRoutes={routes}/>
+            <Template.AppBreadcrumb appRoutes={ this.props.admin_routes }/>
               <Container fluid>
                 <Suspense fallback={this.loading()}>
                   
                   {/* Melakukan Root dari Route */}
                   <Switch>
                     {
-                      routes.map((route, idx) => {
+                      this.props.admin_routes.map((route, idx) => {
                         return route.component ? (
                           <Route
                             key={idx}
@@ -90,7 +108,7 @@ class Layout extends Component<RouteComponentProps<any>>
                         ) : (null);
                       })
                     }
-                    <Redirect from="/" to="/login" />
+                    <Redirect from="/" to={ this.props.redirect_root_to } />
                   </Switch>
                 </Suspense>
               </Container>
