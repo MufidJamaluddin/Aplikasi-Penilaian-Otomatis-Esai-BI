@@ -7,8 +7,7 @@ interface KelasStateModeel {
 	large: boolean;
 	warning : boolean;
 	danger : boolean;
-	info: boolean;
-};
+	};
 
 interface KelasModel { className:string; }
 
@@ -23,16 +22,13 @@ class Kelas extends Component<KelasModel, KelasStateModeel>
       primary: false,
       large: false,
       warning : false,
-      danger : false,
-      info: false,
+			danger : false,
+			
     };
 
     this.toggle = this.toggle.bind(this);
-    this.toggleImportKelas = this.toggleImportKelas.bind(this);
-    this.toggleTambahKelas = this.toggleTambahKelas.bind(this);
     this.toggleUpdateKelas = this.toggleUpdateKelas.bind(this);
     this.toggleDeleteKelas = this.toggleDeleteKelas.bind(this);
-    this.toggleDetailKelas = this.toggleDetailKelas.bind(this);
   }
 
   toggle() {
@@ -41,11 +37,6 @@ class Kelas extends Component<KelasModel, KelasStateModeel>
     });
   }
  
- toggleTambahKelas() {
-    this.setState({
-      large: !this.state.large,
-    });
-  }
   
  toggleUpdateKelas() {
     this.setState({
@@ -59,18 +50,8 @@ class Kelas extends Component<KelasModel, KelasStateModeel>
     });
   }
 
- toggleDetailKelas() {
-    this.setState({
-      info: !this.state.info,
-    });
-  }
 
-  toggleImportKelas() {
-    this.setState({
-      primary: !this.state.primary,
-    });
-  }
-
+  
   render() {
     return (
       <div className="animated fadeIn">
@@ -91,27 +72,6 @@ class Kelas extends Component<KelasModel, KelasStateModeel>
               <CardBody>
 			  <Form action="" method="post" className="form-horizontal">
 				<FormGroup row>
-				
-				<Col sm="6">
-					<p><Button size="sm" onClick={this.toggleImportKelas} className="btn-twitter btn-brand mr-1 mb-1 "><i className="fa fa-upload"></i><span>Import Data Kelas</span></Button></p>
-				</Col>
-				
-				<Modal isOpen={this.state.primary} toggle={this.toggleImportKelas} className={'modal-primary ' + this.props.className}>
-                  <ModalHeader toggle={this.toggleImportKelas}>Import Data Kelas</ModalHeader>
-                  <ModalBody>
-                    1. Download Template CSV Kelas
-						<p><Button size="sm"  className="btn-vine btn-brand mr-1 mb-1 "> <i className="fa fa-download"></i>
-							<span>Download Template CSV</span>
-						</Button></p>
-					<p>2. Isi data Kelas sesuai dengan format kolom yang tersedia pada Template CSV <b>(kolom pertama tidak boleh diubah/diedit)</b></p>
-					<p>3. Upload Template CSV Kelas yang sudah diisi</p>
-					<Input type="file" id="file-input" name="file-input" />
-                  </ModalBody>
-                  <ModalFooter>
-				    <Button color="danger" onClick={this.toggleImportKelas}>Cancel</Button>
-                    <Button color="success" onClick={this.toggleImportKelas}>Import</Button>{' '}
-                  </ModalFooter>
-                </Modal>
 				<Col sm="4">
 					<Input type="text" placeholder="Nama Kelas" required/>
 				</Col>
