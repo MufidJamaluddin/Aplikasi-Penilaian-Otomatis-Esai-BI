@@ -20,10 +20,15 @@ const GURU_NAV = {
                   icon: 'icon-note',
             },
             {
+                  name: 'Ganti Password',
+                  url: '/gantipassword',
+                  icon: 'icon-key',
+            },
+            {
                   name: 'Logout',
                   url: '/login',
                   icon: 'icon-logout',
-            }
+            },
       ]
 }
 
