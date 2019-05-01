@@ -110,7 +110,7 @@ class UpdateUjian extends Component<UpdateUjianPropsModel, UpdateUjianStateModel
                                         <Link to="./ujian">
                                             <Button className="text-right" color="primary" >Kembali</Button>
                                         </Link>
-                                        <Link to="./buatsoal">
+                                        <Link to="./updatesoal">
                                             <Button className="text-right" color="success" >Selanjutnya</Button>
                                         </Link>
                                      </Col>

@@ -71,162 +71,221 @@ class BuatSoal extends Component<BuatSoalPropsModel, BuatSoalStateModel>
                   <Col xs="12">
                     <TabContent activeTab={this.state.activeTab}>
                       
-                      <TabPane tabId={0} >
-                        <FormGroup row>
-                          <Col className="col-sm-3">
-                            <h5>Soal 1 :</h5>
-                          </Col>    
-                          <Col className="col-sm-3 text-right">
-                            <p><Input bsSize="sm" type="number" placeholder="Minimum Skor" required /></p>
-                          </Col>
-                          <Col className="col-sm-3 text-right">
-                            <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
-                          </Col>
-                          <Input type="textarea"  rows="5" placeholder="Input Soal" required/>                       
-                        </FormGroup>
-                      </TabPane>
-
+                    <TabPane tabId={0}>
+                    <FormGroup row>
+                      <Col className="col-sm-2">
+                        <h5>No. Soal: 1 </h5>
+                      </Col>    
+                      <Col className="col-sm-2 text-right">
+                        <p><Input bsSize="sm" type="number" placeholder="Minimum Skor" required /></p>
+                      </Col>
+                      <Col className="col-sm-2 text-right">
+                        <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
+                      </Col>
+                      <Col className="col-sm-6 text-right">
+                      <p><Input bsSize="sm" type="text" placeholder="Materi Pokok" required /></p>
+                    </Col>
+                    <Col className="col-sm-12 text-right">
+                      <p><Input bsSize="sm" type="text" placeholder="Kompetensi Dasar" required /></p>
+                    </Col>
+                      <Input type="textarea"  rows="5" placeholder="Input Soal" required/>                       
+                    </FormGroup>
+                  </TabPane>
+                  
                       <TabPane tabId={1}>
                         <FormGroup row>
-                          <Col className="col-sm-3">
-                            <h5>Soal 2 :</h5>
+                          <Col className="col-sm-2">
+                            <h5>No. Soal: 2 </h5>
                           </Col>    
-                          <Col className="col-sm-3 text-right">
+                          <Col className="col-sm-2 text-right">
                             <p><Input bsSize="sm" type="number" placeholder="Minimum Skor" required /></p>
                           </Col>
-                          <Col className="col-sm-3 text-right">
+                          <Col className="col-sm-2 text-right">
                             <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
                           </Col>
+                          <Col className="col-sm-6 text-right">
+                          <p><Input bsSize="sm" type="text" placeholder="Materi Pokok" required /></p>
+                        </Col>
+                        <Col className="col-sm-12 text-right">
+                          <p><Input bsSize="sm" type="text" placeholder="Kompetensi Dasar" required /></p>
+                        </Col>
                           <Input type="textarea"  rows="5" placeholder="Input Soal" required/>                       
                         </FormGroup>
                       </TabPane>
                       
                       <TabPane tabId={2}>
                         <FormGroup row>
-                          <Col className="col-sm-3">
-                            <h5>Soal 3 :</h5>
+                          <Col className="col-sm-2">
+                            <h5>No. Soal: 3 </h5>
                           </Col>    
-                          <Col className="col-sm-3 text-right">
+                          <Col className="col-sm-2 text-right">
                             <p><Input bsSize="sm" type="number" placeholder="Minimum Skor" required /></p>
                           </Col>
-                          <Col className="col-sm-3 text-right">
+                          <Col className="col-sm-2 text-right">
                             <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
                           </Col>
+                          <Col className="col-sm-6 text-right">
+                          <p><Input bsSize="sm" type="text" placeholder="Materi Pokok" required /></p>
+                        </Col>
+                        <Col className="col-sm-12 text-right">
+                          <p><Input bsSize="sm" type="text" placeholder="Kompetensi Dasar" required /></p>
+                        </Col>
                           <Input type="textarea"  rows="5" placeholder="Input Soal" required/>                       
                         </FormGroup>
                       </TabPane>
 
                       <TabPane tabId={3}>
                         <FormGroup row>
-                          <Col className="col-sm-3">
-                            <h5>Soal 4 :</h5>
+                          <Col className="col-sm-2">
+                            <h5>No. Soal: 4 </h5>
                           </Col>    
-                          <Col className="col-sm-3 text-right">
+                          <Col className="col-sm-2 text-right">
                             <p><Input bsSize="sm" type="number" placeholder="Minimum Skor" required /></p>
                           </Col>
-                          <Col className="col-sm-3 text-right">
+                          <Col className="col-sm-2 text-right">
                             <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
                           </Col>
+                          <Col className="col-sm-6 text-right">
+                          <p><Input bsSize="sm" type="text" placeholder="Materi Pokok" required /></p>
+                        </Col>
+                        <Col className="col-sm-12 text-right">
+                          <p><Input bsSize="sm" type="text" placeholder="Kompetensi Dasar" required /></p>
+                        </Col>
                           <Input type="textarea"  rows="5" placeholder="Input Soal" required/>                       
                         </FormGroup>
                       </TabPane>
                       
                       <TabPane tabId={4}>
-                        <FormGroup row>
-                          <Col className="col-sm-3">
-                            <h5>Soal 5 :</h5>
-                          </Col>    
-                          <Col className="col-sm-3 text-right">
-                            <p><Input bsSize="sm" type="number" placeholder="Minimum Skor" required /></p>
-                          </Col>
-                          <Col className="col-sm-3 text-right">
-                            <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
-                          </Col>
-                          <Input type="textarea"  rows="5" placeholder="Input Soal" required/>                       
-                        </FormGroup>
-                      </TabPane>
-                      
-
-                      <TabPane tabId={5}>
                       <FormGroup row>
-                          <Col className="col-sm-3">
-                            <h5>Soal 6 :</h5>
-                          </Col>    
-                          <Col className="col-sm-3 text-right">
-                            <p><Input bsSize="sm" type="number" placeholder="Minimum Skor" required /></p>
-                          </Col>
-                          <Col className="col-sm-3 text-right">
-                            <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
-                          </Col>
-                          <Col sm="12">
-                            <Input type="textarea"  rows="5" placeholder="Input Soal" required/> 
-                          </Col>   
-                        </FormGroup>
-                      </TabPane>
+                        <Col className="col-sm-2">
+                          <h5>No. Soal: 5 </h5>
+                        </Col>    
+                        <Col className="col-sm-2 text-right">
+                          <p><Input bsSize="sm" type="number" placeholder="Minimum Skor" required /></p>
+                        </Col>
+                        <Col className="col-sm-2 text-right">
+                          <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
+                        </Col>
+                        <Col className="col-sm-6 text-right">
+                        <p><Input bsSize="sm" type="text" placeholder="Materi Pokok" required /></p>
+                      </Col>
+                      <Col className="col-sm-12 text-right">
+                        <p><Input bsSize="sm" type="text" placeholder="Kompetensi Dasar" required /></p>
+                      </Col>
+                        <Input type="textarea"  rows="5" placeholder="Input Soal" required/>                       
+                      </FormGroup>
+                    </TabPane>
+                   
+                    <TabPane tabId={5}>
+                    <FormGroup row>
+                      <Col className="col-sm-2">
+                        <h5>No. Soal: 6 </h5>
+                      </Col>    
+                      <Col className="col-sm-2 text-right">
+                        <p><Input bsSize="sm" type="number" placeholder="Minimum Skor" required /></p>
+                      </Col>
+                      <Col className="col-sm-2 text-right">
+                        <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
+                      </Col>
+                      <Col className="col-sm-6 text-right">
+                      <p><Input bsSize="sm" type="text" placeholder="Materi Pokok" required /></p>
+                    </Col>
+                    <Col className="col-sm-12 text-right">
+                      <p><Input bsSize="sm" type="text" placeholder="Kompetensi Dasar" required /></p>
+                    </Col>
+                      <Input type="textarea"  rows="5" placeholder="Input Soal" required/>                       
+                    </FormGroup>
+                  </TabPane>
 
-                      <TabPane tabId={6}>
-                      <FormGroup row>
-                          <Col className="col-sm-3">
-                            <h5>Soal 7 :</h5>
-                          </Col>    
-                          <Col className="col-sm-3 text-right">
-                            <p><Input bsSize="sm" type="number" placeholder="Minimum Skor" required /></p>
-                          </Col>
-                          <Col className="col-sm-3 text-right">
-                            <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
-                          </Col>
-                          <Input type="textarea"  rows="5" placeholder="Input Soal" required/>                       
-                        </FormGroup>
-                      </TabPane>
-
-                      <TabPane tabId={7}>
-                        <FormGroup row>
-                          <Col className="col-sm-3">
-                            <h5>Soal 8 :</h5>
-                          </Col>    
-                          <Col className="col-sm-3 text-right">
-                            <p><Input bsSize="sm" type="number" placeholder="Minimum Skor" required /></p>
-                          </Col>
-                          <Col className="col-sm-3 text-right">
-                            <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
-                          </Col>
-                          <Input type="textarea"  rows="5" placeholder="Input Soal" required/>                       
-                        </FormGroup>
-                      </TabPane>
-
-                      <TabPane tabId={8}>
-                        <FormGroup row>
-                          <Col className="col-sm-3">
-                            <h5>Soal 9 :</h5>
-                          </Col>    
-                          <Col className="col-sm-3 text-right">
-                            <p><Input bsSize="sm" type="number" placeholder="Minimum Skor" required /></p>
-                          </Col>
-                          <Col className="col-sm-3 text-right">
-                            <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
-                          </Col>
-                          <Input type="textarea"  rows="5" placeholder="Input Soal" required/>                       
-                        </FormGroup>
-                      </TabPane>
-
-                      <TabPane tabId={9}>
-                        <FormGroup row>
-                          <Col className="col-sm-3">
-                            <h5>Soal 10 :</h5>
-                          </Col>    
-                          <Col className="col-sm-3 text-right">
-                            <p><Input bsSize="sm" type="number" placeholder="Minimum Skor" required /></p>
-                          </Col>
-                          <Col className="col-sm-3 text-right">
-                            <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
-                          </Col>
-                          <Col sm="12">
-                            <Input type="textarea"  rows="5" placeholder="Input Soal" required/> 
-                          </Col> 
-                        </FormGroup>
-                      </TabPane>
-                    </TabContent>
+                  <TabPane tabId={6}>
+                  <FormGroup row>
+                    <Col className="col-sm-2">
+                      <h5>No. Soal: 7</h5>
+                    </Col>    
+                    <Col className="col-sm-2 text-right">
+                      <p><Input bsSize="sm" type="number" placeholder="Minimum Skor" required /></p>
+                    </Col>
+                    <Col className="col-sm-2 text-right">
+                      <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
+                    </Col>
+                    <Col className="col-sm-6 text-right">
+                    <p><Input bsSize="sm" type="text" placeholder="Materi Pokok" required /></p>
                   </Col>
+                  <Col className="col-sm-12 text-right">
+                    <p><Input bsSize="sm" type="text" placeholder="Kompetensi Dasar" required /></p>
+                  </Col>
+                    <Input type="textarea"  rows="5" placeholder="Input Soal" required/>                       
+                  </FormGroup>
+                </TabPane>
+
+                <TabPane tabId={7}>
+                <FormGroup row>
+                  <Col className="col-sm-2">
+                    <h5>No. Soal: 8</h5>
+                  </Col>    
+                  <Col className="col-sm-2 text-right">
+                    <p><Input bsSize="sm" type="number" placeholder="Minimum Skor" required /></p>
+                  </Col>
+                  <Col className="col-sm-2 text-right">
+                    <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
+                  </Col>
+                  <Col className="col-sm-6 text-right">
+                  <p><Input bsSize="sm" type="text" placeholder="Materi Pokok" required /></p>
+                </Col>
+                <Col className="col-sm-12 text-right">
+                  <p><Input bsSize="sm" type="text" placeholder="Kompetensi Dasar" required /></p>
+                </Col>
+                  <Input type="textarea"  rows="5" placeholder="Input Soal" required/>                       
+                </FormGroup>
+              </TabPane>
+
+              <TabPane tabId={8}>
+              <FormGroup row>
+                <Col className="col-sm-2">
+                  <h5>No. Soal: 9</h5>
+                </Col>    
+                <Col className="col-sm-2 text-right">
+                  <p><Input bsSize="sm" type="number" placeholder="Minimum Skor" required /></p>
+                </Col>
+                <Col className="col-sm-2 text-right">
+                  <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
+                </Col>
+                <Col className="col-sm-6 text-right">
+                <p><Input bsSize="sm" type="text" placeholder="Materi Pokok" required /></p>
+              </Col>
+              <Col className="col-sm-12 text-right">
+                <p><Input bsSize="sm" type="text" placeholder="Kompetensi Dasar" required /></p>
+              </Col>
+                <Input type="textarea"  rows="5" placeholder="Input Soal" required/>                       
+              </FormGroup>
+            </TabPane>
+
+            
+            <TabPane tabId={9}>
+            <FormGroup row>
+              <Col className="col-sm-2">
+                <h5>No. Soal: 10</h5>
+              </Col>    
+              <Col className="col-sm-2 text-right">
+                <p><Input bsSize="sm" type="number" placeholder="Minimum Skor" required /></p>
+              </Col>
+              <Col className="col-sm-2 text-right">
+                <p><Input bsSize="sm" type="number" placeholder="Maksimum Skor" required/></p>
+              </Col>
+              <Col className="col-sm-6 text-right">
+              <p><Input bsSize="sm" type="text" placeholder="Materi Pokok" required /></p>
+            </Col>
+            <Col className="col-sm-12 text-right">
+              <p><Input bsSize="sm" type="text" placeholder="Kompetensi Dasar" required /></p>
+            </Col>
+              <Input type="textarea"  rows="5" placeholder="Input Soal" required/>                       
+            </FormGroup>
+          </TabPane>
+      
+        </TabContent>
+      </Col>
+                      
+                  
                       <Col className="col-sm-12 text-center">
                          <p>
                             <Button size='md' color="default" className=" btn-outline-primary" onClick={() => this.toggle(0)} action active={this.state.activeTab === 0} >01</Button>

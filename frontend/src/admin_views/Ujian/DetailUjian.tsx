@@ -57,11 +57,7 @@ class DetailUjian extends Component<DetailUjianPropsModel, DetailUjianStateModel
               <CardBody>
                                    
                                     <Col sm="12">
-                                        <Col className="col-sm-12 text-right">
-                                          <Link to="./lihatsoal">
-                                            <Button className="btn btn-sm btn-success"><b><i className="icon-note"></i> LIHAT SOAL</b></Button>
-                                          </Link>
-                                        </Col>
+                                        
                                         <Table responsive size="sm">
                                         <thead>
                                         <tr>

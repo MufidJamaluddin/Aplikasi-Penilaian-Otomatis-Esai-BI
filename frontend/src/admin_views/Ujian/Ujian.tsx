@@ -124,7 +124,7 @@ class Ujian extends Component<UjianPropsModel, UjianStateModel>
                             <Modal isOpen={this.state.danger} toggle={this.toggleDeleteUjian} className={'modal-danger ' + this.props.className}>
                               <ModalHeader toggle={this.toggleDeleteUjian}>Delete Ujian</ModalHeader>
                               <ModalBody>
-					                        <p> Apakah anda yakin ingin menghapus ujian <b></b> dari daftar Ujian ?</p>
+					                        <p> Apakah anda yakin ingin menghapus ujian <b>TIK Bab 5</b>?</p>
                               </ModalBody>
                               <ModalFooter>
 				                        <Button color="danger" onClick={this.toggleDeleteUjian}>Tidak</Button>
@@ -150,26 +150,7 @@ class Ujian extends Component<UjianPropsModel, UjianStateModel>
 
 				  </tbody>
                 </Table>
-                <Pagination size="sm">
-                  <PaginationItem>
-                    <PaginationLink previous tag="button"></PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem active>
-                    <PaginationLink tag="button">1</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink tag="button">2</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink tag="button">3</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink tag="button">4</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink next tag="button"></PaginationLink>
-                  </PaginationItem>
-                </Pagination>
+                
               </CardBody>
             </Card>
           </Col>
