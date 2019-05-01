@@ -17,7 +17,7 @@ class AlchemyEncoder(json.JSONEncoder):
             # a json-encodable dict
             return fields
 
-        return json.JSONEncoder.default(self, obj)
+        return super.JSONEncoder.default(self, obj)
 
 def json_output(func):
     """
