@@ -4,9 +4,12 @@ from .api import AkunGuruAPI, AkunSiswaAPI, AuthAPI, DaftarNilaiAPI, KelasAPI, M
 ROUTES_API = [
     {'url':'/api/akunguru', 'name':'akunguru', 'view':AkunGuruAPI, 'methods':['GET','POST','PUT']},
     {'url':'/api/akunsiswa', 'name':'akunsiswa', 'view':AkunSiswaAPI, 'methods':['GET','POST','PUT']},
-    {'url':'/api/auth', 'name':'auth', 'view':AuthAPI, 'methods':['GET','POST','PUT']},
+    {'url':'/api/auth', 'name':'auth', 'view':AuthAPI, 'methods':['GET','POST', 'PUT']},
     {'url':'/api/daftarnilai', 'name':'daftarnilai', 'view':DaftarNilaiAPI, 'methods':['GET','POST','PUT']},
-    {'url':'/api/kelas', 'name':'kelas', 'view':KelasAPI, 'methods':['GET','POST','PUT']},
+    
+    {'url':'/api/kelas', 'name':'kelas', 'view':KelasAPI, 'methods':['GET','POST']},
+    {'url':'/api/kelas/<int:idkelas>', 'name':'kelas_dt', 'view':KelasAPI, 'methods':['PUT','DELETE']},
+
     {'url':'/api/matapelajaran', 'name':'matapelajaran', 'view':MatapelajaranAPI, 'methods':['GET','POST','PUT']},
     {'url':'/api/pengerjaanujian', 'name':'pengerjaanujian', 'view':PengerjaanUjianAPI, 'methods':['GET','POST','PUT']},
     {'url':'/api/penilaian', 'name':'penilaian', 'view':PenilaianAPI, 'methods':['GET','POST','PUT']},
