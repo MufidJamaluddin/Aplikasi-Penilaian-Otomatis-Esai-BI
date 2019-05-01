@@ -58,9 +58,13 @@ class BukanUjian extends Component<BukanUjianPropsModel, BukanUjianStateModel>
                       <Row>
                         <Col xs="12">
 						            <Link to="./login">
-                          <Button color="primary" className="px-4">Logout</Button>
+                          <Button color="primary">Logout</Button>
+                        </Link> 
+                        <Link to="./gantipassword">
+                          <Button color="primary">Ganti Password</Button>
 						            </Link>   
                         </Col>
+                        
                       </Row>
 										</Form>
                   </CardBody>

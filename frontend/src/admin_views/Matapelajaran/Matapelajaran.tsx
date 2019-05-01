@@ -7,7 +7,6 @@ interface MatapelajaranStateModel {
 	large: boolean;
 	warning : boolean;
 	danger : boolean;
-	info: boolean;
 };
 
 interface MatapelajaranModel { className:string; }
@@ -24,15 +23,11 @@ class Matapelajaran extends Component<MatapelajaranModel, MatapelajaranStateMode
       large: false,
       warning : false,
       danger : false,
-      info: false
     };
 
     this.toggle = this.toggle.bind(this);
-    this.toggleImportMatapelajaran = this.toggleImportMatapelajaran.bind(this);
-	  this.toggleTambahMatapelajaran = this.toggleTambahMatapelajaran.bind(this);
-	  this.toggleUpdateMatapelajaran = this.toggleUpdateMatapelajaran.bind(this);
+    this.toggleUpdateMatapelajaran = this.toggleUpdateMatapelajaran.bind(this);
 	  this.toggleDeleteMatapelajaran = this.toggleDeleteMatapelajaran.bind(this);
-	  this.toggleDetailMatapelajaran = this.toggleDetailMatapelajaran.bind(this);
   }
 
   public toggle() : void
@@ -42,12 +37,6 @@ class Matapelajaran extends Component<MatapelajaranModel, MatapelajaranStateMode
     });
   }
  
-  public toggleTambahMatapelajaran() 
-  {
-    this.setState({
-      large: !this.state.large,
-    });
-  }
   
   public toggleUpdateMatapelajaran() : void
   {
@@ -62,18 +51,7 @@ class Matapelajaran extends Component<MatapelajaranModel, MatapelajaranStateMode
     });
   }
 
-  public toggleDetailMatapelajaran() {
-    this.setState({
-      info: !this.state.info,
-    });
-  }
 
-  public toggleImportMatapelajaran() : void
-  {
-    this.setState({
-      primary: !this.state.primary,
-    });
-  }
 
   public render() : JSX.Element
   {
@@ -97,26 +75,6 @@ class Matapelajaran extends Component<MatapelajaranModel, MatapelajaranStateMode
 			  <Form action="" method="post" className="form-horizontal">
 				<FormGroup row>
 				
-				<Col sm="6">
-					<p><Button size="sm" onClick={this.toggleImportMatapelajaran} className="btn-twitter btn-brand mr-1 mb-1 "><i className="fa fa-upload"></i><span>Import Data Mata Pelajaran</span></Button></p>
-				</Col>
-				
-				<Modal isOpen={this.state.primary} toggle={this.toggleImportMatapelajaran} className={'modal-primary ' + this.props.className}>
-                  <ModalHeader toggle={this.toggleImportMatapelajaran}>Import Data Mata Pelajaran</ModalHeader>
-                  <ModalBody>
-                    1. Download Template CSV Mata Pelajaran
-						<p><Button size="sm"  className="btn-vine btn-brand mr-1 mb-1 "> <i className="fa fa-download"></i>
-							<span>Download Template CSV</span>
-						</Button></p>
-					<p>2. Isi data Mata Pelajaran sesuai dengan format kolom yang tersedia pada Template CSV <b>(kolom pertama tidak boleh diubah/diedit)</b></p>
-					<p>3. Upload Template CSV Mata Pelajaran yang sudah diisi</p>
-					<Input type="file" id="file-input" name="file-input" />
-                  </ModalBody>
-                  <ModalFooter>
-				    <Button color="danger" onClick={this.toggleImportMatapelajaran}>Cancel</Button>
-                    <Button color="success" onClick={this.toggleImportMatapelajaran}>Import</Button>{' '}
-                  </ModalFooter>
-                </Modal>
 				<Col sm="3">
 					<Input  type="text" placeholder="Nama Mata Pelajaran" required/>
 				</Col>

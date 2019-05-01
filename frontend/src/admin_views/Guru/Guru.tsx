@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Badge, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table, Button,Form, FormGroup, FormText, FormFeedback, Input, InputGroup, InputGroupAddon, InputGroupText,Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
-interface GuruStateModeel {
+interface GuruStateModel {
 	modal: boolean;
 	primary: boolean;
 	large: boolean;
@@ -12,7 +12,7 @@ interface GuruStateModeel {
 
 interface GuruModel { className:string; }
 
-class Guru extends Component<GuruModel, GuruStateModeel>
+class Guru extends Component<GuruModel, GuruStateModel>
 {
 	constructor(props: Readonly<GuruModel>) 
 	{

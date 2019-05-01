@@ -38,12 +38,7 @@ class Login extends Component {
 						            </Link>   
                         </Col>
 
-                        <Link to="./gantipassword">
-                        <Col xs="6">
-                          <Button color="link" className="px-0">Ganti password?</Button>
-                        </Col>
-                        </Link>
-
+                        
                       </Row>
                     </Form>
                   </CardBody>
