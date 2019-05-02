@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Modal, Form, Table, CardGroup, Label, ModalBody, ModalFooter, ModalHeader, Badge, Input, Button, Card, CardBody, CardHeader, Col, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText, Row, TabContent, TabPane, Container } from 'reactstrap';
+import { Modal, Form, Table, CardGroup,Progress, CardFooter, Label, ModalBody, ModalFooter, ModalHeader, Badge, Input, Button, Card, CardBody, CardHeader, Col, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText, Row, TabContent, TabPane, Container } from 'reactstrap';
 import FormGroup from 'reactstrap/lib/FormGroup';
 
 interface NilaiUjianStateModel { activeTab: number; primary:boolean; info:boolean; modal: boolean;}
@@ -185,44 +185,17 @@ class NilaiUjian extends Component<NilaiUjianPropsModel, NilaiUjianStateModel>
                                       </Col>
                                   </FormGroup>     
                                 </CardHeader>
-
-                              <Col className="col-sm-12 text-right">
-                                    <Button  color="primary" onClick={() => this.toggle(0)}>Kembali</Button>
-                                    <Button  color="success" onClick={() => this.toggle(2)} action active={this.state.activeTab === 1}>Selanjutanya</Button>
-                                 </Col>
-                              
-                            </TabPane>
-                            
-                            <TabPane tabId={2}>
-                               <FormGroup row>
-                                <Col sm="6">
-                                  <h5>LANGKAH 3: Penilaian Ujian Otomatis</h5>
+                                
+                                <Progress animated color="success" value="55" className="mb-3" />
+                                
+                                <Col col="6" sm="4" md="2" xl className="mb-3 mb-xl-0">
+                                  <Link to="./detailhasilujian"><Button block color="primary">LIHAT HASIL PENILAIAN</Button></Link>
                                 </Col>
-                                <Col className="col-sm-12 text-center">
-                                    <Button type="submit" className="btn btn-lg btn-success">LAKUKAN PENILAIAN OTOMATIS</Button>
-                                </Col>
-                                <Col className="col-sm-12 text-right">
-                                    <Button  color="primary" onClick={() => this.toggle(1)}>Kembali</Button>
-                                </Col>
+                               
+                                
+                               
                               
-                                                      
-                              </FormGroup>
-                              
-                            </TabPane>
-
-                            <TabPane tabId={3}>
-                                <FormGroup row>
-                                  <Col className="col-sm-3">
-                                    <h5>Soal 4 :</h5>
-                                  </Col>    
-                                  <Col sm="12">
-                                    <p>Sebutkan bunyi dari UUD 1945 Pasal 30 ayat 1?</p>
-                                  </Col>
-                                  <Col sm="12">
-                                    <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
-                                  </Col>                      
-                              </FormGroup>
-                            </TabPane>
+                              </TabPane?
                           </TabContent>
                         </Col>
                             
