@@ -1,5 +1,7 @@
 from flask.views import MethodView
-from ujian_app.utils import json_output
+from flask import json, request
+from ujian_app.utils import AlchemyEncoder
+from ujian_app.repository import MatapelajaranRepository
 
 class MatapelajaranAPI(MethodView):
     
@@ -25,7 +27,7 @@ class MatapelajaranAPI(MethodView):
         data_matapelajaran = request.get_json()
         namaMapel = data_matapelajaran['namaMapel']
         KKM = data_matapelajaran['KKM']
-        self.repository.update(idkelas, namaMapel, KKM)
+        self.repository.update(idmapel, namaMapel, KKM)
 
         list_matapelajaran = self.repository.findAll()
         dt_matapelajaran = json.dumps(list_matapelajaran, cls=AlchemyEncoder)

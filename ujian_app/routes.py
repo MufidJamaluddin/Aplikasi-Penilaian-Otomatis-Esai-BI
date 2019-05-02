@@ -10,7 +10,12 @@ ROUTES_API = [
     {'url':'/api/kelas', 'name':'kelas', 'view':KelasAPI, 'methods':['GET','POST']},
     {'url':'/api/kelas/<int:idkelas>', 'name':'kelas_dt', 'view':KelasAPI, 'methods':['PUT','DELETE']},
 
-    {'url':'/api/matapelajaran', 'name':'matapelajaran', 'view':MatapelajaranAPI, 'methods':['GET','POST','PUT']},
+    {'url':'/api/matapelajaran', 'name':'mapel', 'view':MatapelajaranAPI, 'methods':['GET','POST']},
+    {'url':'/api/matapelajaran/<int:idmapel>', 'name':'matapelajaran_dt', 'view':MatapelajaranAPI, 'methods':['PUT','DELETE']},
+
+    {'url':'/api/siswa', 'name':'siswa', 'view':SiswaAPI, 'methods':['GET','POST']},
+    {'url':'/api/siswa/<int:nis>', 'name':'siswa_dt', 'view':SiswaAPI, 'methods':['PUT','DELETE']},
+
     {'url':'/api/pengerjaanujian', 'name':'pengerjaanujian', 'view':PengerjaanUjianAPI, 'methods':['GET','POST','PUT']},
     {'url':'/api/penilaian', 'name':'penilaian', 'view':PenilaianAPI, 'methods':['GET','POST','PUT']},
     {'url':'/api/ujianesai', 'name':'ujianesai', 'view':UjianEsaiAPI, 'methods':['GET','POST','PUT']}
