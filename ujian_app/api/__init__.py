@@ -1,5 +1,5 @@
-from .akunguru import AkunGuruAPI
-from .akunsiswa import AkunSiswaAPI
+from .guru import GuruAPI
+from .siswa import SiswaAPI
 from .auth import AuthAPI
 from .daftarnilai import DaftarNilaiAPI
 from .kelas import KelasAPI

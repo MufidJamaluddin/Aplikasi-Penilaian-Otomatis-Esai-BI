@@ -1,3 +1,4 @@
 from .kelasrepository import KelasRepository
-from .matapelajaranrepository import MatapelajaranRepository
+from .mapelrepository import MapelRepository
 from .siswarepository import SiswaRepository
+from .gururepository import GuruRepository

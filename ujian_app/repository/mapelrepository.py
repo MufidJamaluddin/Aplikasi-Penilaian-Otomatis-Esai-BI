@@ -13,13 +13,13 @@ class MapelRepository:
         return Matapelajaran.query.all()
 
     def update(self, idmapel,namaMapel,KKM):
-        mapel = Matapelajaran.query.get(idMapel)
+        mapel = Matapelajaran.query.get(idmapel)
         mapel.namaMapel = namaMapel
         mapel.KKM = KKM
         db.session.add(mapel)
         db.session.commit()
     
     def delete(self, idmapel):
-        mapel = Matapelajaran.query.get(idMapel)
+        mapel = Matapelajaran.query.get(idmapel)
         db.session.delete(mapel)
         db.session.commit()

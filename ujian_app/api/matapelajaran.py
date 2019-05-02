@@ -1,12 +1,12 @@
 from flask.views import MethodView
 from flask import json, request
 from ujian_app.utils import AlchemyEncoder
-from ujian_app.repository import MatapelajaranRepository
+from ujian_app.repository import MapelRepository
 
 class MatapelajaranAPI(MethodView):
     
     def __init__(self):
-        self.repository = MataPelajaranRepository()
+        self.repository = MapelRepository()
 
     def get(self):
         list_matapelajaran = self.repository.findAll()

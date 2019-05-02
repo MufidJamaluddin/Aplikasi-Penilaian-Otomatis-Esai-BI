@@ -1,5 +1,7 @@
 from flask.views import MethodView
-from ujian_app.utils import json_output
+from flask import json, request
+from ujian_app.utils import AlchemyEncoder
+from ujian_app.repository import SiswaRepository
 
 class SiswaAPI(MethodView):
     

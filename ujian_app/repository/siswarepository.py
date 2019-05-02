@@ -8,7 +8,7 @@ class SiswaRepository:
         siswa.idkelas = idkelas
         siswa.nama = nama
         siswa.password = password
-        db.session.add(mapel)
+        db.session.add(siswa)
         db.session.commit()
     
     def findAll(self):
@@ -16,6 +16,7 @@ class SiswaRepository:
 
     def update(self, nis,idkelas,nama,password):
         siswa = Siswa.query.get(nis)
+        siswa.nis = nis
         siswa.idkelas = idkelas
         siswa.nama = nama
         siswa.password = password
