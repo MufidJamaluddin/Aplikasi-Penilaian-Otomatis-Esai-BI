@@ -3,7 +3,7 @@ from ujian_app.utils import json_output
 
 class MatapelajaranAPI(MethodView):
     
-    ef __init__(self):
+    def __init__(self):
         self.repository = MataPelajaranRepository()
 
     def get(self):
