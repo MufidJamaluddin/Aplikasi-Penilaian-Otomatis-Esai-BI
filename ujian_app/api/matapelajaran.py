@@ -3,12 +3,37 @@ from ujian_app.utils import json_output
 
 class MatapelajaranAPI(MethodView):
     
-    @json_output
+    ef __init__(self):
+        self.repository = MataPelajaranRepository()
+
     def get(self):
-        return ['Matematika', 'Fisika', 'Kimia', 'Biologi', 'Sejarah', 'Bahasa Indonesia', 'Pendidikan Agama']
+        list_matapelajaran = self.repository.findAll()
+        dt_matapelajaran = json.dumps(list_matapelajaran, cls=AlchemyEncoder)
+        return json.dumps({'list': dt_matapelajaran }), 200, {'Content-Type': 'application/json'}
 
     def post(self):
-        return 'post matapelajaran'
+        data_matapelajaran = request.get_json()
+        namaMapel = data_matapelajaran['namaMapel']
+        KKM = data_matapelajaran['KKM']
+        self.repository.save(namaMapel, KKM)
+
+        list_matapelajaran = self.repository.findAll()
+        dt_matapelajaran = json.dumps(list_matapelajaran, cls=AlchemyEncoder)
+        return json.dumps({'list': dt_matapelajaran }), 201, {'Content-Type': 'application/json'}
     
-    def put(self):
-        return 'put matapelajaran'
+    def put(self, idmapel):
+        data_matapelajaran = request.get_json()
+        namaMapel = data_matapelajaran['namaMapel']
+        KKM = data_matapelajaran['KKM']
+        self.repository.update(idkelas, namaMapel, KKM)
+
+        list_matapelajaran = self.repository.findAll()
+        dt_matapelajaran = json.dumps(list_matapelajaran, cls=AlchemyEncoder)
+        return json.dumps({'list': dt_matapelajaran }), 301, {'Content-Type': 'application/json'}
+    
+    def delete(self, idmapel):
+        self.repository.delete(idmapel)
+
+        list_matapelajaran = self.repository.findAll()
+        dt_matapelajaran = json.dumps(list_matapelajaran, cls=AlchemyEncoder)
+        return json.dumps({'list': dt_matapelajaran }), 301, {'Content-Type': 'application/json'}
