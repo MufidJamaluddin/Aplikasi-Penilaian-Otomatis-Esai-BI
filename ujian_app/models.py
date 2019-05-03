@@ -18,8 +18,8 @@ class Daftarnilaiujian(Base):
     idujian = Column(ForeignKey('ujian.idujian'), primary_key=True, nullable=False, index=True)
     nilai = Column(String(3))
 
-    ujian = relationship('Ujian', primaryjoin='Daftarnilaiujian.idujian == Ujian.idujian', backref='daftarnilaiujians')
-    siswa = relationship('Siswa', primaryjoin='Daftarnilaiujian.nis == Siswa.nis', backref='daftarnilaiujians')
+    ujian = relationship('Ujian', lazy='selectin')
+    siswa = relationship('Siswa', lazy='joined')
 
 
 class Fiturreferensipenilaian(Base):
@@ -36,8 +36,8 @@ class Fiturreferensipenilaian(Base):
     tf = Column(Float)
     ntf_rf = Column(Float)
 
-    jawaban = relationship('Jawaban', primaryjoin='Fiturreferensipenilaian.idjawaban == Jawaban.idjawaban', backref='fiturreferensipenilaians')
-    term1 = relationship('Term', primaryjoin='and_(Fiturreferensipenilaian.term == Term.term, Fiturreferensipenilaian.idsoal == Term.idsoal)', backref='fiturreferensipenilaians')
+    jawaban = relationship('Jawaban', lazy='noload')
+    term1 = relationship('Term', lazy='joined')
 
 
 class Guru(Base):
@@ -60,8 +60,8 @@ class Jawaban(Base):
     jawabanEsai = Column(Text)
     skorAngka = Column(String(3))
 
-    soal = relationship('Soal', primaryjoin='Jawaban.idsoal == Soal.idsoal', backref='jawabans')
-    siswa = relationship('Siswa', primaryjoin='Jawaban.nis == Siswa.nis', backref='jawabans')
+    soal = relationship('Soal', lazy='select')
+    siswa = relationship('Siswa', lazy='select')
 
 
 class Kelas(Base):
@@ -89,8 +89,8 @@ class Pelaksanaanujian(Base):
     status_penilaian = Column(String(1))
     progress_penilaian = Column(String(3))
 
-    kelas = relationship('Kelas', primaryjoin='Pelaksanaanujian.idkelas == Kelas.idkelas', backref='pelaksanaanujians')
-    ujian = relationship('Ujian', primaryjoin='Pelaksanaanujian.idujian == Ujian.idujian', backref='pelaksanaanujians')
+    kelas = relationship('Kelas', lazy='selectin')
+    ujian = relationship('Ujian', lazy='select')
 
 
 class Pengampu(Base):
@@ -101,9 +101,9 @@ class Pengampu(Base):
     idkelas = Column(ForeignKey('kelas.idkelas'), nullable=False, index=True)
     idguru = Column(ForeignKey('guru.idguru'), nullable=False, index=True)
 
-    guru = relationship('Guru', primaryjoin='Pengampu.idguru == Guru.idguru', backref='pengampus')
-    kelas = relationship('Kelas', primaryjoin='Pengampu.idkelas == Kelas.idkelas', backref='pengampus')
-    matapelajaran = relationship('Matapelajaran', primaryjoin='Pengampu.idmapel == Matapelajaran.idmapel', backref='pengampus')
+    guru = relationship('Guru', lazy='select')
+    kelas = relationship('Kelas', lazy='select')
+    matapelajaran = relationship('Matapelajaran', lazy='select')
 
 
 class Siswa(Base):
@@ -114,7 +114,7 @@ class Siswa(Base):
     nama = Column(String(20))
     password = Column(String(40))
 
-    kelas = relationship('Kelas', primaryjoin='Siswa.idkelas == Kelas.idkelas', backref='siswas')
+    kelas = relationship('Kelas', lazy='joined')
 
 
 class Soal(Base):
@@ -128,7 +128,7 @@ class Soal(Base):
     kompetensiDasar = Column(String(100))
     materiPokok = Column(String(100))
 
-    ujian = relationship('Ujian', primaryjoin='Soal.idujian == Ujian.idujian', backref='soals')
+    ujian = relationship('Ujian', lazy='select')
 
 
 class Term(Base):
@@ -142,7 +142,7 @@ class Term(Base):
     max_rf_C = Column(Float)
     max_rf_D = Column(Float)
 
-    soal = relationship('Soal', primaryjoin='Term.idsoal == Soal.idsoal', backref='terms')
+    soal = relationship('Soal', lazy='select')
 
 
 class Ujian(Base):
@@ -154,5 +154,5 @@ class Ujian(Base):
     jumlahSoal = Column(SmallInteger)
     durasi = Column(Time)
 
-    pengampu = relationship('Pengampu', primaryjoin='Ujian.idpengampu == Pengampu.idpengampu', backref='ujians')
-    pelaksanaan_ujian = relationship('Pelaksanaanujian', primaryjoin='Ujian.idujian == Pelaksanaanujian.idujian', backref='ujians')
+    pengampu = relationship('Pengampu', lazy='select')
+    pelaksanaan_ujian = relationship('Pelaksanaanujian', lazy='selectin')
