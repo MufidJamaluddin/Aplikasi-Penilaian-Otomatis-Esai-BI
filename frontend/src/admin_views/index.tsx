@@ -1,7 +1,6 @@
 import Guru from './Guru/Guru';
 import Siswa from './Siswa/Siswa';
 import Matapelajaran from './Matapelajaran/Matapelajaran';
-import Profil from './Profil/Profil';
 import Kelas from './Kelas/Kelas';
 import Ujian from './Ujian/Ujian';
 import TambahUjian from './Ujian/TambahUjian';
@@ -33,5 +32,4 @@ export {
   Penilaian,
   NilaiUjian,
   DetailHasilUjian,
-  Profil
 };

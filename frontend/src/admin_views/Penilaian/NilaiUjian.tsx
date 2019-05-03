@@ -195,7 +195,7 @@ class NilaiUjian extends Component<NilaiUjianPropsModel, NilaiUjianStateModel>
                                 
                                
                               
-                              </TabPane?
+                              </TabPane>
                           </TabContent>
                         </Col>
                             

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Nav } from 'reactstrap';
+import { Nav , NavItem , NavLink,} from 'reactstrap';
 
 var Template = require('@coreui/react/lib');
 
@@ -23,8 +23,13 @@ class Header extends Component<DefaultHeaderPropsModel>
           minimized={{ src: sygnet, width: 30, height: 30, alt: alt_logo }}
         />
         <Template.AppSidebarToggler className="d-md-down-none" display="lg" />
-
-        <Nav className="ml-auto" navbar></Nav>
+          <Nav className="m1-auto">
+            <NavItem className="px-3 text-right">
+              <NavLink to="#" className="nav-link" ><i className="icon-user"></i> Hai Lucky</NavLink>
+            </NavItem>
+          </Nav>
+          
+          <Nav className="ml-auto" navbar></Nav>
         
       </React.Fragment>
     );

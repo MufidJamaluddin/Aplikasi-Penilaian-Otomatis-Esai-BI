@@ -9,7 +9,6 @@ import React from 'react';
  * Diload Jika Ada Permintaan
  */
 const Guru = React.lazy(() => import('./Guru/Guru'));
-const Profil = React.lazy(() => import('./Profil/Profil'));
 const Siswa = React.lazy(() => import('./Siswa/Siswa'));
 const Kelas = React.lazy(() => import('./Kelas/Kelas'));
 const Ujian = React.lazy(() => import('./Ujian/Ujian'));
@@ -32,7 +31,7 @@ const User = React.lazy(() => import('./Users/User'));
  * Routes yang Dapat Diakses oleh Guru
  */
 const GURU_ROUTES = [
-  { path: '/profil', name: 'Profil', component: Profil },
+
   
   { path: '/soal', name: 'Soal', component: Soal },
   { path: '/buatsoal', name: 'Buat Soal', component: BuatSoal },

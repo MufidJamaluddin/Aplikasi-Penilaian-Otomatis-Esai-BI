@@ -1,9 +1,5 @@
 const GURU_NAV = {
-      items: [{
-                  name: 'Hai, Lucky',
-                  url: '/profil',
-                  icon:'icon-user',	  
-            },
+      items: [
             {
                   name: 'Ujian',
                   url: '/ujian',
