@@ -37,11 +37,11 @@ class GuruAPI(MethodView):
 
         list_guru = self.repository.findAll()
         dt_guru = json.dumps(list_guru, cls=AlchemyEncoder)
-        return json.dumps({'list': dt_guru }), 301, {'Content-Type': 'application/json'}
+        return json.dumps({'list': dt_guru }), 200, {'Content-Type': 'application/json'}
     
-    def delete(self, nis):
-        self.repository.delete(nis)
+    def delete(self, idguru):
+        self.repository.delete(idguru)
 
         list_guru = self.repository.findAll()
         dt_guru = json.dumps(list_guru, cls=AlchemyEncoder)
-        return json.dumps({'list': dt_guru }), 301, {'Content-Type': 'application/json'}
+        return json.dumps({'list': dt_guru }), 200, {'Content-Type': 'application/json'}

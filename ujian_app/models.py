@@ -155,3 +155,4 @@ class Ujian(Base):
     durasi = Column(Time)
 
     pengampu = relationship('Pengampu', primaryjoin='Ujian.idpengampu == Pengampu.idpengampu', backref='ujians')
+    pelaksanaan_ujian = relationship('Pelaksanaanujian', primaryjoin='Ujian.idujian == Pelaksanaanujian.idujian', backref='ujians')

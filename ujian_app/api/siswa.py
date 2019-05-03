@@ -30,15 +30,15 @@ class SiswaAPI(MethodView):
         idkelas = data_siswa['idkelas']
         nama = data_siswa['nama']
         password = data_siswa['password']
-        self.repository.update( idkelas, nama, password)
+        self.repository.update(nis, idkelas, nama, password)
 
         list_siswa = self.repository.findAll()
         dt_siswa = json.dumps(list_siswa, cls=AlchemyEncoder)
-        return json.dumps({'list': dt_siswa }), 301, {'Content-Type': 'application/json'}
+        return json.dumps({'list': dt_siswa }), 200, {'Content-Type': 'application/json'}
     
     def delete(self, nis):
         self.repository.delete(nis)
 
         list_siswa = self.repository.findAll()
         dt_siswa = json.dumps(list_siswa, cls=AlchemyEncoder)
-        return json.dumps({'list': dt_siswa }), 301, {'Content-Type': 'application/json'}
+        return json.dumps({'list': dt_siswa }), 200, {'Content-Type': 'application/json'}

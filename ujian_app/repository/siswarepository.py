@@ -2,7 +2,7 @@ from ujian_app.models import Siswa, db
 
 class SiswaRepository:
 
-    def save(self, nis,idkelas,nama,password):
+    def save(self, nis, idkelas, nama, password):
         siswa = Siswa()
         siswa.nis = nis
         siswa.idkelas = idkelas
@@ -14,7 +14,7 @@ class SiswaRepository:
     def findAll(self):
         return Siswa.query.all()
 
-    def update(self, nis,idkelas,nama,password):
+    def update(self, nis, idkelas, nama, password):
         siswa = Siswa.query.get(nis)
         siswa.nis = nis
         siswa.idkelas = idkelas

@@ -31,11 +31,11 @@ class MatapelajaranAPI(MethodView):
 
         list_matapelajaran = self.repository.findAll()
         dt_matapelajaran = json.dumps(list_matapelajaran, cls=AlchemyEncoder)
-        return json.dumps({'list': dt_matapelajaran }), 301, {'Content-Type': 'application/json'}
+        return json.dumps({'list': dt_matapelajaran }), 200, {'Content-Type': 'application/json'}
     
     def delete(self, idmapel):
         self.repository.delete(idmapel)
 
         list_matapelajaran = self.repository.findAll()
         dt_matapelajaran = json.dumps(list_matapelajaran, cls=AlchemyEncoder)
-        return json.dumps({'list': dt_matapelajaran }), 301, {'Content-Type': 'application/json'}
+        return json.dumps({'list': dt_matapelajaran }), 200, {'Content-Type': 'application/json'}

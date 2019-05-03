@@ -29,11 +29,11 @@ class KelasAPI(MethodView):
 
         list_kelas = self.repository.findAll()
         dt_kelas = json.dumps(list_kelas, cls=AlchemyEncoder)
-        return json.dumps({'list': dt_kelas }), 301, {'Content-Type': 'application/json'}
+        return json.dumps({'list': dt_kelas }), 200, {'Content-Type': 'application/json'}
     
     def delete(self, idkelas):
         self.repository.delete(idkelas)
 
         list_kelas = self.repository.findAll()
         dt_kelas = json.dumps(list_kelas, cls=AlchemyEncoder)
-        return json.dumps({'list': dt_kelas }), 301, {'Content-Type': 'application/json'}
+        return json.dumps({'list': dt_kelas }), 200, {'Content-Type': 'application/json'}
