@@ -10,8 +10,7 @@ class SiswaAPI(MethodView):
 
     def get(self):
         list_siswa = self.repository.findAll()
-        dt_siswa = json.dumps(list_siswa, cls=AlchemyEncoder)
-        return json.dumps({'list': dt_siswa }), 200, {'Content-Type': 'application/json'}
+        return json.dumps({'list': list_siswa }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
 
     def post(self):
         data_siswa = request.get_json()
@@ -22,8 +21,7 @@ class SiswaAPI(MethodView):
         self.repository.save(nis, idkelas, nama, password)
 
         list_siswa = self.repository.findAll()
-        dt_siswa = json.dumps(list_siswa, cls=AlchemyEncoder)
-        return json.dumps({'list': dt_siswa }), 201, {'Content-Type': 'application/json'}
+        return json.dumps({'list': list_siswa }, cls=AlchemyEncoder), 201, {'Content-Type': 'application/json'}
     
     def put(self, nis):
         data_siswa = request.get_json()
@@ -33,12 +31,10 @@ class SiswaAPI(MethodView):
         self.repository.update(nis, idkelas, nama, password)
 
         list_siswa = self.repository.findAll()
-        dt_siswa = json.dumps(list_siswa, cls=AlchemyEncoder)
-        return json.dumps({'list': dt_siswa }), 200, {'Content-Type': 'application/json'}
+        return json.dumps({'list': list_siswa }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
     
     def delete(self, nis):
         self.repository.delete(nis)
 
         list_siswa = self.repository.findAll()
-        dt_siswa = json.dumps(list_siswa, cls=AlchemyEncoder)
-        return json.dumps({'list': dt_siswa }), 200, {'Content-Type': 'application/json'}
+        return json.dumps({'list': list_siswa }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}

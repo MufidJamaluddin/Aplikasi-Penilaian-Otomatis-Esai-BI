@@ -6,42 +6,63 @@ from ujian_app.repository import GuruRepository
 class GuruAPI(MethodView):
     
     def __init__(self):
+        '''
+        Inisialisasi Repository
+        '''
         self.repository = GuruRepository()
 
     def get(self):
+        '''
+        HTTP GET
+        Ambil Semua Data Guru
+        '''
         list_guru = self.repository.findAll()
-        dt_guru = json.dumps(list_guru, cls=AlchemyEncoder)
-        return json.dumps({'list': dt_guru }), 200, {'Content-Type': 'application/json'}
+        return json.dumps({'list': list_guru }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
 
     def post(self):
+        '''
+        HTTP POST 
+        Data Guru untuk Buat Baru
+        '''
+        # Simpan Data yang di Post
         data_guru = request.get_json()
-        nip = data_guru['nip']
-        nuptk = data_guru['nuptk']
-        namaGuru = data_guru['namaGuru']
-        username = data_guru['username']
-        password = data_guru['password']
-        self.repository.save(nip,nuptk,namaGuru,username,password)
-
+        self.repository.save(
+            nip = data_guru['nip'],
+            nuptk = data_guru['nuptk'],
+            namaGuru = data_guru['namaGuru'],
+            username = data_guru['username'],
+            password = data_guru['password']
+        )
+        
+        # Berikan semua data yg ada di db
         list_guru = self.repository.findAll()
-        dt_guru = json.dumps(list_guru, cls=AlchemyEncoder)
-        return json.dumps({'list': dt_guru }), 201, {'Content-Type': 'application/json'}
+        return json.dumps({'list': list_guru }, cls=AlchemyEncoder), 201, {'Content-Type': 'application/json'}
     
     def put(self, idguru):
+        '''
+        HTTP PUT 
+        Mengedit Data Guru yg Ada
+        '''
+        # Simpan Data yang di Post
         data_guru = request.get_json()
-        nip = data_guru['nip']
-        nuptk = data_guru['nuptk']
-        namaGuru = data_guru['namaGuru']
-        username = data_guru['username']
-        password = data_guru['password']
-        self.repository.update(idguru,nip,nuptk,namaGuru,username,password)
+        self.repository.save(
+            nip = data_guru['nip'],
+            nuptk = data_guru['nuptk'],
+            namaGuru = data_guru['namaGuru'],
+            username = data_guru['username'],
+            password = data_guru['password']
+        )
 
+        # kirim semua data guru
         list_guru = self.repository.findAll()
-        dt_guru = json.dumps(list_guru, cls=AlchemyEncoder)
-        return json.dumps({'list': dt_guru }), 200, {'Content-Type': 'application/json'}
+        return json.dumps({'list': list_guru }), 200, {'Content-Type': 'application/json'}
     
     def delete(self, idguru):
+        '''
+        HTTP DELETE
+        Hapus Data Guru
+        '''
         self.repository.delete(idguru)
 
         list_guru = self.repository.findAll()
-        dt_guru = json.dumps(list_guru, cls=AlchemyEncoder)
-        return json.dumps({'list': dt_guru }), 200, {'Content-Type': 'application/json'}
+        return json.dumps({'list': list_guru }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}

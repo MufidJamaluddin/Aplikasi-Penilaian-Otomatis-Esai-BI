@@ -1,3 +1,7 @@
+# Generic Repository
+from .genericrepository import GenericRepository
+
+# Repository
 from .kelasrepository import KelasRepository
 from .mapelrepository import MapelRepository
 from .siswarepository import SiswaRepository
