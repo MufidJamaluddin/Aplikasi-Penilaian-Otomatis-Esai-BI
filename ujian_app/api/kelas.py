@@ -10,8 +10,7 @@ class KelasAPI(MethodView):
 
     def get(self):
         list_kelas = self.repository.findAll()
-        dt_kelas = json.dumps(list_kelas, cls=AlchemyEncoder)
-        return json.dumps({'list': dt_kelas }), 200, {'Content-Type': 'application/json'}
+        return json.dumps({'list': list_kelas }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
 
     def post(self):
         data_kelas = request.get_json()
@@ -19,21 +18,19 @@ class KelasAPI(MethodView):
         self.repository.save(namaKelas)
 
         list_kelas = self.repository.findAll()
-        dt_kelas = json.dumps(list_kelas, cls=AlchemyEncoder)
-        return json.dumps({'list': dt_kelas }), 201, {'Content-Type': 'application/json'}
-    
+        return json.dumps({'list': list_kelas }, cls=AlchemyEncoder), 201, {'Content-Type': 'application/json'}
+   
     def put(self, idkelas):
         data_kelas = request.get_json()
         namaKelas = data_kelas['namaKelas']
         self.repository.update(idkelas, namaKelas)
 
         list_kelas = self.repository.findAll()
-        dt_kelas = json.dumps(list_kelas, cls=AlchemyEncoder)
-        return json.dumps({'list': dt_kelas }), 200, {'Content-Type': 'application/json'}
+        return json.dumps({'list': list_kelas }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
     
     def delete(self, idkelas):
         self.repository.delete(idkelas)
 
         list_kelas = self.repository.findAll()
-        dt_kelas = json.dumps(list_kelas, cls=AlchemyEncoder)
-        return json.dumps({'list': dt_kelas }), 200, {'Content-Type': 'application/json'}
+        list_kelas = self.repository.findAll()
+        return json.dumps({'list': list_kelas }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}

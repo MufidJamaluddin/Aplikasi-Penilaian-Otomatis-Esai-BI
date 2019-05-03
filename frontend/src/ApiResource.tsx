@@ -1,8 +1,8 @@
 class ApiResource
 {
-    static get<T>(url: string): Promise<T>
+    static get<T>(api_uri: string): Promise<T>
     {
-        return fetch(url).then(response => {
+        return fetch(api_uri).then(response => {
             if(!response.ok)
             {
                 throw new Error(response.statusText);

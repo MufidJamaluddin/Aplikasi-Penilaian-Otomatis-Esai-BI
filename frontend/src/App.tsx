@@ -60,7 +60,7 @@ class App extends Component<{}, AppModel>
    */
   public componentWillMount() : void
   {
-    let url = 'http://localhost:3000/api/login.json';
+    let url = '/api/auth';
     
     ApiResource.get<AppModel>(url).then(value => {
       this.setState({ role: value.role });
