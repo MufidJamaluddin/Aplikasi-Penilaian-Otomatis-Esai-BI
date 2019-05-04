@@ -11,31 +11,17 @@ venv/
 __pycache__/
 
 # Static File
-/ujian_app/static/static
-/ujian_app/static/asset-manifest.json
+/ujian_app/static
 
 # map js
 *.js.map
 *.css.map
 
 # dependencies
-/frontend/node_modules
-/frontend/.pnp
-/frontend/.pnp.js
-
-# testing
-/frontend/coverage
+node_modules/
 
 # production
-/frontend/build
+/build
 
 # misc
-/frontend/.DS_Store
-/frontend/.env.local
-/frontend/.env.development.local
-/frontend/.env.test.local
-/frontend/.env.production.local
-
-/frontend/npm-debug.log*
-/frontend/yarn-debug.log*
-/frontend/yarn-error.log*
+npm-debug.log*

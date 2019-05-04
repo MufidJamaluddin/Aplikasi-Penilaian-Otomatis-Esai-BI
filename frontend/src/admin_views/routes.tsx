@@ -10,7 +10,7 @@ import React from 'react';
  */
 const Guru = React.lazy(() => import('./Guru/Guru'));
 const Siswa = React.lazy(() => import('./Siswa/Siswa'));
-const Kelas = React.lazy(() => import('./Kelas/Kelas'));
+const Kelas = React.lazy(() => import('./Kelas/KelasView'));
 const Ujian = React.lazy(() => import('./Ujian/Ujian'));
 const TambahUjian = React.lazy(() => import('./Ujian/TambahUjian'));
 const UpdateUjian = React.lazy(() => import('./Ujian/UpdateUjian'));

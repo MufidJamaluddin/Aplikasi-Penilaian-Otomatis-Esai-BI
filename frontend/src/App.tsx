@@ -8,7 +8,7 @@ import './App.scss';
 import Layout from './admin_templates';
 import { GURU_ROUTES, STAF_TU_ROUTES } from './admin_views/routes';
 import { GURU_NAV, STAF_TU_NAV } from './admin_views/nav';
-import ApiResource from './ApiResource';
+import API from './ApiResource';
 
 /**
  * Deklarasi Komponen
@@ -62,7 +62,7 @@ class App extends Component<{}, AppModel>
   {
     let url = '/api/auth';
     
-    ApiResource.get<AppModel>(url).then(value => {
+    API<AppModel>(url).then(value => {
       this.setState({ role: value.role });
     });
   }

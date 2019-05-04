@@ -1,38 +1,42 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Button from 'reactstrap/lib/Button';
+import Kelas from './KelasView';
 
 interface KelasItemModel 
 { 
     idkelas: string; 
     namaKelas: string;
-    toggleUpdateKelas: VoidFunction; // Referensi / Pointer
-    toggleDeleteKelas: VoidFunction;
+    parent: Kelas;
 }
 
-class KelasItem extends Component<KelasItemModel>
+/*
+interface KelasItemState
 {
-    public constructor(props: KelasItemModel)
-    {
-        super(props);
-    }
-
+    status: string; // View, Edit, Delete
+}
+*/
+class KelasItem extends PureComponent<KelasItemModel>
+{
     public render(): JSX.Element
     {
-        console.log(this.props.namaKelas);
-        
+        //if(this.state.status === 'Edit')
+
+        var idkelas = this.props.idkelas;
+        var namaKelas = this.props.namaKelas;
+
         return (
             <tr>
                 <td>{ this.props.namaKelas }</td>
                 <td>
                     <Button 
                         className="btn-stack-overflow btn-brand icon btn-sm" 
-                        onClick={ this.props.toggleUpdateKelas }>
+                        onClick={ (e:any) => this.props.parent.toggleUpdateKelas({idkelas: idkelas, namaKelas: namaKelas}) }>
                         <i className="fa fa-pencil"></i>
                     </Button>
 
                     <Button 
                         className="btn-youtube btn-brand icon btn-sm" 
-                        onClick={ this.props.toggleDeleteKelas }>
+                        onClick={ (e:any) => this.props.parent.toggleDeleteKelas({idkelas: this.props.idkelas, namaKelas: this.props.namaKelas}) }>
                         <i className="fa fa-trash"></i>
                     </Button>
                 </td>
