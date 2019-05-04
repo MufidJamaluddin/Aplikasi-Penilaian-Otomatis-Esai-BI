@@ -22,9 +22,10 @@ export default interface DataGuru
 export default interface DataSiswa
 {
     nis: string;
-    namaSiswa: string;
-    namaKelas: string;
+    nama: string;
+    idkelas: string;
     password?: string;
+    kelas:Partial<DataKelas>;
 }
 
 export default interface DataUjian

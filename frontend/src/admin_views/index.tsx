@@ -1,5 +1,5 @@
 import Guru from './Guru/Guru';
-import Siswa from './Siswa/Siswa';
+import Siswa from './Siswa/SiswaView';
 import Matapelajaran from './Matapelajaran/Matapelajaran';
 import Kelas from './Kelas/KelasView';
 import Ujian from './Ujian/Ujian';
