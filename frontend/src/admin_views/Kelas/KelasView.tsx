@@ -49,6 +49,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
 
     this.tambahKelas = this.tambahKelas.bind(this);
     this.editKelas = this.editKelas.bind(this);
+    this.deleteKelas = this.deleteKelas.bind(this);
   }
 
   componentWillMount()
@@ -68,7 +69,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
 
   toggleUpdateKelas(datakelas?:Partial<DataKelas>) 
   {
-    if(typeof datakelas !== null)
+    if(datakelas === undefined)
       this.setState({
         warning: !this.state.warning,
       });
@@ -82,7 +83,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
   
  toggleDeleteKelas(datakelas?:Partial<DataKelas>) 
  {
-    if(typeof datakelas !== null)
+    if(datakelas === undefined)
       this.setState({
         danger: !this.state.danger,
       });
@@ -134,7 +135,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
 
       var idkelas = this.state.selected_data.idkelas;
       if(idkelas !== undefined) updateKelas(idkelas, data).then(list => {
-        this.setState({ list_kelas: list });
+        this.setState({ list_kelas: list, warning: false });
       });
     }
   }
@@ -152,7 +153,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
       var idkelas = this.state.selected_data.idkelas;
 
       if(idkelas !== undefined) hapusKelas(idkelas).then(list => {
-        this.setState({ list_kelas: list });
+        this.setState({ list_kelas: list, danger: false });
       });
 
     }
@@ -160,57 +161,52 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
 
   renderModalEdit()
   {
-    if(this.state.selected_data !== undefined)
-    {
-      var namaKelas = this.state.selected_data.namaKelas;
-      
-      if(namaKelas !== undefined)
-      return (
+    return (
       <Modal isOpen={this.state.warning} toggle={this.toggleUpdateKelas} className={'modal-warning  ' + this.props.className}>		
+        <Form onSubmit={this.editKelas} className="form-horizontal">
         <ModalHeader toggle={this.toggleUpdateKelas}>Update Kelas</ModalHeader>
           <ModalBody>
             
-            <Form onSubmit={this.editKelas} className="form-horizontal">
+            
               <FormGroup row>
                 <Col sm="12">
                     <Input 
                       type="text" 
                       placeholder="Nama Kelas"
                       name="namaKelas" 
-                      value={ this.state.selected_data.namaKelas }
                       required />
                 </Col>
               </FormGroup>
-            </Form>					
         </ModalBody>		  
         <ModalFooter>
-          <Button color="danger">Cancel</Button>
+        
+          <Button color="danger" onClick={(e:any) => this.toggleUpdateKelas() }>Cancel</Button>
           <Button color="success" type="submit">Edit</Button>
         </ModalFooter>
+        </Form>	
     </Modal>
     );
-    }
   }
 
   renderModalDelete()
   {
-    if(this.state.selected_data !== undefined)
-    {
-      var namaKelas = this.state.selected_data.namaKelas;
-      
-      if(namaKelas !== undefined)
-        return (
-          <Modal isOpen={this.state.danger} toggle={this.toggleDeleteKelas} className={'modal-danger ' + this.props.className}>
-            <ModalHeader toggle={this.toggleDeleteKelas}>Delete Kelas</ModalHeader>
-            <ModalBody><p> Apakah anda yakin ingin menghapus <b>{ namaKelas }</b> dari data Kelas ?</p></ModalBody>
-            <ModalFooter>
-              <Button color="danger">Tidak</Button>
-              <Button color="success" onClick={this.deleteKelas}>Ya</Button>
-            </ModalFooter>
-          </Modal>
-        )
-    }
+    if(this.state.selected_data === undefined)
+      return;
 
+    var namaKelas = this.state.selected_data.namaKelas;
+
+    return (
+      <Modal isOpen={this.state.danger} toggle={this.toggleDeleteKelas} className={'modal-danger ' + this.props.className}>
+        <Form onSubmit={this.deleteKelas} className="form-horizontal">    
+          <ModalHeader toggle={this.toggleDeleteKelas}>Delete Kelas</ModalHeader>
+            <ModalBody><p> Apakah anda yakin ingin menghapus <b>{namaKelas}</b> dari data Kelas ?</p></ModalBody>
+            <ModalFooter>
+              <Button color="danger" onClick={(e:any) => this.toggleDeleteKelas() }>Tidak</Button>
+              <Button color="success" type="submit">Ya</Button>
+            </ModalFooter>
+        </Form>
+      </Modal>
+    )
   }
 
   render() 
@@ -251,13 +247,24 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
                   </thead>
                   <tbody>
                     {
-                      list_kelas.map(value => {
+                      list_kelas.map(kelas => {
                         return (
-                          <KelasItem 
-                            idkelas={value.idkelas}
-                            namaKelas={value.namaKelas} 
-                            parent={ this }
-                            />
+                          <tr>
+                            <td>{ kelas.namaKelas }</td>
+                            <td>
+                                <Button 
+                                    className="btn-stack-overflow btn-brand icon btn-sm" 
+                                    onClick={ (e:any) => this.toggleUpdateKelas(kelas) }>
+                                    <i className="fa fa-pencil"></i>
+                                </Button>
+                            
+                                <Button 
+                                    className="btn-youtube btn-brand icon btn-sm" 
+                                    onClick={ (e:any) => this.toggleDeleteKelas(kelas) }>
+                                    <i className="fa fa-trash"></i>
+                                </Button>
+                            </td>
+                        </tr>
                         )
                       })
                     }															

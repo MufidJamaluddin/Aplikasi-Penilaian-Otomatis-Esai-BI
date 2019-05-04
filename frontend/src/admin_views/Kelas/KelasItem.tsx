@@ -33,7 +33,7 @@ class KelasItem extends PureComponent<KelasItemModel>
                         onClick={ (e:any) => this.props.parent.toggleUpdateKelas({idkelas: idkelas, namaKelas: namaKelas}) }>
                         <i className="fa fa-pencil"></i>
                     </Button>
-
+                
                     <Button 
                         className="btn-youtube btn-brand icon btn-sm" 
                         onClick={ (e:any) => this.props.parent.toggleDeleteKelas({idkelas: this.props.idkelas, namaKelas: this.props.namaKelas}) }>

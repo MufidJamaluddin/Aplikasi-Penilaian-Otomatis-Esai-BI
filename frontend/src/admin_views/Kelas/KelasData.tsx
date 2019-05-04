@@ -24,7 +24,7 @@ function initDatakelas()
  * Menginputkan Data Kelas
  * @param data Data Kelas Sekolah
  */
-function inputDatakelas(data:DataKelas)
+function inputDatakelas(data:any)
 {
     console.log(JSON.stringify(data));
 
@@ -44,7 +44,7 @@ function inputDatakelas(data:DataKelas)
  * Mengubah Data Kelas
  * @param data Data Kelas Sekolah
  */
-function updateKelas(idkelas:string, data:DataKelas)
+function updateKelas(idkelas:string, data:any)
 {
     console.log(JSON.stringify(data));
 
@@ -67,7 +67,9 @@ function updateKelas(idkelas:string, data:DataKelas)
 function hapusKelas(idkelas:string)
 {
     return API<JsonAPIKelas>('/api/kelas/'+idkelas, { 
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        body: "{}"
     })
     .then(value => {
         // Ambil list 
