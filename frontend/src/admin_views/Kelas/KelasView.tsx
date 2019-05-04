@@ -104,7 +104,11 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
 
     //if(event.keyCode !== 13) retturn;
 
-    const data = new FormData(event.target);
+    var fdata = new FormData(event.target);
+
+    var data = {
+      namaKelas: fdata.get('namaKelas')
+    };
 
     inputDatakelas(data).then(list => {
       this.setState({ list_kelas: list });
@@ -121,7 +125,12 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
     if(this.state.selected_data !== undefined)
     {
       event.preventDefault();
-      const data = new FormData(event.target);
+
+      var fdata = new FormData(event.target);
+
+      var data = {
+        namaKelas: fdata.get('namaKelas')
+      };
 
       var idkelas = this.state.selected_data.idkelas;
       if(idkelas !== undefined) updateKelas(idkelas, data).then(list => {
@@ -224,7 +233,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
 											<Input type="text" name="namaKelas" placeholder="Nama Kelas" required/>
 										</Col>
 										<Col sm="2">
-											<Button bsSize="sm" type="submit" color="success" className="px-4"><i className="fa fa-plus"></i><span>Tambah Kelas</span></Button>
+											<Button size="sm" type="submit" color="success" className="px-4"><i className="fa fa-plus"></i><span>Tambah Kelas</span></Button>
 										</Col>
 									</FormGroup>
 								</Form>
@@ -233,7 +242,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
 
                 { this.renderModalDelete() }
            
-                <Table responsive reflow={true} size="sm">
+                <Table responsive reflow size="sm">
                   <thead>
                   <tr>
                     <th>Nama Kelas</th>

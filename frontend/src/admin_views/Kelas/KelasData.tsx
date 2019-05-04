@@ -24,8 +24,10 @@ function initDatakelas()
  * Menginputkan Data Kelas
  * @param data Data Kelas Sekolah
  */
-function inputDatakelas(data:DataKelas | FormData)
+function inputDatakelas(data:DataKelas)
 {
+    console.log(JSON.stringify(data));
+
     return API<JsonAPIKelas>('/api/kelas', { 
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -42,8 +44,10 @@ function inputDatakelas(data:DataKelas | FormData)
  * Mengubah Data Kelas
  * @param data Data Kelas Sekolah
  */
-function updateKelas(idkelas:string, data:DataKelas | FormData)
+function updateKelas(idkelas:string, data:DataKelas)
 {
+    console.log(JSON.stringify(data));
+
     return API<JsonAPIKelas>('/api/kelas/'+idkelas, { 
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
