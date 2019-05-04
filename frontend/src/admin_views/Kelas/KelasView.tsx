@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { Card, CardBody, Col, Row, Table, Button,Form, FormGroup, Input, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import KelasItem from './KelasItem';
 import DataKelas from '../../item_model';
 import { initDatakelas, inputDatakelas, updateKelas, hapusKelas } from './KelasData';
 
