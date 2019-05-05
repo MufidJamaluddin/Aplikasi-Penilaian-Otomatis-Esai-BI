@@ -5,7 +5,7 @@ import '@coreui/icons/css/coreui-icons.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'simple-line-icons/scss/simple-line-icons.scss';
 import './App.scss';
-import Layout from './admin_templates';
+import { LayoutAdmin } from './layout';
 import { GURU_ROUTES, STAF_TU_ROUTES } from './admin_views/routes';
 import { GURU_NAV, STAF_TU_NAV } from './admin_views/nav';
 import API from './ApiResource';
@@ -76,7 +76,7 @@ class App extends Component<{}, AppModel>
     {    
       case 'staftu':
         return(
-          <Route path="/" render={props => <Layout 
+          <Route path="/" render={props => <LayoutAdmin 
             admin_routes={ STAF_TU_ROUTES } 
             admin_nav={ STAF_TU_NAV }
             redirect_root_to="/kelas"
@@ -87,7 +87,7 @@ class App extends Component<{}, AppModel>
 
       case 'guru':
         return(
-          <Route path="/" render={props => <Layout 
+          <Route path="/" render={props => <LayoutAdmin 
             admin_routes={ GURU_ROUTES } 
             admin_nav={ GURU_NAV }
             redirect_root_to="/profil"
