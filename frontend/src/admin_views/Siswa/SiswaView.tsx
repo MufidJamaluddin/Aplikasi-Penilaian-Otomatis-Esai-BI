@@ -11,7 +11,7 @@ interface SiswaViewStateData {
 	tambah: boolean;
 	large: boolean;
 	edit : boolean;
-	danger : boolean;
+	delete : boolean;
   info: boolean;
   selected_data?:Partial<DataSiswa>;
   list_siswa: Array<DataSiswa>;
@@ -34,7 +34,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
       tambah: false,
 	    large: false,
 	    edit : false,
-	    danger : false,
+	    delete : false,
       info: false,
       
       // Data yg di klik
@@ -95,12 +95,12 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
  {
     if(datasiswa === undefined)
       this.setState({
-        danger: !this.state.danger,
+        delete: !this.state.delete,
       });
 
     else
       this.setState({
-        danger: !this.state.danger,
+        delete: !this.state.delete,
         selected_data: datasiswa
       });
   }
@@ -182,7 +182,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
       var nis = this.state.selected_data.nis;
 
       if(nis !== undefined) hapusSiswa(nis).then(list => {
-        this.setState({ list_siswa: list, danger: false });
+        this.setState({ list_siswa: list, delete: false });
       });
 
     }
@@ -325,7 +325,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
     var nama = this.state.selected_data.nama;
 
     return (
-    <Modal isOpen={this.state.danger} toggle={this.toggleDeleteSiswa} className={'modal-danger ' + this.props.className}>
+    <Modal isOpen={this.state.delete} toggle={this.toggleDeleteSiswa} className={'modal-danger ' + this.props.className}>
       <Form onSubmit={this.deleteSiswa} className="form-horizontal">
         <ModalHeader toggle={this.toggleDeleteSiswa}>Delete Siswa</ModalHeader>
         
