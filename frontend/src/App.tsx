@@ -8,7 +8,7 @@ import './App.scss';
 import { LayoutAdmin } from './layout';
 import { GURU_ROUTES, STAF_TU_ROUTES } from './admin_views/routes';
 import { GURU_NAV, STAF_TU_NAV } from './admin_views/nav';
-import API from './ApiResource';
+import API from './models/api';
 
 /**
  * Deklarasi Komponen

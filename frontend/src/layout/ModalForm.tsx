@@ -9,7 +9,7 @@ interface ModalFormAttribute
     className: string;
     header: string;
     strsubmit: string;
-    isOpen: boolean;
+    isOpen?: boolean;
     toggle: VoidFunction;
     onClickSubmit: any;
 }
@@ -20,7 +20,7 @@ class ModalForm extends PureComponent<ModalFormAttribute>
     {
         return(
             <Modal 
-                isOpen={ this.props.isOpen } 
+                isOpen={ this.props.isOpen || false } 
                 toggle={ this.props.toggle } 
                 className={ this.props.className }> 
                 <Form onSubmit= {this.props.onClickSubmit } className="form-horizontal">    

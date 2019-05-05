@@ -1,4 +1,4 @@
-import Guru from './Guru/Guru';
+import Guru from './Guru/GuruView';
 import Siswa from './Siswa/SiswaView';
 import Matapelajaran from './Matapelajaran/Matapelajaran';
 import Kelas from './Kelas/KelasView';

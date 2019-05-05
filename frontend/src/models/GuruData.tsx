@@ -1,18 +1,18 @@
-import API from "../../ApiResource";
-import DataKelas from '../../item_model';
+import API from "./api";
+import DataGuru from './item_model';
 
 /**
  * Data dari API (Backend di Server)
  */
-interface JsonAPIKelas { list: Array<DataKelas>; }
+interface JsonAPIGuru { list: Array<DataGuru>; }
 
 /**
- * Mendapatkan Data Kelas
+ * Mendapatkan Data Guru
  * dan Menampilkannya di View
  */
-function initDatakelas()
+function initDataGuru()
 {
-    return API<JsonAPIKelas>('/api/kelas')
+    return API<JsonAPIGuru>('/api/guru')
     .then(value => {
         // Ambil list 
         console.log(value.list);
@@ -21,14 +21,14 @@ function initDatakelas()
 }
 
 /**
- * Menginputkan Data Kelas
- * @param data Data Kelas Sekolah
+ * Menginputkan Data Guru
+ * @param data Data Guru Sekolah
  */
-function inputDatakelas(data:any)
+function inputDataGuru(data:DataGuru)
 {
     console.log(JSON.stringify(data));
 
-    return API<JsonAPIKelas>('/api/kelas', { 
+    return API<JsonAPIGuru>('/api/guru', { 
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)
@@ -41,14 +41,14 @@ function inputDatakelas(data:any)
 }
 
 /**
- * Mengubah Data Kelas
- * @param data Data Kelas Sekolah
+ * Mengubah Data Guru
+ * @param data Data Guru Sekolah
  */
-function updateKelas(idkelas:string, data:any)
+function updateDataGuru(idguru:string, data:any)
 {
     console.log(JSON.stringify(data));
 
-    return API<JsonAPIKelas>('/api/kelas/'+idkelas, { 
+    return API<JsonAPIGuru>('/api/guru/' + idguru, { 
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)
@@ -61,12 +61,12 @@ function updateKelas(idkelas:string, data:any)
 }
 
 /**
- * Menghapus Data Kelas
- * @param data Data Kelas Sekolah
+ * Menghapus Data Guru
+ * @param data Data Guru Sekolah
  */
-function hapusKelas(idkelas:string)
+function hapusDataGuru(idguru:string)
 {
-    return API<JsonAPIKelas>('/api/kelas/'+idkelas, { 
+    return API<JsonAPIGuru>('/api/guru/'+ idguru, { 
         method: 'DELETE',
         headers: {'Content-Type': 'application/json'},
         body: "{}"
@@ -78,4 +78,4 @@ function hapusKelas(idkelas:string)
     });
 }
 
-export { initDatakelas, inputDatakelas, updateKelas, hapusKelas }
+export { initDataGuru, inputDataGuru, updateDataGuru, hapusDataGuru }

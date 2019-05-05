@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table, Button,Form, FormGroup, FormText, FormFeedback, Input, InputGroup, InputGroupAddon, InputGroupText,Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import DataSiswa from '../../item_model';
+import DataSiswa from '../../models/item_model';
 import { initDatasiswa, inputDatasiswa, updateSiswa, hapusSiswa } from './SiswaData';
-import { initDatakelas } from '../Kelas/KelasData';
-import DataKelas from '../../item_model';
+import { initDatakelas } from '../../models/KelasData';
+import DataKelas from '../../models/item_model';
 
 
 interface SiswaViewStateData {
