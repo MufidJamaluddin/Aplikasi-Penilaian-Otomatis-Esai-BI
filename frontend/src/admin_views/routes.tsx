@@ -8,8 +8,8 @@ import React from 'react';
  * Lazy Loading View
  * Diload Jika Ada Permintaan
  */
-const Guru = React.lazy(() => import('./Guru/Guru'));
-const Siswa = React.lazy(() => newFunction());
+const Guru = React.lazy(() => import('./Guru/GuruView'));
+const Siswa = React.lazy(() => import('./Siswa/SiswaView'));
 const Kelas = React.lazy(() => import('./Kelas/KelasView'));
 const Ujian = React.lazy(() => import('./Ujian/Ujian'));
 const TambahUjian = React.lazy(() => import('./Ujian/TambahUjian'));
@@ -62,7 +62,3 @@ const STAF_TU_ROUTES = [
 ];
 
 export { GURU_ROUTES, STAF_TU_ROUTES };
-
-function newFunction(): Promise<{ default: React.ComponentType<any>; }> {
-  return import('./Siswa/SiswaView');
-}

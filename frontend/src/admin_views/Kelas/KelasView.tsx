@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
-import { Card, CardBody, Col, Row, Table, Button,Form, FormGroup, Input, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import DataKelas from '../../item_model';
-import { initDatakelas, inputDatakelas, updateKelas, hapusKelas } from './KelasData';
+import { CardBody, Col, Table, Button,Form, FormGroup, Input } from 'reactstrap';
+import DataKelas from '../../models/item_model';
+import { initDatakelas, inputDatakelas, updateKelas, hapusKelas } from '../../models/KelasData';
 import { ModalForm, LayoutCard } from '../../layout';
 
 /**
@@ -33,7 +33,6 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
 
     this.state = {
       modal: { tambah: false, edit:false, delete:false },
-      selected_data: undefined,
       list_kelas: [],
       isLoading: true
     };
@@ -144,7 +143,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
         className={'modal-warning ' + this.props.className}
         header={ "Edit Kelas " + namaKelas }
         strsubmit="Edit"
-        isOpen={ this.state.modal.edit || false }
+        isOpen={ this.state.modal.edit }
         toggle={ this.toggleUpdateKelas }
         onClickSubmit={ this.editKelas }>
         <FormGroup row>
@@ -168,7 +167,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
         className={"modal-danger " + this.props.className}
         header={"Delete Kelas " + namaKelas } 
         strsubmit="Ya"
-        isOpen={ this.state.modal.delete || false }
+        isOpen={ this.state.modal.delete }
         toggle={ this.toggleDeleteKelas }
         onClickSubmit={ this.deleteKelas }>
         <p> Apakah anda yakin ingin menghapus <b>{namaKelas}</b> dari data Kelas ?</p>
@@ -189,7 +188,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
   
     return (
       <LayoutCard>
-
+      <CardBody>
         <Form onSubmit={ this.tambahKelas } className="form-horizontal">
           <FormGroup row>
             <Col sm="4">
@@ -236,7 +235,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
             }															
           </tbody>
         </Table>
-
+      </CardBody>
       </LayoutCard>
     );
   }
