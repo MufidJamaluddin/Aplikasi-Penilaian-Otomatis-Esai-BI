@@ -167,6 +167,12 @@ class Guru extends Component<GuruModel, GuruStateModel>
 
 	public renderModalTambahGuru()
 	{
+		var dataguru = this.state.selected_data;
+		var listkelas = this.state.list_kelas;
+		var listmapel = this.state.list_mapel;
+
+		if(dataguru === undefined) return;
+
 		return (
 			<ModalGuruForm
 				className={'modal-info modal-lg ' + this.props.className}
@@ -176,6 +182,9 @@ class Guru extends Component<GuruModel, GuruStateModel>
 				toggle={this.toggleUpdateGuru}
 				onClickSubmit={this.updateDataGuru}
 				viewonly={true}
+				dataguru={dataguru}
+				listkelas={listkelas}
+				listmapel={listmapel}
 				>
 			</ModalGuruForm>
 		);
@@ -183,6 +192,12 @@ class Guru extends Component<GuruModel, GuruStateModel>
 
 	public renderModalDetailGuru()
 	{
+		var dataguru = this.state.selected_data;
+		var listkelas = this.state.list_kelas;
+		var listmapel = this.state.list_mapel;
+
+		if(dataguru === undefined) return;
+
 		return (
 			<ModalGuruForm
 				className={'modal-info modal-lg ' + this.props.className}
@@ -191,6 +206,9 @@ class Guru extends Component<GuruModel, GuruStateModel>
 				toggle={this.toggleUpdateGuru}
 				onClickSubmit={this.updateDataGuru}
 				viewonly={true}
+				dataguru={dataguru}
+				listkelas={listkelas}
+				listmapel={listmapel}
 				>
 			</ModalGuruForm>
 		);
@@ -198,6 +216,12 @@ class Guru extends Component<GuruModel, GuruStateModel>
 
 	public renderModalUpdateGuru()
 	{
+		var dataguru = this.state.selected_data;
+		var listkelas = this.state.list_kelas;
+		var listmapel = this.state.list_mapel;
+
+		if(dataguru === undefined) return;
+		
 		return (
 			<ModalGuruForm
 				className={'modal-warning modal-lg ' + this.props.className}
@@ -206,6 +230,9 @@ class Guru extends Component<GuruModel, GuruStateModel>
 				isOpen={this.state.modal.update}
 				toggle={this.toggleUpdateGuru}
 				onClickSubmit={this.updateDataGuru}
+				dataguru={dataguru}
+				listkelas={listkelas}
+				listmapel={listmapel}
 				>
 			</ModalGuruForm>
 		);
@@ -214,7 +241,15 @@ class Guru extends Component<GuruModel, GuruStateModel>
 	renderModalDeleteGuru()
 	{
 		return (
-			<p>Apakah anda yakin ingin menghapus <b>Lucky Ramdani M.Pd</b> dari data guru ?</p>
+			<ModalForm
+				className={'modal-danger modal-lg ' + this.props.className}
+				header="Edit Data Guru"
+				strsubmit="Ya"
+				isOpen={this.state.modal.delete}
+				toggle={this.toggleDeleteGuru}
+				onClickSubmit={this.deleteDataGuru}>
+				<p>Apakah anda yakin ingin menghapus <b>Lucky Ramdani M.Pd</b> dari data guru ?</p>
+			</ModalForm>
 		);
 	}
 

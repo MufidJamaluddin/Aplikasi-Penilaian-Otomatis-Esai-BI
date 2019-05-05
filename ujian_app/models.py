@@ -21,6 +21,7 @@ class Akun(Base):
     nama = Column(String(50))
     username = Column(String(30), primary_key=True)
     password = Column(String(40))
+    role = Column(String(6))
 
 
 class Staftu(Base):

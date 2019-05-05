@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import DataGuru from '../../models/item_model';
 import { Modal, Form, ModalHeader, ModalBody, ModalFooter, Button, FormGroup, Col, Input, Table, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import DataKelas from '../../models/item_model';
+import DataMatapelajaran from '../../models/item_model';
+import DataPengampu from '../../models/item_model';
 
 /**
  * Modal Guru Form
@@ -12,15 +15,18 @@ interface ModalGuruFormAttribute
     strsubmit?: string;
     isOpen?: boolean;
     toggle: VoidFunction;
-    onClickSubmit: any;
-    
-    dataguru?: Partial<DataGuru>;
-    viewonly?: boolean;
+	onClickSubmit: any;
+	viewonly?: boolean;
+	
+	dataguru: Partial<DataGuru>;
+	listkelas: Array<Partial<DataKelas>>;
+	listmapel: Array<Partial<DataMatapelajaran>>;
 }
 
 interface ModalGuruState
 {
 	dataguru?: Partial<DataGuru>;
+	datapengampu?: Array<Partial<DataPengampu>>;
 }
 
 class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState>
@@ -31,32 +37,37 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 		
 	}
 
+	public tambahPengampu()
+	{
+
+	}
+
     private renderDataPribadi()
     {
         if(this.props.viewonly) return (
 			<FormGroup row>	
 				<dt className="col-sm-3 text-truncate">NIP</dt>
-				<dd className="col-sm-3"></dd>
+				<dd className="col-sm-3">{ this.props.dataguru.nip }</dd>
 				
 				<dt className="col-sm-3 text-truncate">Nama</dt>
-				<dd className="col-sm-3">Lucky Ramdani M.Pd</dd>
+				<dd className="col-sm-3">{ this.props.dataguru.namaGuru }</dd>
 				
 				<dt className="col-sm-3 text-truncate">Username</dt>
-				<dd className="col-sm-3">luckyramdani</dd> 
+				<dd className="col-sm-3">{ this.props.dataguru.username }</dd> 
 			</FormGroup>
         );
         else return (
             <FormGroup row>
                 <Col sm="3">
-                    <Input bsSize="sm" type="text" placeholder="NIP" required />
+                    <Input bsSize="sm" type="text" placeholder={ this.props.dataguru.nip } required />
                 </Col>
                 <Col sm="3">
-                    <Input bsSize="sm" type="text" placeholder="Nama Guru" required/>
+                    <Input bsSize="sm" type="text" placeholder={ this.props.dataguru.namaGuru } required/>
                 </Col>
                 <Col sm="3">
-                    <Input bsSize="sm" type="text" placeholder="Username" required/>
+                    <Input bsSize="sm" type="text" placeholder={ this.props.dataguru.username } required/>
                 </Col>
-                <Col sm="">
+                <Col sm="3">
                     <Input bsSize="sm" type="text" placeholder="Password" required/>
                 </Col>
             </FormGroup>
@@ -70,54 +81,24 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 			<Col sm="12">
 			<Table responsive size="sm">
 				<thead>
-				<tr>
-				<th>Mata Pelajaran</th>
-				<th>Kelas</th>
-				</tr>
+					<tr>
+						<th>Mata Pelajaran</th>
+						<th>Kelas</th>
+					</tr>
 				</thead>
 				<tbody>
-				<tr>
-				<td>Biologi</td>
-				<td>x-IPA1</td>
-				</tr>
-					<tr>
-				<td>Geografi</td>
-				<td>x-IPA1</td>
-					</tr>
-				<tr>
-				<td>Pendidikan Kewarganegaraan</td>
-				<td>x-IPA1</td>
-				</tr>
-				<tr>
-				<td>Pendidikan Kewarganegaraan</td>
-				<td>x-IPA2</td>
-				</tr>
-				<tr>
-				<td>Pendidikan Kewarganegaraan</td>
-				<td>x-IPA3</td>
-				</tr>
+					{
+						this.state.datapengampu.map(pengampu=>{
+							return(
+								<tr>
+									<td>{pengampu.namaMatapelajaran}</td>
+									<td>{pengampu.namaKelas}</td>
+								</tr>
+							);
+						})
+					}
 				</tbody>
-			</Table>
-			<Pagination size="sm">
-				<PaginationItem>
-				<PaginationLink previous tag="button"></PaginationLink>
-				</PaginationItem>
-				<PaginationItem active>
-				<PaginationLink tag="button">1</PaginationLink>
-				</PaginationItem>
-				<PaginationItem>
-				<PaginationLink tag="button">2</PaginationLink>
-				</PaginationItem>
-				<PaginationItem>
-				<PaginationLink tag="button">3</PaginationLink>
-				</PaginationItem>
-				<PaginationItem>
-				<PaginationLink tag="button">4</PaginationLink>
-				</PaginationItem>
-				<PaginationItem>
-				<PaginationLink next tag="button"></PaginationLink>
-				</PaginationItem>
-			</Pagination>						
+			</Table>					
 			</Col>
 			</FormGroup>
 		);
@@ -125,21 +106,21 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 			<FormGroup row>
 				<Col sm="5">
 					<Input bsSize="sm" type="select">
-					<option value="">Pilih Mata Pelajaran ...</option>
-					<option value="Biologi">Biologi</option>
-					<option value="Geografi">Geografi</option>
-					<option value="Sejarah">Sejarah</option>
-					<option value="Pendidikan Kewarganegaraan">Pendidikan Kewarganegaraan</option>
+						{ 
+							this.props.list_kelas.map(kelas=>{
+								return (
+									<option value={kelas.idkelas}>
+										{kelas.namaKelas}
+									</option>
+								);
+							})
+						}
 					</Input>
 				</Col>
 				
 				<Col sm="5">
 					<Input bsSize="sm" type="select">
-					<option value="">Pilih Kelas ...</option>
-					<option value="X-IPA1">X-IPA1</option>
-					<option value="X-IPA2">X-IPA2</option>
-					<option value="X-IPA3">X-IPA3</option>
-					<option value="X-IPA4">X-IPA4</option>
+						<option value="X-IPA1">X-IPA1</option>
 					</Input>
 				</Col>
 				
@@ -150,54 +131,38 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 				<Col sm="12">
 				<Table responsive bsSize="sm">
 					<thead>
-					<tr>
-					<th>Mata Pelajaran</th>
-					<th>Kelas</th>
-					<th>Aksi</th>
-					</tr>
+						<tr>
+							<th>Mata Pelajaran</th>
+							<th>Kelas</th>
+							<th>Aksi</th>
+						</tr>
 					</thead>
 					<tbody>
-					<tr>
-					<td>Biologi</td>
-					<td>x-IPA1</td>
-					<td><Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button></td>
-					</tr>
-						<tr>
-					<td>Geografi</td>
-					<td>x-IPA1</td>
-					<td><Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button></td>
-					</tr>
-					<tr>
-					<td>Pendidikan Kewarganegaraan</td>
-					<td>x-IPA1</td>
-					<td><Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button></td>
-					</tr>
-					<tr>
-					<td>Pendidikan Kewarganegaraan</td>
-					<td>x-IPA2</td>
-					<td><Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button></td>
-					</tr>
-					<tr>
-					<td>Pendidikan Kewarganegaraan</td>
-					<td>x-IPA3</td>
-					<td><Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button></td>
-					</tr>
+						{
+							this.state.datapengampu.map(pengampu=>{
+								return(
+									<tr>
+										<td>{pengampu.namaMatapelajaran}</td>
+										<td>{pengampu.namaKelas}</td>
+										<td>
+											<Button className="btn-youtube btn-brand icon btn-sm">
+											<i className="fa fa-trash"></i></Button>
+										</td>
+									</tr>
+								);
+							})
+						}
 					</tbody>
-				</Table>
-				<Pagination size="sm">
-					<PaginationItem>
-					<PaginationLink previous tag="button"></PaginationLink>
-					</PaginationItem>
-					<PaginationItem active>
-					<PaginationLink tag="button">1</PaginationLink>
-					</PaginationItem>
-					<PaginationItem>
-					<PaginationLink tag="button">2</PaginationLink>
-					</PaginationItem>
-				</Pagination>						
+				</Table>					
 			</Col>
 		</FormGroup>
 		);
+	}
+
+	private renderSubmitButton()
+	{
+		if(this.props.strsubmit !== undefined)
+			return(<Button color="success" type="submit">{this.props.strsubmit}</Button>);
 	}
 
     public render()
@@ -218,8 +183,8 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 					</Form>
 				</ModalBody>
 				<ModalFooter>
-					<Button color="danger" onClick={this.props.toggle}>Cancel</Button>
-					<Button color="success" type="submit">{this.props.strsubmit}</Button>
+					<Button color="danger" onClick={this.props.toggle}>Batal</Button>
+					{ this.renderSubmitButton() }
 				</ModalFooter>
 			</Modal>
         );

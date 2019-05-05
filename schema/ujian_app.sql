@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 05, 2019 at 12:19 PM
+-- Generation Time: May 05, 2019 at 03:47 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.3
 
@@ -32,6 +32,7 @@ CREATE TABLE `akun` (
 `nama` varchar(50)
 ,`username` varchar(30)
 ,`password` varchar(40)
+,`role` varchar(6)
 );
 
 -- --------------------------------------------------------
@@ -271,7 +272,7 @@ CREATE TABLE `ujian` (
 --
 DROP TABLE IF EXISTS `akun`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `akun`  AS  select `guru`.`namaGuru` AS `nama`,`guru`.`username` AS `username`,`guru`.`password` AS `password` from `guru` union all select `siswa`.`nama` AS `nama`,`siswa`.`nis` AS `username`,`siswa`.`password` AS `password` from `siswa` union all select `staftu`.`nama` AS `nama`,`staftu`.`username` AS `username`,`staftu`.`password` AS `password` from `staftu` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `akun`  AS  select `guru`.`namaGuru` AS `nama`,`guru`.`username` AS `username`,`guru`.`password` AS `password`,'guru' AS `role` from `guru` union all select `siswa`.`nama` AS `nama`,`siswa`.`nis` AS `username`,`siswa`.`password` AS `password`,'siswa' AS `role` from `siswa` union all select `staftu`.`nama` AS `nama`,`staftu`.`username` AS `username`,`staftu`.`password` AS `password`,'staftu' AS `role` from `staftu` ;
 
 --
 -- Indexes for dumped tables
