@@ -8,9 +8,9 @@ import DataKelas from '../../item_model';
 
 interface SiswaViewStateData {
 	modal: boolean;
-	primary: boolean;
+	tambah: boolean;
 	large: boolean;
-	warning : boolean;
+	edit : boolean;
 	danger : boolean;
   info: boolean;
   selected_data?:Partial<DataSiswa>;
@@ -31,9 +31,9 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
     
     this.state = {
       modal: false,
-      primary: false,
+      tambah: false,
 	    large: false,
-	    warning : false,
+	    edit : false,
 	    danger : false,
       info: false,
       
@@ -81,12 +81,12 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
   {
     if(datasiswa === undefined)
       this.setState({
-        warning: !this.state.warning,
+        edit: !this.state.edit,
       });
     
     else
       this.setState({
-        warning: !this.state.warning,
+        edit: !this.state.edit,
         selected_data: datasiswa
       });
   }
@@ -106,16 +106,16 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
   }
 
   
-  public toggleTambahSiswa() : void
+  public toggleTambahSiswa()
   {
-    this.setState({
-      large: !this.state.large,
-    });
+      this.setState({
+        tambah: !this.state.tambah,
+      });
   }
   
   toggleImportSiswa() {
     this.setState({
-      primary: !this.state.primary,
+      info: !this.state.info,
     });
   }
 
@@ -133,15 +133,15 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
 
     var data = {
       nis: fdata.get('nis'),
-      idkelas: fdata.get('iakelas'),
+      idkelas: fdata.get('idkelas'),
       nama: fdata.get('nama'),
-      password: fdata.get('password'),
+      password: fdata.get('nis'),
     };
 
     inputDatasiswa(data).then(list => {
-      this.setState({ list_siswa: list });
+      this.setState({ list_siswa: list, tambah:false });
     });
-    
+
   }
 
   // ----------- Handle Submit Edit Siswa ---------------//
@@ -157,14 +157,14 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
       var fdata = new FormData(event.target);
 
       var data = {
-      idkelas: fdata.get('iakelas'),
+      idkelas: fdata.get('idkelas'),
       nama: fdata.get('nama'),
       password: fdata.get('password'),
       };
 
       var nis = this.state.selected_data.nis;
       if(nis !== undefined) updateSiswa(nis, data).then(list => {
-        this.setState({ list_siswa: list, warning: false });
+        this.setState({ list_siswa: list, edit: false });
       });
     }
   }
@@ -187,49 +187,124 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
 
     }
   }
+  
+  renderModalTambah(){
+    {
+      var list_kelas = this.state.list_kelas;
+  
+      if(list_kelas === undefined)
+        list_kelas = [];
+  
+      return (  
+  <Modal isOpen={this.state.tambah} toggle={this.toggleTambahSiswa} className={'modal-success ' + this.props.className}>
+    <Form onSubmit={this.tambahSiswa} className="form-horizontal">
+        <ModalHeader toggle={this.toggleTambahSiswa}>Tambah Siswa</ModalHeader>
+        
+        <ModalBody>
+            <FormGroup row>
+            
+            <Col sm="12">
+              <p><Input  
+                  type="text" 
+                  placeholder="NIS" 
+                  name="nis"
+                  required/>
+              </p>
+              </Col>
+
+              <Col sm="12">
+              <p><Input  
+                  type="text" 
+                  placeholder="Nama Siswa" 
+                  name="nama"
+                  required/>
+              </p>
+              </Col>
+              
+              <Col sm="12">
+              <p>
+                <Input type="select" name="idkelas">
+                  { 
+                    list_kelas.map(kelas => {
+                      return (<option value={ kelas.idkelas }>{ kelas.namaKelas }</option>)
+                    })
+                  }
+                </Input>
+              </p>
+              </Col>
+
+              
+            </FormGroup>
+          </ModalBody>
+         
+          <ModalFooter>
+            <Button color="danger" onClick= {(e:any) => this.toggleTambahSiswa() }>Cancel</Button>
+            <Button color="success" type="submit">Tambah</Button>
+          </ModalFooter>
+         
+        </Form>
+      </Modal>
+
+      );
+  }
+}
 
   renderModalEdit()
   {
     var list_kelas = this.state.list_kelas;
+    var datasiswa = this.state.selected_data;
 
-    if(list_kelas === undefined)
-      list_kelas = [];
+    if(list_kelas === undefined) return;
 
+    var nama = '';
+    var idkelas = '';
+    var namaKelas = '';
+    
+    if(datasiswa !== undefined) 
+    {
+      nama = datasiswa.nama || '';
+      idkelas = datasiswa.idkelas || '';
+      let kelas = datasiswa.kelas;
+      if(kelas !== undefined) namaKelas = kelas.namaKelas || '';
+    }
+    
     return (
-      <Modal isOpen={this.state.warning} toggle={this.toggleUpdateSiswa} className={'modal-warning modal-md' + this.props.className}>
+      <Modal isOpen={this.state.edit} toggle={this.toggleUpdateSiswa} className={'modal-warning modal-md' + this.props.className}>
       <Form onSubmit={this.editSiswa} className="form-horizontal">
         <ModalHeader toggle={this.toggleUpdateSiswa}>Update Siswa</ModalHeader>
         <ModalBody>
      
           <FormGroup row>
-            
-            <Col sm="12">
-            <p><Input  
-                type="text" 
-                placeholder="Nama Siswa" 
-                name="nama"
-                required/>
-            </p>
-            </Col>
-            
-            <Col sm="12">
-            <p>
-              <select name="idkelas">
-                { 
-                  list_kelas.map(kelas => {
-                    <option value={ kelas.idkelas }>{ kelas.namaKelas }</option>
-                  })
-                }
-              </select>
-            </p>
-            </Col>
+        
+          <Col sm="12">
+          <p><Input  
+              type="text" 
+              placeholder={nama} 
+              name="nama"
+              required/>
+          </p>
+          </Col>
+          
+          <Col sm="12">
+          <p>
+            <Input type="select" name="idkelas" >
+              <option value={ idkelas } selected>{ namaKelas }</option>
+              { 
+                list_kelas.map(kelas => {
+                  return (<option value={ kelas.idkelas }>{ kelas.namaKelas }</option>)
+                })
+              }
+            </Input>
+          </p>
+          </Col>
 
-            <Col sm="12">
-            <p><Input  type="text" 
-            placeholder="Password" 
-            name="password"
-            required/></p>
-            </Col>
+          <Col sm="12">
+          <p><Input  type="text" 
+          placeholder="Password" 
+          name="password"
+          required/></p>
+          </Col>
+
             </FormGroup>
           </ModalBody>		  
           
@@ -265,7 +340,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
       </Form>
     </Modal>
 
-    )
+    );
   }
     render() 
     {
@@ -291,7 +366,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
               <CardBody>
 
 				      <Button size="sm" onClick={this.toggleImportSiswa} className="btn-twitter btn-brand mr-1 mb-1 "><i className="fa fa-upload"></i><span>Import Data Siswa</span></Button>
-				      <Modal isOpen={this.state.primary} toggle={this.toggleImportSiswa}
+				      <Modal isOpen={this.state.large} toggle={this.toggleImportSiswa}
                        className={'modal-primary ' + this.props.className}>
                   <ModalHeader toggle={this.toggleImportSiswa}>Import Data Siswa</ModalHeader>
                   <ModalBody>
@@ -308,51 +383,13 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
                     <Button color="success" onClick={this.toggleImportSiswa}>Import</Button>{' '}
                   </ModalFooter>
                 </Modal>
-				
-				<Button size="sm" onClick={this.toggleTambahSiswa} className="btn-vine btn-brand mr-1 mb-1 "><i className="fa fa-plus"></i><span>Tambah Siswa</span></Button>
-				<Modal isOpen={this.state.large} toggle={this.toggleTambahSiswa}
-                       className={'modal-success ' + this.props.className}>
-                  <ModalHeader toggle={this.toggleTambahSiswa}>Tambah Siswa</ModalHeader>
-                  <ModalBody>
-                    <Form action="" method="post" className="form-horizontal">
-					
-					  <FormGroup row>
-						<Col sm="12">
-						  <p><Input  type="text" placeholder="NIS" required /></p>
-						</Col>
-						<Col sm="12">
-						  <p><Input  type="text" placeholder="Nama Siswa" required/></p>
-						</Col>
-						<Col sm="12">
-						  <p><Input  type="select">
-							<option value="">Pilih Kelas ...</option>
-							<option value="X-IPA1">X-IPA1</option>
-							<option value="X-IPA2">X-IPA2</option>
-							<option value="X-IPA3">X-IPA3</option>
-							<option value="X-IPA4">X-IPA4</option>
-						  </Input></p>
-						</Col>
-						<Col sm="12">
-						  <p><Input  type="text" placeholder="Username" required/></p>
-						</Col>
-						<Col sm="12">
-						  <p><Input  type="text" placeholder="Password" required/></p>
-						</Col>
-					  </FormGroup>
-					  
-					  
-					</Form>
-                  </ModalBody>
-                  <ModalFooter>
-				    <Button color="danger" onClick={this.toggleTambahSiswa}>Cancel</Button>
-                    <Button color="success" onClick={this.toggleTambahSiswa}>Tambah</Button>{' '}
-                  </ModalFooter>
-                </Modal>
-
+				 
+                { this.renderModalTambah() }
                 { this.renderModalEdit() }
-
                 { this.renderModalDelete() }              
 
+			          <Button size="sm" onClick={this.toggleTambahSiswa} className="btn-vine btn-brand mr-1 mb-1 "><i className="fa fa-plus"></i><span>Tambah Siswa</span></Button>
+      
                 <Table responsive size="sm">
                   <thead>
                     <tr>
@@ -372,7 +409,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
                         <td>{siswa.nis}</td>
                         <td>{siswa.nama}</td>
 					              <td>{siswa.kelas.namaKelas}</td>
-                        <td>{siswa.username}</td>
+                        <td>{siswa.nis}</td>
 					              <td>
                           <Button className="btn-stack-overflow btn-brand icon btn-sm" 
                             onClick={ (e:any) => this.toggleUpdateSiswa(siswa) }>
@@ -390,27 +427,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
                   }			
                   </tbody>
                 </Table>
-                <Pagination size="sm">
-                  <PaginationItem>
-                    <PaginationLink previous tag="button"></PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem active>
-                    <PaginationLink tag="button">1</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink tag="button">2</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink tag="button">3</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink tag="button">4</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink next tag="button"></PaginationLink>
-                  </PaginationItem>
-                </Pagination>
-              </CardBody>
+               </CardBody>
             </Card>
           </Col>
         </Row>
@@ -419,5 +436,4 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
     );
   }
 }
-
 export default Siswa;

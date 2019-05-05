@@ -7,8 +7,8 @@ class SiswaAPI(MethodView):
     
     def __init__(self):
         self.repository = SiswaRepository()
-
-    def get(self):
+    
+    def _getAllData(self):
         list_siswa = self.repository.findAll()
 
         lres_siswa = []
@@ -21,7 +21,12 @@ class SiswaAPI(MethodView):
             rsiswa['kelas']['namaKelas'] = siswa.kelas.namaKelas
             lres_siswa.append(rsiswa)
 
-        return json.dumps({'list': lres_siswa }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
+        return lres_siswa        
+
+    def get(self):
+        list_siswa = self._getAllData()
+
+        return json.dumps({'list': list_siswa }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
 
     def post(self):
         data_siswa = request.get_json()
@@ -31,7 +36,7 @@ class SiswaAPI(MethodView):
         password = data_siswa['password']
         self.repository.save(nis=nis, idkelas=idkelas, nama=nama, password=password)
 
-        list_siswa = self.repository.findAll()
+        list_siswa = self._getAllData()
         return json.dumps({'list': list_siswa }, cls=AlchemyEncoder), 201, {'Content-Type': 'application/json'}
     
     def put(self, nis):
@@ -41,11 +46,11 @@ class SiswaAPI(MethodView):
         password = data_siswa['password']
         self.repository.update(nis, idkelas=idkelas, nama=nama, password=password)
 
-        list_siswa = self.repository.findAll()
+        list_siswa = self._getAllData()
         return json.dumps({'list': list_siswa }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
     
     def delete(self, nis):
         self.repository.delete(nis)
 
-        list_siswa = self.repository.findAll()
+        list_siswa = self._getAllData()
         return json.dumps({'list': list_siswa }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}

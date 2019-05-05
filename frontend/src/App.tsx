@@ -13,7 +13,10 @@ import API from './ApiResource';
 /**
  * Deklarasi Komponen
  */
-const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
+const loading = () => 
+<div className="spinner-border spinner-lg text-success text-center" role="status">
+  <span className="sr-only">Loading...</span>
+</div>;
 
 const Login = Loadable({
   loader: () => import('./page_views/Login/Login'),

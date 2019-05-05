@@ -27,7 +27,7 @@ class ModalForm extends PureComponent<ModalFormAttribute>
                     <ModalHeader toggle={ this.props.toggle }>{ this.props.header }</ModalHeader>
                     <ModalBody>{ this.props.children }</ModalBody>
                     <ModalFooter>
-                        <Button color="warning" onClick={ this.props.toggle }>Batal</Button>
+                        <Button color="danger" onClick={ this.props.toggle }>Batal</Button>
                         <Button color="success" type="submit">{this.props.strsubmit}</Button>
                     </ModalFooter>
                 </Form>

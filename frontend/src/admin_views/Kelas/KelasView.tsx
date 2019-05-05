@@ -149,7 +149,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
         onClickSubmit={ this.editKelas }>
         <FormGroup row>
           <Col sm="12">
-            <Input type="text" placeholder="Nama Kelas"
+            <Input type="text" placeholder={namaKelas}
               name="namaKelas" required />
           </Col>
         </FormGroup>
@@ -181,7 +181,11 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
     var list_kelas = this.state.list_kelas;
 
     if(this.state.isLoading)
-      return (<h3>Loading Data...</h3>);
+      return (<div className="d-flex justify-content-center">
+                <div className="spinner-border text-success" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div>
+              </div>);
   
     return (
       <LayoutCard>
