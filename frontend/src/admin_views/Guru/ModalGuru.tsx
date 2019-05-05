@@ -18,14 +18,25 @@ interface ModalGuruFormAttribute
     viewonly?: boolean;
 }
 
-class ModalGuruForm extends PureComponent<ModalGuruFormAttribute>
+interface ModalGuruState
 {
+	dataguru?: Partial<DataGuru>;
+}
+
+class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState>
+{
+	constructor(props: ModalGuruFormAttribute)
+	{
+		super(props);
+		
+	}
+
     private renderDataPribadi()
     {
         if(this.props.viewonly) return (
 			<FormGroup row>	
 				<dt className="col-sm-3 text-truncate">NIP</dt>
-				<dd className="col-sm-3">93120001</dd>
+				<dd className="col-sm-3"></dd>
 				
 				<dt className="col-sm-3 text-truncate">Nama</dt>
 				<dd className="col-sm-3">Lucky Ramdani M.Pd</dd>

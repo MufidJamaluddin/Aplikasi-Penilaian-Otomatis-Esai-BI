@@ -45,7 +45,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
     this.deleteKelas = this.deleteKelas.bind(this);
   }
 
-  componentWillMount()
+  componentDidMount()
   {
     initDatakelas().then(list => {
       this.setState({ list_kelas: list, isLoading: false });

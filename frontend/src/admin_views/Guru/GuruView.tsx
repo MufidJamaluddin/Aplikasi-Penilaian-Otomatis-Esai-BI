@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import DataGuru from '../../models/item_model';
-import { Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table, Button,Form, FormGroup, Input, InputGroup, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import DataMatapelajaran from '../../models/item_model';
+import DataKelas from '../../models/item_model';
+import { CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table, Button,Form, FormGroup, Input, InputGroup, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { ModalForm, LayoutCard } from '../../layout';
 import ModalGuruForm from './ModalGuru';
+import { initDataGuru, inputDataGuru, updateDataGuru, hapusDataGuru } from '../../models/GuruData';
+import { initDatakelas } from '../../models/KelasData';
+import { initDataMatapelajaran } from '../../models/MatapelajaranData';
 
 /**
  * Guru View
@@ -19,6 +24,8 @@ interface GuruStateModel {
 	modal: Partial<ModalState>;
 	selected_data?: Partial<DataGuru>;
 	list_guru: Array<Partial<DataGuru>>;
+	list_mapel: Array<Partial<DataMatapelajaran>>;
+	list_kelas: Array<Partial<DataKelas>>;
 };
 
 interface GuruModel { className:string; }
@@ -31,7 +38,9 @@ class Guru extends Component<GuruModel, GuruStateModel>
 		
     this.state = {
       modal: { },
-			list_guru: []
+			list_guru: [],
+			list_mapel: [],
+			list_kelas: []
     };
 
 		this.toggleImportGuru = this.toggleImportGuru.bind(this);
@@ -39,7 +48,24 @@ class Guru extends Component<GuruModel, GuruStateModel>
 		this.toggleUpdateGuru = this.toggleUpdateGuru.bind(this);
 		this.toggleDeleteGuru = this.toggleDeleteGuru.bind(this);
 		this.toggleDetailGuru = this.toggleDetailGuru.bind(this);
-  }
+	}
+	
+	// --------------------------- INIT DATA ------------------------------------------//
+
+	public componentDidMount()
+	{
+		initDataGuru().then(list => {
+			this.setState({ list_guru: list });
+		});
+
+		initDataMatapelajaran().then(list => {
+			this.setState({ list_mapel: list });
+		});
+
+		initDatakelas().then(list => {
+			this.setState({ list_kelas: list });
+		});
+	}
 
 	//----------------------------- TOGGLE --------------------------------------------//
  	public toggleTambahGuru() : void 
@@ -48,22 +74,34 @@ class Guru extends Component<GuruModel, GuruStateModel>
     this.setState({ modal: { tambah: !state } });
   }
   
- 	public toggleUpdateGuru() : void
+ 	public toggleUpdateGuru(dataguru?: Partial<DataGuru>) : void
  	{
 		var state = this.state.modal.update || false;
-    this.setState({ modal: { update: !state } });
+
+		if(dataguru === undefined) 
+			this.setState({ modal: { update: !state } });
+		else 
+			this.setState({ modal: { update: !state }, selected_data: dataguru });
   }
   
-	public toggleDeleteGuru() : void
+	public toggleDeleteGuru(dataguru?: Partial<DataGuru>) : void
 	{
 		var state = this.state.modal.delete || false;
-    this.setState({ modal: { delete: !state } });
+
+		if(dataguru === undefined) 
+			this.setState({ modal: { delete: !state } });
+		else
+			this.setState({ modal: { delete: !state }, selected_data: dataguru });
   }
 
-	public toggleDetailGuru() : void
+	public toggleDetailGuru(dataguru?: Partial<DataGuru>) : void
 	{
 		var state = this.state.modal.detail || false;
-    this.setState({ modal: { detail: !state } });
+
+		if(dataguru === undefined)
+			this.setState({ modal: { detail: !state } });
+		else
+			this.setState({ modal: { detail: !state }, selected_data: dataguru });
   }
 
 	public toggleImportGuru() : void
@@ -73,11 +111,35 @@ class Guru extends Component<GuruModel, GuruStateModel>
 	}
 	// --------------------------------- HANDLE UI -----------------------------------//
 
-	importDataGuru(event:any) { }
-	tambahDataGuru(event:any) { }
-	updateDataGuru(event:any) { }
-	deleteDataGuru(event:any) { }
-	detailDataGuru(event:any) { }
+	importDataGuru(event:any) 
+	{ 
+		event.preventDefault();
+
+	}
+
+	tambahDataGuru(event:any) 
+	{ 
+    event.preventDefault();
+
+	}
+
+	updateDataGuru(event:any) 
+	{ 
+		event.preventDefault();
+
+	}
+
+	deleteDataGuru(event:any) 
+	{ 
+		event.preventDefault();
+
+	}
+
+	detailDataGuru(event:any) 
+	{ 
+		event.preventDefault();
+
+	}
 
 	//---------------------------------- RENDER --------------------------------------//
 
@@ -158,6 +220,15 @@ class Guru extends Component<GuruModel, GuruStateModel>
 
 	public render() : JSX.Element
 	{
+		if(this.state.list_guru == undefined)      
+			return (
+				<div className="d-flex justify-content-center">
+					<div className="spinner-border text-success" role="status">
+						<span className="sr-only">Loading...</span>
+					</div>
+				</div>
+			);
+
     return (
       <LayoutCard>
 				<CardHeader>
@@ -180,89 +251,32 @@ class Guru extends Component<GuruModel, GuruStateModel>
             <thead>
 							<tr>
 								<th>NIP</th>
+								<th>NUPTK</th>
 								<th>Nama Guru</th>
 								<th>Username</th>
-								<th>Password</th>
 								<th>Aksi</th>
 							</tr>
 							</thead>
 							<tbody>
-							<tr>
-								<td>93120001</td>
-								<td>Lucky Ramdani M.Pd</td>
-								<td>luckyramdani</td>
-								<td>luckyramdani</td>
-								<td>
-									<Button onClick={this.toggleDetailGuru} className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
-									<Button className="btn-stack-overflow btn-brand icon btn-sm" onClick={this.toggleUpdateGuru}><i className="fa fa-pencil"></i></Button>
-								<Button className="btn-youtube btn-brand icon btn-sm" onClick={this.toggleDeleteGuru}><i className="fa fa-trash"></i></Button>
-							</td>
-            </tr>
-            <tr>
-              <td>93120001</td>
-              <td>Lucky Ramdani M.Pd</td>
-              <td>luckyramdani</td>
-							<td>luckyramdani</td>
-							<td>
-								<Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
-								<Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
-								<Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
-							</td>
-            </tr>
-						<tr>
-              <td>93120001</td>
-              <td>Lucky Ramdani M.Pd</td>
-              <td>luckyramdani</td>
-							<td>luckyramdani</td>
-						<td>
-						<Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
-						<Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
-						<Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
-					</td>
-                  </tr><tr>
-                    <td>93120001</td>
-                    <td>Lucky Ramdani M.Pd</td>
-                    <td>luckyramdani</td>
-					<td>luckyramdani</td>
-					<td>
-						<Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
-						<Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
-						<Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
-					</td>
-                  </tr><tr>
-                    <td>93120001</td>
-                    <td>Lucky Ramdani M.Pd</td>
-                    <td>luckyramdani</td>
-					<td>luckyramdani</td>
-					<td>
-						<Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
-						<Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
-						<Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
-					</td>
-                  </tr>
-                  </tbody>
-                </Table>
-                <Pagination size="sm">
-                  <PaginationItem>
-                    <PaginationLink previous tag="button"></PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem active>
-                    <PaginationLink tag="button">1</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink tag="button">2</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink tag="button">3</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink tag="button">4</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink next tag="button"></PaginationLink>
-                  </PaginationItem>
-                </Pagination>
-              </CardBody>
+								{
+									this.state.list_guru.map(guru => {
+										return(
+											<tr>
+												<td>{ guru.nip || '' }</td>
+												<td>{ guru.nuptk || '' }</td>
+												<td>{ guru.username || ''}</td>
+												<td>
+													<Button onClick={(e:any) => this.toggleDetailGuru(guru)} className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
+													<Button className="btn-stack-overflow btn-brand icon btn-sm" onClick={(e:any) => this.toggleUpdateGuru(guru)}><i className="fa fa-pencil"></i></Button>
+													<Button className="btn-youtube btn-brand icon btn-sm" onClick={(e:any) => this.toggleDeleteGuru(guru)}><i className="fa fa-trash"></i></Button>
+												</td>
+											</tr>
+										)
+									})
+								}
+            	</tbody>
+          	</Table>
+        </CardBody>
       </LayoutCard>
     );
   }

@@ -1,5 +1,5 @@
 # coding: utf-8
-from sqlalchemy import CHAR, Column, Date, Float, ForeignKey, ForeignKeyConstraint, Index, Integer, SmallInteger, String, Table, Text, Time
+from sqlalchemy import Column, Date, Float, ForeignKey, ForeignKeyConstraint, Index, Integer, SmallInteger, String, Table, Text, Time
 from sqlalchemy.orm import relationship
 
 # Dev Command: 
@@ -11,7 +11,30 @@ from . import db
 Base = db.Model
 metadata = Base.metadata
 
-class Daftarnilaiujian(Base):
+
+class Akun(Base):
+    '''
+    Akun dari pengguna aplikasi ini
+    '''
+    __tablename__ = 'akun'
+
+    nama = Column(String(50))
+    username = Column(String(30), primary_key=True)
+    password = Column(String(40))
+
+
+class Staftu(Base):
+    '''
+    Akun dari Staf Tata Usaha
+    '''
+    __tablename__ = 'staftu'
+
+    nama = Column(String(50), nullable=False)
+    username = Column(String(30), primary_key=True)
+    password = Column(String(40), nullable=False)
+
+
+class DaftarNilaiUjian(Base):
     __tablename__ = 'daftarnilaiujian'
 
     nis = Column(ForeignKey('siswa.nis'), primary_key=True, nullable=False)
@@ -38,6 +61,17 @@ class Fiturreferensipenilaian(Base):
 
     jawaban = relationship('Jawaban', lazy='noload')
     term1 = relationship('Term', lazy='joined')
+
+
+class FiturObjekPenilaian(Base):
+    __tablename__ = 'tfiturobjekpenilaian'
+
+    idjawaban = Column(Integer, primary_key=True, nullable=False)
+    skorHuruf = Column(String(1))
+    term = Column(String(50), primary_key=True, nullable=False)
+    idsoal = Column(Integer, primary_key=True, nullable=False)
+    tf = Column(Float)
+    ntf_rf = Column(Float)
 
 
 class Guru(Base):
