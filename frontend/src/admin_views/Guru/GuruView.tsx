@@ -26,6 +26,7 @@ interface GuruStateModel {
 	list_guru: Array<Partial<DataGuru>>;
 	list_mapel: Array<Partial<DataMatapelajaran>>;
 	list_kelas: Array<Partial<DataKelas>>;
+	isLoading: boolean;
 };
 
 interface GuruModel { className:string; }
@@ -40,7 +41,8 @@ class Guru extends Component<GuruModel, GuruStateModel>
       modal: { },
 			list_guru: [],
 			list_mapel: [],
-			list_kelas: []
+			list_kelas: [],
+			isLoading: true
     };
 
 		this.toggleImportGuru = this.toggleImportGuru.bind(this);
@@ -54,16 +56,16 @@ class Guru extends Component<GuruModel, GuruStateModel>
 
 	public componentDidMount()
 	{
-		initDataGuru().then(list => {
-			this.setState({ list_guru: list });
-		});
-
 		initDataMatapelajaran().then(list => {
 			this.setState({ list_mapel: list });
 		});
 
 		initDatakelas().then(list => {
 			this.setState({ list_kelas: list });
+		});
+
+		initDataGuru().then(list => {
+			this.setState({ list_guru: list, isLoading:false });
 		});
 	}
 
@@ -74,7 +76,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
     this.setState({ modal: { tambah: !state } });
   }
   
- 	public toggleUpdateGuru(dataguru?: Partial<DataGuru>) : void
+ 	public toggleUpdateGuru(dataguru?: Partial<DataGuru>) 
  	{
 		var state = this.state.modal.update || false;
 
@@ -84,7 +86,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
 			this.setState({ modal: { update: !state }, selected_data: dataguru });
   }
   
-	public toggleDeleteGuru(dataguru?: Partial<DataGuru>) : void
+	public toggleDeleteGuru(dataguru?: Partial<DataGuru>) 
 	{
 		var state = this.state.modal.delete || false;
 
@@ -94,7 +96,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
 			this.setState({ modal: { delete: !state }, selected_data: dataguru });
   }
 
-	public toggleDetailGuru(dataguru?: Partial<DataGuru>) : void
+	public toggleDetailGuru(dataguru?: Partial<DataGuru>) 
 	{
 		var state = this.state.modal.detail || false;
 
@@ -104,7 +106,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
 			this.setState({ modal: { detail: !state }, selected_data: dataguru });
   }
 
-	public toggleImportGuru() : void
+	public toggleImportGuru()
 	{
 		var state = this.state.modal.import || false;
     this.setState({ modal: { import: !state } });
@@ -167,22 +169,19 @@ class Guru extends Component<GuruModel, GuruStateModel>
 
 	public renderModalTambahGuru()
 	{
-		var dataguru = this.state.selected_data;
 		var listkelas = this.state.list_kelas;
 		var listmapel = this.state.list_mapel;
-
-		if(dataguru === undefined) return;
 
 		return (
 			<ModalGuruForm
 				className={'modal-info modal-lg ' + this.props.className}
 				header="Tambah Data Guru"
 				strsubmit="Tambah"
-				isOpen={this.state.modal.update}
-				toggle={this.toggleUpdateGuru}
-				onClickSubmit={this.updateDataGuru}
-				viewonly={true}
-				dataguru={dataguru}
+				isOpen={this.state.modal.tambah}
+				toggle={this.toggleTambahGuru}
+				onClickSubmit={this.tambahDataGuru}
+				viewonly={false}
+				dataguru={undefined}
 				listkelas={listkelas}
 				listmapel={listmapel}
 				>
@@ -202,9 +201,9 @@ class Guru extends Component<GuruModel, GuruStateModel>
 			<ModalGuruForm
 				className={'modal-info modal-lg ' + this.props.className}
 				header="Edit Data Guru"
-				isOpen={this.state.modal.update}
-				toggle={this.toggleUpdateGuru}
-				onClickSubmit={this.updateDataGuru}
+				isOpen={this.state.modal.detail}
+				toggle={this.toggleDetailGuru}
+				onClickSubmit={this.detailDataGuru}
 				viewonly={true}
 				dataguru={dataguru}
 				listkelas={listkelas}
@@ -240,6 +239,10 @@ class Guru extends Component<GuruModel, GuruStateModel>
 
 	renderModalDeleteGuru()
 	{
+		var dataguru = this.state.selected_data;
+
+		if(dataguru === undefined) return;
+
 		return (
 			<ModalForm
 				className={'modal-danger modal-lg ' + this.props.className}
@@ -248,14 +251,14 @@ class Guru extends Component<GuruModel, GuruStateModel>
 				isOpen={this.state.modal.delete}
 				toggle={this.toggleDeleteGuru}
 				onClickSubmit={this.deleteDataGuru}>
-				<p>Apakah anda yakin ingin menghapus <b>Lucky Ramdani M.Pd</b> dari data guru ?</p>
+				<p>Apakah anda yakin ingin menghapus <b>{dataguru.namaGuru ||''}</b> dari data guru ?</p>
 			</ModalForm>
 		);
 	}
 
 	public render() : JSX.Element
 	{
-		if(this.state.list_guru == undefined)      
+		if(this.state.isLoading)      
 			return (
 				<div className="d-flex justify-content-center">
 					<div className="spinner-border text-success" role="status">
@@ -276,12 +279,18 @@ class Guru extends Component<GuruModel, GuruStateModel>
 				</CardHeader>
 				<CardBody>
 				
-					{ this.renderModalImport }
+					{ this.renderModalImport() }
 					<Button size="sm" onClick={this.toggleImportGuru} className="btn-twitter btn-brand mr-1 mb-1 "><i className="fa fa-upload"></i><span>Import Data Guru</span></Button>
 					
-					{ this.renderModalTambahGuru }
+					{ this.renderModalTambahGuru() }
 					<Button size="sm" onClick={this.toggleTambahGuru} className="btn-vine btn-brand mr-1 mb-1 "><i className="fa fa-plus"></i><span>Tambah Guru</span></Button>				  
 					
+					{ this.renderModalUpdateGuru() }
+
+					{ this.renderModalDetailGuru() }
+
+					{ this.renderModalDeleteGuru() }
+
 					<Table responsive size="sm">
             <thead>
 							<tr>
@@ -299,6 +308,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
 											<tr>
 												<td>{ guru.nip || '' }</td>
 												<td>{ guru.nuptk || '' }</td>
+												<td>{ guru.namaGuru || '' }</td>
 												<td>{ guru.username || ''}</td>
 												<td>
 													<Button onClick={(e:any) => this.toggleDetailGuru(guru)} className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>

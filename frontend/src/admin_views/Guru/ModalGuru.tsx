@@ -18,7 +18,7 @@ interface ModalGuruFormAttribute
 	onClickSubmit: any;
 	viewonly?: boolean;
 	
-	dataguru: Partial<DataGuru>;
+	dataguru?: Partial<DataGuru>;
 	listkelas: Array<Partial<DataKelas>>;
 	listmapel: Array<Partial<DataMatapelajaran>>;
 }
@@ -26,7 +26,7 @@ interface ModalGuruFormAttribute
 interface ModalGuruState
 {
 	dataguru?: Partial<DataGuru>;
-	datapengampu?: Array<Partial<DataPengampu>>;
+	listpengampu: Array<Partial<DataPengampu>>;
 }
 
 class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState>
@@ -34,7 +34,7 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 	constructor(props: ModalGuruFormAttribute)
 	{
 		super(props);
-		
+		this.state = { dataguru: props.dataguru, listpengampu: [] }
 	}
 
 	public tambahPengampu()
@@ -44,28 +44,30 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 
     private renderDataPribadi()
     {
+		var dataguru = this.props.dataguru || {};
+
         if(this.props.viewonly) return (
 			<FormGroup row>	
 				<dt className="col-sm-3 text-truncate">NIP</dt>
-				<dd className="col-sm-3">{ this.props.dataguru.nip }</dd>
+				<dd className="col-sm-3">{ dataguru.nip || ''}</dd>
 				
 				<dt className="col-sm-3 text-truncate">Nama</dt>
-				<dd className="col-sm-3">{ this.props.dataguru.namaGuru }</dd>
+				<dd className="col-sm-3">{ dataguru.namaGuru || '' }</dd>
 				
 				<dt className="col-sm-3 text-truncate">Username</dt>
-				<dd className="col-sm-3">{ this.props.dataguru.username }</dd> 
+				<dd className="col-sm-3">{ dataguru.username || '' }</dd> 
 			</FormGroup>
         );
         else return (
             <FormGroup row>
                 <Col sm="3">
-                    <Input bsSize="sm" type="text" placeholder={ this.props.dataguru.nip } required />
+                    <Input bsSize="sm" type="text" placeholder={ dataguru.nip || '' } required />
                 </Col>
                 <Col sm="3">
-                    <Input bsSize="sm" type="text" placeholder={ this.props.dataguru.namaGuru } required/>
+                    <Input bsSize="sm" type="text" placeholder={ dataguru.namaGuru||'' } required/>
                 </Col>
                 <Col sm="3">
-                    <Input bsSize="sm" type="text" placeholder={ this.props.dataguru.username } required/>
+                    <Input bsSize="sm" type="text" placeholder={ dataguru.username||'' } required/>
                 </Col>
                 <Col sm="3">
                     <Input bsSize="sm" type="text" placeholder="Password" required/>
@@ -76,6 +78,9 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 	
 	private renderDataMengajar()
 	{
+
+		var listpengampu = this.state.listpengampu || [];
+
 		if(this.props.viewonly) return (
 			<FormGroup row>
 			<Col sm="12">
@@ -88,7 +93,7 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 				</thead>
 				<tbody>
 					{
-						this.state.datapengampu.map(pengampu=>{
+						listpengampu.map(pengampu=>{
 							return(
 								<tr>
 									<td>{pengampu.namaMatapelajaran}</td>
@@ -107,7 +112,7 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 				<Col sm="5">
 					<Input bsSize="sm" type="select">
 						{ 
-							this.props.list_kelas.map(kelas=>{
+							this.props.listkelas.map(kelas=>{
 								return (
 									<option value={kelas.idkelas}>
 										{kelas.namaKelas}
@@ -139,7 +144,7 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 					</thead>
 					<tbody>
 						{
-							this.state.datapengampu.map(pengampu=>{
+							listpengampu.map(pengampu=>{
 								return(
 									<tr>
 										<td>{pengampu.namaMatapelajaran}</td>
