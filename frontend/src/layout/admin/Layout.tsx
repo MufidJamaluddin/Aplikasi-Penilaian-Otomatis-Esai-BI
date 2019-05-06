@@ -39,6 +39,8 @@ interface AdminLayoutModel
     admin_routes: Array<RouteConfigItem>;
     admin_nav: SidebarNavConfig;
     redirect_root_to: string;
+    onLogout: any;
+    nama: string;
 }
 
 /**
@@ -52,12 +54,6 @@ class Layout extends Component<RouteComponentProps<any> & AdminLayoutModel>
     return(
       <div className="animated fadeIn pt-1 text-center">Loading...</div>
     );
-  } 
-
-  public signOut(e: Event) : void
-  {
-    e.preventDefault()
-    this.props.history.push('/login')
   }
 
   public render() : JSX.Element 
@@ -68,7 +64,7 @@ class Layout extends Component<RouteComponentProps<any> & AdminLayoutModel>
         {/* HEADER */}
         <Template.AppHeader fixed>
           <Suspense  fallback={this.loading()}>
-            <Header onLogout={(e: any)=>this.signOut(e)}/>
+            <Header nama={this.props.nama} onLogout={this.props.onLogout} />
           </Suspense>
         </Template.AppHeader>
 

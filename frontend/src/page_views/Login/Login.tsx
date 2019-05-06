@@ -3,50 +3,14 @@ import { Link } from 'react-router-dom';
 import { Alert, Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 import API from '../../models/api';
 
-interface LoginState { role:string, pesan?:string }
+interface LoginAttribute { pesan?:string; onLoginSubmit:any; }
 
-class Login extends PureComponent<{}, LoginState> 
+class Login extends PureComponent<LoginAttribute> 
 {
-  constructor(props:any)
-  {
-    super(props);
-
-    this.state = {role:''};
-    
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  onSubmit(event:any)
-  {
-    event.preventDefault();
-
-    var fdata = new FormData(event.target);
-    var data = {
-      username: fdata.get('username'),
-      password: fdata.get('password')
-    };
-
-    API<LoginState>('api/auth',{ 
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data)
-    }).then((response)=>{
-      console.log(response);
-      if(response.pesan)
-      {
-        this.setState({role: response.role, pesan: response.pesan });
-      }
-      else
-      {
-        window.location.reload;
-      }
-    });
-  }
-
   renderPesan()
   {
-    if(this.state.pesan)
-      return (<Alert color='danger' isOpen={true}>{this.state.pesan}</Alert>)
+    if(this.props.pesan)
+      return (<Alert color='danger' isOpen={true}>{this.props.pesan}</Alert>)
   }
 
   render() 
@@ -62,7 +26,7 @@ class Login extends PureComponent<{}, LoginState>
                     
                     { this.renderPesan() }
 
-                    <Form onSubmit={this.onSubmit}>
+                    <Form onSubmit={this.props.onLoginSubmit}>
                       <h1>Login</h1>
                       <p className="text-muted">Penilaian Otomatis Ujian Esai Berbahasa Indonesia</p>
                       <InputGroup className="mb-3">

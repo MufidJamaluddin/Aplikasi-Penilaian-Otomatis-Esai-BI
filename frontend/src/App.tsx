@@ -41,7 +41,16 @@ const Gantipassword = Loadable({
 /**
  * Aplikasi
  */
-interface AppModel { role: string; }
+interface AppModel { 
+  role: string; 
+  unchecked_role: boolean; 
+  pesan_login?:string; 
+  auth:boolean; 
+  username?:string;
+  nama?:string;
+}
+
+interface LoginResponse { role:string; pesan?:string; nama:string; username:string; }
 
 class App extends Component<{}, AppModel>
 {
@@ -53,9 +62,15 @@ class App extends Component<{}, AppModel>
   constructor(props: any)
   {
     super(props);
+
     this.state = {
-      role: ''
+      role: '',
+      unchecked_role: true,
+      auth: false
     };
+
+    this.onLoginSubmit = this.onLoginSubmit.bind(this);
+    this.onLogout = this.onLogout.bind(this);
   }
 
   /**
@@ -66,14 +81,77 @@ class App extends Component<{}, AppModel>
     let url = '/api/auth';
     
     API<AppModel>(url).then(value => {
-      this.setState({ role: value.role });
+      var auth = value.role === 'guru' || value.role === 'siswa' || value.role === 'staftu';
+      this.setState({ 
+        role: value.role, 
+        unchecked_role:false, 
+        auth: auth, 
+        nama: value.nama,
+        username: value.username
+      });
+    });
+  }
+
+
+  /**
+   * Handle Login
+   */
+  onLoginSubmit(event:any)
+  {
+    event.preventDefault();
+
+    var fdata = new FormData(event.target);
+    var data = {
+      username: fdata.get('username'),
+      password: fdata.get('password')
+    };
+
+    API<LoginResponse>('api/auth', { 
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    })
+    .then((value)=>{
+      console.log(value);
+      var auth = value.role === 'guru' || value.role === 'siswa' || value.role === 'staftu';
+      this.setState({ 
+        role: value.role, 
+        unchecked_role:false, 
+        auth: auth, 
+        nama: value.nama,
+        username: value.username,
+        pesan_login: value.pesan
+      });
+    });
+  }
+
+  /**
+   * Logout
+   */
+  onLogout()
+  {
+    var username = this.state.username;
+    if(username === undefined) return;
+
+    API<LoginResponse>('/api/auth/'+ username, { 
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json'},
+      body: "{}"
+    })
+    .then((val)=>{
+      this.setState({ 
+        role: '',
+        auth: false,
+        nama: '',
+        username: ''
+      });
     });
   }
 
   /**
    * Mendapatkan Komponen Routes by Role
    */
-  private getRoutesByRole() : JSX.Element
+  private getRoutesByRole()
   {
     switch(this.state.role)
     {    
@@ -82,6 +160,8 @@ class App extends Component<{}, AppModel>
           <Route path="/" render={props => <LayoutAdmin 
             admin_routes={ STAF_TU_ROUTES } 
             admin_nav={ STAF_TU_NAV }
+            onLogout={ this.onLogout }
+            nama = { this.state.nama || ''}
             redirect_root_to="/kelas"
             {...props}
             />}
@@ -93,6 +173,8 @@ class App extends Component<{}, AppModel>
           <Route path="/" render={props => <LayoutAdmin 
             admin_routes={ GURU_ROUTES } 
             admin_nav={ GURU_NAV }
+            onLogout={ this.onLogout }
+            nama = { this.state.nama || ''}
             redirect_root_to="/profil"
             {...props}
             />}
@@ -106,27 +188,30 @@ class App extends Component<{}, AppModel>
             <Route path="/" name="Persiapan Ujian" component={PersiapanUjian} />
           </div>
         );
-      
-      default:
-        return(
-          <Route path="/" name="Login Page" component={Login} />
-        );
     }
   }
 
   /**
    * Render Aplikasi
    */
-  public render() : JSX.Element
+  public render()
   {
-    return (
+    if (this.state.unchecked_role) return(
+      <div className="spinner-border spinner-lg text-success text-center" role="status">
+        <span className="sr-only">Loading...</span>
+      </div>
+    );
+    
+    if(this.state.auth) return (
       <BrowserRouter>
           <Switch>
-            <Route exact path="/login" name="Login Page" component={Login} />
             <Route exact path="/gantipassword" name="Ganti Password" component={Gantipassword} />
             { this.getRoutesByRole() }
           </Switch>
       </BrowserRouter>
+    );
+    else return(
+      <Login onLoginSubmit={this.onLoginSubmit} pesan={this.state.pesan_login}></Login>
     );
   }
 }

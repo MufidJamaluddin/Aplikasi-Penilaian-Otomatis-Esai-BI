@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Nav , NavItem , NavLink,} from 'reactstrap';
+import { Nav , NavItem , NavLink} from 'reactstrap';
 
 var Template = require('@coreui/react/lib');
 
@@ -7,7 +7,7 @@ const logo = "static/img/brand/logo.svg";
 const sygnet = "static/img/brand/sygnet.svg";
 const alt_logo = "Logo Aplikasi KoPL9";
 
-interface DefaultHeaderPropsModel { onLogout: (e:any)=>void; }
+interface DefaultHeaderPropsModel { nama: string; onLogout:any; }
 
 class Header extends Component<DefaultHeaderPropsModel> 
 {
@@ -25,7 +25,14 @@ class Header extends Component<DefaultHeaderPropsModel>
         <Template.AppSidebarToggler className="d-md-down-none" display="lg" />
           <Nav className="m1-auto">
             <NavItem className="px-3 text-right">
-              <NavLink to="#" className="nav-link" ><i className="icon-user"></i> Hai Lucky</NavLink>
+              <NavLink to="#" className="nav-link" >
+                <i className="icon-user"></i> Hai {this.props.nama}
+              </NavLink>
+            </NavItem>
+            <NavItem className="px-3 text-right">
+              <button onClick={this.props.onLogout}>
+                <i className="icon-logout"></i>Logout
+              </button>
             </NavItem>
           </Nav>
           

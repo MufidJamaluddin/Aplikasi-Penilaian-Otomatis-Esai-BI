@@ -19,12 +19,7 @@ const GURU_NAV = {
                   name: 'Ganti Password',
                   url: '/gantipassword',
                   icon: 'icon-key',
-            },
-            {
-                  name: 'Logout',
-                  url: '/login',
-                  icon: 'icon-logout',
-            },
+            }
       ]
 }
 
@@ -48,11 +43,6 @@ const STAF_TU_NAV = {
                   name: 'Siswa',
                   url: '/siswa',
                   icon: 'icon-people',
-            },
-            {
-                  name: 'Logout',
-                  url: '/login',
-                  icon: 'icon-logout',
             }
       ]
 };

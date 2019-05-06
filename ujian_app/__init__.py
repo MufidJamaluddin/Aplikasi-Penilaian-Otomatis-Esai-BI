@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from .config import get_config
 
 app = Flask(__name__)
-app.secret_key = '228632004176512061657206875912910109'
+app.secret_key = '22863200417651206165720687591291010911123121111343'
 app.config.update(get_config())
 
 db = SQLAlchemy(app)
