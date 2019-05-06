@@ -1,169 +1,247 @@
-import React, { Component } from 'react';
-import { Badge, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table, Button,Form, FormGroup, FormText, FormFeedback, Input, InputGroup, InputGroupAddon, InputGroupText,Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import React, { PureComponent } from 'react';
+import { CardBody, Col, Table, Button,Form, FormGroup, Input } from 'reactstrap';
+import DataMatapelajaran from '../../models/item_model';
+import { initDatamatapelajaran, inputDatamatapelajaran, updateMatapelajaran, hapusMatapelajaran } from '../../models/MatapelajaranData';
+import { ModalForm, LayoutCard } from '../../layout';
 
-interface MatapelajaranStateModel {
-	modal: boolean;
-	primary: boolean;
-	large: boolean;
-	warning : boolean;
-	danger : boolean;
+
+/**
+ * Mata Pelajaran View
+ */
+interface ModalState {
+  tambah: boolean;
+  edit: boolean;
+  delete: boolean;
+}
+
+interface MatapelajaranViewStateData {
+  modal: Partial<ModalState>;
+  selected_data?: Partial<DataMatapelajaran>;
+  list_matapelajaran: Array<DataMatapelajaran>;
+  isLoading: boolean;
 };
 
-interface MatapelajaranModel { className:string; }
+interface MatapelajaranViewAttribute { className: string; }
 
-class Matapelajaran extends Component<MatapelajaranModel, MatapelajaranStateModel>
+/**
+* Pengelola Data Mata Pelajaran
+*/
+
+class Matapelajaran extends PureComponent<MatapelajaranViewAttribute, MatapelajaranViewStateData>
 {
-  constructor(props:Readonly<MatapelajaranModel>) 
+  constructor(props:Readonly<MatapelajaranViewAttribute>) 
   {
     super(props);
     
     this.state = {
-      modal: false,
-      primary: false,
-      large: false,
-      warning : false,
-      danger : false,
+      modal: { tambah: false, edit: false, delete: false },
+      list_matapelajaran: [],
+      isLoading: true
     };
 
-    this.toggle = this.toggle.bind(this);
     this.toggleUpdateMatapelajaran = this.toggleUpdateMatapelajaran.bind(this);
-	  this.toggleDeleteMatapelajaran = this.toggleDeleteMatapelajaran.bind(this);
+    this.toggleDeleteMatapelajaran = this.toggleDeleteMatapelajaran.bind(this);
+
+    this.tambahMatapelajaran = this.tambahMatapelajaran.bind(this);
+    this.editMatapelajaran = this.editMatapelajaran.bind(this);
+    this.deleteMatapelajaran = this.deleteMatapelajaran.bind(this);
   }
 
-  public toggle() : void
-  {
-    this.setState({
-      modal: !this.state.modal,
-    });
-  }
- 
+    componentDidMount()
+    {
+      initDatamatapelajaran().then(list => {
+        this.setState({ list_matapelajaran: list, isLoading: false});
+      });
+    }
   
-  public toggleUpdateMatapelajaran() : void
+  //---------------------------TOGGLE-----------------------------//
+
+  toggleTambahMatapelajaran() {
+    this.setState({modal: { tambah: !this.state.modal.tambah }});
+  }
+
+  toggleUpdateMatapelajaran(datamatapelajaran?:Partial<DataMatapelajaran>) 
   {
-    this.setState({
-      warning: !this.state.warning,
-    });
+    var state_edit = this.state.modal.edit || false;
+    if(datamatapelajaran === undefined)
+      this.setState({
+        modal: { edit: !state_edit }
+      });
+    else
+      this.setState({
+        modal: { edit: !state_edit },
+        selected_data: datamatapelajaran
+      });
   }
   
-  public toggleDeleteMatapelajaran() {
-    this.setState({
-      danger: !this.state.danger,
+  toggleDeleteMatapelajaran(datamatapelajaran?:Partial<DataMatapelajaran>) 
+  {
+    var state_delete = this.state.modal.delete || false;
+    if(datamatapelajaran === undefined)
+      this.setState({
+        modal: { delete: !state_delete }
+      });
+
+    else
+      this.setState({
+        modal: { delete: !state_delete },
+        selected_data: datamatapelajaran
+      });
+  }
+
+  //--------------------------- HANDLE CRUD UI -------------------------//
+
+  tambahMatapelajaran(event: any)
+  {
+    event.preventDefault();
+    var fdata = new FormData(event.target);
+    var data = {
+      namaMapel: fdata.get('namaMapel')
+    };
+    inputDatamatapelajaran(data).then(list => {
+      this.setState({ list_matapelajaran: list });
     });
   }
 
 
-
-  public render() : JSX.Element
+  editMatapelajaran(event: any)
   {
-    return (
-      <div className="animated fadeIn">
-        <Row>
-          <Col xs="12" lg="12">
-            <Card>
-         
-              <CardBody>
-			  <Form action="" method="post" className="form-horizontal">
-				<FormGroup row>
-				
-				<Col sm="3">
-					<Input  type="text" placeholder="Nama Mata Pelajaran" required/>
-				</Col>
-				<Col sm="3">
-					<Button bgSize="sm" color="success" className="px-4"><i className="fa fa-plus"></i><span>Tambah Mata Pelajaran</span></Button>
-				</Col>
-				
-				</FormGroup>
-			</Form>	
-        <Table responsive size="sm">
-          <thead>
-            <tr>
-              <th>Nama Mata Pelajaran</th>
-              <th></th>
-              <th></th>
-              <th></th>       
-              <th>Aksi</th>
-            </tr>
-          </thead>
-          
-          <tbody>
-            <tr>
-              <td>Geografi</td>
-              <td></td>
-              <td></td>
-              <td></td>        	
-					    <td>
-              <Button className="btn-stack-overflow btn-brand icon btn-sm" onClick={this.toggleUpdateMatapelajaran}><i className="fa fa-pencil"></i></Button>
-              <Modal isOpen={this.state.warning} toggle={this.toggleUpdateMatapelajaran}className={'modal-warning  ' + this.props.className}>
-                      
-                <ModalHeader toggle={this.toggleUpdateMatapelajaran}>Update Mata Pelajaran</ModalHeader>
-                <ModalBody>
-                  <Form action="" method="post" className="form-horizontal">
-                    <FormGroup row>
-                    <Col sm="12">
-                      <p><Input  type="text" placeholder="Nama Mata Pelajaran" required /></p>
-                    </Col>
-                    </FormGroup>
-                  </Form>
-                </ModalBody>		  
-                <ModalFooter>
-                  <Button color="danger" onClick={this.toggleUpdateMatapelajaran}>Cancel</Button>
-                  <Button color="success" onClick={this.toggleUpdateMatapelajaran}>Update</Button>{' '}
-                </ModalFooter>
-              </Modal>
-				<Button className="btn-youtube btn-brand icon btn-sm" onClick={this.toggleDeleteMatapelajaran}><i className="fa fa-trash"></i></Button>
-				<Modal isOpen={this.state.danger} toggle={this.toggleDeleteMatapelajaran} className={'modal-danger ' + this.props.className}>
-          <ModalHeader toggle={this.toggleDeleteMatapelajaran}>Delete Mata Pelajaran</ModalHeader>
-          <ModalBody><p> Apakah anda yakin ingin menghapus <b>XI-IPA1</b> dari data Mata Pelajaran ?</p></ModalBody>
-          <ModalFooter>
-				    <Button color="danger" onClick={this.toggleDeleteMatapelajaran}>Tidak</Button>
-            <Button color="success" onClick={this.toggleDeleteMatapelajaran}>Ya</Button>{' '}
-          </ModalFooter>
-        </Modal>
-				        </td>
-              </tr>
-               
-                <tr>
-                  <td>Geografi</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                	<td>
-                    <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
-                    <Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
-                  </td>
-                </tr>
-                <tr>
-                <td>Geografi</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>
-                  <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
-                  <Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
-                </td>
-              </tr>
+    if(this.state.selected_data !== undefined)
+    {
+      event.preventDefault();
+      var fdata = new FormData(event.target);
+      var data = {
+        namaMapel: fdata.get('namaMapel')
+      };
+      var idmapel = this.state.selected_data.idmapel;
+      if(idmapel !== undefined) updateMatapelajaran(idmapel, data).then(list => {
+        this.setState({ list_matapelajaran: list, modal: { edit: false } });
+      });
+    }
+  }
 
-              <tr>
-              <td>Geografi</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>
-                <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-pencil"></i></Button>
-                <Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
-              </td>
-            </tr>
-          
-                  </tbody>
-                </Table>
-              </CardBody>
-            </Card>
+
+  deleteMatapelajaran(event: any)
+  {
+    if(this.state.selected_data !== undefined)
+    {
+      event.preventDefault();
+      var idmapel= this.state.selected_data.idmapel;
+      if(idmapel !== undefined) hapusMatapelajaran(idmapel).then(list => {
+        this.setState({list_matapelajaran: list, modal: { delete: !this.state.modal.delete }});
+      });
+    }
+  }
+
+
+// ----------------------- RENDER -------------------------------- //
+renderModalEdit()
+{
+  if(this.state.selected_data === undefined) return;
+  
+  var namaMapel = this.state.selected_data.namaMapel;
+
+  return (
+    <ModalForm 
+      className={'modal-warning ' + this.props.className}
+      header={ "Edit Kelas "}
+      strsubmit="Edit"
+      isOpen={ this.state.modal.edit }
+      toggle={ this.toggleUpdateMatapelajaran }
+      onClickSubmit={ this.editMatapelajaran }>
+      <FormGroup row>
+        <Col sm="12">
+          <Input type="text" placeholder={namaMapel}
+            name="namaMapel" required />
+        </Col>
+      </FormGroup>
+    </ModalForm>
+  );
+}
+
+renderModalDelete()
+{
+  if(this.state.selected_data === undefined) return;
+
+  var namaMapel = this.state.selected_data.namaMapel;
+
+  return (
+    <ModalForm 
+      className={"modal-danger " + this.props.className}
+      header={"Delete Mata Pelajaran " + namaMapel } 
+      strsubmit="Ya"
+      isOpen={ this.state.modal.delete }
+      toggle={ this.toggleDeleteMatapelajaran }
+      onClickSubmit={ this.deleteMatapelajaran }>
+      <p> Apakah anda yakin ingin menghapus <b>{namaMapel}</b> dari data Mata Pelajaran ?</p>
+    </ModalForm>
+  )
+}
+
+render() 
+{
+  var list_matapelajaran = this.state.list_matapelajaran;
+
+  if(this.state.isLoading)
+    return (<div className="d-flex justify-content-center">
+              <div className="spinner-border text-success" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            </div>);
+
+  return (
+    <LayoutCard>
+    <CardBody>
+      <Form onSubmit={ this.tambahMatapelajaran } className="form-horizontal">
+        <FormGroup row>
+          <Col sm="4">
+            <Input type="text" name="namaMapel" placeholder="Nama Mata Pelajaran" required/>
           </Col>
-        </Row>
-      </div>
+          <Col sm="2">
+            <Button size="sm" type="submit" color="success" className="px-4"><i className="fa fa-plus"></i><span>Tambah Mata Pelajaran</span></Button>
+          </Col>
+        </FormGroup>
+      </Form>
 
-    );
-  }
+      { this.renderModalEdit() }
+
+      { this.renderModalDelete() }
+  
+      <Table responsive reflow size="sm">
+        <thead>
+        <tr>
+          <th>Nama Mata Pelajaran</th>
+          <th>Aksi</th>
+        </tr>
+        </thead>
+        <tbody>
+          {
+            list_matapelajaran.map(matapelajaran => {
+              return (
+                <tr>
+                  <td>{ matapelajaran.namaMapel }</td>
+                  <td>
+                    <Button 
+                      className="btn-stack-overflow btn-brand icon btn-sm" 
+                      onClick={ (e:any) => this.toggleUpdateMatapelajaran(matapelajaran) }>
+                      <i className="fa fa-pencil"></i>
+                    </Button>
+                    <Button 
+                      className="btn-youtube btn-brand icon btn-sm" 
+                      onClick={ (e:any) => this.toggleDeleteMatapelajaran(matapelajaran) }>
+                      <i className="fa fa-trash"></i>
+                    </Button>
+                  </td>
+              </tr>
+              )
+            })
+          }															
+        </tbody>
+      </Table>
+    </CardBody>
+    </LayoutCard>
+  );
+}
 }
 
 export default Matapelajaran;
