@@ -7,3 +7,4 @@ from .mapelrepository import MapelRepository
 from .siswarepository import SiswaRepository
 from .gururepository import GuruRepository
 from .ujianrepository import UjianRepository
+from .akunrepository import AkunRepository

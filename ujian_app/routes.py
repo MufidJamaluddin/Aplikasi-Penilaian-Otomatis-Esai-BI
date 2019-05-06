@@ -3,7 +3,9 @@ from .api import GuruAPI, SiswaAPI, MatapelajaranAPI, AuthAPI, DaftarNilaiAPI, K
 
 ROUTES_API = [
 
-    {'url':'/api/auth', 'name':'auth', 'view':AuthAPI, 'methods':['GET','POST', 'PUT']},
+    {'url':'/api/auth', 'name':'auth', 'view':AuthAPI, 'methods':['GET','POST']},
+    {'url':'/api/auth/<string:username>', 'name':'auth_logout', 'view':AuthAPI, 'methods':['DELETE']},
+
     {'url':'/api/daftarnilai', 'name':'daftarnilai', 'view':DaftarNilaiAPI, 'methods':['GET','POST','PUT']},
     
     {'url':'/api/kelas', 'name':'kelas', 'view':KelasAPI, 'methods':['GET','POST']},

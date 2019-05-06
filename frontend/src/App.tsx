@@ -61,7 +61,7 @@ class App extends Component<{}, AppModel>
   /**
    * Mengambil Role Saat Ini dari API
    */
-  public componentWillMount() : void
+  public componentDidMount() : void
   {
     let url = '/api/auth';
     
@@ -109,7 +109,7 @@ class App extends Component<{}, AppModel>
       
       default:
         return(
-          <Route exact path="/login" name="Login Page" component={Login} />
+          <Route path="/" name="Login Page" component={Login} />
         );
     }
   }
