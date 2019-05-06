@@ -9,6 +9,8 @@ import { LayoutAdmin } from './layout';
 import { GURU_ROUTES, STAF_TU_ROUTES } from './admin_views/routes';
 import { GURU_NAV, STAF_TU_NAV } from './admin_views/nav';
 import API from './models/api';
+import { SISWA_ROUTES } from './page_views/routes';
+import SiswaLayout from './page_views/Layout';
 
 /**
  * Deklarasi Komponen
@@ -183,10 +185,14 @@ class App extends Component<{}, AppModel>
       
       case 'siswa':
         return(
-          <div>
-            <Route path="/ujianesai" name="Ujian Esai" component={UjianEsai} />
-            <Route path="/" name="Persiapan Ujian" component={PersiapanUjian} />
-          </div>
+          <Route path="/" render={props => <SiswaLayout 
+            routes={ SISWA_ROUTES } 
+            onLogout={ this.onLogout }
+            nama = { this.state.nama || ''}
+            redirect_root_to="/persipan"
+            {...props}
+            />}
+          />
         );
     }
   }

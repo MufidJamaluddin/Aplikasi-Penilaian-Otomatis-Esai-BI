@@ -1,43 +1,33 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Card, CardBody, CardHeader, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
+import { Button, Card, CardHeader, CardBody, CardGroup, Col, Container, Form, Row } from 'reactstrap';
+import DataSiswa from '../../models/item_model';
+import { initPanelSiswa } from '../../models/PanelSiswaData';
 
-interface BukanUjianStateModel { success:boolean; modal: boolean; }
+interface PersiapanUjianAttribute { className: string; }
+interface PersiapanUjianState { datasiswa?: DataSiswa; }
 
-interface BukanUjianPropsModel { className: string; }
-
-class BukanUjian extends Component<BukanUjianPropsModel, BukanUjianStateModel>
+class PersiapanUjian extends Component<PersiapanUjianAttribute, PersiapanUjianState>
 {
-	constructor(props:any) 
-	{
-		super(props);
-		
-    this.state = {
-			success: false,
-			modal: false 
-    };
 
-    this.toggle = this.toggle.bind(this);
-    this.toggleSubmitUjian = this.toggleSubmitUjian.bind(this);
-  }
-
-
-	public toggle() : void
-	{
-    this.setState({
-      modal: !this.state.modal,
-    });
-  }
-  
-	public toggleSubmitUjian() : void 
-	{
-    this.setState({
-      success: !this.state.success,
+  public componentDidMount(): void
+  {
+    initPanelSiswa().then(value => {
+      this.setState({ datasiswa: value });
     });
   }
 
 	public render() : JSX.Element
 	{
+    if(this.state.datasiswa === undefined)
+      return (
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border text-success" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      );
+
     return (
       <div className="app flex-row align-items-center">
         <Container>
@@ -47,9 +37,9 @@ class BukanUjian extends Component<BukanUjianPropsModel, BukanUjianStateModel>
                 <Card className="p-4">
 								
 								<CardHeader>
-                      <dd className="col-sm-12 text-left"><b>161511019</b></dd>
-                      <dd className="col-sm-12 text-left"><b>Mufid Jamaluddin</b></dd>
-                      <dd className="col-sm-12 text-left"><b>XII-IPA</b></dd>
+                  <dd className="col-sm-12 text-left"><b>{ this.state.datasiswa.nis }</b></dd>
+                  <dd className="col-sm-12 text-left"><b>{ this.state.datasiswa.nama }</b></dd>
+                  <dd className="col-sm-12 text-left"><b>{ this.state.datasiswa.kelas.namaKelas }</b></dd>
               	</CardHeader>
                 
 								<CardBody className="col-sm-12 text-center">
@@ -57,14 +47,10 @@ class BukanUjian extends Component<BukanUjianPropsModel, BukanUjianStateModel>
                       <h1>UJIAN BELUM DIMULAI</h1>
                       <Row>
                         <Col xs="12">
-						            <Link to="./login">
-                          <Button color="primary">Logout</Button>
-                        </Link> 
                         <Link to="./gantipassword">
                           <Button color="primary">Ganti Password</Button>
 						            </Link>   
                         </Col>
-                        
                       </Row>
 										</Form>
                   </CardBody>
@@ -78,4 +64,4 @@ class BukanUjian extends Component<BukanUjianPropsModel, BukanUjianStateModel>
   }
 }
 
-export default BukanUjian;
+export default PersiapanUjian;
