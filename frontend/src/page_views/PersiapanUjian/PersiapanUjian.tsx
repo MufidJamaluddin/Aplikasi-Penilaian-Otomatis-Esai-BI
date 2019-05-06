@@ -23,7 +23,7 @@ class PersiapanUjian extends Component<PersiapanUjianAttribute, PersiapanUjianSt
     });
   }
 
-	public render() : JSX.Element
+	public render()
 	{
     if(this.state.isloading)
       return (
@@ -32,7 +32,9 @@ class PersiapanUjian extends Component<PersiapanUjianAttribute, PersiapanUjianSt
             <span className="sr-only">Loading...</span>
           </div>
         </div>
-      );
+    );
+    
+    if(this.state.datasiswa === undefined) return;
 
     return (
       <div className="app flex-row align-items-center">

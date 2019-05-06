@@ -1,10 +1,12 @@
 import API from "./api";
 import DataGuru from './item_model';
+import DataPengampu from './item_model';
 
 /**
  * Data dari API (Backend di Server)
  */
 interface JsonAPIGuru { list: Array<DataGuru>; }
+interface JsonAPIPengampu { list: Array<DataPengampu>; }
 
 /**
  * Mendapatkan Data Guru
@@ -21,10 +23,24 @@ function initDataGuru()
 }
 
 /**
+ * Mendapatkan Detail Data Guru (Pengampu)
+ * dan Menampilkannya di View
+ */
+function initDataPengampu(idguru: string)
+{
+    return API<JsonAPIPengampu>('/api/pengampu/' + idguru)
+    .then(value => {
+        // Ambil list 
+        console.log(value.list);
+        return value.list;
+    });
+}
+
+/**
  * Menginputkan Data Guru
  * @param data Data Guru Sekolah
  */
-function inputDataGuru(data:DataGuru)
+function inputDataGuru(data:Partial<DataGuru>)
 {
     console.log(JSON.stringify(data));
 
@@ -44,7 +60,7 @@ function inputDataGuru(data:DataGuru)
  * Mengubah Data Guru
  * @param data Data Guru Sekolah
  */
-function updateDataGuru(idguru:string, data:any)
+function updateDataGuru(idguru:string, data:Partial<DataGuru>)
 {
     console.log(JSON.stringify(data));
 
@@ -78,4 +94,4 @@ function hapusDataGuru(idguru:string)
     });
 }
 
-export { initDataGuru, inputDataGuru, updateDataGuru, hapusDataGuru }
+export { initDataGuru, initDataPengampu, inputDataGuru, updateDataGuru, hapusDataGuru }

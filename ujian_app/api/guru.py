@@ -2,6 +2,7 @@ from flask.views import MethodView
 from flask import json, request
 from ujian_app.utils import AlchemyEncoder
 from ujian_app.repository import GuruRepository
+from ujian_app.models import Pengampu
 
 class GuruAPI(MethodView):
     
@@ -26,12 +27,22 @@ class GuruAPI(MethodView):
         '''
         # Simpan Data yang di Post
         data_guru = request.get_json()
+        listpengampu = data_guru['listpengampu']
+
+        pengampus = []
+        for p in listpengampu:
+            pengampu = Pengampu()
+            pengampu.idkelas = p.idkelas
+            pengampu.idmapel = p.idmapel
+            pengampus.append(pengampu)
+
         self.repository.save(
             nip = data_guru['nip'],
             nuptk = data_guru['nuptk'],
             namaGuru = data_guru['namaGuru'],
             username = data_guru['username'],
-            password = data_guru['password']
+            password = data_guru['password'],
+            pengampus = pengampus
         )
         
         # Berikan semua data yg ada di db

@@ -17,6 +17,7 @@ export default interface DataGuru
     namaKelas: string;
     username?: string;
     password?: string;
+    listpengampu?: Array<any>;
 }
 
 export default interface DataSiswa

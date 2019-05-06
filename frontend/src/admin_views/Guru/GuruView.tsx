@@ -50,6 +50,12 @@ class Guru extends Component<GuruModel, GuruStateModel>
 		this.toggleUpdateGuru = this.toggleUpdateGuru.bind(this);
 		this.toggleDeleteGuru = this.toggleDeleteGuru.bind(this);
 		this.toggleDetailGuru = this.toggleDetailGuru.bind(this);
+
+		this.importDataGuru = this.importDataGuru.bind(this);
+		this.tambahDataGuru = this.tambahDataGuru.bind(this);
+		this.updateDataGuru = this.updateDataGuru.bind(this);
+		this.deleteDataGuru = this.deleteDataGuru.bind(this);
+		this.detailDataGuru = this.detailDataGuru.bind(this);
 	}
 	
 	// --------------------------- INIT DATA ------------------------------------------//
@@ -122,24 +128,70 @@ class Guru extends Component<GuruModel, GuruStateModel>
 	tambahDataGuru(event:any) 
 	{ 
     event.preventDefault();
+		var fdata = new FormData(event.target);
+	
+		var slist = fdata.get('listpengampu');
+		
+		if(typeof slist !== "string") return;
 
+    var data = {
+			namaGuru: fdata.get('namaGuru') as string,
+			nip: fdata.get('nip') as string,
+			nuptk: fdata.get('nuptk') as string,
+			username: fdata.get('username') as string,
+			listpengampu: JSON.parse(slist) 
+		};
+
+		inputDataGuru(data).then(listguru =>{
+			var state = this.state.modal.tambah || false;
+			this.setState({ list_guru: listguru, modal: { tambah: !state } });
+		});
 	}
 
 	updateDataGuru(event:any) 
 	{ 
 		event.preventDefault();
+		if(this.state.selected_data === undefined) return;
 
+		var idguru = this.state.selected_data.idguru;
+		var fdata = new FormData(event.target);
+
+		var slist = fdata.get('listpengampu');
+		
+		if(idguru === undefined) return;
+		if(typeof slist !== "string") return;
+
+    var data = {
+			namaGuru: fdata.get('namaGuru') as string,
+			nip: fdata.get('nip') as string,
+			nuptk: fdata.get('nuptk') as string,
+			listpengampu: JSON.parse(slist) 
+		};
+
+		updateDataGuru(idguru, data).then(listguru =>{
+			var state = this.state.modal.update || false;
+			this.setState({ list_guru: listguru, modal: { tambah: !state } });
+		});
 	}
 
 	deleteDataGuru(event:any) 
 	{ 
 		event.preventDefault();
+		
+		var selected_data = this.state.selected_data;
+		if(selected_data === undefined) return;
 
+		var idguru = selected_data.idguru;
+		if(idguru === undefined) return;
+
+		hapusDataGuru(idguru).then(listguru => {
+			var state = this.state.modal.delete || false;
+			this.setState({ list_guru: listguru, modal: { tambah: !state } });
+		});
 	}
 
 	detailDataGuru(event:any) 
-	{ 
-		event.preventDefault();
+	{
 
 	}
 
@@ -181,6 +233,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
 				toggle={this.toggleTambahGuru}
 				onClickSubmit={this.tambahDataGuru}
 				viewonly={false}
+				inputusername={true}
 				dataguru={undefined}
 				listkelas={listkelas}
 				listmapel={listmapel}
