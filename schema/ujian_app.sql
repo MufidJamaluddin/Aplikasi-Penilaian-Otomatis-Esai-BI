@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 05, 2019 at 03:47 PM
+-- Generation Time: May 06, 2019 at 10:02 AM
 -- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.3
+-- PHP Version: 7.3.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -136,6 +136,14 @@ CREATE TABLE `matapelajaran` (
   `KKM` char(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `matapelajaran`
+--
+
+INSERT INTO `matapelajaran` (`idmapel`, `namaMapel`, `KKM`) VALUES
+(1, 'biologi', '70'),
+(2, 'sejarah', '70');
+
 -- --------------------------------------------------------
 
 --
@@ -163,6 +171,13 @@ CREATE TABLE `pengampu` (
   `idkelas` int(11) NOT NULL,
   `idguru` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pengampu`
+--
+
+INSERT INTO `pengampu` (`idpengampu`, `idmapel`, `idkelas`, `idguru`) VALUES
+(1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -262,8 +277,16 @@ CREATE TABLE `ujian` (
   `idpengampu` int(11) NOT NULL,
   `namaUjian` varchar(30) DEFAULT NULL,
   `jumlahSoal` smallint(6) DEFAULT NULL,
-  `durasi` time DEFAULT NULL
+  `durasi` time DEFAULT NULL,
+  `status_ujian` char(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ujian`
+--
+
+INSERT INTO `ujian` (`idujian`, `idpengampu`, `namaUjian`, `jumlahSoal`, `durasi`, `status_ujian`) VALUES
+(1, 1, 'Biologi Bab 1', 10, '01:00:00', '0');
 
 -- --------------------------------------------------------
 
@@ -395,19 +418,19 @@ ALTER TABLE `jawaban`
 -- AUTO_INCREMENT for table `kelas`
 --
 ALTER TABLE `kelas`
-  MODIFY `idkelas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `idkelas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `matapelajaran`
 --
 ALTER TABLE `matapelajaran`
-  MODIFY `idmapel` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idmapel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `pengampu`
 --
 ALTER TABLE `pengampu`
-  MODIFY `idpengampu` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idpengampu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `soal`
@@ -419,7 +442,7 @@ ALTER TABLE `soal`
 -- AUTO_INCREMENT for table `ujian`
 --
 ALTER TABLE `ujian`
-  MODIFY `idujian` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idujian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables

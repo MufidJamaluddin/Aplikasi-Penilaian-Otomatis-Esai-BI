@@ -130,7 +130,7 @@ class App extends Component<{}, AppModel>
   /**
    * Logout
    */
-  onLogout()
+  onLogout(event: any)
   {
     var username = this.state.username;
     if(username === undefined) return;
@@ -177,7 +177,7 @@ class App extends Component<{}, AppModel>
             admin_nav={ GURU_NAV }
             onLogout={ this.onLogout }
             nama = { this.state.nama || ''}
-            redirect_root_to="/profil"
+            redirect_root_to="/ujian"
             {...props}
             />}
           />

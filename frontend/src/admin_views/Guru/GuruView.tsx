@@ -7,7 +7,7 @@ import { ModalForm, LayoutCard } from '../../layout';
 import ModalGuruForm from './ModalGuru';
 import { initDataGuru, inputDataGuru, updateDataGuru, hapusDataGuru } from '../../models/GuruData';
 import { initDatakelas } from '../../models/KelasData';
-import { initDataMatapelajaran } from '../../models/MatapelajaranData';
+import { initDatamatapelajaran } from '../../models/MatapelajaranData';
 
 /**
  * Guru View
@@ -56,7 +56,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
 
 	public componentDidMount()
 	{
-		initDataMatapelajaran().then(list => {
+		initDatamatapelajaran().then(list => {
 			this.setState({ list_mapel: list });
 		});
 
