@@ -189,7 +189,7 @@ class App extends Component<{}, AppModel>
             routes={ SISWA_ROUTES } 
             onLogout={ this.onLogout }
             nama = { this.state.nama || ''}
-            redirect_root_to="/persipan"
+            redirect_root_to="/persiapan"
             {...props}
             />}
           />

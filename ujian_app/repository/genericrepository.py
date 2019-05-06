@@ -32,6 +32,12 @@ class GenericRepository(object):
         '''
         return self.model_class.query.get(primarykey)
     
+    def findByKeys(self, **kwargs):
+        '''
+        Mendapatkan data berdasarkan key 
+        '''
+        return self.model_class.query.filter_by(kwargs)
+
     def findByPage(self, halaman, per_halaman, eksepsi = False):
         '''
         Mendapatkan data per halaman.

@@ -5,21 +5,27 @@ import DataSiswa from '../../models/item_model';
 import { initPanelSiswa } from '../../models/PanelSiswaData';
 
 interface PersiapanUjianAttribute { className: string; }
-interface PersiapanUjianState { datasiswa?: DataSiswa; }
+interface PersiapanUjianState { datasiswa?: DataSiswa; isloading: boolean; }
 
 class PersiapanUjian extends Component<PersiapanUjianAttribute, PersiapanUjianState>
 {
+  constructor(props: PersiapanUjianAttribute)
+  {
+    super(props);
+    this.state = { isloading: true }
+  }
+
 
   public componentDidMount(): void
   {
     initPanelSiswa().then(value => {
-      this.setState({ datasiswa: value });
+      this.setState({ datasiswa: value, isloading:false });
     });
   }
 
 	public render() : JSX.Element
 	{
-    if(this.state.datasiswa === undefined)
+    if(this.state.isloading)
       return (
         <div className="d-flex justify-content-center">
           <div className="spinner-border text-success" role="status">

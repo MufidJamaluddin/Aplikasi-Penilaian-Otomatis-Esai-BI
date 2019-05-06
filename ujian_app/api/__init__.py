@@ -8,3 +8,4 @@ from .pengerjaanujian import PengerjaanUjianAPI
 from .penilaian import PenilaianAPI
 from .ujian_esai import UjianEsaiAPI
 from .panelsiswa import PanelSiswaAPI
+from .pengampu import PengampuAPI
