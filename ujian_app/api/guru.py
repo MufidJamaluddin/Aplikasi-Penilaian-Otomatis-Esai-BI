@@ -30,11 +30,12 @@ class GuruAPI(MethodView):
         listpengampu = data_guru['listpengampu']
 
         pengampus = []
-        for p in listpengampu:
-            pengampu = Pengampu()
-            pengampu.idkelas = p.idkelas
-            pengampu.idmapel = p.idmapel
-            pengampus.append(pengampu)
+        if listpengampu:
+            for p in listpengampu:
+                pengampu = Pengampu()
+                pengampu.idkelas = p.idkelas
+                pengampu.idmapel = p.idmapel
+                pengampus.append(pengampu)
 
         self.repository.save(
             nip = data_guru['nip'],

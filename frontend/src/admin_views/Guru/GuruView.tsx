@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import DataGuru from '../../models/item_model';
 import DataMatapelajaran from '../../models/item_model';
 import DataKelas from '../../models/item_model';
-import { CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table, Button,Form, FormGroup, Input, InputGroup, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { CardBody, CardHeader, Col, Table, Button, Input, InputGroup } from 'reactstrap';
 import { ModalForm, LayoutCard } from '../../layout';
 import ModalGuruForm from './ModalGuru';
 import { initDataGuru, inputDataGuru, updateDataGuru, hapusDataGuru } from '../../models/GuruData';
@@ -51,11 +51,11 @@ class Guru extends Component<GuruModel, GuruStateModel>
 		this.toggleDeleteGuru = this.toggleDeleteGuru.bind(this);
 		this.toggleDetailGuru = this.toggleDetailGuru.bind(this);
 
-		this.importDataGuru = this.importDataGuru.bind(this);
-		this.tambahDataGuru = this.tambahDataGuru.bind(this);
-		this.updateDataGuru = this.updateDataGuru.bind(this);
-		this.deleteDataGuru = this.deleteDataGuru.bind(this);
-		this.detailDataGuru = this.detailDataGuru.bind(this);
+		this.onImportDataGuru = this.onImportDataGuru.bind(this);
+		this.onTambahDataGuru = this.onTambahDataGuru.bind(this);
+		this.onUpdateDataGuru = this.onUpdateDataGuru.bind(this);
+		this.onDeleteDataGuru = this.onDeleteDataGuru.bind(this);
+		this.onDetailDataGuru = this.onDetailDataGuru.bind(this);
 	}
 	
 	// --------------------------- INIT DATA ------------------------------------------//
@@ -119,28 +119,32 @@ class Guru extends Component<GuruModel, GuruStateModel>
 	}
 	// --------------------------------- HANDLE UI -----------------------------------//
 
-	importDataGuru(event:any) 
+	public onImportDataGuru(event:any) 
 	{ 
 		event.preventDefault();
 
 	}
 
-	tambahDataGuru(event:any) 
+	public onTambahDataGuru(event:any) 
 	{ 
     event.preventDefault();
 		var fdata = new FormData(event.target);
 	
 		var slist = fdata.get('listpengampu');
+
+		console.log(slist);
 		
-		if(typeof slist !== "string") return;
+		if(slist===undefined) return;
 
     var data = {
 			namaGuru: fdata.get('namaGuru') as string,
 			nip: fdata.get('nip') as string,
 			nuptk: fdata.get('nuptk') as string,
 			username: fdata.get('username') as string,
-			listpengampu: JSON.parse(slist) 
+			listpengampu: JSON.parse(slist as string) 
 		};
+
+		console.log(data);
 
 		inputDataGuru(data).then(listguru =>{
 			var state = this.state.modal.tambah || false;
@@ -148,7 +152,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
 		});
 	}
 
-	updateDataGuru(event:any) 
+	public onUpdateDataGuru(event:any) 
 	{ 
 		event.preventDefault();
 		if(this.state.selected_data === undefined) return;
@@ -157,16 +161,20 @@ class Guru extends Component<GuruModel, GuruStateModel>
 		var fdata = new FormData(event.target);
 
 		var slist = fdata.get('listpengampu');
+
+		console.log(slist);
 		
 		if(idguru === undefined) return;
-		if(typeof slist !== "string") return;
+		if(slist === undefined) return;
 
     var data = {
 			namaGuru: fdata.get('namaGuru') as string,
 			nip: fdata.get('nip') as string,
 			nuptk: fdata.get('nuptk') as string,
-			listpengampu: JSON.parse(slist) 
+			listpengampu: JSON.parse(slist as string) 
 		};
+
+		console.log(data);
 
 		updateDataGuru(idguru, data).then(listguru =>{
 			var state = this.state.modal.update || false;
@@ -174,7 +182,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
 		});
 	}
 
-	deleteDataGuru(event:any) 
+	public onDeleteDataGuru(event:any) 
 	{ 
 		event.preventDefault();
 		
@@ -190,7 +198,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
 		});
 	}
 
-	detailDataGuru(event:any) 
+	public onDetailDataGuru(event:any) 
 	{
 
 	}
@@ -204,7 +212,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
 				className={'modal-primary ' + this.props.className}
 				isOpen={this.state.modal.import||false} toggle={this.toggleImportGuru}
 				header="Import Data Guru" strsubmit="import"
-				onClickSubmit={this.importDataGuru}>
+				onClickSubmit={this.onImportDataGuru}>
 				<ol>
 					<li>
 						<a>Download Template XLSX Guru</a>
@@ -231,7 +239,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
 				strsubmit="Tambah"
 				isOpen={this.state.modal.tambah}
 				toggle={this.toggleTambahGuru}
-				onClickSubmit={this.tambahDataGuru}
+				onClickSubmit={this.onTambahDataGuru}
 				viewonly={false}
 				inputusername={true}
 				dataguru={undefined}
@@ -256,7 +264,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
 				header="Edit Data Guru"
 				isOpen={this.state.modal.detail}
 				toggle={this.toggleDetailGuru}
-				onClickSubmit={this.detailDataGuru}
+				onClickSubmit={this.onDetailDataGuru}
 				viewonly={true}
 				dataguru={dataguru}
 				listkelas={listkelas}
@@ -281,7 +289,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
 				strsubmit="Edit"
 				isOpen={this.state.modal.update}
 				toggle={this.toggleUpdateGuru}
-				onClickSubmit={this.updateDataGuru}
+				onClickSubmit={this.onUpdateDataGuru}
 				dataguru={dataguru}
 				listkelas={listkelas}
 				listmapel={listmapel}
@@ -303,7 +311,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
 				strsubmit="Ya"
 				isOpen={this.state.modal.delete}
 				toggle={this.toggleDeleteGuru}
-				onClickSubmit={this.deleteDataGuru}>
+				onClickSubmit={this.onDeleteDataGuru}>
 				<p>Apakah anda yakin ingin menghapus <b>{dataguru.namaGuru ||''}</b> dari data guru ?</p>
 			</ModalForm>
 		);

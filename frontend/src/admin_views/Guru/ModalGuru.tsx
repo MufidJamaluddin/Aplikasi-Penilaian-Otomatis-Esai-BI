@@ -16,7 +16,7 @@ interface ModalGuruFormAttribute
     strsubmit?: string;
     isOpen?: boolean;
     toggle: VoidFunction;
-	onClickSubmit: any;
+	onClickSubmit: (e:any) => void;
 	viewonly?: boolean;
 	inputusername?: boolean;
 	
@@ -97,6 +97,8 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 		pengampu.namaKelas = this.state.ckelas.namaKelas;
 		pengampu.namaMapel = this.state.cmapel.namaMapel;
 
+		console.log(pengampu);
+
 		/**
 		 * Data yg ditambahkan tidak boleh duplikat
 		 */
@@ -143,12 +145,14 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 		var listkelas = this.props.listkelas;
 
 		var kelas = listkelas.find((el, i, arr) => {
-			return el.idkelas === idkelas;
+			return el.idkelas == idkelas;
 		});
 
 		console.log(kelas);
 
-		if(kelas !== undefined)	this.setState({ ckelas: kelas });
+		if(kelas === undefined)	return;
+		
+		this.setState({ ckelas: kelas });
 	}
 
 	/**
@@ -161,12 +165,14 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 		var listmapel = this.props.listmapel;
 
 		var mapel = listmapel.find((el, i, arr) => {
-			return el.idmapel === idmapel;
+			return el.idmapel == idmapel;
 		});
 
 		console.log(mapel);
 
-		if(mapel !== undefined) this.setState({ cmapel: mapel });
+		if(mapel === undefined) return;
+		
+		this.setState({ cmapel: mapel });
 	}
 
 	private renderInputUsername(username:string)
@@ -234,7 +240,7 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 			<Table responsive size="sm">
 				<thead>
 					<tr>
-						<th>Mata Pelajaran</th>
+						<th>Matapelajaran</th>
 						<th>Kelas</th>
 					</tr>
 				</thead>
@@ -243,8 +249,8 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 						listpengampu.map(pengampu=>{
 							return(
 								<tr>
-									<td>{pengampu.namaMatapelajaran}</td>
-									<td>{pengampu.namaKelas}</td>
+									<td><a>{pengampu.namaMapel}</a></td>
+									<td><a>{pengampu.namaKelas}</a></td>
 								</tr>
 							);
 						})

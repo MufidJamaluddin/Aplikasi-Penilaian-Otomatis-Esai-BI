@@ -96,7 +96,8 @@ class Matapelajaran extends PureComponent<MatapelajaranViewAttribute, Matapelaja
     event.preventDefault();
     var fdata = new FormData(event.target);
     var data = {
-      namaMapel: fdata.get('namaMapel')
+      namaMapel: fdata.get('namaMapel'),
+      KKM: fdata.get('KKM')
     };
     inputDatamatapelajaran(data).then(list => {
       this.setState({ list_matapelajaran: list });
@@ -111,7 +112,8 @@ class Matapelajaran extends PureComponent<MatapelajaranViewAttribute, Matapelaja
       event.preventDefault();
       var fdata = new FormData(event.target);
       var data = {
-        namaMapel: fdata.get('namaMapel')
+        namaMapel: fdata.get('namaMapel'),
+        KKM: fdata.get('KKM')
       };
       var idmapel = this.state.selected_data.idmapel;
       if(idmapel !== undefined) updateMatapelajaran(idmapel, data).then(list => {
@@ -140,6 +142,7 @@ renderModalEdit()
   if(this.state.selected_data === undefined) return;
   
   var namaMapel = this.state.selected_data.namaMapel;
+  var KKM = this.state.selected_data.KKM;
 
   return (
     <ModalForm 
@@ -150,8 +153,11 @@ renderModalEdit()
       toggle={ this.toggleUpdateMatapelajaran }
       onClickSubmit={ this.editMatapelajaran }>
       <FormGroup row>
+        Edit Matapelajaran {namaMapel}
         <Col sm="12">
           <Input type="text" placeholder={namaMapel}
+            name="namaMapel" required />
+          <Input type="number" min="0" max="100" placeholder={KKM}
             name="namaMapel" required />
         </Col>
       </FormGroup>
@@ -196,6 +202,10 @@ render()
         <FormGroup row>
           <Col sm="4">
             <Input type="text" name="namaMapel" placeholder="Nama Mata Pelajaran" required/>
+          </Col>
+          <Col sm="4">
+            <Input type="number" min="0" max="100" placeholder="KKM"
+              name="namaMapel" required />
           </Col>
           <Col sm="2">
             <Button size="sm" type="submit" color="success" className="px-4"><i className="fa fa-plus"></i><span>Tambah Mata Pelajaran</span></Button>

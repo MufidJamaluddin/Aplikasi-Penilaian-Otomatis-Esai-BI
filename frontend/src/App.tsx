@@ -203,8 +203,10 @@ class App extends Component<{}, AppModel>
   public render()
   {
     if (this.state.unchecked_role) return(
-      <div className="spinner-border spinner-lg text-success text-center" role="status">
-        <span className="sr-only">Loading...</span>
+      <div className="d-flex justify-content-center">
+        <div className="spinner-border text-success" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
       </div>
     );
     

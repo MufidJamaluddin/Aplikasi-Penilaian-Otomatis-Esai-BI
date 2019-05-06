@@ -147,6 +147,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
         toggle={ this.toggleUpdateKelas }
         onClickSubmit={ this.editKelas }>
         <FormGroup row>
+          Nama Kelas {namaKelas} Baru
           <Col sm="12">
             <Input type="text" placeholder={namaKelas}
               name="namaKelas" required />
