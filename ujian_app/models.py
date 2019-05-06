@@ -188,6 +188,7 @@ class Ujian(Base):
     namaUjian = Column(String(30))
     jumlahSoal = Column(SmallInteger)
     durasi = Column(Time)
+    status_ujian = Column(String(1))
 
     pengampu = relationship('Pengampu', lazy='select')
     pelaksanaan_ujian = relationship('Pelaksanaanujian', lazy='selectin')
