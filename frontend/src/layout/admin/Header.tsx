@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Nav , NavItem , NavLink} from 'reactstrap';
+import { Nav , NavItem , NavLink, Button} from 'reactstrap';
 
 var Template = require('@coreui/react/lib');
 
@@ -26,13 +26,13 @@ class Header extends Component<DefaultHeaderPropsModel>
           <Nav className="m1-auto">
             <NavItem className="px-3 text-right">
               <NavLink to="#" className="nav-link" >
-                <i className="icon-user"></i> Hai {this.props.nama}
+                <i className="icon-user"></i> {this.props.nama}
               </NavLink>
             </NavItem>
             <NavItem className="px-3 text-right">
-              <button onClick={this.props.onLogout}>
-                <i className="icon-logout"></i>Logout
-              </button>
+              <Button color="primary" onClick={this.props.onLogout}>
+                <i className="icon-logout"></i> Logout
+              </Button>
             </NavItem>
           </Nav>
           

@@ -39,7 +39,7 @@ interface AdminLayoutModel
     admin_routes: Array<RouteConfigItem>;
     admin_nav: SidebarNavConfig;
     redirect_root_to: string;
-    onLogout: any;
+    onLogout: (e:any) => void;
     nama: string;
 }
 
