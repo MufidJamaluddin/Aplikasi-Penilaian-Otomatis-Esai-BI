@@ -24,9 +24,10 @@ class MatapelajaranAPI(MethodView):
         '''
         data_matapelajaran = request.get_json()
         namaMapel = data_matapelajaran['namaMapel']
+        kkm = data_matapelajaran['KKM']
 
-        if namaMapel is not None:
-            self.repository.save(namaMapel=namaMapel)
+        if namaMapel is not None and kkm is not None:
+            self.repository.save(namaMapel=namaMapel, KKM=kkm)
 
             list_matapelajaran = self.repository.findAll()
             return json.dumps({'list': list_matapelajaran }, cls=AlchemyEncoder), 201, {'Content-Type': 'application/json'}
@@ -37,7 +38,8 @@ class MatapelajaranAPI(MethodView):
         '''
         data_matapelajaran = request.get_json()
         namaMapel = data_matapelajaran['namaMapel']
-        self.repository.update(idmapel, namaMapel=namaMapel)
+        kkm = data_matapelajaran['KKM']
+        self.repository.update(idmapel, namaMapel=namaMapel, KKM=kkm)
 
         list_matapelajaran = self.repository.findAll()
         return json.dumps({'list': list_matapelajaran }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}

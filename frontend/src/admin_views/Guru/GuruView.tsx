@@ -141,6 +141,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
 			nip: fdata.get('nip') as string,
 			nuptk: fdata.get('nuptk') as string,
 			username: fdata.get('username') as string,
+			password: fdata.get('username') as string,
 			listpengampu: JSON.parse(slist as string) 
 		};
 

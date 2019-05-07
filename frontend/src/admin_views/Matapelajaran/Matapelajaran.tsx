@@ -158,7 +158,7 @@ renderModalEdit()
           <Input type="text" placeholder={namaMapel}
             name="namaMapel" required />
           <Input type="number" min="0" max="100" placeholder={KKM}
-            name="namaMapel" required />
+            name="KKM" required />
         </Col>
       </FormGroup>
     </ModalForm>
@@ -220,7 +220,8 @@ render()
       <Table responsive reflow size="sm">
         <thead>
         <tr>
-          <th>Nama Mata Pelajaran</th>
+          <th>Mata Pelajaran</th>
+          <th>Nilai KKM</th>
           <th>Aksi</th>
         </tr>
         </thead>
@@ -230,6 +231,7 @@ render()
               return (
                 <tr>
                   <td>{ matapelajaran.namaMapel }</td>
+                  <td>{ matapelajaran.KKM }</td>
                   <td>
                     <Button 
                       className="btn-stack-overflow btn-brand icon btn-sm" 

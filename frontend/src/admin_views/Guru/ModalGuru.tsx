@@ -126,7 +126,7 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 	public onHapusPengampu(idkelas:string, idmapel:string)
 	{
 		var list = this.state.listpengampu.filter((el, i, arr) => {
-			return el.idkelas !== idkelas && el.idmapel !== idmapel;
+			return !(el.idkelas == idkelas && el.idmapel == idmapel);
 		});
 
 		this.setState({
@@ -179,12 +179,12 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 	{
 		if(this.props.inputusername) return(                
 			<Col sm="3">
-				<Input bsSize="sm" type="text" name="username" placeholder={ username } required/>
+				<Input bssize="sm" type="text" name="username" placeholder={ username } required/>
 			</Col>
 		);
 		else return(
 			<Col sm="3">
-				<Input bsSize="sm" type="text" value={ username } disabled />
+				<Input bssize="sm" type="text" value={ username } disabled />
 			</Col>
 		);
 	}
@@ -214,13 +214,13 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
         else return (
             <FormGroup row>
                 <Col sm="3">
-                    <Input bsSize="sm" type="text" name="nip" placeholder={ dataguru.nip || 'NIP' } required />
+                    <Input bssize="sm" type="text" name="nip" placeholder={ dataguru.nip || 'NIP' } />
                 </Col>
                 <Col sm="3">
-                    <Input bsSize="sm" type="text" name="nuptk" placeholder={ dataguru.nuptk || 'NUPTK' } required />
+                    <Input bssize="sm" type="text" name="nuptk" placeholder={ dataguru.nuptk || 'NUPTK' } />
                 </Col>
                 <Col sm="3">
-                    <Input bsSize="sm" type="text" name="namaGuru" placeholder={ dataguru.namaGuru||'Nama Guru' } required/>
+                    <Input bssize="sm" type="text" name="namaGuru" placeholder={ dataguru.namaGuru||'Nama Guru' } required/>
                 </Col>
 				{ this.renderInputUsername(dataguru.username || 'Username') }
             </FormGroup>
@@ -246,7 +246,7 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 				</thead>
 				<tbody>
 					{
-						listpengampu.map(pengampu=>{
+						listpengampu.map((pengampu, i, arr)=>{
 							return(
 								<tr>
 									<td><a>{pengampu.namaMapel}</a></td>
@@ -266,7 +266,7 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 				<input type="hidden" name="listpengampu" value={this.state.inputlistpengampu}/>
 
 				<Col sm="5">
-					<Input bsSize="sm" type="select" onChange={this.onKelasChange}>
+					<Input bssize="sm" type="select" onChange={this.onKelasChange}>
 						{ 
 							this.props.listkelas.map(kelas=>{
 								return (
@@ -280,7 +280,7 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 				</Col>
 				
 				<Col sm="5">
-				<Input bsSize="sm" type="select" onChange={this.onMapelChange}>
+				<Input bssize="sm" type="select" onChange={this.onMapelChange}>
 						{ 
 							this.props.listmapel.map(mapel=>{
 								return (
@@ -294,11 +294,11 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 				</Col>
 				
 				<Col sm="2">
-					<Button bsSize="sm" color="success" onClick={this.onTambahPengampu}>+Tambah</Button>
+					<Button bssize="sm" color="success" onClick={this.onTambahPengampu}>+Tambah</Button>
 				</Col>
 				
 				<Col sm="12">
-				<Table responsive bsSize="sm">
+				<Table responsive bssize="sm">
 					<thead>
 						<tr>
 							<th>Mata Pelajaran</th>
@@ -311,7 +311,7 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 							listpengampu.map(pengampu=>{
 								return(
 									<tr>
-										<td>{pengampu.namaMatapelajaran}</td>
+										<td>{pengampu.namaMapel}</td>
 										<td>{pengampu.namaKelas}</td>
 										<td>
 											<Button onClick={(e:any)=>{this.onHapusPengampu(pengampu.idkelas||'', pengampu.idmapel||'')}} className="btn-youtube btn-brand icon btn-sm">
@@ -329,12 +329,6 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 		);
 	}
 
-	private renderSubmitButton()
-	{
-		if(this.props.strsubmit !== undefined)
-			return(<Button color="success" type="submit">{this.props.strsubmit}</Button>);
-	}
-
     public render()
     {
         return(
@@ -343,19 +337,19 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
                 toggle={ this.props.toggle } 
                 className={ this.props.className }>
 				<ModalHeader toggle={this.props.toggle}>{this.props.header}</ModalHeader>
-				<ModalBody>
-					<Form onSubmit={this.props.onClickSubmit} className="form-horizontal">
+				<Form onSubmit={this.props.onClickSubmit} className="form-horizontal">
+					<ModalBody>
 						<h6>Data Pribadi</h6>
 						{ this.renderDataPribadi() }
-						
+							
 						<h6>Data Mengajar</h6>
 						{ this.renderDataMengajar() }
-					</Form>
-				</ModalBody>
-				<ModalFooter>
-					<Button color="danger" onClick={this.props.toggle}>Batal</Button>
-					{ this.renderSubmitButton() }
-				</ModalFooter>
+					</ModalBody>
+					<ModalFooter>
+						<Button color="danger" onClick={this.props.toggle}>Batal</Button>
+						<Button color="success" type="submit">{this.props.strsubmit||'Ok'}</Button>
+					</ModalFooter>
+				</Form>
 			</Modal>
         );
     }

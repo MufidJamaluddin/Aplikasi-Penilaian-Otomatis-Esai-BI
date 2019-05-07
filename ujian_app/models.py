@@ -85,6 +85,8 @@ class Guru(Base):
     username = Column(String(30))
     password = Column(String(40))
 
+    listpengampu = relationship('Pengampu')
+
 
 class Jawaban(Base):
     __tablename__ = 'jawaban'

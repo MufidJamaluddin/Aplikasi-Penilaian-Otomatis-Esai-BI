@@ -16,7 +16,7 @@ class PengampuAPI(MethodView):
         HTTP GET
         Ambil Semua Data Pengampu
         '''
-        listpengampu = self.repository.findByKeys(idguru = idguru).all()
+        listpengampu = self.repository.getPengampuByIdGuru(idguru)
         tlistpengampu = []
 
         for pengampu in listpengampu:

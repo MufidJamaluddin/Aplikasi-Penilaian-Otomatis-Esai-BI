@@ -205,7 +205,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
 
         { this.renderModalDelete() }
     
-        <Table responsive reflow size="sm">
+        <Table responsive reflow={true} size="sm">
           <thead>
           <tr>
             <th>Nama Kelas</th>
