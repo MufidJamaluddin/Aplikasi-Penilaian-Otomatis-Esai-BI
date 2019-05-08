@@ -64,6 +64,8 @@ class GuruAPI(MethodView):
         if listpengampu:
             for p in listpengampu:
                 pengampu = Pengampu()
+                if p['idpengampu']:
+                    pengampu.idpengampu = p['idpengampu']
                 pengampu.idkelas = p['idkelas']
                 pengampu.idmapel = p['idmapel']
                 pengampus.append(pengampu)
