@@ -1,8 +1,8 @@
 from flask.views import MethodView
-from flask import json, request
+from flask import json, request, session
 from ujian_app.utils import AlchemyEncoder
 from ujian_app.repository import UjianRepository
-from ujian_app.models import Pelaksanaanujian
+from ujian_app.models import Pelaksanaanujian, Guru
 
 class UjianEsaiAPI(MethodView):
    
@@ -16,8 +16,23 @@ class UjianEsaiAPI(MethodView):
         '''
         Mendapatkan semua Ujian / berasarkan page
         '''
-        list_Ujian = self.repository.findAll()
-        return json.dumps({'list': list_Ujian }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
+        gururepository = Guru()
+        cur_user = session.get('user')
+
+        guru = gururepository.query.filter_by(username=cur_user['username']).first()
+
+        tlistpengampu = []
+
+        for pengampu in guru.listpengampu:
+            tpengampu = {}
+            tpengampu['idmapel'] = pengampu.idmapel
+            tpengampu['idkelas'] = pengampu.idkelas
+            tpengampu['idguru'] = pengampu.idguru
+            tpengampu['namaKelas'] = pengampu.kelas.namaKelas
+            tpengampu['namaMapel'] = pengampu.matapelajaran.namaMapel
+            tlistpengampu.append(tpengampu)
+
+        return json.dumps({'listpengampu': tlistpengampu, 'listujian': guru.listujian }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
 
     def post(self):
         '''
@@ -27,7 +42,8 @@ class UjianEsaiAPI(MethodView):
         namaUjian = data_Ujian['namaUjian']
         jumlahSoal = data_Ujian['jumlahSoal']
         durasi = data_Ujian['durasi']
-        idpengampu = data_Ujian['idpengampu']
+        idguru = data_Ujian['idguru']
+        idmapel = data_Ujian['idmapel']
         status_ujian = data_Ujian['status_ujian']
 
         pelaksanaan_ujian = []
@@ -40,7 +56,8 @@ class UjianEsaiAPI(MethodView):
                 pelaksanaan_ujian.append(pelaksanaan)
 
         self.repository.save(
-            idpengampu=idpengampu,
+            idguru=idguru,
+            idmapel=idmapel,
             namaUjian=namaUjian, 
             jumlahSoal=jumlahSoal, 
             durasi=durasi,
@@ -59,7 +76,8 @@ class UjianEsaiAPI(MethodView):
         namaUjian = data_Ujian['namaUjian']
         jumlahSoal = data_Ujian['jumlahSoal']
         durasi = data_Ujian['durasi']
-        idpengampu = data_Ujian['idpengampu']
+        idguru = data_Ujian['idguru']
+        idmapel = data_Ujian['idmapel']
         status_ujian = data_Ujian['status_ujian']
 
         pelaksanaan_ujian = []
@@ -68,11 +86,13 @@ class UjianEsaiAPI(MethodView):
             for p in listpelaksanaan:
                 pelaksanaan = Pelaksanaanujian()
                 pelaksanaan.idkelas = p['idkelas']
+                pelaksanaan.status_pelaksanaan = 0
                 pelaksanaan_ujian.append(pelaksanaan)
 
         self.repository.update(
-            idujian, 
-            idpengampu=idpengampu,
+            idujian,
+            idguru=idguru,
+            idmapel=idmapel,
             namaUjian=namaUjian, 
             jumlahSoal=jumlahSoal, 
             durasi=durasi,

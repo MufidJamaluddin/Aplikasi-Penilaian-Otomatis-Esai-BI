@@ -205,7 +205,7 @@ render()
           </Col>
           <Col sm="4">
             <Input type="number" min="0" max="100" placeholder="KKM"
-              name="namaMapel" required />
+              name="KKM" required />
           </Col>
           <Col sm="2">
             <Button size="sm" type="submit" color="success" className="px-4"><i className="fa fa-plus"></i><span>Tambah Mata Pelajaran</span></Button>

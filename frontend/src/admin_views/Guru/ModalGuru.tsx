@@ -59,9 +59,9 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 	 */
 	public componentDidMount()
 	{
-		if(this.state.dataguru !== undefined)
+		if(this.props.dataguru !== undefined)
 		{
-			var dataguru = this.state.dataguru;
+			var dataguru = this.props.dataguru;
 			if(dataguru === undefined) return;
 
 			var idguru = dataguru.idguru;
@@ -73,6 +73,31 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 					inputlistpengampu: JSON.stringify(listpengampu)
 				});
 			});
+		}
+	}
+
+	/**
+	 * Perubahan ID Guru
+	 */
+	public componentDidUpdate(prevProps:ModalGuruFormAttribute)
+	{
+		if(this.props.dataguru !== undefined)
+		{
+			var lastDataGuru = prevProps.dataguru || {};
+			var lastIDGuru = lastDataGuru.idguru || '';
+			
+			if(this.props.dataguru.idguru !== lastIDGuru)
+			{
+				var idguru = this.props.dataguru.idguru;
+				if(idguru === undefined) return;
+
+				initDataPengampu(idguru).then(listpengampu=>{
+					this.setState({
+						listpengampu: listpengampu, 
+						inputlistpengampu: JSON.stringify(listpengampu)
+					});
+				});
+			}
 		}
 	}
 

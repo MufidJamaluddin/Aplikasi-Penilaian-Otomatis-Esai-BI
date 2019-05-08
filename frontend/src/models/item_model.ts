@@ -29,14 +29,27 @@ export default interface DataSiswa
     kelas:Partial<DataKelas>;
 }
 
+export default interface DataPelaksanaanUjian
+{
+    idkelas: string;
+    idujian: string;
+    tanggal_mulai?: string;
+    status_pelaksanaan?: string;
+    status_penilaian?: string;
+    progress_penilaian?: number;
+}
+
 export default interface DataUjian
 {
     idujian: string;
+    idguru: string;
+    idmapel: string;
     namaUjian: string;
     namaMapel: string;
-    listKelas: Array<DataKelas>;
+    pelaksanaanUjian: Array<any>;
     jumlahSoal: number;
     durasi: number;
+    status_ujian: number;
 }
 
 export default interface DataSoal
@@ -50,7 +63,7 @@ export default interface DataSoal
     materiPokok: string;
 }
 
-export default interface DataPelaksanaanUjian
+export default interface DataJawabanUjian
 {
     nis: string;
     idujian: string;
