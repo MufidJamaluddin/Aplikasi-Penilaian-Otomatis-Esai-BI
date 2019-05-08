@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { Modal, Form, CardGroup,  ModalBody, ModalFooter, ModalHeader, Badge, Input, Button, Card, CardBody, CardHeader, Col, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText, Row, TabContent, TabPane, Container } from 'reactstrap';
 import FormGroup from 'reactstrap/lib/FormGroup';
 
@@ -7,16 +7,31 @@ interface LihatSoalStateModel { activeTab: number;}
 
 interface LihatSoalPropsModel { className: string; }
 
-class LihatSoal extends Component<LihatSoalPropsModel, LihatSoalStateModel>
+interface RouteParam { idujian:number; }
+
+/**
+ * Kelas untuk melihat soal
+ */
+class LihatSoal extends Component<LihatSoalPropsModel & RouteComponentProps<RouteParam>, LihatSoalStateModel>
 {
+  /**
+   * ID UJIAN
+   * Keterangan Ujian
+   */
+  private idujian: number;
+
+  /**
+   * Konstruktor
+   */
 	constructor(props:any) 
 	{
 		super(props);
-		this.toggle = this.toggle.bind(this);
-    this.state = {
-      activeTab: 1,
-        };
-    }
+    
+    this.idujian = props.match.params.idujian;
+
+    this.state = { activeTab: 1 };
+    this.toggle = this.toggle.bind(this);
+  }
 
 
   toggle(tab:any) {
@@ -37,7 +52,7 @@ class LihatSoal extends Component<LihatSoalPropsModel, LihatSoalStateModel>
               <CardGroup>
                 <Card className="p-4">
                     <CardHeader>
-                        <h5 className="text-center">LIHAT SOAL</h5>
+                        <h5 className="text-center">LIHAT SOAL (ID UJIAN {this.idujian})</h5>
                     </CardHeader>
                         
                     <CardBody>

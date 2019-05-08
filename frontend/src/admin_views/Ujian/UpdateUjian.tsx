@@ -1,17 +1,31 @@
 import React, { Component } from 'react';
-import { Badge, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table, Button,Form, FormGroup, FormText, FormFeedback, Input, InputGroup, InputGroupAddon, InputGroupText,Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table, Button,Form, FormGroup, FormText, FormFeedback, Input, InputGroup, InputGroupAddon, InputGroupText,Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Link, RouteComponentProps } from 'react-router-dom';
 
 interface UpdateUjianStateModel { modal:boolean; state:boolean; danger:boolean; }
 
 interface UpdateUjianPropsModel { className?: string; }
 
-class UpdateUjian extends Component<UpdateUjianPropsModel, UpdateUjianStateModel>
+interface RouteParam { idujian:number; }
+
+/**
+ * Kelas untuk Update Ujian
+ */
+class UpdateUjian extends Component<UpdateUjianPropsModel & RouteComponentProps<RouteParam>, UpdateUjianStateModel>
 {
-  constructor(props: Readonly<UpdateUjianPropsModel>) 
+  /**
+   * ID UJIAN
+   * Keterangan Ujian
+   */
+  private idujian: number;
+
+  /**
+   * Konstruktor
+   */
+  constructor(props: Readonly<UpdateUjianPropsModel & RouteComponentProps>) 
   {
     super(props);
-
+    this.idujian = props.match.params.idujian;
   }
 
   public render() : JSX.Element 
@@ -22,14 +36,14 @@ class UpdateUjian extends Component<UpdateUjianPropsModel, UpdateUjianStateModel
           <Col xs="12" lg="12">
             <Card>
               <CardHeader>
-                <h5 className="text-center">UPDATE UJIAN</h5>
+                <h5 className="text-center">UPDATE UJIAN ID {this.idujian}</h5>
               </CardHeader>
 			  
               <CardBody>
 
-              <Form action="" method="post" className="form-horizontal">
-										<h6>Keterangan Ujian :</h6>
-										<FormGroup row>
+              <Form className="form-horizontal">
+								<h6>Keterangan Ujian :</h6>
+								  <FormGroup row>
 										<Col sm="3">
 											<p><Input type="text" placeholder="Nama Ujian" required /></p>
 										</Col>
@@ -107,10 +121,10 @@ class UpdateUjian extends Component<UpdateUjianPropsModel, UpdateUjianStateModel
                                       </Col>
 
                                       <Col className="col-sm-12 text-right">
-                                        <Link to="./ujian">
+                                        <Link to="/ujian">
                                             <Button className="text-right" color="primary" >Kembali</Button>
                                         </Link>
-                                        <Link to="./updatesoal">
+                                        <Link to={"/soal/"+ this.idujian +"/update"}>
                                             <Button className="text-right" color="success" >Selanjutnya</Button>
                                         </Link>
                                      </Col>

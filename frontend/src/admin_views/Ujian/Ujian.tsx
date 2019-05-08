@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Badge, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table, Button,Form, FormGroup, FormText, FormFeedback, Input, InputGroup, InputGroupAddon, InputGroupText,Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { Link } from 'react-router-dom';
+
 interface UjianStateModel { modal:boolean; state:boolean; danger:boolean; }
 
 interface UjianPropsModel { className?: string; }
@@ -55,7 +56,7 @@ class Ujian extends Component<UjianPropsModel, UjianStateModel>
               </CardHeader>
 			  
               <CardBody>
-              <Link to="./tambahujian">
+              <Link to="/ujian/tambah">
                 <Button size="sm"className="btn-vine btn-brand mr-1 mb-1 "><i className="fa fa-plus"></i><span>Tambah Ujian</span></Button>
               </Link>
                 <Table responsive size="sm">
@@ -93,7 +94,7 @@ class Ujian extends Component<UjianPropsModel, UjianStateModel>
                     <td>Biologi Bab 1</td>
                     <td><span className="badge badge-danger">Belum Terlaksana</span></td>
                     <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
-                        <Link to="./updateujian">
+                        <Link to="/ujian/update/10">
                           <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
                         </Link>
                         <Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
@@ -106,7 +107,7 @@ class Ujian extends Component<UjianPropsModel, UjianStateModel>
                     <td>Biologi</td>
                     <td>Biologi Bab 2</td>
                     <td><span className="badge badge-primary">Sedang Berlangsung</span></td>
-                    <td><Link to="./detailujian"><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button></Link></td>
+                    <td><Link to="/ujian/detail/10"><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button></Link></td>
                  </tr>
 
                  
@@ -116,7 +117,7 @@ class Ujian extends Component<UjianPropsModel, UjianStateModel>
                     <td>Biologi Bab 3</td>
                     <td><span className="badge badge-danger">Belum Terlaksana</span></td>
                     <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
-                        <Link to="./updateujian">
+                        <Link to="/ujian/update/11">
                           <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
                         </Link>
                         <Button className="btn-youtube btn-brand icon btn-sm" onClick={this.toggleDeleteUjian}><i className="fa fa-trash"></i></Button>
@@ -141,7 +142,7 @@ class Ujian extends Component<UjianPropsModel, UjianStateModel>
                     <td>Biologi Bab 4</td>
                     <td><span className="badge badge-danger">Belum Terlaksana</span></td>
                     <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
-                        <Link to="./updateujian">
+                        <Link to="/ujian/update/11">
                           <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
                          </Link>
                         <Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>

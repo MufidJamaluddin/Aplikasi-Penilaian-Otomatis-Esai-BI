@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Badge, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table, Button,Form, FormGroup, FormText, FormFeedback, Input, InputGroup, InputGroupAddon, InputGroupText,Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { Link } from 'react-router-dom';
+
+import { Link, RouteComponentProps } from 'react-router-dom';
 
 interface DetailUjianStateModel { 
   modal: boolean;
@@ -9,18 +10,33 @@ interface DetailUjianStateModel {
 
 interface DetailUjianPropsModel { className?: string; }
 
-class DetailUjian extends Component<DetailUjianPropsModel, DetailUjianStateModel>
+interface RouteParam { idujian:number; }
+
+/**
+ * Detail Keterangan Ujian
+ */
+class DetailUjian extends Component<DetailUjianPropsModel & RouteComponentProps<RouteParam>, DetailUjianStateModel>
 {
-  constructor(props: Readonly<DetailUjianPropsModel>) 
+  /**
+   * ID UJIAN
+   * Keterangan Ujian
+   */
+  private idujian: number;
+
+  constructor(props: Readonly<DetailUjianPropsModel & RouteComponentProps>) 
   {
     super(props);
     this.state = {
       modal: false,
       primary: false,
     };
+
+    this.idujian = props.match.params.idujian;
+
     this.toggle = this.toggle.bind(this);
     this.toggleMulaiUjian = this.toggleMulaiUjian.bind(this);
   }
+
   public toggle() : void 
   {
     this.setState({
@@ -45,7 +61,7 @@ class DetailUjian extends Component<DetailUjianPropsModel, DetailUjianStateModel
             <Card>
               <CardHeader>
                     <Col md="12">
-                      <h6>No Test : TST00004</h6>
+                      <h6>ID Test : { this.idujian }</h6>
                       <h6>Biologi</h6>
                       <h6>Biologi Bab 1</h6>
                       <h6>Durasi Ujian : 90:00</h6>
@@ -129,7 +145,7 @@ class DetailUjian extends Component<DetailUjianPropsModel, DetailUjianStateModel
                                         </Table>
                                       </Col>
                                     <Col className="col-sm-12 text-right">
-                                        <Link to="./ujian">
+                                        <Link to="/ujian">
                                             <Button className="text-right" color="primary" >Kembali</Button>
                                         </Link>
                                     </Col>

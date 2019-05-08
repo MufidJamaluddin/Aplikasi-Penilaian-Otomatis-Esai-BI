@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { Modal, ModalBody, ModalFooter, ModalHeader, Badge, Input, Button, Card, CardBody, CardHeader, Col, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText, Row, TabContent, TabPane, Container } from 'reactstrap';
 import FormGroup from 'reactstrap/lib/FormGroup';
+import { Link, RouteComponentProps } from 'react-router-dom';
 
 
 interface BuatSoalStateModel { activeTab: number; modal:boolean; success:boolean; danger:boolean }
 
 interface BuatSoalPropsModel { className?: string; }
 
-class BuatSoal extends Component<BuatSoalPropsModel, BuatSoalStateModel>
+interface RouteParam { idujian:number; }
+
+/**
+ * Kelas untuk membuat soal
+ */
+class BuatSoal extends Component<BuatSoalPropsModel & RouteComponentProps<RouteParam>, BuatSoalStateModel>
 {
-  constructor(props: Readonly<BuatSoalPropsModel>) 
+  /**
+   * ID UJIAN yang dibuatkan soalnya
+   */
+  private idujian: number;
+
+  constructor(props: any) 
   {
     super(props);
     this.toggle = this.toggle.bind(this);
@@ -21,10 +31,14 @@ class BuatSoal extends Component<BuatSoalPropsModel, BuatSoalStateModel>
       success: false,
 	
     };
+
+    this.idujian = props.match.params.idujian;
+
     this.modal = this.modal.bind(this);
     this.toggleSubmitSoal = this.toggleSubmitSoal.bind(this);
     this.toggleBatalUjian = this.toggleBatalUjian.bind(this);
   }
+
   public modal() : void 
 	{
     this.setState({
@@ -46,7 +60,6 @@ class BuatSoal extends Component<BuatSoalPropsModel, BuatSoalStateModel>
     });
   }
   
-
   toggle(tab:any) {
     if (this.state.activeTab !== tab) {
       this.setState({
@@ -54,6 +67,7 @@ class BuatSoal extends Component<BuatSoalPropsModel, BuatSoalStateModel>
       });
     }
   }
+
   public render() : JSX.Element 
   {
     return (
@@ -64,7 +78,7 @@ class BuatSoal extends Component<BuatSoalPropsModel, BuatSoalStateModel>
 
             <Card>
               <CardHeader>
-                <h4 className="text-center">INPUT SOAL UJIAN</h4>
+                <h4 className="text-center">INPUT SOAL UJIAN ID {this.idujian}</h4>
               </CardHeader>
               <CardBody>
                 <Row>
@@ -311,7 +325,7 @@ class BuatSoal extends Component<BuatSoalPropsModel, BuatSoalStateModel>
                               </ModalBody>
                             <ModalFooter>
                               <Button color="danger" onClick={this.toggleBatalUjian}>Tidak</Button>
-                              <Link to="./tambahujian">
+                              <Link to="/ujian/tambah">
                                 <Button color="success" onClick={this.toggleBatalUjian}>Ya</Button>
                               </Link>
                             </ModalFooter>
@@ -325,7 +339,7 @@ class BuatSoal extends Component<BuatSoalPropsModel, BuatSoalStateModel>
                               </ModalBody>
                             <ModalFooter>
                                 <Button color="danger" onClick={this.toggleSubmitSoal}>Tidak</Button>
-                                <Link to="./ujian">
+                                <Link to="/ujian">
                                   <Button color="success" onClick={this.toggleSubmitSoal}>Ya</Button>
                                 </Link>
                             </ModalFooter>

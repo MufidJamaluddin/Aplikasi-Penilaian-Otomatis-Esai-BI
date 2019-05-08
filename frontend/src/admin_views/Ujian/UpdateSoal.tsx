@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { Modal, ModalBody, ModalFooter, ModalHeader, Badge, Input, Button, Card, CardBody, CardHeader, Col, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText, Row, TabContent, TabPane, Container } from 'reactstrap';
 import FormGroup from 'reactstrap/lib/FormGroup';
 
@@ -8,9 +8,23 @@ interface UpdateSoalStateModel { activeTab: number; modal:boolean; success:boole
 
 interface UpdateSoalPropsModel { className?: string; }
 
-class UpdateSoal extends Component<UpdateSoalPropsModel, UpdateSoalStateModel>
+interface RouteParam { idujian:number; }
+
+/**
+ * Kelas untuk Update Soal
+ */
+class UpdateSoal extends Component<UpdateSoalPropsModel & RouteComponentProps<RouteParam>, UpdateSoalStateModel>
 {
-  constructor(props: Readonly<UpdateSoalPropsModel>) 
+  /**
+   * ID UJIAN
+   * Keterangan Ujian
+   */
+  private idujian: number;
+
+  /**
+   * Konstruktor
+   */
+  constructor(props: Readonly<UpdateSoalPropsModel & RouteComponentProps>) 
   {
     super(props);
     this.toggle = this.toggle.bind(this);
@@ -19,8 +33,10 @@ class UpdateSoal extends Component<UpdateSoalPropsModel, UpdateSoalStateModel>
       modal: false,
       danger: false,
       success: false,
-	
     };
+    
+    this.idujian = props.match.params.idujian;
+
     this.modal = this.modal.bind(this);
     this.toggleSubmitSoal = this.toggleSubmitSoal.bind(this);
     this.toggleBatalUjian = this.toggleBatalUjian.bind(this);
@@ -64,7 +80,7 @@ class UpdateSoal extends Component<UpdateSoalPropsModel, UpdateSoalStateModel>
 
             <Card>
               <CardHeader>
-                <h4 className="text-center">UPDATE SOAL UJIAN</h4>
+                <h4 className="text-center">UPDATE SOAL (ID UJIAN {this.idujian})</h4>
               </CardHeader>
               <CardBody>
                 <Row>
@@ -308,7 +324,7 @@ class UpdateSoal extends Component<UpdateSoalPropsModel, UpdateSoalStateModel>
                               </ModalBody>
                             <ModalFooter>
                               <Button color="danger" onClick={this.toggleBatalUjian}>Tidak</Button>
-                              <Link to="./updateujian">
+                              <Link to={ "/ujian/update/" + this.idujian }>
                                 <Button color="success" onClick={this.toggleBatalUjian}>Ya</Button>
                               </Link>
                             </ModalFooter>
@@ -322,7 +338,7 @@ class UpdateSoal extends Component<UpdateSoalPropsModel, UpdateSoalStateModel>
                               </ModalBody>
                             <ModalFooter>
                                 <Button color="danger" onClick={this.toggleSubmitSoal}>Tidak</Button>
-                                <Link to="./ujian">
+                                <Link to="/ujian">
                                   <Button color="success" onClick={this.toggleSubmitSoal}>Ya</Button>
                                 </Link>
                             </ModalFooter>

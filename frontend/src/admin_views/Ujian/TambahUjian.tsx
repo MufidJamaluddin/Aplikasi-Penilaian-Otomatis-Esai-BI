@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Badge, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table, Button,Form, FormGroup, FormText, FormFeedback, Input, InputGroup, InputGroupAddon, InputGroupText,Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 
 interface TambahUjianStateModel { modal:boolean; state:boolean; danger:boolean; }
 
 interface TambahUjianPropsModel { className?: string; }
 
-class TambahUjian extends Component<TambahUjianPropsModel, TambahUjianStateModel>
+class TambahUjian extends Component<TambahUjianPropsModel & RouteComponentProps, TambahUjianStateModel>
 {
-  constructor(props: Readonly<TambahUjianPropsModel>) 
+  constructor(props: Readonly<TambahUjianPropsModel & RouteComponentProps>) 
   {
     super(props);
 
@@ -107,10 +107,10 @@ class TambahUjian extends Component<TambahUjianPropsModel, TambahUjianStateModel
                                       </Col>
 
                                       <Col className="col-sm-12 text-right">
-                                        <Link to="./ujian">
+                                        <Link to="/ujian">
                                             <Button className="text-right" color="primary" >Kembali</Button>
                                         </Link>
-                                        <Link to="./buatsoal">
+                                        <Link to="/soal/10/tambah">
                                             <Button className="text-right" color="success" >Selanjutnya</Button>
                                         </Link>
                                      </Col>
