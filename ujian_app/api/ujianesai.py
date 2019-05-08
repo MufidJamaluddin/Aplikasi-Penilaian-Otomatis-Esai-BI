@@ -27,6 +27,8 @@ class UjianEsaiAPI(MethodView):
         namaUjian = data_Ujian['namaUjian']
         jumlahSoal = data_Ujian['jumlahSoal']
         durasi = data_Ujian['durasi']
+        idpengampu = data_Ujian['idpengampu']
+        status_ujian = data_Ujian['status_ujian']
 
         pelaksanaan_ujian = []
         listpelaksanaan = data_Ujian['pelaksanaan_ujian']
@@ -34,12 +36,15 @@ class UjianEsaiAPI(MethodView):
             for p in listpelaksanaan:
                 pelaksanaan = Pelaksanaanujian()
                 pelaksanaan.idkelas = p['idkelas']
+                pelaksanaan.status_pelaksanaan = 0
                 pelaksanaan_ujian.append(pelaksanaan)
 
         self.repository.save(
+            idpengampu=idpengampu,
             namaUjian=namaUjian, 
             jumlahSoal=jumlahSoal, 
             durasi=durasi,
+            status_ujian=status_ujian,
             pelaksanaan_ujian=pelaksanaan_ujian
         )
 
@@ -54,6 +59,8 @@ class UjianEsaiAPI(MethodView):
         namaUjian = data_Ujian['namaUjian']
         jumlahSoal = data_Ujian['jumlahSoal']
         durasi = data_Ujian['durasi']
+        idpengampu = data_Ujian['idpengampu']
+        status_ujian = data_Ujian['status_ujian']
 
         pelaksanaan_ujian = []
         listpelaksanaan = data_Ujian['pelaksanaan_ujian']
@@ -65,9 +72,11 @@ class UjianEsaiAPI(MethodView):
 
         self.repository.update(
             idujian, 
+            idpengampu=idpengampu,
             namaUjian=namaUjian, 
             jumlahSoal=jumlahSoal, 
             durasi=durasi,
+            status_ujian=status_ujian,
             pelaksanaan_ujian=pelaksanaan_ujian
         )
 
