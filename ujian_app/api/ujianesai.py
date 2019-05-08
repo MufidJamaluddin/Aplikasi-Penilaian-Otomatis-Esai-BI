@@ -50,8 +50,6 @@ class UjianEsaiAPI(MethodView):
         '''
         Mengubah Data Ujian
         '''
-        ujian = self.repository.findById(idujian)
-
         data_Ujian = request.get_json()
         namaUjian = data_Ujian['namaUjian']
         jumlahSoal = data_Ujian['jumlahSoal']
