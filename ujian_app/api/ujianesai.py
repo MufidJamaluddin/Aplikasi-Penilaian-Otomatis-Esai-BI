@@ -34,7 +34,7 @@ class UjianEsaiAPI(MethodView):
             for p in listpelaksanaan:
                 pelaksanaan = Pelaksanaanujian()
                 pelaksanaan.idkelas = p['idkelas']
-                pelaksanaan_ujian.push(pelaksanaan)
+                pelaksanaan_ujian.append(pelaksanaan)
 
         self.repository.save(
             namaUjian=namaUjian, 
@@ -63,7 +63,7 @@ class UjianEsaiAPI(MethodView):
             for p in listpelaksanaan:
                 pelaksanaan = Pelaksanaanujian()
                 pelaksanaan.idkelas = p['idkelas']
-                pelaksanaan_ujian.push(pelaksanaan)
+                pelaksanaan_ujian.append(pelaksanaan)
 
         self.repository.update(
             idujian, 
