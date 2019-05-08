@@ -6,7 +6,7 @@ interface UpdateUjianStateModel { modal:boolean; state:boolean; danger:boolean; 
 
 interface UpdateUjianPropsModel { className?: string; }
 
-interface RouteParam { idujian:number; }
+interface RouteParam { idujian?:string; }
 
 /**
  * Kelas untuk Update Ujian
@@ -17,12 +17,12 @@ class UpdateUjian extends Component<UpdateUjianPropsModel & RouteComponentProps<
    * ID UJIAN
    * Keterangan Ujian
    */
-  private idujian: number;
+  private idujian?: string;
 
   /**
    * Konstruktor
    */
-  constructor(props: Readonly<UpdateUjianPropsModel & RouteComponentProps>) 
+  constructor(props:any) 
   {
     super(props);
     this.idujian = props.match.params.idujian;

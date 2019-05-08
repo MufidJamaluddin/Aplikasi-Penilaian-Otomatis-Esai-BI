@@ -7,7 +7,7 @@ interface LihatSoalStateModel { activeTab: number;}
 
 interface LihatSoalPropsModel { className: string; }
 
-interface RouteParam { idujian:number; }
+interface RouteParam { idujian?:string; }
 
 /**
  * Kelas untuk melihat soal
@@ -18,7 +18,7 @@ class LihatSoal extends Component<LihatSoalPropsModel & RouteComponentProps<Rout
    * ID UJIAN
    * Keterangan Ujian
    */
-  private idujian: number;
+  private idujian?: string;
 
   /**
    * Konstruktor

@@ -10,7 +10,7 @@ interface DetailUjianStateModel {
 
 interface DetailUjianPropsModel { className?: string; }
 
-interface RouteParam { idujian:number; }
+interface RouteParam { idujian?:string; }
 
 /**
  * Detail Keterangan Ujian
@@ -21,9 +21,9 @@ class DetailUjian extends Component<DetailUjianPropsModel & RouteComponentProps<
    * ID UJIAN
    * Keterangan Ujian
    */
-  private idujian: number;
+  private idujian?: string;
 
-  constructor(props: Readonly<DetailUjianPropsModel & RouteComponentProps>) 
+  constructor(props:any) 
   {
     super(props);
     this.state = {

@@ -8,7 +8,7 @@ interface BuatSoalStateModel { activeTab: number; modal:boolean; success:boolean
 
 interface BuatSoalPropsModel { className?: string; }
 
-interface RouteParam { idujian:number; }
+interface RouteParam { idujian?: string; }
 
 /**
  * Kelas untuk membuat soal
@@ -18,7 +18,7 @@ class BuatSoal extends Component<BuatSoalPropsModel & RouteComponentProps<RouteP
   /**
    * ID UJIAN yang dibuatkan soalnya
    */
-  private idujian: number;
+  private idujian?: string;
 
   constructor(props: any) 
   {

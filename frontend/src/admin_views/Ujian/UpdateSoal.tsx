@@ -8,7 +8,7 @@ interface UpdateSoalStateModel { activeTab: number; modal:boolean; success:boole
 
 interface UpdateSoalPropsModel { className?: string; }
 
-interface RouteParam { idujian:number; }
+interface RouteParam { idujian?:string; }
 
 /**
  * Kelas untuk Update Soal
@@ -19,12 +19,12 @@ class UpdateSoal extends Component<UpdateSoalPropsModel & RouteComponentProps<Ro
    * ID UJIAN
    * Keterangan Ujian
    */
-  private idujian: number;
+  private idujian?: string;
 
   /**
    * Konstruktor
    */
-  constructor(props: Readonly<UpdateSoalPropsModel & RouteComponentProps>) 
+  constructor(props:any) 
   {
     super(props);
     this.toggle = this.toggle.bind(this);

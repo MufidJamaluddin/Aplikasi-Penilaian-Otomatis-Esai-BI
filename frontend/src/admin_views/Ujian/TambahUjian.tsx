@@ -62,7 +62,8 @@ class TambahUjian extends Component<TambahUjianPropsModel & RouteComponentProps,
 										<option value="X-IPA4">X-IPA4</option>
 										</Input></p>
 									</Col>
-                                    <Col sm="1">
+                  
+                  <Col sm="1">
 										<p><Button bsSize="sm" color="success">+Tambah</Button></p>
 									</Col>
                                 
