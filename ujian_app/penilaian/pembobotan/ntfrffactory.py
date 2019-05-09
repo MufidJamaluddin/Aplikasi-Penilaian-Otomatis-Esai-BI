@@ -8,6 +8,10 @@ class NtfRfWeighterFactory(object):
         self.doc_rf_term_data = doc_rf_term_data
 
     def create(self, training=True):
+        '''
+        training : data yang dinilai guru atau bukan
+        
+        '''
         if training:
             ntf_rf_weighter = NtfRfLabeledWeighter(self.max_tf_data, self.doc_rf_term_data)
         else:

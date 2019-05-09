@@ -16,7 +16,13 @@ class CaseFolder(object):
         Menghilangkan Karakter Selain Huruf A-Z
         dan Menghilangkan Kelebihan Spasi
         """
-        result = re.sub(r'[^a-z]', ' ', teks)
+        # menghilangkan karakter selain a-z dan -
+        result = re.sub(r'[^a-z -]', ' ', teks)
+
+        # menghilangkan karakter - yang bukan tanda hubung
+        result = re.sub('([ -])([- ])', ' ', result)
+
+        # menghilangkan spasi yang duplikat
         result = re.sub(r'( +)', ' ', result)
         return result.strip()
 

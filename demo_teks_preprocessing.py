@@ -2,7 +2,7 @@ import json
 from ujian_app.penilaian.pemrosesan_teks import Preprocesser
 
 preprocesser = Preprocesser()
-teks = 'Dengan memberikan nilai yang tepat untuk setiap term, dilakukan berbalas-balasan dan berbalasbalasan maka penilaian esai otomatis dapat bekerja lebih baik dalam menentukan apakah suatu term termasuk kata kunci yang mencirikan suatu kategori nilai atau tidak.'
+teks = 'Dengan memberikan nilai yang tepat untuk setiap term, dilakukan berbalas-balasan maka penilaian esai otomatis dapat bekerja lebih baik dalam menentukan apakah suatu term termasuk kata kunci yang mencirikan suatu kategori nilai atau tidak.'
 
 print('DEMO TEXT PREPROCESSING\n'+ teks)
 
