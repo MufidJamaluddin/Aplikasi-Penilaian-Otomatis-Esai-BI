@@ -171,11 +171,16 @@ renderModalDeleteUjian()
                         <td>{ ujian.namaUjian }</td>
                         <td>{ this.getElementStatus(ujian.status_ujian) }</td>
                         <td>
+                        
+                        <Link to={"/ujian/detail/"+ ujian.idujian}>
                           <Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
-                          <Link to={"/ujian/update/"+ ujian.idujian}>
+                        </Link>
+                        
+                        <Link to={"/ujian/update/"+ ujian.idujian}>
                             <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
-                          </Link>
-                          <Button className="btn-youtube btn-brand icon btn-sm" onClick={(e:any) => this.toggleDeleteUjian(ujian)}><i className="fa fa-trash"></i></Button>
+                        </Link>
+                        
+                        <Button className="btn-youtube btn-brand icon btn-sm" onClick={(e:any) => this.toggleDeleteUjian(ujian)}><i className="fa fa-trash"></i></Button>
 												
                         </td>
                       </tr>
