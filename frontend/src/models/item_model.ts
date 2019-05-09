@@ -49,7 +49,7 @@ export default interface DataUjian
     pelaksanaan_ujian: Array<any>;
     jumlahSoal: number;
     durasi: string;
-    status_ujian: number;
+    status_ujian: string;
 }
 
 export default interface DataSoal

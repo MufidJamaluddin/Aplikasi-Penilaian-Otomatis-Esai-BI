@@ -32,6 +32,7 @@ class UjianEsaiAPI(MethodView):
             p['namaUjian'] = ujian.namaUjian
             p['namaMapel'] = ujian.matapelajaran.namaMapel
             p['durasi'] = str(ujian.durasi)
+            p['status_ujian'] = ujian.status_ujian
             tlistujian.append(p)
 
         return json.dumps({'list': tlistujian }), 200, {'Content-Type': 'application/json'}
@@ -114,7 +115,7 @@ class UjianEsaiAPI(MethodView):
         '''
         Menghapus Data Ujian
         '''
-        self.repository.delete(idujian)
+        self.repository.deleteUjian(idujian)
 
         list_Ujian = self.repository.findAll()
         return json.dumps({'list': list_Ujian }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}

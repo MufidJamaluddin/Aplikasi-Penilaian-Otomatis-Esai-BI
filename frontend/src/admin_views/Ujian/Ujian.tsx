@@ -1,40 +1,52 @@
 import React, { Component } from 'react';
-import { Badge, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table, Button,Form, FormGroup, FormText, FormFeedback, Input, InputGroup, InputGroupAddon, InputGroupText,Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Badge, Card, CardBody, CardHeader, Col, Row, Table, Button, Input, InputGroup, InputGroupAddon, InputGroupText,Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import DataUjian from './../../models/item_model';
-import { initDataUjian } from './../../models/UjianData';
+import { initDataUjian, hapusDataUjian } from './../../models/UjianData';
+import { ModalForm, LayoutCard } from '../../layout';
+
+/**
+ * Ujian Modal
+ */
+interface ModalState {
+	delete: boolean;
+	}
 
 /**
  * State dan Atribute View Class
  */
-interface UjianState { 
-  modal:boolean; 
+interface UjianStateModel { 
+  modal:Partial<ModalState>; 
   state:boolean; 
-  danger:boolean;
   listujian: Array<DataUjian>;
-}
-interface UjianAttribute { className?: string; }
+  selected_data?: Partial<DataUjian>;
+  isLoading:boolean;
+};
+
+interface UjianModel { className?: string; }
 
 /**
  * Kelas Ujian
  */
-class Ujian extends Component<UjianAttribute, UjianState>
+class Ujian extends Component<UjianModel, UjianStateModel>
 {
-  constructor(props: Readonly<UjianAttribute>) 
+  constructor(props: Readonly<UjianModel>) 
   {
     super(props);
 
     this.state = {
-      danger: false,
-      modal: false,
+      modal: { },
       state: false,
-      listujian: []
+      listujian: [],
+      isLoading: true,
     };
 
-    this.toggle = this.toggle.bind(this);
     this.toggleDeleteUjian = this.toggleDeleteUjian.bind(this);
+    this.onDeleteDataUjian = this.onDeleteDataUjian.bind(this);
     this.getElementStatus = this.getElementStatus.bind(this);
   }
+
+  // --------------------------- INIT DATA ------------------------------------------//
 
   public componentDidMount()
   {
@@ -43,36 +55,78 @@ class Ujian extends Component<UjianAttribute, UjianState>
     });
   }
 
-  public toggle() : void 
-  {
-    this.setState({
-      modal: !this.state.modal,
-    });
-  }
+  //----------------------------- TOGGLE --------------------------------------------//
+
   
-  public toggleDeleteUjian() : void
-  {
-    this.setState({
-      danger: !this.state.danger,
-    });
+	public toggleDeleteUjian(dataujian?: Partial<DataUjian>) 
+	{
+		var state = this.state.modal.delete || false;
+
+		if(dataujian === undefined) 
+			this.setState({ modal: { delete: !state } });
+		else
+			this.setState({ modal: { delete: !state }, selected_data: dataujian });
   }
 
-  public getElementStatus(status_ujian: number): JSX.Element
+  public getElementStatus(status_ujian: string): JSX.Element
   {
     switch(status_ujian)
     {
-      case 2:
+      case "2":
         return (<span className="badge badge-success">Terlaksana</span>);
-      case 1:
-        return (<span className="badge badge-info">Sedang Dilaksanakan</span>);
+      case "1":
+        return (<span className="badge badge-primary">Sedang Dilaksanakan</span>);
       default:
         return (<span className="badge badge-danger">Belum Dilaksanakan</span>);
     }
   }
 
+// --------------------------------- HANDLE UI -----------------------------------//
+
+    public onDeleteDataUjian(event:any) 
+    { 
+      event.preventDefault();
+      
+      var selected_data = this.state.selected_data;
+      if(selected_data === undefined) return;
+  
+      var idujian = selected_data.idujian;
+      if(idujian === undefined) return;
+  
+      hapusDataUjian(idujian).then(listujian => {
+        var state = this.state.modal.delete || false;
+        this.setState({ listujian: listujian, modal: { delete: !state } });
+      });
+    }
+
+//---------------------------------- RENDER --------------------------------------//
+
+renderModalDeleteUjian()
+{
+  var dataujian = this.state.selected_data;
+
+  if(dataujian === undefined) return;
+
+  return (
+    <ModalForm
+      className={'modal-danger modal-lg ' + this.props.className}
+      header="Hapus Data Ujian"
+      strsubmit="Ya"
+      isOpen={this.state.modal.delete}
+      toggle={this.toggleDeleteUjian}
+      onClickSubmit={this.onDeleteDataUjian}>
+      <p>Apakah anda yakin ingin menghapus <b>{dataujian.namaUjian ||''}</b> dari data ujian ?</p>
+    </ModalForm>
+  );
+}
+
+
+
   public render() : JSX.Element 
   {
     var listujian = this.state.listujian;
+    
+    
 
     return (
       <div className="animated fadeIn">
@@ -80,22 +134,23 @@ class Ujian extends Component<UjianAttribute, UjianState>
           <Col xs="12" lg="12">
             <Card>
               <CardHeader>
-
-				 <Col md="4">
-                      <InputGroup>
-                        <Input type="text" id="search" name="search" placeholder="Cari Ujian..." />
-						<Button type="button" color="primary"><i className="fa fa-search"></i></Button>
-						 </InputGroup>
-                    </Col>
-
+				        <Col md="4">
+                  <InputGroup>
+                    <Input type="text" id="search" name="search" placeholder="Cari Ujian..." />
+                    <Button type="button" color="primary"><i className="fa fa-search"></i></Button>
+						      </InputGroup>
+                </Col>
               </CardHeader>
 			  
               <CardBody>
-              <Link to="/ujian/tambah">
-                <Button size="sm"className="btn-vine btn-brand mr-1 mb-1 "><i className="fa fa-plus"></i><span>Tambah Ujian</span></Button>
-              </Link>
-                <Table responsive size="sm">
-                
+
+              { this.renderModalDeleteUjian() }
+
+                <Link to="/ujian/tambah">
+                  <Button size="sm"className="btn-vine btn-brand mr-1 mb-1 "><i className="fa fa-plus"></i><span>Tambah Ujian</span></Button>
+                </Link>
+              
+              <Table responsive size="sm">  
                 <thead>
                   <tr>
                     <th>No. Ujian</th>
@@ -107,7 +162,6 @@ class Ujian extends Component<UjianAttribute, UjianState>
                 </thead>
 
                 <tbody>
-                
                 {
                   listujian.map(ujian => {
                     return (
@@ -121,15 +175,15 @@ class Ujian extends Component<UjianAttribute, UjianState>
                           <Link to={"/ujian/update/"+ ujian.idujian}>
                             <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
                           </Link>
+                          <Button className="btn-youtube btn-brand icon btn-sm" onClick={(e:any) => this.toggleDeleteUjian(ujian)}><i className="fa fa-trash"></i></Button>
+												
                         </td>
                       </tr>
                     );
                   })
                 }
-
 				        </tbody>
                 </Table>
-                
               </CardBody>
             </Card>
           </Col>

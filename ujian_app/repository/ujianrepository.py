@@ -12,3 +12,12 @@ class UjianRepository(GenericRepository):
             return guru.listujian
         else:
             return []
+   
+    def deleteUjian(self, idujian):
+        ujian = self.findById(idujian)
+        
+        for i in ujian.pelaksanaan_ujian:
+            db.session.delete(i)
+        
+        db.session.delete(ujian)
+        db.session.commit()
