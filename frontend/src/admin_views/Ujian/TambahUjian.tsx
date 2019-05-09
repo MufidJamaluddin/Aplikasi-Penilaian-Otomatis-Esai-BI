@@ -200,7 +200,7 @@ class TambahUjian extends Component<TambahUjianAttribute, TambahUjianState>
                     </Input>
                   </Col>
                   <Col sm="3">
-                    <Input type="number" name="durasi" placeholder="Durasi Ujian (Menit)" min="0" required/>
+                    <Input type="time" name="durasi" placeholder="Durasi Ujian (Menit)" min="0" required/>
                   </Col>
                   <Col sm="3">
                     <Input type="number" name="jumlahSoal" placeholder="Jumlah Soal" min="1" max="10" required/>
@@ -252,7 +252,7 @@ class TambahUjian extends Component<TambahUjianAttribute, TambahUjianState>
 
                   <Col className="col-sm-12 text-right">
                     <Link to="/ujian">
-                      <Button className="text-right" color="warning" >Kembali</Button>
+                      <Button className="text-right" color="danger" >Kembali</Button>
                     </Link>
                     <Button className="text-right" color="success" type="submit">Selanjutnya</Button>
                   </Col>
