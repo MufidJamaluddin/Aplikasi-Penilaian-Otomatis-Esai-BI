@@ -88,6 +88,8 @@ class UjianEsaiAPI(MethodView):
         idmapel = data_Ujian['idmapel']
         status_ujian = data_Ujian['status_ujian']
 
+        print(json.dumps(data_Ujian))
+
         pelaksanaan_ujian = []
         listpelaksanaan = data_Ujian['pelaksanaan_ujian']
         if listpelaksanaan:
@@ -110,6 +112,7 @@ class UjianEsaiAPI(MethodView):
 
         list_Ujian = self.repository.findAll()
         return json.dumps({'list': list_Ujian }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
+
     
     def delete(self, idujian):
         '''
