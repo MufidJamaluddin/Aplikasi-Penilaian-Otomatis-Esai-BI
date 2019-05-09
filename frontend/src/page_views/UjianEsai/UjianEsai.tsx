@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Modal, Form, CardGroup,  ModalBody, ModalFooter, ModalHeader, Badge, Input, Button, Card, CardBody, CardHeader, Col, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText, Row, TabContent, TabPane, Container } from 'reactstrap';
 import FormGroup from 'reactstrap/lib/FormGroup';
+import Countdown from "react-countdown-now";
 
 interface UjianEsaiStateModel { activeTab: number; success:boolean; modal: boolean; }
 
@@ -60,7 +61,7 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                             <dd className="col-sm-12 text-left"><b>Mufid Jamaluddin</b></dd>
                             <dd className="col-sm-12 text-left"><b>XII-IPA</b></dd>
                             <dd className="col-sm-12 text-left"><b>Pendidikan Kewarganegaraan - Ideologi Pancasila</b></dd>
-
+                            <dd className="col-sm-12 text-right"><h2><b><Countdown date={Date.now() + 3600000} /></b></h2></dd>
                     </CardHeader>
                         
                     <CardBody>
@@ -74,7 +75,6 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                   <h5>Soal 1 :</h5>
                                 </Col>    
                                 <Col className="col-sm-9 text-right">
-                                    <h1 className="text-right"><b>58:44</b></h1>
                                 </Col>
                                 <Col sm="12">
                                   <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
@@ -90,9 +90,7 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                 <Col className="col-sm-3">
                                   <h5>Soal 2 :</h5>
                                 </Col>    
-                                <Col className="col-sm-9 text-right">
-                                    <h1 className="text-right"><b>58:44</b></h1>
-                                </Col>
+                
                                 <Col sm="12">
                                   <p>Apa definisi Demokrasi menurut Aristoteles ?</p>
                                 </Col>
@@ -108,7 +106,8 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                   <h5>Soal 3 :</h5>
                                 </Col>    
                                 <Col className="col-sm-9 text-right">
-                                    <h1 className="text-right"><b>58:44</b></h1>
+                                    <h1 className="text-right"><Countdown date={Date.now() + 100000000} />,
+                 document.getElementById("root")</h1>
                                 </Col>
                                 <Col sm="12">
                                   <p>Apa definisi Demokrasi menurut Aristoteles ?</p>
@@ -125,7 +124,7 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                     <h5>Soal 4 :</h5>
                                   </Col>    
                                   <Col className="col-sm-9 text-right">
-                                      <h1 className="text-right"><b>58:44</b></h1>
+                                      
                                   </Col>
                                   <Col sm="12">
                                     <p>Sebutkan bunyi dari UUD 1945 Pasal 30 ayat 1?</p>
@@ -141,9 +140,7 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                 <Col className="col-sm-3">
                                   <h5>Soal 5 :</h5>
                                 </Col>    
-                                <Col className="col-sm-9 text-right">
-                                    <h1 className="text-right"><b>58:44</b></h1>
-                                </Col>
+                
                                 <Col sm="12">
                                   <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
                                 </Col>
@@ -159,9 +156,7 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                 <Col className="col-sm-3">
                                   <h5>Soal 6 :</h5>
                                 </Col>    
-                                <Col className="col-sm-9 text-right">
-                                    <h1 className="text-right"><b>58:44</b></h1>
-                                </Col>
+                
                                 <Col sm="12">
                                   <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
                                 </Col>
@@ -176,9 +171,7 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                 <Col className="col-sm-3">
                                   <h5>Soal 7 :</h5>
                                 </Col>    
-                                <Col className="col-sm-9 text-right">
-                                    <h1 className="text-right"><b>58:44</b></h1>
-                                </Col>
+                
                                 <Col sm="12">
                                   <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
                                 </Col>
@@ -193,9 +186,7 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                 <Col className="col-sm-3">
                                   <h5>Soal 8 :</h5>
                                 </Col>    
-                                <Col className="col-sm-9 text-right">
-                                    <h1 className="text-right"><b>58:44</b></h1>
-                                </Col>
+                
                                 <Col sm="12">
                                   <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
                                 </Col>
@@ -210,9 +201,7 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                 <Col className="col-sm-3">
                                   <h5>Soal 9 :</h5>
                                 </Col>    
-                                <Col className="col-sm-9 text-right">
-                                    <h1 className="text-right"><b>58:44</b></h1>
-                                </Col>
+                
                                 <Col sm="12">
                                   <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
                                 </Col>
@@ -227,9 +216,7 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                 <Col className="col-sm-3">
                                   <h5>Soal 10 :</h5>
                                 </Col>    
-                                <Col className="col-sm-9 text-right">
-                                    <h1 className="text-right"><b>58:44</b></h1>
-                                </Col>
+                
                                 <Col sm="12">
                                   <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
                                 </Col>

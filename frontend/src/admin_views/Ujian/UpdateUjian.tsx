@@ -150,12 +150,10 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
     /**
 		 * Data yg ditambahkan tidak boleh duplikat
 		 */
-    if(kelas !== undefined)
+    if(!isNullOrUndefined(kelas))
     {
-      var idkelas = kelas.idkelas;
-      
       found = listkelaspilihan.find((el, i, arr) => {
-        return el.idkelas === idkelas;
+        return el.idkelas === kelas.idkelas;
       });
       
       /**
@@ -169,7 +167,6 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
       }
     }
   }
-
   /**
    * Render View
    */
@@ -182,7 +179,7 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
     if(this.state.updatesuccess)
     {
       return (
-        <Redirect to={"/soal/"+ this.state.idujian +"/tambah"} />
+        <Redirect to={"/soal/"+ this.state.idujian +"/update"} />
       );
     }
 
