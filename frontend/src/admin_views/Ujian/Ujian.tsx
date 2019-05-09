@@ -99,8 +99,8 @@ class Ujian extends Component<UjianAttribute, UjianState>
                 <thead>
                   <tr>
                     <th>No. Ujian</th>
-                    <th>Nama Ujian</th>
                     <th>Mata Pelajaran</th>
+                    <th>Nama Ujian</th>
                     <th>Status Ujian</th>
                     <th></th>
                   </tr>
@@ -111,14 +111,14 @@ class Ujian extends Component<UjianAttribute, UjianState>
                 {
                   listujian.map(ujian => {
                     return (
-                      <tr>
+                      <tr key={ujian.idujian}>
                         <td>{ ujian.idujian }</td>
                         <td>{ ujian.namaMapel }</td>
                         <td>{ ujian.namaUjian }</td>
                         <td>{ this.getElementStatus(ujian.status_ujian) }</td>
                         <td>
                           <Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
-                          <Link to="/ujian/update/11">
+                          <Link to={"/ujian/update/"+ ujian.idujian}>
                             <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
                           </Link>
                         </td>
