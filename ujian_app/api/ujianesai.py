@@ -1,8 +1,8 @@
 from flask.views import MethodView
 from flask import json, request, session
 from ujian_app.utils import AlchemyEncoder
-from ujian_app.repository import UjianRepository
-from ujian_app.models import Pelaksanaanujian, Guru
+from ujian_app.repository import UjianRepository, GuruRepository
+from ujian_app.models import Pelaksanaanujian
 
 class UjianEsaiAPI(MethodView):
    
@@ -16,35 +16,43 @@ class UjianEsaiAPI(MethodView):
         '''
         Mendapatkan semua Ujian / berasarkan page
         '''
-        gururepository = Guru()
         cur_user = session.get('user')
 
-        guru = gururepository.query.filter_by(username=cur_user['username']).first()
+        if cur_user is None:
+            return 'Tidak Ditemukan', 404
 
-        tlistpengampu = []
+        listujian = self.repository.getUjianByUsername(cur_user['username'])
 
-        for pengampu in guru.listpengampu:
-            tpengampu = {}
-            tpengampu['idmapel'] = pengampu.idmapel
-            tpengampu['idkelas'] = pengampu.idkelas
-            tpengampu['idguru'] = pengampu.idguru
-            tpengampu['namaKelas'] = pengampu.kelas.namaKelas
-            tpengampu['namaMapel'] = pengampu.matapelajaran.namaMapel
-            tlistpengampu.append(tpengampu)
+        tlistujian = []
+        for ujian in listujian:
+            p = {}
+            p['idmapel'] = ujian.idmapel
+            p['idujian'] = ujian.idujian
+            p['jumlahSoal'] = ujian.jumlahSoal
+            p['namaUjian'] = ujian.namaUjian
+            p['namaMapel'] = ujian.matapelajaran.namaMapel
+            p['durasi'] = str(ujian.durasi)
+            tlistujian.append(p)
 
-        return json.dumps({'listpengampu': tlistpengampu, 'listujian': guru.listujian }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
+        return json.dumps({'list': tlistujian }), 200, {'Content-Type': 'application/json'}
 
     def post(self):
         '''
         Menyimpan data Ujian
         '''
+        gururepo = GuruRepository()
+        cur_user = session.get('user')
+
+        if cur_user is None:
+            return 'Tidak Diizinkan', 405
+        
+        idguru = gururepo.getGuruByUsername(cur_user['username']).idguru
         data_Ujian = request.get_json()
         namaUjian = data_Ujian['namaUjian']
         jumlahSoal = data_Ujian['jumlahSoal']
         durasi = data_Ujian['durasi']
-        idguru = data_Ujian['idguru']
         idmapel = data_Ujian['idmapel']
-        status_ujian = data_Ujian['status_ujian']
+        status_ujian = 0
 
         pelaksanaan_ujian = []
         listpelaksanaan = data_Ujian['pelaksanaan_ujian']
@@ -55,7 +63,7 @@ class UjianEsaiAPI(MethodView):
                 pelaksanaan.status_pelaksanaan = 0
                 pelaksanaan_ujian.append(pelaksanaan)
 
-        self.repository.save(
+        ujian = self.repository.save(
             idguru=idguru,
             idmapel=idmapel,
             namaUjian=namaUjian, 
@@ -65,8 +73,7 @@ class UjianEsaiAPI(MethodView):
             pelaksanaan_ujian=pelaksanaan_ujian
         )
 
-        list_ujian = self.repository.findAll()
-        return json.dumps({'list': list_ujian }, cls=AlchemyEncoder), 201, {'Content-Type': 'application/json'}
+        return json.dumps({'idujian': ujian.idujian }), 201, {'Content-Type': 'application/json'}
    
     def put(self, idujian):
         '''

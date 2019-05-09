@@ -1,7 +1,7 @@
 from flask.views import MethodView
-from flask import json, request
+from flask import json, request, session
 from ujian_app.utils import AlchemyEncoder
-from ujian_app.repository import PengampuRepository
+from ujian_app.repository import PengampuRepository, GuruRepository
 
 class PengampuAPI(MethodView):
     
@@ -11,12 +11,19 @@ class PengampuAPI(MethodView):
         '''
         self.repository = PengampuRepository()
 
-    def get(self, idguru):
+    def get(self, idguru = None):
         '''
         HTTP GET
         Ambil Semua Data Pengampu
         '''
-        listpengampu = self.repository.getPengampuByIdGuru(idguru)
+        if idguru:
+            listpengampu = self.repository.getPengampuByIdGuru(idguru)
+        else:
+            cur_data = session.get('user')
+            if cur_data is None:
+                return 'Tidak Ditemukan', 404
+            listpengampu = self.repository.getPengampuByUsername(cur_data['username'])
+    
         tlistpengampu = []
 
         for pengampu in listpengampu:

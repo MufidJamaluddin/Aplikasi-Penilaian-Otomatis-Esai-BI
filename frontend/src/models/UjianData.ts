@@ -1,10 +1,13 @@
 import API from "./api";
 import DataUjian from './item_model';
+import DataPengampu from './item_model';
 
 /**
  * Data dari API (Backend di Server)
  */
 interface JsonAPIUjian { list: Array<DataUjian>; }
+interface JsonAPIResponseTambahUjian { idujian: string; }
+interface JsonAPIPengampu { list: Array<DataPengampu>; }
 
 /**
  * Mendapatkan Data Ujian Ujian
@@ -21,6 +24,20 @@ function initDataUjian()
 }
 
 /**
+ * Mendapatkan Data Pengampu
+ * dan Menampilkannya di View
+ */
+function initDataPengampu()
+{
+    return API<JsonAPIPengampu>('/api/pengampu')
+    .then(value => {
+        // Ambil list 
+        console.log(value.list);
+        return value.list;
+    });
+}
+
+/**
  * Menginputkan Data Ujian
  * @param data Data Ujian Sekolah
  */
@@ -28,15 +45,15 @@ function inputDataUjian(data:Partial<DataUjian>)
 {
     console.log(JSON.stringify(data));
 
-    return API<JsonAPIUjian>('/api/ujianesai', { 
+    return API<JsonAPIResponseTambahUjian>('/api/ujianesai', { 
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)
     })
     .then(value => {
-        // Ambil list 
-        console.log(value.list);
-        return value.list;
+        // Ambil ID Ujian
+        console.log(value.idujian);
+        return value.idujian;
     });
 }
 
@@ -78,4 +95,4 @@ function hapusDataUjian(idujian:string)
     });
 }
 
-export { initDataUjian, inputDataUjian, updateDataUjian, hapusDataUjian }
+export { initDataUjian, initDataPengampu, inputDataUjian, updateDataUjian, hapusDataUjian }

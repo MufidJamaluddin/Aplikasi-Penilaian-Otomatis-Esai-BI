@@ -1,27 +1,47 @@
 import React, { Component } from 'react';
 import { Badge, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table, Button,Form, FormGroup, FormText, FormFeedback, Input, InputGroup, InputGroupAddon, InputGroupText,Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import DataUjian from './../../models/item_model';
+import { initDataUjian } from './../../models/UjianData';
 
-interface UjianStateModel { modal:boolean; state:boolean; danger:boolean; }
+/**
+ * State dan Atribute View Class
+ */
+interface UjianState { 
+  modal:boolean; 
+  state:boolean; 
+  danger:boolean;
+  listujian: Array<DataUjian>;
+}
+interface UjianAttribute { className?: string; }
 
-interface UjianPropsModel { className?: string; }
-
-class Ujian extends Component<UjianPropsModel, UjianStateModel>
+/**
+ * Kelas Ujian
+ */
+class Ujian extends Component<UjianAttribute, UjianState>
 {
-  constructor(props: Readonly<UjianPropsModel>) 
+  constructor(props: Readonly<UjianAttribute>) 
   {
     super(props);
 
     this.state = {
       danger: false,
       modal: false,
-      state: false
+      state: false,
+      listujian: []
     };
 
     this.toggle = this.toggle.bind(this);
     this.toggleDeleteUjian = this.toggleDeleteUjian.bind(this);
+    this.getElementStatus = this.getElementStatus.bind(this);
   }
 
+  public componentDidMount()
+  {
+    initDataUjian().then(list => {
+      this.setState({ listujian: list });
+    });
+  }
 
   public toggle() : void 
   {
@@ -37,8 +57,23 @@ class Ujian extends Component<UjianPropsModel, UjianStateModel>
     });
   }
 
+  public getElementStatus(status_ujian: number): JSX.Element
+  {
+    switch(status_ujian)
+    {
+      case 2:
+        return (<span className="badge badge-success">Terlaksana</span>);
+      case 1:
+        return (<span className="badge badge-info">Sedang Dilaksanakan</span>);
+      default:
+        return (<span className="badge badge-danger">Belum Dilaksanakan</span>);
+    }
+  }
+
   public render() : JSX.Element 
   {
+    var listujian = this.state.listujian;
+
     return (
       <div className="animated fadeIn">
         <Row>
@@ -70,86 +105,29 @@ class Ujian extends Component<UjianPropsModel, UjianStateModel>
                     <th></th>
                   </tr>
                 </thead>
-                
+
                 <tbody>
-                  <tr>
-                    <td>TST00001</td>
-                    <td>Pendidikan Kewarganegaraan</td>
-                    <td>PKN Bab 1</td>
-                    <td><span className="badge badge-success">Terlaksana</span></td>
-                    <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button></td>
-                 </tr>
+                
+                {
+                  listujian.map(ujian => {
+                    return (
+                      <tr>
+                        <td>{ ujian.idujian }</td>
+                        <td>{ ujian.namaMapel }</td>
+                        <td>{ ujian.namaUjian }</td>
+                        <td>{ this.getElementStatus(ujian.status_ujian) }</td>
+                        <td>
+                          <Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
+                          <Link to="/ujian/update/11">
+                            <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
+                          </Link>
+                        </td>
+                      </tr>
+                    );
+                  })
+                }
 
-                 <tr>
-                    <td>TST00002</td>
-                    <td>Pendidikan Kewarganegaraan</td>
-                    <td>PKN Bab 2</td>
-                    <td><span className="badge badge-success">Terlaksana</span></td>
-                    <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button></td>
-                 </tr>
-
-                 <tr>
-                    <td>TST00003</td>
-                    <td>Biologi</td>
-                    <td>Biologi Bab 1</td>
-                    <td><span className="badge badge-danger">Belum Terlaksana</span></td>
-                    <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
-                        <Link to="/ujian/update/10">
-                          <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
-                        </Link>
-                        <Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
-                    </td>
-                 </tr>
-
-                 
-                 <tr>
-                    <td>TST00004</td>
-                    <td>Biologi</td>
-                    <td>Biologi Bab 2</td>
-                    <td><span className="badge badge-primary">Sedang Berlangsung</span></td>
-                    <td><Link to="/ujian/detail/10"><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button></Link></td>
-                 </tr>
-
-                 
-                 <tr>
-                    <td>TST00005</td>
-                    <td>Biologi</td>
-                    <td>Biologi Bab 3</td>
-                    <td><span className="badge badge-danger">Belum Terlaksana</span></td>
-                    <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
-                        <Link to="/ujian/update/11">
-                          <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
-                        </Link>
-                        <Button className="btn-youtube btn-brand icon btn-sm" onClick={this.toggleDeleteUjian}><i className="fa fa-trash"></i></Button>
-                            
-                            <Modal isOpen={this.state.danger} toggle={this.toggleDeleteUjian} className={'modal-danger ' + this.props.className}>
-                              <ModalHeader toggle={this.toggleDeleteUjian}>Delete Ujian</ModalHeader>
-                              <ModalBody>
-					                        <p> Apakah anda yakin ingin menghapus ujian <b>TIK Bab 5</b>?</p>
-                              </ModalBody>
-                              <ModalFooter>
-				                        <Button color="danger" onClick={this.toggleDeleteUjian}>Tidak</Button>
-                                <Button color="success" onClick={this.toggleDeleteUjian}>Ya</Button>{' '}
-                              </ModalFooter>
-                             </Modal>
-				
-                    </td>
-                 </tr>
-
-                 <tr>
-                    <td>TST00006</td>
-                    <td>Biologi</td>
-                    <td>Biologi Bab 4</td>
-                    <td><span className="badge badge-danger">Belum Terlaksana</span></td>
-                    <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
-                        <Link to="/ujian/update/11">
-                          <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
-                         </Link>
-                        <Button className="btn-youtube btn-brand icon btn-sm"><i className="fa fa-trash"></i></Button>
-                    </td>
-                 </tr>
-
-				  </tbody>
+				        </tbody>
                 </Table>
                 
               </CardBody>

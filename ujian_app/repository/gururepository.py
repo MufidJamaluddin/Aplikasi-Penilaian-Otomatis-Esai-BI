@@ -18,3 +18,6 @@ class GuruRepository(GenericRepository):
         
         db.session.delete(guru)
         db.session.commit()
+
+    def getGuruByUsername(self, username):
+        return Guru.query.filter_by(username=username).first()

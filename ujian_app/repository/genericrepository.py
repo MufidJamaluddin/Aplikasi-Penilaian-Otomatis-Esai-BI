@@ -60,6 +60,7 @@ class GenericRepository(object):
 
         db.session.add(dt)
         db.session.commit()
+        return dt
 
     def update(self, primarykey, **kwargs):
         '''

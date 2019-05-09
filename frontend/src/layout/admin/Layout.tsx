@@ -52,7 +52,11 @@ class Layout extends Component<RouteComponentProps<any> & AdminLayoutModel>
   public loading() : JSX.Element
   {
     return(
-      <div className="animated fadeIn pt-1 text-center">Loading...</div>
+      <div className="d-flex justify-content-center">
+        <div className="spinner-border text-success" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
     );
   }
 
