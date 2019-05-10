@@ -39,8 +39,8 @@ class SoalTab extends PureComponent<SoalTabAttribute, SoalTabState>
       soalEsai: props.soalEsai
     };
 
-    this.onMinSkorInput = this.onMinSkorInput.bind(this);
-    this.onMaxSkorInput = this.onMaxSkorInput.bind(this);
+    this.onSkorMinInput = this.onSkorMinInput.bind(this);
+    this.onSkorMaxInput = this.onSkorMaxInput.bind(this);
     this.onMateriPokokInput = this.onMateriPokokInput.bind(this);
     this.onKompetensiDasarInput = this.onKompetensiDasarInput.bind(this);
     this.onSoalEsaiInput = this.onSoalEsaiInput.bind(this);
@@ -54,26 +54,26 @@ class SoalTab extends PureComponent<SoalTabAttribute, SoalTabState>
     if(this.props.idsoal !== prevProps.idsoal) return;
 
     var update = prevState.soalEsai !== this.state.soalEsai;
-    update = update || prevState.maxSkor !== this.state.maxSkor;
-    update = update || prevState.minSkor !== this.state.minSkor;
+    update = update || prevState.skorMax !== this.state.skorMax;
+    update = update || prevState.skorMin !== this.state.skorMin;
     update = update || prevState.kompetensiDasar!== this.state.kompetensiDasar;
     update = update || prevState.materiPokok!== this.state.materiPokok;
 
     if(update)
     {
-      updateDataSoal(this.state.idsoal, this.state).then(state => {
+      updateDataSoal(this.props.idsoal, this.state).then(state => {
         this.setState(state);
       });
     }
   }
 
   //------------------------- Skor Input -----------------------//
-  onMinSkorInput(event: any)
+  onSkorMinInput(event: any)
   {
     this.setState({ minSkor: event.target.value });
   }
 
-  onMaxSkorInput(event: any)
+  onSkorMaxInput(event: any)
   {
     this.setState({ maxSkor: event.target.value });
   }
@@ -130,10 +130,10 @@ class SoalTab extends PureComponent<SoalTabAttribute, SoalTabState>
             <h5>No. Soal: {this.props.tabId}</h5>
           </Col>    
           <Col className="col-sm-2 text-right">
-            <Input bsSize="sm" type="number" defaultValue={this.props.skorMin||'0'} onBlur={this.onMinSkorInput} placeholder="Minimum Skor" required />
+            <Input bsSize="sm" type="number" defaultValue={this.props.skorMin||'0'} onBlur={this.onSkorMinInput} placeholder="Minimum Skor" required />
           </Col>
           <Col className="col-sm-2 text-right">
-            <Input bsSize="sm" type="number" defaultValue={this.props.skorMax||''} onBlur={this.onMaxSkorInput} placeholder="Maksimum Skor" required/>
+            <Input bsSize="sm" type="number" defaultValue={this.props.skorMax||''} onBlur={this.onSkorMaxInput} placeholder="Maksimum Skor" required/>
           </Col>
           <Col className="col-sm-6 text-right">
             <Input bsSize="sm" type="text" defaultValue={this.props.materiPokok||''} onBlur={this.onMateriPokokInput} placeholder="Materi Pokok" required />
