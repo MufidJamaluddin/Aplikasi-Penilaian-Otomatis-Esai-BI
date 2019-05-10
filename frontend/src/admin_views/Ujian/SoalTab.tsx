@@ -106,10 +106,10 @@ class SoalTab extends PureComponent<SoalTabAttribute, SoalTabState>
               <h5>No. Soal: {this.props.tabId + 1}</h5>
             </Col>    
             <Col className="col-sm-2 text-right">
-              <a>Minimal Skor Jawaban : {this.props.skorMin}</a>
+              <p>Minimal Skor Jawaban : {this.props.skorMin}</p>
             </Col>
             <Col className="col-sm-2 text-right">
-              <a>Maksimal Skor Jawaban : {this.props.skorMax}</a>
+              <p>Maksimal Skor Jawaban : {this.props.skorMax}</p>
             </Col>
             <Col className="col-sm-6 text-right">
               <p>Materi Pokok : {this.props.materiPokok}</p>
@@ -130,18 +130,20 @@ class SoalTab extends PureComponent<SoalTabAttribute, SoalTabState>
             <h5>No. Soal: {this.props.tabId + 1}</h5>
           </Col>    
           <Col className="col-sm-2 text-right">
-            <Input bsSize="sm" type="number" defaultValue={this.props.skorMin||'0'} onBlur={this.onSkorMinInput} placeholder="Minimum Skor" required />
+            <Input bsSize="sm" type="number" defaultValue={this.props.skorMin||''} onBlur={this.onSkorMinInput} placeholder="Minimum Skor" required />
           </Col>
           <Col className="col-sm-2 text-right">
             <Input bsSize="sm" type="number" defaultValue={this.props.skorMax||''} onBlur={this.onSkorMaxInput} placeholder="Maksimum Skor" required/>
           </Col>
           <Col className="col-sm-6 text-right">
-            <Input bsSize="sm" type="text" defaultValue={this.props.materiPokok||''} onBlur={this.onMateriPokokInput} placeholder="Materi Pokok" required />
+            <p><Input bsSize="sm" type="text" defaultValue={this.props.materiPokok||''} onBlur={this.onMateriPokokInput} placeholder="Materi Pokok" required /></p>
           </Col>
           <Col className="col-sm-12 text-right">
-            <Input bsSize="sm" type="text" defaultValue={this.props.kompetensiDasar||''} onBlur={this.onKompetensiDasarInput} placeholder="Kompetensi Dasar" required />
+            <p><Input bsSize="sm" type="text" defaultValue={this.props.kompetensiDasar||''} onBlur={this.onKompetensiDasarInput} placeholder="Kompetensi Dasar" required /></p>
           </Col>
-          <Input type="textarea" rows="5" defaultValue={this.props.soalEsai||''} onBlur={this.onSoalEsaiInput} placeholder="Input Soal" required/>                       
+          <Col className="col-sm-12">
+            <Input type="textarea" rows="5" defaultValue={this.props.soalEsai||''} onBlur={this.onSoalEsaiInput} placeholder="Input Soal" required/>                       
+          </Col>
         </FormGroup>
       </TabPane>
     );

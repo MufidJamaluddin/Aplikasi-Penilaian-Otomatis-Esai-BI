@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Modal, ModalBody, ModalFooter, ModalHeader, Badge, Input, Button, Card, CardBody, CardHeader, Col, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText, Row, TabContent, TabPane, Container } from 'reactstrap';
+import { Modal, ModalBody, ModalFooter, ModalHeader, Button, Card, CardBody, CardHeader, Col, Row, TabContent, Container } from 'reactstrap';
 import FormGroup from 'reactstrap/lib/FormGroup';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import SoalTab from './SoalTab';
@@ -123,7 +123,7 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
 
   getColorButton(tab: number)
   {
-    if(this.state.soalTab === tab) return "primary";
+    if(this.state.soalTab === tab) return "success";
     else return "default";
   }
 
@@ -168,7 +168,7 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
                   {
                     this.state.listsoal.map((soal, index, array) => {
                       return (
-                        <Button size='md' color={this.getColorButton(index)} className=" btn-outline-primary" onClick={() => this.toggleSoal(index)}>
+                        <Button size='md' color={this.getColorButton(index)} className=" btn-outline-default" onClick={() => this.toggleSoal(index)}>
                         {index+1}
                         </Button>
                       )
