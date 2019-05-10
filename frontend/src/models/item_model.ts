@@ -34,7 +34,7 @@ export default interface DataPelaksanaanUjian
     idkelas: string;
     idujian: string;
     tanggal_mulai?: string;
-    status_pelaksanaan?: string;
+    status_pelaksanaan: string;
     status_penilaian?: string;
     progress_penilaian?: number;
 }

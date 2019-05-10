@@ -124,7 +124,7 @@ create table PelaksanaanUjian
 (
    idkelas              int not null,
    idujian              int not null,
-   tanggal_mulai        date,
+   waktu_mulai          datetime,
    status_pelaksanaan   char(1),
    status_penilaian     char(1),
    progress_penilaian   char(3),

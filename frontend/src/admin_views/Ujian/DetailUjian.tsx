@@ -1,27 +1,38 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, Modal, ModalHeader, ModalBody, ModalFooter, Col, Row, Table, Button,Form, FormGroup, Input } from 'reactstrap';
-
 import { Link, RouteComponentProps } from 'react-router-dom';
+import { initDataPelaksanaan, mulaiUjian } from './../../models/PelaksanaanData';
+import DataUjian from './../../models/item_model';
 
-interface DetailUjianStateModel { 
+interface DetailUjianState 
+{ 
   modal: boolean;
-	primary: boolean;
+  primary: boolean;
+  /**
+   * Data Ujian
+   */
+  dataujian?: DataUjian;
+  /**
+   * ID Kelas untuk Klik Mulai
+   */
+  cidkelas?: string;
+  cnamaKelas?: string;
 }
 
-interface DetailUjianPropsModel { className?: string; }
+interface DetailUjianAttribute { className?: string; }
 
-interface RouteParam { idujian?:string; }
+interface RouteParam { idujian:string; }
 
 /**
  * Detail Keterangan Ujian
  */
-class DetailUjian extends Component<DetailUjianPropsModel & RouteComponentProps<RouteParam>, DetailUjianStateModel>
+class DetailUjian extends Component<DetailUjianAttribute & RouteComponentProps<RouteParam>, DetailUjianState>
 {
   /**
    * ID UJIAN
    * Keterangan Ujian
    */
-  private idujian?: string;
+  private idujian: string;
 
   constructor(props:any) 
   {
@@ -35,6 +46,30 @@ class DetailUjian extends Component<DetailUjianPropsModel & RouteComponentProps<
 
     this.toggle = this.toggle.bind(this);
     this.toggleMulaiUjian = this.toggleMulaiUjian.bind(this);
+
+    this.renderMulaiButton = this.renderMulaiButton.bind(this);
+    this.renderModal = this.renderModal.bind(this);
+    this.getStatusBadge = this.getStatusBadge.bind(this);
+
+    this.laksanakanUjian = this.laksanakanUjian.bind(this);
+  }
+
+  componentDidMount()
+  {
+    initDataPelaksanaan(this.idujian).then(value =>{
+      this.setState({ dataujian: value });
+    });
+  }
+
+  laksanakanUjian(e:any)
+  {
+    e.preventDefault();
+
+    if(this.state.cidkelas === undefined) return;
+
+    mulaiUjian(this.idujian, this.state.cidkelas).then(value =>{
+      this.setState({ dataujian: value, primary: false });
+    });
   }
 
   public toggle() : void 
@@ -44,119 +79,124 @@ class DetailUjian extends Component<DetailUjianPropsModel & RouteComponentProps<
     });
   }
  
-  public toggleMulaiUjian() : void
+  toggleMulaiUjian(idkelas?: string, namaKelas?: string)
   {
     this.setState({
       primary: !this.state.primary,
+      cidkelas: idkelas||undefined,
+      cnamaKelas: namaKelas||undefined
     });
   }
 
-
-  public render() : JSX.Element 
+  getStatusBadge(status: string)
   {
+    switch(status)
+    {
+      case "2":
+        return (<span className="badge badge-success">Sudah terlaksana</span>);
+      case "1":
+        return (<span className="badge badge-primary">Sedang berlangsung</span>);
+      case "0":
+        return (<span className="badge badge-danger">Belum terlaksana</span>);
+    }
+  }
+
+  renderMulaiButton(status: string, idkelas: string, namaKelas: string)
+  {
+    if(status === "0")
+    {
+      return (
+        <Button className="btn-twitter btn-brand icon btn-sm" onClick={(e:any)=>{this.toggleMulaiUjian(idkelas, namaKelas)}}>Mulai Ujian</Button>
+      );
+    }
+  }
+
+  renderModal()
+  {
+    if(this.state.cidkelas === undefined) return;
+
+    return (
+      <Modal isOpen={this.state.primary} toggle={this.toggleMulaiUjian} className={'modal-primary ' + this.props.className}>
+        <ModalHeader toggle={this.toggleMulaiUjian}>Mulai Ujian</ModalHeader>
+        <ModalBody>
+        <p> Apakah anda yakin ingin memulai ujian di kelas <b>{this.state.cnamaKelas||''}</b>?</p>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="danger" onClick={(e:any)=>{this.toggleMulaiUjian()}}>Tidak</Button>
+          <Button color="success" onClick={this.laksanakanUjian}>Ya</Button>
+        </ModalFooter>
+      </Modal>
+    );
+  }
+
+  render()
+  {
+    if(this.state.dataujian === undefined) return (
+      <div className="d-flex justify-content-center">
+        <div className="spinner-border text-success" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
+
+    var dataujian = this.state.dataujian;
+
     return (
       <div className="animated fadeIn">
         <Row>
           <Col xs="12" lg="12">
             <Card>
               <CardHeader>
-                    <Col md="12">
-                      <h6>ID Test : { this.idujian }</h6>
-                      <h6>Biologi</h6>
-                      <h6>Biologi Bab 1</h6>
-                      <h6>Durasi Ujian : 90:00</h6>
-                      <h6>Jumlah Soal : 10</h6>
-                    </Col>
+                <Col md="12">
+                  <h6>ID Ujian : { this.idujian }</h6>
+                  <h6>{dataujian.namaMapel}</h6>
+                  <h6>{dataujian.namaUjian}</h6>
+                  <h6>Durasi Ujian : {dataujian.durasi}</h6>
+                  <h6>Jumlah Soal : {dataujian.jumlahSoal}</h6>
+                </Col>
                     
               </CardHeader>
 			  
               <CardBody>
-                                   
-                                    <Col sm="12">
-                                        
-                                        <Table responsive size="sm">
-                                        <thead>
-                                        <tr>
-                                            <th>List Kelas</th>
-                                            <th>Waktu Mulai Ujian</th>
-                                            <th>Status Ujian</th>
-                                            <th></th>
-                                            <th></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>XII-IPA1</td>
-                                            <td>25/12/2018 11:32:12</td>
-                                            <td><span className="badge badge-primary">Sedang berlangsung</span></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>x-IPA2</td>
-                                            <td>-</td>
-                                            <td><span className="badge badge-danger">Belum terlaksana</span></td>
-                                            <td><Button className="btn-twitter btn-brand icon btn-sm">Mulai Ujian</Button></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>x-IPA3</td>
-                                            <td>25/12/2018 09:20:12</td>
-                                            <td><span className="badge badge-success">Sudah terlaksana</span></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>x-IPA4</td>
-                                            <td>-</td>
-                                            <td><span className="badge badge-danger">Belum terlaksana</span></td>
-                                            <td><Button className="btn-twitter btn-brand icon btn-sm">Mulai Ujian</Button></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>x-IPA5</td>
-                                            <td>-</td>
-                                            <td><span className="badge badge-danger">Belum terlaksana</span></td>
-                                            <td><Button className="btn-twitter btn-brand icon btn-sm" onClick={this.toggleMulaiUjian}>Mulai Ujian</Button></td>
-                                            <Modal isOpen={this.state.primary} toggle={this.toggleMulaiUjian} className={'modal-primary ' + this.props.className}>
-                                              <ModalHeader toggle={this.toggleMulaiUjian}>Mulai Ujian</ModalHeader>
-                                              <ModalBody>
-                                              <p> Apakah anda yakin ingin memulai ujian di kelas <b>X-IPA5</b>?</p>
-                                              </ModalBody>
-                                              <ModalFooter>
-                                                <Button color="danger" onClick={this.toggleMulaiUjian}>Tidak</Button>
-                                                <Button color="success" onClick={this.toggleMulaiUjian}>Ya</Button>{' '}
-                                              </ModalFooter>
-                                            </Modal>
+                { this.renderModal() }
+                <Col sm="12">
+                  <Table responsive size="sm">
+                    <thead>
+                      <tr>
+                          <th>Kelas</th>
+                          <th>Pelaksanaan Ujian<br/><i>Waktu Mulai Ujian</i></th>
+                          <th>Status Ujian</th>
+                          <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        dataujian.pelaksanaan_ujian.map((pel, i) => {
+                          return (
+                            <tr key={i}>
+                              <td>{pel.namaKelas}</td>
+                              <td>{pel.waktu_mulai|| ''}</td>
+                              <td>{this.getStatusBadge(pel.status_pelaksanaan)}</td>
+                              <td>{this.renderMulaiButton(pel.status_pelaksanaan, pel.idkelas, pel.namaKelas)}</td>
+                            </tr>
+                          );
+                        })
+                      }
+                    </tbody>
+ 
+                  </Table>
+                </Col>
+              <Col className="col-sm-12 text-right">
+                <Link to="/ujian">
+                  <Button className="text-right" color="primary" >Kembali</Button>
+                </Link>
+              </Col>
 
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>x-IPA6</td>
-                                            <td>25/12/2018 07:20:12</td>
-                                            <td><span className="badge badge-success">Sudah terlaksana</span></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        </tbody>
-                                        </Table>
-                                      </Col>
-                                    <Col className="col-sm-12 text-right">
-                                        <Link to="/ujian">
-                                            <Button className="text-right" color="primary" >Kembali</Button>
-                                        </Link>
-                                    </Col>
-
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-      </div>
-
-    );
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
+    </div>);
   }
 }
 

@@ -1,5 +1,5 @@
 # coding: utf-8
-from sqlalchemy import Boolean, Column, Date, Float, ForeignKey, ForeignKeyConstraint, Index, Integer, SmallInteger, String, Table, Text, Time
+from sqlalchemy import Boolean, Column, Date, DateTime, Float, ForeignKey, ForeignKeyConstraint, Index, Integer, SmallInteger, String, Table, Text, Time
 from sqlalchemy.orm import relationship
 
 # Dev Command: 
@@ -113,7 +113,7 @@ class Pelaksanaanujian(Base):
 
     idkelas = Column(ForeignKey('kelas.idkelas'), primary_key=True, nullable=False)
     idujian = Column(ForeignKey('ujian.idujian'), primary_key=True, nullable=False, index=True)
-    tanggal_mulai = Column(Date)
+    waktu_mulai = Column(DateTime)
     status_pelaksanaan = Column(String(1))
     status_penilaian = Column(String(1))
     progress_penilaian = Column(String(3))

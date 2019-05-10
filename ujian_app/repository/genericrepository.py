@@ -36,7 +36,7 @@ class GenericRepository(object):
         '''
         Mendapatkan data berdasarkan key 
         '''
-        return self.model_class.query.filter_by(kwargs)
+        return self.model_class.query.filter_by(**kwargs)
 
     def findByPage(self, halaman, per_halaman, eksepsi = False):
         '''
