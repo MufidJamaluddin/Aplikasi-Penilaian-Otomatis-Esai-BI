@@ -70,12 +70,12 @@ class SoalTab extends PureComponent<SoalTabAttribute, SoalTabState>
   //------------------------- Skor Input -----------------------//
   onSkorMinInput(event: any)
   {
-    this.setState({ minSkor: event.target.value });
+    this.setState({ skorMin: event.target.value });
   }
 
   onSkorMaxInput(event: any)
   {
-    this.setState({ maxSkor: event.target.value });
+    this.setState({ skorMax: event.target.value });
   }
 
   onMateriPokokInput(event: any)
