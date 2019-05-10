@@ -67,7 +67,7 @@ class LihatSoal extends Component<LihatSoalAttribute & RouteComponentProps<Route
                   <CardBody>
                     <Row>
                       <Col xs="12">
-                        <TabContent activeTab={this.state.soalTab}>
+                        <TabContent activeTab={String(this.state.soalTab)}>
                           {
                             this.state.listsoal.map((soal, index, array) => {
                               return(

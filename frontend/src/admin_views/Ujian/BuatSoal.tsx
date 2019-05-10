@@ -4,7 +4,6 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import SoalTab from './SoalTab';
 import { initDataSoal } from './../../models/SoalData';
 import DataSoal from './../../models/item_model';
-import classnames from 'classnames';
 
 /**
  *  Modal
@@ -49,6 +48,8 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
     this.toggleSubmitSoal = this.toggleSubmitSoal.bind(this);
     this.toggleBatalUjian = this.toggleBatalUjian.bind(this);
     this.toggleSoal = this.toggleSoal.bind(this);
+
+    this.getColorButton = this.getColorButton.bind(this);
   }
 
   componentDidMount()
@@ -61,16 +62,22 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
   //---------------------------------- TOGGLE ------------------------------------//
  	public toggleSubmitSoal() : void 
  	{
-    var modal = this.state.modal;
-    modal.submit = !modal.submit;
-    this.setState({ modal: modal });
+    this.setState({ 
+      modal: {
+        submit: !this.state.modal.submit,
+        batal: false
+      } 
+    });
   }
   
  	public toggleBatalUjian() : void
  	{
-    var modal = this.state.modal;
-    modal.batal = !modal.batal;
-    this.setState({ modal: modal });
+    this.setState({ 
+      modal: {
+        submit: false,
+        batal: !this.state.modal.batal,
+      } 
+    });
   }
   
   toggleSoal(tab: number) 
@@ -120,6 +127,12 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
     );
   }
 
+  getColorButton(tab: number)
+  {
+    if(this.state.soalTab === tab) return "success";
+    else return "default";
+  }
+
   public render() : JSX.Element 
   {
     return (
@@ -161,17 +174,16 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
                   {
                     this.state.listsoal.map((soal, index) => {
                       return (
-                        <Button key={index} size='md' color="default" className={classnames('btn-outline-default', {active: this.state.soalTab === index})} onClick={() => this.toggleSoal(index)}>
+                        <Button size='md' key={index} color={this.getColorButton(index)} className="btn-outline-default" onClick={() => this.toggleSoal(index)}>
                         {index+1}
                         </Button>
                       )
                     })
                   }
-                  </Col>
-                      
-                  { this.renderModalBatal() }
 
+                  { this.renderModalBatal() }
                   { this.renderModalSubmit() }
+                  </Col>
 
                   <Col className="col-sm-12 text-right">
                     <Button  color="primary"  onClick={this.toggleBatalUjian} >Kembali</Button>
