@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Badge, Form, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table, Button, FormGroup, FormText, FormFeedback, Input, InputGroup, InputGroupAddon, InputGroupText,Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Form, Card, CardBody, CardHeader, Col, Row, Table, Button, FormGroup, Input } from 'reactstrap';
 import { Link } from 'react-router-dom';
 interface DetailHasilUjianStateModel {}
 

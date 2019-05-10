@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom';
+import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import '@coreui/icons/css/coreui-icons.min.css';
 import 'font-awesome/css/font-awesome.min.css';

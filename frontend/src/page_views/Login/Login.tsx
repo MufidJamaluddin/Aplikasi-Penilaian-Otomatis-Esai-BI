@@ -1,7 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Link } from 'react-router-dom';
 import { Alert, Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
-import API from '../../models/api';
 
 interface LoginAttribute { pesan?:string; onLoginSubmit:any; }
 

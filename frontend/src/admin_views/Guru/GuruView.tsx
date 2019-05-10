@@ -216,12 +216,13 @@ class Guru extends Component<GuruModel, GuruStateModel>
 				onClickSubmit={this.onImportDataGuru}>
 				<ol>
 					<li>
-						<a>Download Template XLSX Guru</a>
-						<Button size="sm"  className="btn-vine btn-brand mr-1 mb-1 "> <i className="fa fa-download"></i>
+						<p>Download Template XLSX Guru</p>
+						<Button size="sm" className="btn-vine btn-brand mr-1 mb-1 "> 
+							<i className="fa fa-download"></i>
 						</Button>
 					</li>
-					<li><a>Isi data guru sesuai dengan format kolom yang tersedia pada Template XLSX<b>(kolom pertama tidak boleh diubah/diedit)</b></a></li>
-					<li><a>Upload Template XLSX Guru yang sudah diisi</a></li>
+					<li><p>Isi data guru sesuai dengan format kolom yang tersedia pada Template XLSX<b>(kolom pertama tidak boleh diubah/diedit)</b></p></li>
+					<li><p>Upload Template XLSX Guru yang sudah diisi</p></li>
 				</ol>
 	 			<Input type="file" id="file-input" name="file-input" />
 			</ModalForm>

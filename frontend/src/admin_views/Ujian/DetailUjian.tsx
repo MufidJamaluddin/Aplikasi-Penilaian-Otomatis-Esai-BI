@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Badge, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table, Button,Form, FormGroup, FormText, FormFeedback, Input, InputGroup, InputGroupAddon, InputGroupText,Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Card, CardBody, CardHeader, Modal, ModalHeader, ModalBody, ModalFooter, Col, Row, Table, Button,Form, FormGroup, Input } from 'reactstrap';
 
 import { Link, RouteComponentProps } from 'react-router-dom';
 
 interface DetailUjianStateModel { 
   modal: boolean;
 	primary: boolean;
-	}
+}
 
 interface DetailUjianPropsModel { className?: string; }
 

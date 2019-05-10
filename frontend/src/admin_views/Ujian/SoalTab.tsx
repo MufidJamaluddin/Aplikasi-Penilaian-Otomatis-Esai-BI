@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { FormGroup, Input, Col, TabPane } from 'reactstrap';
-import { isNullOrUndefined } from 'util';
 import { updateDataSoal } from './../../models/SoalData';
 
 interface SoalTabAttribute 
@@ -59,6 +58,9 @@ class SoalTab extends PureComponent<SoalTabAttribute, SoalTabState>
     update = update || prevState.kompetensiDasar!== this.state.kompetensiDasar;
     update = update || prevState.materiPokok!== this.state.materiPokok;
 
+    /**
+     * Kirim Perubahan ke BackEnd
+     */
     if(update)
     {
       updateDataSoal(this.props.idsoal, this.state).then(state => {
@@ -100,16 +102,16 @@ class SoalTab extends PureComponent<SoalTabAttribute, SoalTabState>
     if(this.props.viewonly)
     {
       return (
-        <TabPane tabId={this.props.tabId}>
+        <TabPane tabId={String(this.props.tabId)}>
           <FormGroup row>
             <Col className="col-sm-2">
               <h5>No. Soal: {this.props.tabId + 1}</h5>
             </Col>    
             <Col className="col-sm-2 text-right">
-              <a>Minimal Skor Jawaban : {this.props.skorMin}</a>
+              Minimal Skor Jawaban : {this.props.skorMin}
             </Col>
             <Col className="col-sm-2 text-right">
-              <a>Maksimal Skor Jawaban : {this.props.skorMax}</a>
+              Maksimal Skor Jawaban : {this.props.skorMax}
             </Col>
             <Col className="col-sm-6 text-right">
               <p>Materi Pokok : {this.props.materiPokok}</p>
@@ -124,13 +126,13 @@ class SoalTab extends PureComponent<SoalTabAttribute, SoalTabState>
     }
 
     return (
-      <TabPane tabId={this.props.tabId}>
+      <TabPane tabId={String(this.props.tabId)}>
         <FormGroup row>
           <Col className="col-sm-2">
             <h5>No. Soal: {this.props.tabId + 1}</h5>
           </Col>    
           <Col className="col-sm-2 text-right">
-            <Input bsSize="sm" type="number" defaultValue={this.props.skorMin||'0'} onBlur={this.onSkorMinInput} placeholder="Minimum Skor" required />
+            <Input bsSize="sm" type="number" defaultValue={this.props.skorMin||''} onBlur={this.onSkorMinInput} placeholder="Minimum Skor" required />
           </Col>
           <Col className="col-sm-2 text-right">
             <Input bsSize="sm" type="number" defaultValue={this.props.skorMax||''} onBlur={this.onSkorMaxInput} placeholder="Maksimum Skor" required/>

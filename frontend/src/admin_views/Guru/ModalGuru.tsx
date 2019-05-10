@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import DataGuru from '../../models/item_model';
-import { Modal, Form, ModalHeader, ModalBody, ModalFooter, Button, FormGroup, Col, Input, Table, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Modal, Form, ModalHeader, ModalBody, ModalFooter, Button, FormGroup, Col, Input, Table } from 'reactstrap';
 import DataKelas from '../../models/item_model';
 import DataMatapelajaran from '../../models/item_model';
 import DataPengampu from '../../models/item_model';
@@ -274,8 +274,8 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 						listpengampu.map((pengampu, i, arr)=>{
 							return(
 								<tr>
-									<td><a>{pengampu.namaMapel}</a></td>
-									<td><a>{pengampu.namaKelas}</a></td>
+									<td>{pengampu.namaMapel}</td>
+									<td>{pengampu.namaKelas}</td>
 								</tr>
 							);
 						})

@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
-import { Modal, ModalBody, ModalFooter, ModalHeader, Badge, Input, Button, Card, CardBody, CardHeader, Col, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText, Row, TabContent, TabPane, Container } from 'reactstrap';
-import FormGroup from 'reactstrap/lib/FormGroup';
+import { Modal, ModalBody, ModalFooter, ModalHeader, Button, Card, CardBody, CardHeader, Col, Row, TabContent, Container } from 'reactstrap';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import SoalTab from './SoalTab';
-import { initDataSoal, updateDataSoal } from './../../models/SoalData';
+import { initDataSoal } from './../../models/SoalData';
 import DataSoal from './../../models/item_model';
+import classnames from 'classnames';
 
 /**
  *  Modal
@@ -49,8 +49,6 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
     this.toggleSubmitSoal = this.toggleSubmitSoal.bind(this);
     this.toggleBatalUjian = this.toggleBatalUjian.bind(this);
     this.toggleSoal = this.toggleSoal.bind(this);
-
-    this.getColorButton = this.getColorButton.bind(this);
   }
 
   componentDidMount()
@@ -79,6 +77,7 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
   {
     if (this.state.soalTab !== tab) 
     {
+      console.log(tab);
       this.setState({ soalTab: tab });
     }
   }
@@ -91,7 +90,7 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
       <Modal isOpen={this.state.modal.batal} toggle={this.toggleBatalUjian} className={'modal-danger ' + this.props.className}>
         <ModalHeader toggle={this.toggleBatalUjian}>Batal Input Soal</ModalHeader>
           <ModalBody>
-            <p> Apakah anda yakin ingin membatalkan input soal ? <b>jika tekan "YA", maka semua soal yang anda inputkan sebelumnya tidak akan disimpan</b> dari data guru ?</p>
+            <p>Apakah anda yakin ingin mengakhiri input soal ?</p>
           </ModalBody>
         <ModalFooter>
           <Button color="danger" onClick={this.toggleBatalUjian}>Tidak</Button>
@@ -109,7 +108,7 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
       <Modal isOpen={this.state.modal.submit} toggle={this.toggleSubmitSoal} className={'modal-success ' + this.props.className}>
         <ModalHeader toggle={this.toggleSubmitSoal}>Submit Ujian</ModalHeader>
           <ModalBody>
-            <p> Apakah anda yakin ingin submit soal ? <b>Pastikan soal yang anda submit telah diinput dengan benar</b></p>
+            <p> Apakah anda yakin ingin submit soal ? <b>Pastikan semua soal yang anda masukkan telah diinput dengan benar</b></p>
           </ModalBody>
         <ModalFooter>
             <Button color="danger" onClick={this.toggleSubmitSoal}>Tidak</Button>
@@ -119,12 +118,6 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
         </ModalFooter>
       </Modal>
     );
-  }
-
-  getColorButton(tab: number)
-  {
-    if(this.state.soalTab === tab) return "primary";
-    else return "default";
   }
 
   public render() : JSX.Element 
@@ -143,12 +136,12 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
                 <Row>
                       
                   <Col xs="12">
-                    <TabContent activeTab={this.state.soalTab}>
+                    <TabContent activeTab={String(this.state.soalTab)}>
                       {
-                        this.state.listsoal.map((soal, index, array) => {
+                        this.state.listsoal.map((soal, index) => {
                           return(
                             <SoalTab 
-                              key={soal.idsoal}
+                              key={index}
                               tabId={index}
                               idujian={this.idujian} 
                               idsoal={soal.idsoal}
@@ -166,9 +159,9 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
 
                   <Col className="col-sm-12 text-center">
                   {
-                    this.state.listsoal.map((soal, index, array) => {
+                    this.state.listsoal.map((soal, index) => {
                       return (
-                        <Button size='md' color={this.getColorButton(index)} className=" btn-outline-primary" onClick={() => this.toggleSoal(index)}>
+                        <Button key={index} size='md' color="default" className={classnames('btn-outline-default', {active: this.state.soalTab === index})} onClick={() => this.toggleSoal(index)}>
                         {index+1}
                         </Button>
                       )

@@ -65,6 +65,7 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
           lidmapel[val.idmapel] = '';
           return true;
         }
+        else return false;
       });
 
       this.setState({
