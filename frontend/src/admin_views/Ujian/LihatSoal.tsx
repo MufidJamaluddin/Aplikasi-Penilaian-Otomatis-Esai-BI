@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Modal, Form, CardGroup,  ModalBody, ModalFooter, ModalHeader, Badge, Input, Button, Card, CardBody, CardHeader, Col, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText, Row, TabContent, TabPane, Container } from 'reactstrap';
 import FormGroup from 'reactstrap/lib/FormGroup';
+import SoalTab from './SoalTab';
 import { initDataSoal, updateDataSoal } from './../../models/SoalData';
 import DataSoal from './../../models/item_model';
 
