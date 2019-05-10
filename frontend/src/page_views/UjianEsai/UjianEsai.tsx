@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Modal, Form, CardGroup,  ModalBody, ModalFooter, ModalHeader, Badge, Input, Button, Card, CardBody, CardHeader, Col, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText, Row, TabContent, TabPane, Container } from 'reactstrap';
+import { Modal, Form, CardGroup,  ModalBody, ModalFooter, ModalHeader, Input, Button, Card, CardBody, CardHeader, Col, Row, TabContent, TabPane, Container } from 'reactstrap';
 import FormGroup from 'reactstrap/lib/FormGroup';
 import Countdown from "react-countdown-now";
 
@@ -46,22 +46,20 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
       });
     }
   }
-
+  
 	public render() : JSX.Element
 	{
     return (
-      <div className="app flex-row align-items-center">
+      
         <Container>
           <Row className="justify-content-center">
             <Col md="12">
               <CardGroup>
                 <Card className="p-4">
                     <CardHeader>
-                            <dd className="col-sm-12 text-left"><b>161511019</b></dd>
-                            <dd className="col-sm-12 text-left"><b>Mufid Jamaluddin</b></dd>
-                            <dd className="col-sm-12 text-left"><b>XII-IPA</b></dd>
-                            <dd className="col-sm-12 text-left"><b>Pendidikan Kewarganegaraan - Ideologi Pancasila</b></dd>
-                            <dd className="col-sm-12 text-right"><h2><b><Countdown date={Date.now() + 3600000} /></b></h2></dd>
+                            <dd className="col-sm-12 text-left"><b>Pendidikan Kewarganegaraan</b></dd>
+                            <dd className="col-sm-12 text-left"><b>Ideologi Pancasila</b></dd>
+                            <dd className="col-sm-12 text-right"><h5><b><Countdown date={Date.now() + 3600000} /></b></h5></dd>
                     </CardHeader>
                         
                     <CardBody>
@@ -80,7 +78,7 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                   <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
                                 </Col>
                                 <Col sm="12">
-                                  <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
+                                  <Input type="textarea"  rows="3" placeholder="Input Jawaban" required/> 
                                 </Col>                      
                               </FormGroup>
                             </TabPane>
@@ -95,7 +93,7 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                   <p>Apa definisi Demokrasi menurut Aristoteles ?</p>
                                 </Col>
                                 <Col sm="12">
-                                  <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
+                                  <Input type="textarea"  rows="3" placeholder="Input Jawaban" required/> 
                                 </Col>                      
                               </FormGroup>
                             </TabPane>
@@ -106,14 +104,13 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                   <h5>Soal 3 :</h5>
                                 </Col>    
                                 <Col className="col-sm-9 text-right">
-                                    <h1 className="text-right"><Countdown date={Date.now() + 100000000} />,
-                 document.getElementById("root")</h1>
+                                   
                                 </Col>
                                 <Col sm="12">
                                   <p>Apa definisi Demokrasi menurut Aristoteles ?</p>
                                 </Col>
                                 <Col sm="12">
-                                  <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
+                                  <Input type="textarea"  rows="3" placeholder="Input Jawaban" required/> 
                                 </Col>                      
                               </FormGroup>
                             </TabPane>
@@ -130,7 +127,7 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                     <p>Sebutkan bunyi dari UUD 1945 Pasal 30 ayat 1?</p>
                                   </Col>
                                   <Col sm="12">
-                                    <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
+                                    <Input type="textarea"  rows="3" placeholder="Input Jawaban" required/> 
                                   </Col>                      
                               </FormGroup>
                             </TabPane>
@@ -145,7 +142,7 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                   <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
                                 </Col>
                                 <Col sm="12">
-                                  <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
+                                  <Input type="textarea"  rows="3" placeholder="Input Jawaban" required/> 
                                 </Col>                      
                               </FormGroup>
                             </TabPane>
@@ -161,7 +158,7 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                   <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
                                 </Col>
                                 <Col sm="12">
-                                  <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
+                                  <Input type="textarea"  rows="3" placeholder="Input Jawaban" required/> 
                                 </Col>                      
                               </FormGroup>
                             </TabPane>
@@ -176,7 +173,7 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                   <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
                                 </Col>
                                 <Col sm="12">
-                                  <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
+                                  <Input type="textarea"  rows="3" placeholder="Input Jawaban" required/> 
                                 </Col>                      
                               </FormGroup>
                             </TabPane>
@@ -191,7 +188,7 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                   <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
                                 </Col>
                                 <Col sm="12">
-                                  <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
+                                  <Input type="textarea"  rows="3" placeholder="Input Jawaban" required/> 
                                 </Col>                      
                               </FormGroup>
                             </TabPane>
@@ -206,7 +203,7 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                   <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
                                 </Col>
                                 <Col sm="12">
-                                  <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
+                                  <Input type="textarea"  rows="3" placeholder="Input Jawaban" required/> 
                                 </Col>                      
                               </FormGroup>
                             </TabPane>
@@ -221,14 +218,14 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                   <p>Apa definisi Ideologi Pancasila menurut Aristoteles ?</p>
                                 </Col>
                                 <Col sm="12">
-                                  <Input type="textarea"  rows="5" placeholder="Input Jawaban" required/> 
+                                  <Input type="textarea"  rows="3" placeholder="Input Jawaban" required/> 
                                 </Col>                      
                               </FormGroup>
                             </TabPane>
                           </TabContent>
                         </Col>
                             <Col className="col-sm-12 text-center">
-                              <p>
+                             
                                   <Button size='md' color="default" className=" btn-outline-primary" onClick={() => this.toggle(0)} action active={this.state.activeTab === 0} >01</Button>
                                   <Button size='md' color="default" className=" btn-outline-primary" onClick={() => this.toggle(1)} action active={this.state.activeTab === 1} >02</Button>
                                   <Button size='md' color="default" className=" btn-outline-primary" onClick={() => this.toggle(2)} action active={this.state.activeTab === 2} >03</Button>
@@ -239,7 +236,7 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
                                   <Button size='md' color="default" className=" btn-outline-primary" onClick={() => this.toggle(7)} action active={this.state.activeTab === 7} >08</Button>
                                   <Button size='md' color="default" className=" btn-outline-primary" onClick={() => this.toggle(8)} action active={this.state.activeTab === 8} >09</Button>
                                   <Button size='md' color="default" className=" btn-outline-primary" onClick={() => this.toggle(9)} action active={this.state.activeTab === 9} >10</Button>
-                                </p>  
+                                 
                               </Col>
 
                               <Col className="col-sm-12 text-right">
@@ -267,7 +264,7 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
             </Col>
           </Row>
         </Container>
-      </div>
+      
     );
   }
 }

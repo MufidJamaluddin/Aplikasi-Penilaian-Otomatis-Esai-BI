@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Nav , NavItem , NavLink, Button} from 'reactstrap';
+import { Nav , NavItem , Button} from 'reactstrap';
 
 var Template = require('@coreui/react/lib');
 
@@ -23,21 +23,20 @@ class Header extends Component<DefaultHeaderPropsModel>
           minimized={{ src: sygnet, width: 30, height: 30, alt: alt_logo }}
         />
         <Template.AppSidebarToggler className="d-md-down-none" display="lg" />
+        <Nav className="ml-auto" navbar></Nav>
+          
           <Nav className="m1-auto">
-            <NavItem className="px-3 text-right">
-              <NavLink to="#" className="nav-link" >
-                <i className="icon-user"></i> {this.props.nama}
-              </NavLink>
+            <NavItem className="px-3">
+               <i className="icon-user"></i> {this.props.nama}
             </NavItem>
-            <NavItem className="px-3 text-right">
-              <Button color="primary" onClick={this.props.onLogout}>
+
+            <NavItem className="px-3">
+              <Button size="sm" color="primary" onClick={this.props.onLogout}>
                 <i className="icon-logout"></i> Logout
               </Button>
             </NavItem>
           </Nav>
-          
-          <Nav className="ml-auto" navbar></Nav>
-        
+
       </React.Fragment>
     );
   }
