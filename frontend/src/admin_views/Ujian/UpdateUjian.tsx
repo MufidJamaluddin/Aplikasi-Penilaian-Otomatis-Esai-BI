@@ -114,7 +114,7 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
 		var listkelas = this.state.listpengampu;
 
 		var kelas = listkelas.find((el, i, arr) => {
-			return el.idkelas == idkelas;
+			return el.idkelas === idkelas;
 		});
 
 		console.log(kelas);
@@ -130,7 +130,7 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
 	public onHapusKelas(idkelas:string)
 	{
 		var list = this.state.listkelaspilihan.filter((el, i, arr) => {
-			return el.idkelas != idkelas;
+			return el.idkelas !== idkelas;
 		});
 
 		this.setState({ listkelaspilihan: list });
@@ -152,8 +152,10 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
 		 */
     if(!isNullOrUndefined(kelas))
     {
+      let idkelas = kelas.idkelas || '';
+
       found = listkelaspilihan.find((el, i, arr) => {
-        return el.idkelas === kelas.idkelas;
+        return el.idkelas === idkelas;
       });
       
       /**

@@ -13,11 +13,14 @@ interface JsonAPIListSoal { list: Array<DataSoal>; }
  */
 function initDataSoal(idujian: string)
 {
-    return API<JsonAPIListSoal>('/api/soalujian/' + idujian).then(value => { return value.list });
+    return API<JsonAPIListSoal>('/api/soalujian/' + idujian).then(value => { 
+        console.log(value.list);
+        return value.list 
+    });
 }
 
 /**
- * Mengubah Data Soal
+ * fix Mengubah Data Soal
  * @param idsoal ID Soal
  * @param data Data Soal Ujian Sekolah
  */

@@ -6,11 +6,11 @@ import SoalTab from './SoalTab';
 import { initDataSoal, updateDataSoal } from './../../models/SoalData';
 import DataSoal from './../../models/item_model';
 
-interface ModalState { submit:bolean; batal: boolean; }
+interface ModalState { submit:boolean; batal: boolean; }
 
 interface UpdateSoalStateModel 
 { 
-  activeTab: number; 
+  soalTab: number; 
   modal: ModalState;
   listsoal: Array<DataSoal>;
 }
@@ -36,9 +36,8 @@ class UpdateSoal extends Component<UpdateSoalPropsModel & RouteComponentProps<Ro
   constructor(props:any) 
   {
     super(props);
-    this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: 1,
+      soalTab: 1,
       modal: {
         submit: false,
         batal: false
@@ -76,9 +75,9 @@ class UpdateSoal extends Component<UpdateSoalPropsModel & RouteComponentProps<Ro
   
   toggleSoal(tab:any) 
   {
-    if (this.state.activeTab !== tab) {
+    if (this.state.soalTab !== tab) {
       this.setState({
-        activeTab: tab
+        soalTab: tab
       });
     }
   }

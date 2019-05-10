@@ -7,4 +7,4 @@ class SoalRepository(GenericRepository):
         super().__init__(Soal)
     
     def findByIdUjian(self, idujian):
-        return Soal.query.filter_by(idujian=idujian)
+        return Soal.query.filter_by(idujian=idujian).all()

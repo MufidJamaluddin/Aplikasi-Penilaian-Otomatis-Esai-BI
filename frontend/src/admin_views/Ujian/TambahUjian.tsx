@@ -142,8 +142,10 @@ class TambahUjian extends Component<TambahUjianAttribute, TambahUjianState>
 		 */
     if(!isNullOrUndefined(kelas))
     {
+      let idkelas = kelas.idkelas || '';
+
       found = listkelaspilihan.find((el, i, arr) => {
-        return el.idkelas === kelas.idkelas;
+        return el.idkelas === idkelas;
       });
       
       /**

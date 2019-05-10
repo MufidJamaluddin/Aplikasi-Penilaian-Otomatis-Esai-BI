@@ -6,7 +6,7 @@ import SoalTab from './SoalTab';
 import { initDataSoal, updateDataSoal } from './../../models/SoalData';
 import DataSoal from './../../models/item_model';
 
-interface LihatSoalState { activeTab: number; listsoal: Array<DataSoal>;}
+interface LihatSoalState { soalTab: number; listsoal: Array<DataSoal>; }
 
 interface LihatSoalAttribute { className: string; }
 
@@ -32,7 +32,7 @@ class LihatSoal extends Component<LihatSoalAttribute & RouteComponentProps<Route
     
     this.idujian = props.match.params.idujian;
 
-    this.state = { activeTab: 1, listsoal: [] };
+    this.state = { listsoal: [], soalTab: 0 };
     this.toggleSoal = this.toggleSoal.bind(this);
   }
 
@@ -45,9 +45,9 @@ class LihatSoal extends Component<LihatSoalAttribute & RouteComponentProps<Route
 
   toggleSoal(tab:any) 
   {
-    if (this.state.activeTab !== tab) {
+    if (this.state.soalTab !== tab) {
       this.setState({
-        activeTab: tab
+        soalTab: tab
       });
     }
   }
