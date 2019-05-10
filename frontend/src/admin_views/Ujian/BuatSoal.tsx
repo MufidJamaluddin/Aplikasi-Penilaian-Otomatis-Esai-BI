@@ -36,7 +36,7 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
   {
     super(props);
     this.state = {
-      soalTab: 1,
+      soalTab: 0,
       listsoal: [],
       modal: {
         submit: false,
@@ -49,6 +49,8 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
     this.toggleSubmitSoal = this.toggleSubmitSoal.bind(this);
     this.toggleBatalUjian = this.toggleBatalUjian.bind(this);
     this.toggleSoal = this.toggleSoal.bind(this);
+
+    this.getColorButton = this.getColorButton.bind(this);
   }
 
   componentDidMount()
@@ -119,6 +121,12 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
     );
   }
 
+  getColorButton(tab: number)
+  {
+    if(this.state.soalTab === tab) return "primary";
+    else return "default";
+  }
+
   public render() : JSX.Element 
   {
     return (
@@ -129,17 +137,18 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
 
             <Card>
               <CardHeader>
-                <h4 className="text-center">INPUT SOAL UJIAN {this.idujian}</h4>
+                <h4 className="text-center">INPUT SOAL</h4>
               </CardHeader>
               <CardBody>
                 <Row>
                       
                   <Col xs="12">
-                    <TabContent soalTab={this.state.soalTab}>
+                    <TabContent activeTab={this.state.soalTab}>
                       {
                         this.state.listsoal.map((soal, index, array) => {
                           return(
                             <SoalTab 
+                              key={soal.idsoal}
                               tabId={index}
                               idujian={this.idujian} 
                               idsoal={soal.idsoal}
@@ -159,8 +168,8 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
                   {
                     this.state.listsoal.map((soal, index, array) => {
                       return (
-                        <Button size='md' color="default" className=" btn-outline-primary" onClick={() => this.toggleSoal(index)}>
-                        {index}
+                        <Button size='md' color={this.getColorButton(index)} className=" btn-outline-primary" onClick={() => this.toggleSoal(index)}>
+                        {index+1}
                         </Button>
                       )
                     })

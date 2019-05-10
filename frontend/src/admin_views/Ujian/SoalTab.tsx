@@ -103,7 +103,7 @@ class SoalTab extends PureComponent<SoalTabAttribute, SoalTabState>
         <TabPane tabId={this.props.tabId}>
           <FormGroup row>
             <Col className="col-sm-2">
-              <h5>No. Soal: 1 </h5>
+              <h5>No. Soal: {this.props.tabId + 1}</h5>
             </Col>    
             <Col className="col-sm-2 text-right">
               <a>Minimal Skor Jawaban : {this.props.skorMin}</a>
@@ -127,7 +127,7 @@ class SoalTab extends PureComponent<SoalTabAttribute, SoalTabState>
       <TabPane tabId={this.props.tabId}>
         <FormGroup row>
           <Col className="col-sm-2">
-            <h5>No. Soal: {this.props.tabId}</h5>
+            <h5>No. Soal: {this.props.tabId + 1}</h5>
           </Col>    
           <Col className="col-sm-2 text-right">
             <Input bsSize="sm" type="number" defaultValue={this.props.skorMin||'0'} onBlur={this.onSkorMinInput} placeholder="Minimum Skor" required />
