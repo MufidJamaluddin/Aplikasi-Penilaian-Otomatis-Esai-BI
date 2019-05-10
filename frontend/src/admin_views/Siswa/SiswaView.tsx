@@ -279,7 +279,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
           <Col sm="12">
           <p><Input  
               type="text" 
-              placeholder={nama} 
+              defaultValue={nama} 
               name="nama"
               required/>
           </p>

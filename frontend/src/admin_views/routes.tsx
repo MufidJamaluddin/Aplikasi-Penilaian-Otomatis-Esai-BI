@@ -31,8 +31,8 @@ const User = React.lazy(() => import('./Users/User'));
  * Routes yang Dapat Diakses oleh Guru
  */
 const GURU_ROUTES = [
-  { path: '/soal/:idujian/detail', name: 'Lihat Soal', component: LihatSoal },
-  { path: '/soal/:idujian/update', name: 'Update Soal', component: UpdateSoal },
+  { path: '/soal/:idujian/detail/:idsoal', name: 'Lihat Soal', component: LihatSoal },
+  { path: '/soal/:idujian/update/:idsoal', name: 'Update Soal', component: UpdateSoal },
   { path: '/soal/:idujian/tambah', name: 'Buat Soal', component: BuatSoal },
   { path: '/soal/:idujian', name: 'Soal', component: Soal },
 

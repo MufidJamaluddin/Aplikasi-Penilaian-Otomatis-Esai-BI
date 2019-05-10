@@ -10,3 +10,4 @@ from .ujianesai import UjianEsaiAPI
 from .panelsiswa import PanelSiswaAPI
 from .pengampu import PengampuAPI
 from .ujianesai import UjianEsaiAPI
+from .soal import SoalAPI

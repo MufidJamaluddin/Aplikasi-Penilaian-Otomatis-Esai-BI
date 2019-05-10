@@ -149,7 +149,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
         <FormGroup row>
           Nama Kelas {namaKelas} Baru
           <Col sm="12">
-            <Input type="text" placeholder={namaKelas}
+            <Input type="text" defaultValue={namaKelas}
               name="namaKelas" required />
           </Col>
         </FormGroup>

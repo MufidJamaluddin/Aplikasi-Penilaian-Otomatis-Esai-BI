@@ -2,7 +2,7 @@ from flask.views import MethodView
 from flask import json, request, session
 from ujian_app.utils import AlchemyEncoder
 from ujian_app.repository import UjianRepository, GuruRepository
-from ujian_app.models import Pelaksanaanujian
+from ujian_app.models import Pelaksanaanujian, Soal
 
 class UjianEsaiAPI(MethodView):
    
@@ -64,6 +64,11 @@ class UjianEsaiAPI(MethodView):
                 pelaksanaan.status_pelaksanaan = 0
                 pelaksanaan_ujian.append(pelaksanaan)
 
+        listsoal = []
+        for i in range(jumlahSoal):
+            soal = Soal()
+            listsoal.append(soal)
+        
         ujian = self.repository.save(
             idguru=idguru,
             idmapel=idmapel,
@@ -71,10 +76,10 @@ class UjianEsaiAPI(MethodView):
             jumlahSoal=jumlahSoal, 
             durasi=durasi,
             status_ujian=status_ujian,
-            pelaksanaan_ujian=pelaksanaan_ujian
+            pelaksanaan_ujian=pelaksanaan_ujian,
+            listsoal=listsoal
         )
-
-        return json.dumps({'idujian': ujian.idujian }), 201, {'Content-Type': 'application/json'}
+        return json.dumps({'idujian':ujian.idujian }), 201, {'Content-Type': 'application/json'}
    
     def put(self, idujian):
         '''
@@ -87,8 +92,6 @@ class UjianEsaiAPI(MethodView):
         idguru = data_Ujian['idguru']
         idmapel = data_Ujian['idmapel']
         status_ujian = data_Ujian['status_ujian']
-
-        print(json.dumps(data_Ujian))
 
         pelaksanaan_ujian = []
         listpelaksanaan = data_Ujian['pelaksanaan_ujian']

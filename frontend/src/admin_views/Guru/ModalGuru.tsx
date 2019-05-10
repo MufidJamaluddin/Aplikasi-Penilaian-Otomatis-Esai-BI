@@ -200,11 +200,11 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 		this.setState({ cmapel: mapel });
 	}
 
-	private renderInputUsername(username:string)
+	private renderInputUsername(username?:string)
 	{
 		if(this.props.inputusername) return(                
 			<Col sm="3">
-				<Input bssize="sm" type="text" name="username" placeholder={ username } required/>
+				<Input bssize="sm" type="text" name="username" defaultValue={ username } placeholder="Username" required/>
 			</Col>
 		);
 		else return(
@@ -239,15 +239,15 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
         else return (
             <FormGroup row>
                 <Col sm="3">
-                    <Input bssize="sm" type="text" name="nip" placeholder={ dataguru.nip || 'NIP' } />
+                    <Input bssize="sm" type="text" name="nip" defaultValue={ dataguru.nip } placeholder="NIP" />
                 </Col>
                 <Col sm="3">
-                    <Input bssize="sm" type="text" name="nuptk" placeholder={ dataguru.nuptk || 'NUPTK' } />
+                    <Input bssize="sm" type="text" name="nuptk" defaultValue={ dataguru.nuptk } placeholder="NUPTK" />
                 </Col>
                 <Col sm="3">
-                    <Input bssize="sm" type="text" name="namaGuru" placeholder={ dataguru.namaGuru||'Nama Guru' } required/>
+                    <Input bssize="sm" type="text" name="namaGuru" defaultValue={ dataguru.namaGuru } placeholder="Nama Guru" required/>
                 </Col>
-				{ this.renderInputUsername(dataguru.username || 'Username') }
+				{ this.renderInputUsername(dataguru.username) }
             </FormGroup>
         );
 	}

@@ -1,5 +1,7 @@
 from . import app
-from .api import GuruAPI, PengampuAPI, SiswaAPI, UjianEsaiAPI, MatapelajaranAPI, AuthAPI, DaftarNilaiAPI, KelasAPI, MatapelajaranAPI, PengerjaanUjianAPI, PenilaianAPI, UjianEsaiAPI, PanelSiswaAPI
+from .api import GuruAPI, PengampuAPI, SiswaAPI, SoalAPI, UjianEsaiAPI, MatapelajaranAPI 
+from .api import AuthAPI, DaftarNilaiAPI, KelasAPI, MatapelajaranAPI, PengerjaanUjianAPI
+from .api import PenilaianAPI, UjianEsaiAPI, PanelSiswaAPI
 
 ROUTES_API = [
 
@@ -17,6 +19,9 @@ ROUTES_API = [
 
     {'url':'/api/siswa', 'name':'siswa', 'view':SiswaAPI, 'methods':['GET','POST']},
     {'url':'/api/siswa/<int:nis>', 'name':'siswa_dt', 'view':SiswaAPI, 'methods':['PUT','DELETE']},
+
+    {'url':'/api/soalujian/<int:idujian>', 'name':'soalujian', 'view':SoalAPI, 'methods':['GET']},
+    {'url':'/api/soal/<int:idsoal>', 'name':'soal_dt', 'view':SoalAPI, 'methods':['PUT']},
 
     {'url':'/api/guru', 'name':'guru', 'view':GuruAPI, 'methods':['GET','POST']},
     {'url':'/api/guru/<int:idguru>', 'name':'guru_dt', 'view':GuruAPI, 'methods':['PUT','DELETE']},

@@ -19,5 +19,8 @@ class UjianRepository(GenericRepository):
         for i in ujian.pelaksanaan_ujian:
             db.session.delete(i)
         
+        for i in ujian.listsoal:
+            db.session.delete(i)
+        
         db.session.delete(ujian)
         db.session.commit()

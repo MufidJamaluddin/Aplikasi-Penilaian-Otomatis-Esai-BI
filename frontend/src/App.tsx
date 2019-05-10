@@ -25,16 +25,6 @@ const Login = Loadable({
   loading
 });
 
-const UjianEsai = Loadable({
-  loader: () => import('./page_views/UjianEsai/UjianEsai'),
-  loading
-});
-
-const PersiapanUjian = Loadable({
-  loader: () => import('./page_views/PersiapanUjian/PersiapanUjian'),
-  loading
-});
-
 const Gantipassword = Loadable({
   loader: () => import('./page_views/Gantipassword/Gantipassword'),
   loading

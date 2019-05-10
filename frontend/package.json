@@ -9,7 +9,7 @@
     "@coreui/icons": "0.3.0",
     "@coreui/react": "^2.1.5",
     "@types/classnames": "^2.2.7",
-    "@types/react": "^16.8.16",
+    "@types/react": "^16.8.17",
     "@types/react-dom": "^16.8.4",
     "@types/react-loadable": "^5.5.1",
     "@types/react-router-dom": "^4.3.3",

@@ -10,3 +10,4 @@ from .ujianrepository import UjianRepository
 from .akunrepository import AkunRepository
 from .pengampurepository import PengampuRepository
 from .ujianrepository import UjianRepository
+from .soalrepository import SoalRepository

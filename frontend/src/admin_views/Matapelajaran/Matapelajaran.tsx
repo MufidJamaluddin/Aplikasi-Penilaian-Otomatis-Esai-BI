@@ -155,9 +155,9 @@ renderModalEdit()
       <FormGroup row>
         Edit Matapelajaran {namaMapel}
         <Col sm="12">
-          <Input type="text" placeholder={namaMapel}
+          <Input type="text" defaultValue={namaMapel}
             name="namaMapel" required />
-          <Input type="number" min="0" max="100" placeholder={KKM}
+          <Input type="number" min="0" max="100" defaultValue={KKM}
             name="KKM" required />
         </Col>
       </FormGroup>
