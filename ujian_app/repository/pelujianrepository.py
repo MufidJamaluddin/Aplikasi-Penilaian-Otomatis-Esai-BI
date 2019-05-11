@@ -11,6 +11,7 @@ class PelaksanaanUjianRepository(GenericRepository):
         pel = Pelaksanaanujian.query.filter_by(idujian=idujian, idkelas=idkelas).one()
         pel.waktu_mulai = datetime.now()
         pel.status_pelaksanaan = 1
+        pel.ujian.status_ujian = 1
 
         db.session.add(pel)
         db.session.commit()

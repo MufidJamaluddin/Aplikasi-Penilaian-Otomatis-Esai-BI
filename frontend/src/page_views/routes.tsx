@@ -12,7 +12,7 @@ const UjianEsai = React.lazy(() => import('./UjianEsai/UjianEsai'));
 const PersiapanUjian = React.lazy(() => import('./PersiapanUjian/PersiapanUjian'));
 
 const SISWA_ROUTES = [
-    { path: '/ujian', name: 'ujianesai', component: UjianEsai },
+    { path: '/ujian/:idujian', name: 'ujianesai', component: UjianEsai },
     { path: '/persiapan', name: 'persiapanujian', component: PersiapanUjian }
 ];
 

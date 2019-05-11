@@ -5,7 +5,7 @@ def saatUjian(sekarang, waktu_ujian, **kwargs):
     waktu_selesai_ujian = waktu_ujian + timedelta(minutes=30)
     waktu_sekarang = sekarang + timedelta(**kwargs)
 
-    if(waktu_ujian < waktu_sekarang < waktu_selesai_ujian):
+    if(waktu_ujian <= waktu_sekarang < waktu_selesai_ujian):
         print("Ujian Sedang Berlangsung!")
     elif(waktu_sekarang > waktu_ujian):
         print("Ujian Telah Dilaksanakan")    
@@ -43,3 +43,7 @@ saatUjian(waktu_skr, waktu_ujian, hours=2)
 # BILA AKSES 2 JAM 30 MENIT KEMUDIAN
 print('\n2 Jam 30 Menit Kemudian :')
 saatUjian(waktu_skr, waktu_ujian, hours=2, minutes=30)
+
+time = datetime.now().time
+
+print(str(time))

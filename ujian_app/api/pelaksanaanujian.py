@@ -25,7 +25,9 @@ class PelaksanaanUjianAPI(MethodView):
             pel['idkelas'] = p.idkelas
             pel['idujian'] = p.idujian
             pel['namaKelas'] = p.kelas.namaKelas
-            pel['waktu_mulai'] = p.waktu_mulai
+            if(p.waktu_mulai):
+                waktu_mulai = p.waktu_mulai.strftime('%d %B %Y, %H:%M') 
+                pel['waktu_mulai'] = waktu_mulai
             pel['status_pelaksanaan'] = p.status_pelaksanaan
             listpel.append(pel)
         

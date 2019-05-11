@@ -81,6 +81,34 @@ class Ujian extends Component<UjianModel, UjianStateModel>
     }
   }
 
+  public renderButtonStatus(ujian:DataUjian)
+  {
+    if(ujian.status_ujian == "0")
+    {
+      return(
+        <div>
+          <Link to={"/ujian/detail/"+ ujian.idujian}>
+              <Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
+          </Link>	
+                        
+          <Link to={"/ujian/update/"+ ujian.idujian}>
+              <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
+          </Link>
+          
+          <Button className="btn-youtube btn-brand icon btn-sm" onClick={(e:any) => this.toggleDeleteUjian(ujian)}><i className="fa fa-trash"></i></Button>
+        </div>
+      );
+    }
+    else {
+      return(
+        <Link to={"/ujian/detail/"+ ujian.idujian}>
+            <Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
+        </Link>	
+                        
+      )
+    }
+  }
+
 // --------------------------------- HANDLE UI -----------------------------------//
 
     public onDeleteDataUjian(event:any) 
@@ -172,16 +200,7 @@ renderModalDeleteUjian()
                         <td>{ this.getElementStatus(ujian.status_ujian) }</td>
                         <td>
                         
-                        <Link to={"/ujian/detail/"+ ujian.idujian}>
-                          <Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
-                        </Link>
-                        
-                        <Link to={"/ujian/update/"+ ujian.idujian}>
-                            <Button className="btn-stack-overflow btn-brand icon btn-sm"><i className="fa fa-edit"></i></Button>
-                        </Link>
-                        
-                        <Button className="btn-youtube btn-brand icon btn-sm" onClick={(e:any) => this.toggleDeleteUjian(ujian)}><i className="fa fa-trash"></i></Button>
-												
+                        { this.renderButtonStatus(ujian) }	
                         </td>
                       </tr>
                     );

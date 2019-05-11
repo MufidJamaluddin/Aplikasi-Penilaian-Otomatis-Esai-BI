@@ -123,5 +123,4 @@ class UjianEsaiAPI(MethodView):
         '''
         self.repository.deleteUjian(idujian)
 
-        list_Ujian = self.repository.findAll()
-        return json.dumps({'list': list_Ujian }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
+        return self.get()

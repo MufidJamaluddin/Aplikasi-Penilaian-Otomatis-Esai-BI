@@ -113,7 +113,7 @@ class Pelaksanaanujian(Base):
 
     idkelas = Column(ForeignKey('kelas.idkelas'), primary_key=True, nullable=False)
     idujian = Column(ForeignKey('ujian.idujian'), primary_key=True, nullable=False, index=True)
-    waktu_mulai = Column(DateTime)
+    waktu_mulai = Column(DateTime(timezone=False))
     status_pelaksanaan = Column(String(1))
     status_penilaian = Column(String(1))
     progress_penilaian = Column(String(3))
