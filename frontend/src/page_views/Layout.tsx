@@ -1,6 +1,6 @@
 import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch, RouteComponentProps } from 'react-router-dom';
-import { Container } from 'reactstrap';
+import { Container, Nav, NavItem, Button } from 'reactstrap';
 
 /**
  * Template CoreUI
@@ -11,7 +11,6 @@ var Template = require('@coreui/react/lib');
  * Komponen Header dan Footer
  */
 const Footer = React.lazy(() => import('../layout/admin/Footer'));
-const Header = React.lazy(() => import('../layout/admin/Header'));
 
 /**
  * Model Cust KoPL 9
@@ -30,6 +29,35 @@ interface SiswaLayoutModel
     redirect_root_to: string;
     onLogout: any;
     nama: string;
+}
+
+/**
+ * Header
+ */
+interface DefaultHeaderAttribute { nama: string; onLogout:any; }
+
+class Header extends Component<DefaultHeaderAttribute> 
+{
+  public render() : JSX.Element
+  {
+    return (
+      <React.Fragment>
+        
+        <Nav className="ml-auto">
+          <NavItem className="px-3">
+              <i className="icon-user"></i> {this.props.nama}
+          </NavItem>
+
+          <NavItem className="px-3">
+            <Button size="sm" color="primary" onClick={this.props.onLogout}>
+              <i className="icon-logout"></i> Logout
+            </Button>
+          </NavItem>
+        </Nav>
+
+      </React.Fragment>
+    );
+  }
 }
 
 /**
@@ -62,42 +90,41 @@ class SiswaLayout extends Component<RouteComponentProps<any> & SiswaLayoutModel>
 
           {/* PAGE UTAMA */}
           <main className="main">
-            <Template.AppBreadcrumb appRoutes={ this.props.routes }/>
-              <Container fluid>
-                <Suspense fallback={this.loading()}>
-                  
-                  {/* Melakukan Root dari Route */}
-                  <Switch>
-                    {
-                      this.props.routes.map((route, idx) => {
-                        return route.component ? (
-                          <Route
-                            key={idx}
-                            path={route.path}
-                            exact={route.exact}
-                            name={route.name}
-                            component={route.component}
-                          />
-                        ) : (null);
-                      })
-                    }
-                    <Redirect from="/" to={ this.props.redirect_root_to } />
-                  </Switch>
-                </Suspense>
-              </Container>
-            </main>
-            {/* END PAGE UTAMA */}
+            <Container fluid>
+              <Suspense fallback={this.loading()}>
+                
+                {/* Melakukan Root dari Route */}
+                <Switch>
+                  {
+                    this.props.routes.map((route, idx) => {
+                      return route.component ? (
+                        <Route
+                          key={idx}
+                          path={route.path}
+                          exact={route.exact}
+                          name={route.name}
+                          component={route.component}
+                        />
+                      ) : (null);
+                    })
+                  }
+                  <Redirect from="/" to={ this.props.redirect_root_to } />
+                </Switch>
+              </Suspense>
+            </Container>
+          </main>
+          {/* END PAGE UTAMA */}
 
-         </div>
-         {/* END BODY */}
+        </div>
+        {/* END BODY */}
 
-        {/* FOOTER APLIKASI KoPL 9 */}
-         <Template.AppFooter>
-           <Suspense fallback={this.loading()}>
-             <Footer />
-           </Suspense>
-         </Template.AppFooter>
-         {/* END FOOTER */}
+        {/* FOOTER APLIKASI KoTA 109 */}
+        <Template.AppFooter>
+          <Suspense fallback={this.loading()}>
+            <Footer />
+          </Suspense>
+        </Template.AppFooter>
+        {/* END FOOTER */}
 
       </div>
     );

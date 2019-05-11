@@ -11,4 +11,5 @@ from .panelsiswa import PanelSiswaAPI
 from .pengampu import PengampuAPI
 from .ujianesai import UjianEsaiAPI
 from .soal import SoalAPI
+from .jawaban import JawabanAPI
 from .pelaksanaanujian import PelaksanaanUjianAPI

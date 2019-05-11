@@ -82,3 +82,11 @@ export default interface DataPengampu
     namaGuru: string;
     namaMatapelajaran: string;
 }
+
+export default interface DataJawabanSoal
+{
+    idjawaban?: string;
+    idsoal: string;
+    nis : string;
+    jawabanEsai : string;
+}

@@ -37,26 +37,26 @@ class PersiapanUjian extends Component<PersiapanUjianAttribute, PersiapanUjianSt
     if(this.state.datasiswa === undefined) return;
 
     return (
-      <div className="app flex-row align-items-center">
-        <Container>
+
+        <Container className="p-5">
           <Row className="justify-content-center">
             <Col md="12">
               <CardGroup>
-                <Card className="p-4">
+                <Card className="p-5">
 								
-								<CardHeader>
+								<CardHeader className="p-4">
                   <dd className="col-sm-12 text-left"><b>{ this.state.datasiswa.nis }</b></dd>
                   <dd className="col-sm-12 text-left"><b>{ this.state.datasiswa.nama }</b></dd>
                   <dd className="col-sm-12 text-left"><b>{ this.state.datasiswa.kelas.namaKelas }</b></dd>
               	</CardHeader>
                 
-								<CardBody className="col-sm-12 text-center">
+								<CardBody className="col-sm-12 text-center p-5">
                     <Form>
                       <h1>UJIAN BELUM DIMULAI</h1>
                       <Row>
                         <Col xs="12">
                         <Link to="./gantipassword">
-                          <Button color="primary">Ganti Password</Button>
+                          <Button color="primary"><i class="icon-key"></i> Ganti Password</Button>
 						            </Link>   
                         </Col>
                       </Row>
@@ -67,7 +67,7 @@ class PersiapanUjian extends Component<PersiapanUjianAttribute, PersiapanUjianSt
             </Col>
           </Row>
         </Container>
-      </div>
+
     );
   }
 }
