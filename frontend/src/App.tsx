@@ -100,7 +100,7 @@ class App extends Component<{}, AppState>
       password: fdata.get('password')
     };
 
-    API<LoginResponse>('api/auth', { 
+    API<LoginResponse>('/api/auth', { 
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data)

@@ -39,7 +39,7 @@ class PersiapanUjian extends Component<PersiapanUjianAttribute, PersiapanUjianSt
     return (
 
         <Container className="p-5">
-          <Row className="justify-content-center">
+          <Row className="align-items-center">
             <Col md="12">
               <CardGroup>
                 <Card className="p-5">
