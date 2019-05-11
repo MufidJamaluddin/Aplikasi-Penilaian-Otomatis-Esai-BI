@@ -1,10 +1,29 @@
 from flask import session, request
 from flask.views import MethodView
-from ujian_app.repository import AkunRepository
+from ujian_app.repository import AkunRepository, SiswaRepository, PelaksanaanUjianRepository
+from datetime import timedelta, datetime
 import json
 
 class AuthAPI(MethodView):
     
+    def getIdPelaksanaanUjian(self, nim):
+        siswarepo = SiswaRepository()
+        pelaksanaanrepo = PelaksanaanUjianRepository()
+
+        siswa = siswarepo.findById(nim)
+        pelaksanaan = pelaksanaanrepo.findByKeys(idkelas=siswa.idkelas,status_pelaksanaan='1').first()
+
+        if pelaksanaan:
+            ujian = pelaksanaan.ujian
+            waktu_berakhir_ujian = pelaksanaan.waktu_mulai + timedelta(minutes=ujian.durasi)
+            
+            if pelaksanaan.waktu_mulai <= datetime.now() < waktu_berakhir_ujian:
+                return ujian.idujian
+            else:
+                pelaksanaanrepo.selesaiUjian(pelaksanaan.idujian, pelaksanaan.idkelas)
+        else:
+            return False
+
     def get(self):
         '''
         Mendapatkan nama dan role
@@ -12,6 +31,11 @@ class AuthAPI(MethodView):
         cur_user = session.get('user')
         if not cur_user:
             return json.dumps({'role':'', 'nama':'', 'username':''})
+
+        if cur_user['role'] == 'siswa':
+            idujian = self.getIdPelaksanaanUjian(cur_user['username'])
+            if idujian:
+                cur_user['pelaksanaanujian'] = idujian
 
         return json.dumps(cur_user), 200
 
@@ -38,6 +62,12 @@ class AuthAPI(MethodView):
                     'username': user.username
                 }
                 session['user'] = dt
+
+                if user.role == 'siswa':
+                    idujian = self.getIdPelaksanaanUjian(user.username)
+                    if idujian:
+                        dt['pelaksanaanujian'] = idujian
+
                 return json.dumps(dt), 200
 
         dt = {'role':'', 'nama':'', 'username':'', 'pesan':'Username atau Password Salah!'}

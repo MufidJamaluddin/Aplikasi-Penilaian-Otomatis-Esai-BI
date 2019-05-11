@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Modal, CardGroup,  ModalBody, ModalFooter, ModalHeader, Input, Button, Card, CardBody, CardHeader, Col, Row, TabContent, TabPane, Container } from 'reactstrap';
 import FormGroup from 'reactstrap/lib/FormGroup';
+import { RouteComponentProps } from 'react-router-dom';
 import Countdown from "react-countdown-now";
 
-interface UjianEsaiStateModel { activeTab: number; success:boolean; modal: boolean; }
+interface UjianEsaiState { activeTab: number; success:boolean; modal: boolean; }
 
-interface UjianEsaiPropsModel { className: string; }
+interface UjianEsaiAttribute { className: string; }
 
-class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
+class UjianEsai extends Component<UjianEsaiAttribute & RouteComponentProps<any>, UjianEsaiState>
 {
 	constructor(props:any) 
 	{
@@ -50,7 +51,6 @@ class UjianEsai extends Component<UjianEsaiPropsModel, UjianEsaiStateModel>
 	public render() : JSX.Element
 	{
     return (
-      
         <Container>
           <Row className="justify-content-center">
             <Col md="12">

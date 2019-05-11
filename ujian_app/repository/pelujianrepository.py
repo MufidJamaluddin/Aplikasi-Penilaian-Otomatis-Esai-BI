@@ -15,3 +15,10 @@ class PelaksanaanUjianRepository(GenericRepository):
 
         db.session.add(pel)
         db.session.commit()
+    
+    def selesaiUjian(self, idujian, idkelas):
+        pel = Pelaksanaanujian.query.filter_by(idujian=idujian, idkelas=idkelas).one()
+        pel.status_pelaksanaan = 2
+
+        db.session.add(pel)
+        db.session.commit()

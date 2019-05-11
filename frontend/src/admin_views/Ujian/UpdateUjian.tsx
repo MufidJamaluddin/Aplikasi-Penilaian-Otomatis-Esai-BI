@@ -212,7 +212,7 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
                     </Input>
                   </Col>
                   <Col sm="3">
-                    <Input type="time" name="durasi" placeholder="Durasi Ujian (Menit)" min="0" required/>
+                    <Input type="number" name="durasi" placeholder="Durasi Ujian (Menit)" min="0" required/>
                   </Col>
                   <Col sm="3">
                     <Input type="number" name="jumlahSoal" placeholder="Jumlah Soal" min="1" max="10" required/>

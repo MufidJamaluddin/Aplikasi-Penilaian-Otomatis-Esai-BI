@@ -151,7 +151,7 @@ class DetailUjian extends Component<DetailUjianAttribute & RouteComponentProps<R
                   <h6>ID Ujian : { this.idujian }</h6>
                   <h6>{dataujian.namaMapel}</h6>
                   <h6>{dataujian.namaUjian}</h6>
-                  <h6>Durasi Ujian : {dataujian.durasi}</h6>
+                  <h6>Durasi Ujian : {dataujian.durasi} Menit</h6>
                   <h6>Jumlah Soal : {dataujian.jumlahSoal}</h6>
                 </Col>
                     
@@ -164,7 +164,7 @@ class DetailUjian extends Component<DetailUjianAttribute & RouteComponentProps<R
                     <thead>
                       <tr>
                           <th>Kelas</th>
-                          <th>Pelaksanaan Ujian<br/><i>Waktu Mulai Ujian</i></th>
+                          <th>Pelaksanaan Ujian</th>
                           <th>Status Ujian</th>
                           <th></th>
                       </tr>

@@ -1,6 +1,7 @@
 from flask.views import MethodView
 from flask import json, request
 from ujian_app.repository import UjianRepository, PelaksanaanUjianRepository
+from datetime import timedelta
 
 class PelaksanaanUjianAPI(MethodView):
     
@@ -27,7 +28,8 @@ class PelaksanaanUjianAPI(MethodView):
             pel['namaKelas'] = p.kelas.namaKelas
             if(p.waktu_mulai):
                 waktu_mulai = p.waktu_mulai.strftime('%d %B %Y, %H:%M') 
-                pel['waktu_mulai'] = waktu_mulai
+                waktu_selesai = p.waktu_mulai + timedelta(minutes=ujian.durasi)
+                pel['waktu_mulai'] = waktu_mulai + ' s.d '+ waktu_selesai.strftime('%H:%M')
             pel['status_pelaksanaan'] = p.status_pelaksanaan
             listpel.append(pel)
         

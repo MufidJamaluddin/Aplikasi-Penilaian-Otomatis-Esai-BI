@@ -190,7 +190,7 @@ class Ujian(Base):
     idmapel = Column(ForeignKey('matapelajaran.idmapel'), nullable=False, index=True)
     namaUjian = Column(String(30))
     jumlahSoal = Column(SmallInteger)
-    durasi = Column(Time)
+    durasi = Column(SmallInteger)
     status_ujian = Column(String(1))
 
     matapelajaran = relationship('Matapelajaran', lazy='select')

@@ -33,18 +33,19 @@ const Gantipassword = Loadable({
 /**
  * Aplikasi
  */
-interface AppModel { 
+interface AppState { 
   role: string; 
   unchecked_role: boolean; 
   pesan_login?:string; 
   auth:boolean; 
   username?:string;
   nama?:string;
+  pelaksanaanujian?:string;
 }
 
-interface LoginResponse { role:string; pesan?:string; nama:string; username:string; }
+interface LoginResponse { role:string; pesan?:string; nama:string; username:string; pelaksanaanujian?:string; }
 
-class App extends Component<{}, AppModel>
+class App extends Component<{}, AppState>
 {
 
   /**
@@ -72,14 +73,15 @@ class App extends Component<{}, AppModel>
   {
     let url = '/api/auth';
     
-    API<AppModel>(url).then(value => {
+    API<AppState>(url).then(value => {
       var auth = value.role === 'guru' || value.role === 'siswa' || value.role === 'staftu';
       this.setState({ 
         role: value.role, 
         unchecked_role:false, 
         auth: auth, 
         nama: value.nama,
-        username: value.username
+        username: value.username,
+        pelaksanaanujian: value.pelaksanaanujian
       });
     });
   }
@@ -112,7 +114,8 @@ class App extends Component<{}, AppModel>
         auth: auth, 
         nama: value.nama,
         username: value.username,
-        pesan_login: value.pesan
+        pesan_login: value.pesan,
+        pelaksanaanujian: value.pelaksanaanujian
       });
     });
   }
@@ -145,6 +148,8 @@ class App extends Component<{}, AppModel>
    */
   private getRoutesByRole()
   {
+    var redirect_ujian = "/persiapan";
+
     switch(this.state.role)
     {    
       case 'staftu':
@@ -174,12 +179,16 @@ class App extends Component<{}, AppModel>
         );
       
       case 'siswa':
+        
+        if(this.state.pelaksanaanujian) 
+          redirect_ujian = "/ujian/" + this.state.pelaksanaanujian
+
         return(
           <Route path="/" render={props => <SiswaLayout 
             routes={ SISWA_ROUTES } 
             onLogout={ this.onLogout }
             nama = { this.state.nama || ''}
-            redirect_root_to="/persiapan"
+            redirect_root_to={ redirect_ujian }
             {...props}
             />}
           />
