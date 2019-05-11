@@ -6,6 +6,7 @@ import DataPengampu from './item_model';
  * Data dari API (Backend di Server)
  */
 interface JsonAPIUjian { list: Array<DataUjian>; }
+interface JsonAPIResponseDataUjian { data: DataUjian; }
 interface JsonAPIResponseTambahUjian { idujian: string; }
 interface JsonAPIPengampu { list: Array<DataPengampu>; }
 
@@ -20,6 +21,19 @@ function initDataUjian()
         // Ambil list 
         console.log(value.list);
         return value.list;
+    });
+}
+
+/**
+ * Mendapatkan Data Ujian 
+ */
+function getDataUjian(idujian:string)
+{
+    return API<JsonAPIResponseDataUjian>('/api/ujianesai/'+idujian)
+    .then(value => {
+        // Ambil list 
+        console.log(value.data);
+        return value.data;
     });
 }
 
@@ -95,4 +109,4 @@ function hapusDataUjian(idujian:string)
     });
 }
 
-export { initDataUjian, initDataPengampu, inputDataUjian, updateDataUjian, hapusDataUjian }
+export { initDataUjian, initDataPengampu, inputDataUjian, updateDataUjian, hapusDataUjian,getDataUjian }

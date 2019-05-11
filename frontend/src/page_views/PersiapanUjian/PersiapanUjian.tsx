@@ -56,7 +56,7 @@ class PersiapanUjian extends Component<PersiapanUjianAttribute, PersiapanUjianSt
                       <Row>
                         <Col xs="12">
                         <Link to="./gantipassword">
-                          <Button color="primary"><i class="icon-key"></i> Ganti Password</Button>
+                          <Button color="primary"><i className="icon-key"></i> Ganti Password</Button>
 						            </Link>   
                         </Col>
                       </Row>

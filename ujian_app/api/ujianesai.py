@@ -12,10 +12,20 @@ class UjianEsaiAPI(MethodView):
         '''
         self.repository = UjianRepository()
 
-    def get(self):
+    def get(self, idujian = None):
         '''
         Mendapatkan semua Ujian / berasarkan page
         '''
+        if idujian:
+            ujian =self.repository.findById(idujian)
+            
+            dtujian = {}
+            dtujian['namaUjian'] = ujian.namaUjian
+            dtujian['namaMapel'] = ujian.matapelajaran.namaMapel
+            dtujian['durasi'] = ujian.durasi
+
+            return json.dumps({'data': dtujian }), 200, {'Content-Type': 'application/json'}
+
         cur_user = session.get('user')
 
         if cur_user is None:

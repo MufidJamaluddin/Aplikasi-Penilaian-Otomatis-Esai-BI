@@ -6,7 +6,10 @@ import { RouteComponentProps } from 'react-router-dom';
 import Countdown from "react-countdown-now";
 import JawabanTab from "./JawabanTab";
 import { initDataSoal } from './../../models/SoalData';
+import { getDataUjian } from './../../models/UjianData';
 import DataSoal from "./../../models/item_model";
+import DataUjian from "./../../models/item_model";
+import { Ujian } from '../../admin_views';
 
 interface UjianEsaiState 
 { 
@@ -14,6 +17,7 @@ interface UjianEsaiState
   success:boolean; 
   modal: boolean;
   listsoal: Array<DataSoal>; 
+  ujian: Partial<DataUjian>;
 }
 
 interface RouteParam { idujian:string; }
@@ -32,7 +36,8 @@ class UjianEsai extends Component<UjianEsaiAttribute & RouteComponentProps<Route
       activeTab: 0,
 			success: false,
       modal: false,
-      listsoal: []
+      listsoal: [],
+      ujian:{durasi:'0'}
     };
     
     this.idujian = props.match.params.idujian;
@@ -44,6 +49,10 @@ class UjianEsai extends Component<UjianEsaiAttribute & RouteComponentProps<Route
 
   componentDidMount()
   {
+    getDataUjian(this.idujian).then(data=>{
+      this.setState({ ujian: data });
+    });
+
     initDataSoal(this.idujian).then(list => {
       this.setState({ listsoal: list });
     });
@@ -71,20 +80,34 @@ class UjianEsai extends Component<UjianEsaiAttribute & RouteComponentProps<Route
       });
     }
   }
+
+  renderTimer(data:any)
+  {
+    return (<span className="h3">{data.hours}:{data.minutes}:{data.seconds}</span>)
+  }
   
 	public render() : JSX.Element
 	{
-    return (
+    var ujian = this.state.ujian;
 
+    return (
         <Container className="p-4">
           <Row className="justify-content-center">
             <Col md="12">
               <CardGroup>
                 <Card className="p-4">
                     <CardHeader>
-                            <dd className="col-sm-12 text-left"><b>Pendidikan Kewarganegaraan</b></dd>
-                            <dd className="col-sm-12 text-left"><b>Ideologi Pancasila</b></dd>
-                            <dd className="col-sm-12 text-right"><h5><b><Countdown date={Date.now() + 3600000} /></b></h5></dd>
+                      <Row>
+                        <Col xs="9">
+                          <dd className="col-sm-12 text-left"><b>{ujian.namaMapel||''}</b></dd>
+                          <dd className="col-sm-12 text-left"><b>{ujian.namaUjian||''}</b></dd>
+                        </Col>
+                        <Col xs="3">
+                          <dd className="col-sm-12 text-right">
+                            <b><Countdown date={Date.now() + 3600000} renderer={this.renderTimer}/></b>
+                          </dd>
+                        </Col>
+                      </Row>
                     </CardHeader>
                         
                     <CardBody>
@@ -95,6 +118,7 @@ class UjianEsai extends Component<UjianEsaiAttribute & RouteComponentProps<Route
                             this.state.listsoal.map((soal,index)=> {
                               return (
                                 <JawabanTab
+                                  key={index}
                                   tabId={index}
                                   noSoal={index+1}
                                   idsoal={soal.idsoal}
@@ -111,7 +135,7 @@ class UjianEsai extends Component<UjianEsaiAttribute & RouteComponentProps<Route
                         {
                           this.state.listsoal.map((soal,index)=>{
                             return(
-                              <Button size='md' color="default" className=" btn-outline-primary" onClick={() => this.toggle(index)} action active={this.state.activeTab === index} >
+                              <Button size='md' color="default" className=" btn-outline-primary" onClick={() => this.toggle(index)} active={this.state.activeTab === index} key={index}>
                               {index+1}
                               </Button>     
                             )

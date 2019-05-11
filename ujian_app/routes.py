@@ -33,6 +33,7 @@ ROUTES_API = [
     {'url':'/api/penilaian', 'name':'penilaian', 'view':PenilaianAPI, 'methods':['GET','POST','PUT']},
 
     {'url':'/api/ujianesai/<int:idujian>', 'name':'ujianesai_dt', 'view':UjianEsaiAPI, 'methods':['PUT','DELETE']},
+    {'url':'/api/ujianesai/<int:idujian>', 'name':'ujianesai_ket', 'view':UjianEsaiAPI, 'methods':['GET']},
     {'url':'/api/ujianesai', 'name':'ujianesai', 'view':UjianEsaiAPI, 'methods':['GET','POST']},
 
     {'url':'/api/jawaban/<int:ijawaban>', 'name':'jawaban', 'view':JawabanAPI, 'methods':['PUT']},

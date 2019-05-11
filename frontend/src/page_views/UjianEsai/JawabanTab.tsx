@@ -15,7 +15,7 @@ class JawabanTab extends Component<SoalTabAttribute>
     render()
     {
         return(
-            <TabPane tabId={ this.props.tabId }>
+            <TabPane tabId={this.props.tabId}>
                 <FormGroup row>
                 <Col className="col-sm-3">
                     <h5>Soal { this.props.noSoal } :</h5>
@@ -25,7 +25,7 @@ class JawabanTab extends Component<SoalTabAttribute>
                     <p>{ this.props.soalEsai }</p>
                 </Col>
                 <Col sm="12">
-                    <Input type="textarea"  rows="3" placeholder="Input Jawaban" required/> 
+                    <Input type="textarea"  rows="6" placeholder="Input Jawaban" required/> 
                 </Col>                      
                 </FormGroup>
             </TabPane>
