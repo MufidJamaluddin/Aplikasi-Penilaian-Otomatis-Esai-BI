@@ -23,7 +23,7 @@ class Preprocesser(object):
 
     def get_features(self, tokens:list):
         """
-        Mendapatkan Fitur Kombinasi Unigram dan Bigram
+        Mendapatkan Fitur Ruang-Vektor Kombinasi Unigram dan Bigram
         """
         unigram_features = self.tf_unigram.calculate(tokens)
         bigram_features = self.tf_bigram.calculate(tokens)
@@ -45,6 +45,7 @@ class Preprocesser(object):
     def preprocess_text(self, teks:str):
         """
         Mengekstrak fitur dari teks
+        dalam bentuk Ruang-Vektor
         """
         tokens = self.text_to_tokens(teks)
         features = self.get_features(tokens)

@@ -11,7 +11,7 @@ venv/
 __pycache__/
 
 # Static File
-/ujian_app/static
+static/
 
 # map js
 *.js.map
@@ -21,7 +21,9 @@ __pycache__/
 node_modules/
 
 # production
-/build
+build/
+
+.deployment
 
 # misc
 npm-debug.log*

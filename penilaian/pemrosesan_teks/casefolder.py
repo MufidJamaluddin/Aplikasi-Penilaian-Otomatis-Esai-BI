@@ -7,14 +7,15 @@ class CaseFolder(object):
 
     def lowercase(self, teks:str):
         """
-        Lowercase Teks
+        Melakukan Lowercase Teks (Penyeragaman)
         """
         return teks.lower()
 
     def remove_punctuation(self, teks:str):
         """
-        Menghilangkan Karakter Selain Huruf A-Z
-        dan Menghilangkan Kelebihan Spasi
+        Menghilangkan karakter selain huruf A-Z
+        dan selain tanda hubung kata berulang (-),
+        Menghilangkan Kelebihan Spasi
         """
         # menghilangkan karakter selain a-z dan -
         result = re.sub(r'[^a-z -]', ' ', teks)
@@ -27,6 +28,9 @@ class CaseFolder(object):
         return result.strip()
 
     def case_fold(self, teks:str):
+        '''
+        Melakukan Case Folding
+        '''
         result = self.lowercase(teks)
         result = self.remove_punctuation(result)
         return result

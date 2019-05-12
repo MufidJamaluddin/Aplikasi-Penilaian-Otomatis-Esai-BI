@@ -12,30 +12,27 @@ class Stemmer(StemmerSastrawi):
     @lru_cache()
     def stem_word(self, word):
         """Stem Kata"""
-        if self.is_plural(word):
-            return self.stem_plural_word(word)
-        else:
-            return self.stem_singular_word(word)
+        return super().stem_word(word)
 
     def stem_tokens(self, tokens):
         """
         Stem List Tokens
+        IS : List Tokens Belum di Stemming
+        FS : List Tokens Telah di Stemming
         """
-        stemmed_tokens = []
-        for token in tokens:
-            if not token or token.strip() == '':
-                continue
-            stemmed_tokens.append(self.stem_word(token))
+        stemmed_tokens = [self.stem_word(token) for token in tokens]
         return stemmed_tokens
 
+
 #   StemmerFactory dilakukan override karena :
-#       1. menambahkan LRUCache pada production
+#       1. menambahkan LRUCache 
+#          (cache dengan konsep First In First Out)
 #       2. override CachedStemmer dan Stemmer
 class StemmerFactory(StemmerFactorySastrawi):
 
     def create(self):
         """ 
-        Membuat Stemmer
+        Membuat Objek Stemmer
         """
         dictionary = self.get_root_words_dict()
 
@@ -45,8 +42,9 @@ class StemmerFactory(StemmerFactorySastrawi):
     @lru_cache()
     def get_root_words_dict(self):
         """
-        Mendapatkan Kata Dasar
+        Mendapatkan Daftar Kata Dasar
+        Default Sastrawi
         """
-        words = self.get_words_from_file()
+        words = super().get_words_from_file()
         dictionary = ArrayDictionary(words)
         return dictionary

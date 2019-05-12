@@ -1,6 +1,6 @@
 import re, json
 
-strie = "malikat-malaikatnya -&8-098867483- mmm"
+strie = "  malikat-malaikatnya -&8-098867483- mmm  "
 
 # menghilangkan karakter selain a-z dan -
 result = re.sub(r'[^a-z -]', ' ', strie, flags = re.IGNORECASE)
@@ -17,6 +17,6 @@ result = re.sub(r'( +)', ' ', result)
 
 print(result)
 
-result = result.split(' ')
+result = result.strip().split(' ')
 
 print(json.dumps(result))
