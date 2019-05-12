@@ -1,58 +1,63 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input, InputGroup } from 'reactstrap';
 import { Link } from 'react-router-dom';
-interface PenilaianStateModel { modal:boolean; state:boolean; danger:boolean; }
+import DataUjian from './../../models/item_model';
+import { initDataUjian } from './../../models/UjianData';
 
-interface PenilaianPropsModel { className?: string; }
+interface PenilaianStateModel { 
+  state:boolean; 
+  listujian: Array<DataUjian>;
+  selected_data?: Partial<DataUjian>;
+  isLoading:boolean;
+ }
 
-class Penilaian extends Component<PenilaianPropsModel, PenilaianStateModel>
+interface PenilaianModel { className?: string; }
+
+
+
+class Penilaian extends Component<PenilaianModel, PenilaianStateModel>
 {
-  constructor(props: Readonly<PenilaianPropsModel>) 
+  constructor(props: Readonly<PenilaianModel>) 
   {
     super(props);
 
     this.state = {
-      danger: false,
-      modal: false,
-      state: false
+      state: false,
+      listujian: [],
+      isLoading: true,
     };
 
-    this.toggle = this.toggle.bind(this);
-    this.toggleDeleteUjian = this.toggleDeleteUjian.bind(this);
+
+  }
+
+  // --------------------------- INIT DATA ------------------------------------------//
+  public componentDidMount()
+  {
+    initDataUjian().then(list => {
+      this.setState({ listujian: list });
+    });
   }
 
 
-  public toggle() : void 
-  {
-    this.setState({
-      modal: !this.state.modal,
-    });
-  }
-  
-  public toggleDeleteUjian() : void
-  {
-    this.setState({
-      danger: !this.state.danger,
-    });
-  }
+   //----------------------------- RENDER --------------------------------------------//
 
   public render() : JSX.Element 
   {
+    var listujian = this.state.listujian;
+    
     return (
       <div className="animated fadeIn">
         <Row>
           <Col xs="12" lg="12">
             <Card>
-              <CardHeader>
-
-				 <Col md="4">
-                      <InputGroup>
+                <CardHeader>
+	        			 <Col md="4">
+                    <InputGroup>
                         <Input type="text" id="search" name="search" placeholder="Cari Ujian..." />
-						<Button type="button" color="primary"><i className="fa fa-search"></i></Button>
-						 </InputGroup>
-                    </Col>
-
-              </CardHeader>
+						            <Button type="button" color="primary"><i className="fa fa-search"></i></Button>
+						        </InputGroup>
+                  </Col>
+                </CardHeader>
 			  
               <CardBody>
                 <Table responsive size="sm">
@@ -60,54 +65,30 @@ class Penilaian extends Component<PenilaianPropsModel, PenilaianStateModel>
                 <thead>
                   <tr>
                     <th>No. Ujian</th>
-                    <th>Nama Ujian</th>
+                    <th>Nama Ujian </th>
                     <th>Mata Pelajaran</th>
+                    <th></th>
                     <th></th>
                   </tr>
                 </thead>
                 
                 <tbody>
-                  <tr>
-                    <td>TST00001</td>
-                    <td>Pendidikan Kewarganegaraan</td>
-                    <td>PKN Bab 1</td>
-                    <td><Link to="./NilaiUjian"><Button className="btn-twitter btn-brand icon btn-sm">Nilai Ujian</Button></Link>></td>
+                {
+                  listujian.map(ujian => {
+                    return (
+                  <tr  key={ujian.idujian}>
+                    <td>{ ujian.idujian }</td>
+                    <td>{ ujian.namaMapel }</td>
+                    <td>{ ujian.namaUjian }</td>
+                    <td><Link to="./NilaiUjian"><Button className="btn-twitter btn-brand icon btn-sm">Nilai Ujian</Button></Link></td>
+
                  </tr>
 
-                 <tr>
-                    <td>TST00002</td>
-                    <td>Pendidikan Kewarganegaraan</td>
-                    <td>PKN Bab 2</td>
-                    <td><span className="badge badge-success">Sudah Dinilai</span></td>
-                 </tr>
+                    );
+                  })
+                }
 
-                 <tr>
-                    <td>TST00003</td>
-                    <td>Biologi</td>
-                    <td>Biologi Bab 1</td>
-                 <td><Button className="btn-twitter btn-brand icon btn-sm">Nilai Ujian</Button></td>
-                 </tr>
-                 
-                 <tr>
-                    <td>TST00004</td>
-                    <td>Biologi</td>
-                    <td>Biologi Bab 2</td>
-                    <td><span className="badge badge-success">Sudah Dinilai</span></td>
-                 </tr>
-                 
-                 <tr>
-                    <td>TST00005</td>
-                    <td>Biologi</td>
-                    <td>Biologi Bab 3</td>
-                    <td><span className="badge badge-success">Sudah Dinilai</span></td>
-                 </tr>
-                 <tr>
-                    <td>TST00006</td>
-                    <td>Biologi</td>
-                    <td>Biologi Bab 4</td>
-                    <td><Button className="btn-twitter btn-brand icon btn-sm">Nilai Ujian</Button></td>
-                 </tr>
-				  </tbody>
+				         </tbody>
                 </Table>
                 
               </CardBody>
