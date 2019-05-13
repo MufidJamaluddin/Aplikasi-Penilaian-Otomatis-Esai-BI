@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Modal, Table, CardGroup, Progress, ModalBody, ModalFooter, ModalHeader, Input, Button, Card, CardBody, CardHeader, Col, Row, TabContent, TabPane, Container } from 'reactstrap';
-import FormGroup from 'reactstrap/lib/FormGroup';
+import React, { Component } from 'views/penilaian/node_modules/react';
+import { Link } from 'views/penilaian/node_modules/react-router-dom';
+import { Modal, Table, CardGroup, Progress, ModalBody, ModalFooter, ModalHeader, Input, Button, Card, CardBody, CardHeader, Col, Row, TabContent, TabPane, Container } from 'views/penilaian/node_modules/reactstrap';
+import FormGroup from 'views/penilaian/node_modules/reactstrap/lib/FormGroup';
 
 interface NilaiUjianStateModel { activeTab: number; primary:boolean; info:boolean; modal: boolean;}
 

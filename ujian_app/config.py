@@ -1,6 +1,9 @@
 from configparser import ConfigParser
 
 def get_config():
+    '''
+    Membaca File Konfigurasi (config.ini)
+    '''
     config = {}
 
     parser = ConfigParser()

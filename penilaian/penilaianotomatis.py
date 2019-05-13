@@ -1,6 +1,6 @@
-from penilaian.pemrosesan_teks import Preprocesser
+from .pemrosesan_teks import Preprocesser
 
-class NilaiOtomatis(object):
+class PenilaianOtomatis(object):
     '''
     Kelas yang bertugas melakukan penilaian ujian esai 
     secara otomatis pada satu ujian

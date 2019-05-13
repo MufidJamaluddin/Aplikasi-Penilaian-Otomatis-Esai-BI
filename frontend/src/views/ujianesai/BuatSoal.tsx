@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react';
 import { Modal, ModalBody, ModalFooter, ModalHeader, Button, Card, CardBody, CardHeader, Col, Row, TabContent, Container } from 'reactstrap';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import SoalTab from './SoalTab';
-import { initDataSoal } from './../../models/SoalData';
-import DataSoal from './../../models/item_model';
+import { initDataSoal } from '../../models/SoalData';
+import DataSoal from '../../models/item_model';
 
 /**
  *  Modal

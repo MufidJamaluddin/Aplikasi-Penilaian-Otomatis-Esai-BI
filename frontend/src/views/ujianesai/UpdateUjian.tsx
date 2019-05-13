@@ -1,48 +1,53 @@
 import React, { Component } from 'react';
 import { Input, Card, CardBody, CardHeader, Col, Row, Table, Button, Form, FormGroup } from 'reactstrap';
-import { Link, Redirect } from 'react-router-dom';
-import { initDataPengampu, inputDataUjian } from './../../models/UjianData';
-import DataPengampu from './../../models/item_model';
+import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
+import { initDataPengampu, updateDataUjian } from '../../models/UjianData';
+import DataPengampu from '../../models/item_model';
 import { isNullOrUndefined } from 'util';
+import DataUjian from '../../models/item_model';
 
 /**
- * State TambahUjian
+ * State UpdateUjian
  */
-interface TambahUjianState { 
+interface UpdateUjianState { 
   listpengampu: Array<DataPengampu>; 
   listmapel: Array<DataPengampu>;
-
+  selected_data?: Partial<DataUjian>;
   ckelas?: DataPengampu;
   listkelaspilihan: Array<DataPengampu>;
-  idujian?: string;
+  idujian: string;
+  updatesuccess: boolean;
 }
 
 /**
- * Atribut TambahUjian
+ * Atribut UpdateUjian
  */
-interface TambahUjianAttribute { className?: string; }
+interface UpdateUjianAttribute { className?: string; }
 
 /**
- * Tambah Ujian
+ * Update Ujian
  */
-class TambahUjian extends Component<TambahUjianAttribute, TambahUjianState>
+class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, UpdateUjianState>
 {
   /**
    * Konstruktor
    */
-  constructor(props: Readonly<TambahUjianAttribute>) 
+  constructor(props: any) 
   {
     super(props);
+    
     this.state = {
       listpengampu: [],
       listmapel: [],
-      listkelaspilihan: []
+      listkelaspilihan: [],
+      idujian: props.match.params.idujian,
+      updatesuccess: false
     }
 
     this.onKelasChange = this.onKelasChange.bind(this);
     this.onHapusKelas = this.onHapusKelas.bind(this);
     this.onTambahKelas = this.onTambahKelas.bind(this);
-    this.onSubmitTambahUjian = this.onSubmitTambahUjian.bind(this);
+    this.onSubmitUpdateDataUjian = this.onSubmitUpdateDataUjian.bind(this);
   }
 
   /**
@@ -60,6 +65,7 @@ class TambahUjian extends Component<TambahUjianAttribute, TambahUjianState>
           lidmapel[val.idmapel] = '';
           return true;
         }
+        else return false;
       });
 
       this.setState({
@@ -73,12 +79,16 @@ class TambahUjian extends Component<TambahUjianAttribute, TambahUjianState>
   /**
    * Penambahan Ujian
    */
-  public onSubmitTambahUjian(event:any)
-  {
-    event.preventDefault();
+  public onSubmitUpdateDataUjian(event:any) 
+	{ 
+		event.preventDefault();
+		if(this.state.selected_data === undefined) return;
 
+		var idujian = this.state.selected_data.idujian;
     var fdata = new FormData(event.target);
-  
+		
+		if(idujian === undefined) return;
+
     var data = {
       namaUjian: fdata.get('namaUjian') as string,
       idmapel: fdata.get('idmapel') as string,
@@ -86,13 +96,14 @@ class TambahUjian extends Component<TambahUjianAttribute, TambahUjianState>
       jumlahSoal: parseInt(fdata.get('jumlahSoal') as string) || 5,
       pelaksanaan_ujian: this.state.listkelaspilihan
     };
-  
-    console.log(data);
-  
-    inputDataUjian(data).then(idujian => {  
-      this.setState({ idujian: String(idujian) }) 
-    });
+
+		console.log(data);
+
+		updateDataUjian(idujian, data).then(list =>{
+      this.setState({ updatesuccess: true });
+		});
   }
+  
 
 	/**
 	 * Perubahan Kelas pada Select
@@ -104,7 +115,7 @@ class TambahUjian extends Component<TambahUjianAttribute, TambahUjianState>
 		var listkelas = this.state.listpengampu;
 
 		var kelas = listkelas.find((el, i, arr) => {
-			return el.idkelas == idkelas;
+			return el.idkelas === idkelas;
 		});
 
 		console.log(kelas);
@@ -120,7 +131,7 @@ class TambahUjian extends Component<TambahUjianAttribute, TambahUjianState>
 	public onHapusKelas(idkelas:string)
 	{
 		var list = this.state.listkelaspilihan.filter((el, i, arr) => {
-			return el.idkelas != idkelas;
+			return el.idkelas !== idkelas;
 		});
 
 		this.setState({ listkelaspilihan: list });
@@ -159,7 +170,6 @@ class TambahUjian extends Component<TambahUjianAttribute, TambahUjianState>
       }
     }
   }
-
   /**
    * Render View
    */
@@ -169,10 +179,10 @@ class TambahUjian extends Component<TambahUjianAttribute, TambahUjianState>
     var listkelaspilihan = this.state.listkelaspilihan;
     var listkelas = this.state.listpengampu;
     
-    if(!isNullOrUndefined(this.state.idujian))
+    if(this.state.updatesuccess)
     {
       return (
-        <Redirect to={"/soal/"+ this.state.idujian +"/tambah"} />
+        <Redirect to={"/soal/"+ this.state.idujian +"/update"} />
       );
     }
 
@@ -182,11 +192,11 @@ class TambahUjian extends Component<TambahUjianAttribute, TambahUjianState>
           <Col xs="12" lg="12">
             <Card>
               <CardHeader>
-                <h5 className="text-center">TAMBAH UJIAN</h5>
+                <h5 className="text-center">UPDATE UJIAN</h5>
               </CardHeader>
 			  
               <CardBody>
-                <Form onSubmit={this.onSubmitTambahUjian} className="form-horizontal">
+                <Form onSubmit={this.onSubmitUpdateDataUjian} className="form-horizontal">
                   <h6>Keterangan Ujian :</h6>
                   <FormGroup row>
                   <Col sm="3">
@@ -209,7 +219,7 @@ class TambahUjian extends Component<TambahUjianAttribute, TambahUjianState>
                   </Col>
                 </FormGroup>
                       
-                <h6>Kelas</h6>
+                <h6>Update Kelas</h6>
                 <FormGroup row>
                   <Col sm="5">
                     <Input type="select" onChange={this.onKelasChange}>
@@ -271,4 +281,4 @@ class TambahUjian extends Component<TambahUjianAttribute, TambahUjianState>
   }
 }
 
-export default TambahUjian;
+export default UpdateUjian;

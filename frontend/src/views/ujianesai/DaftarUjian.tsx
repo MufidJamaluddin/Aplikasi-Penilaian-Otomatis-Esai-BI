@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input, InputGroup } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import DataUjian from './../../models/item_model';
-import { initDataUjian, hapusDataUjian } from './../../models/UjianData';
+import DataUjian from '../../models/item_model';
+import { initDataUjian, hapusDataUjian } from '../../models/UjianData';
 import { ModalForm } from '../../layout';
 
 /**

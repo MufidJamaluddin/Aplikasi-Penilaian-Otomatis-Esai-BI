@@ -47,6 +47,7 @@ export default interface DataUjian
     namaUjian: string;
     namaMapel: string;
     pelaksanaan_ujian: Array<any>;
+    listsoal: Array<any>;
     jumlahSoal: number;
     durasi: string;
     status_ujian: string;

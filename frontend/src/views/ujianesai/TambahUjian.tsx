@@ -1,53 +1,48 @@
 import React, { Component } from 'react';
 import { Input, Card, CardBody, CardHeader, Col, Row, Table, Button, Form, FormGroup } from 'reactstrap';
-import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
-import { initDataPengampu, updateDataUjian } from './../../models/UjianData';
-import DataPengampu from './../../models/item_model';
-import { isNullOrUndefined } from 'util';
-import DataUjian from '../../models/item_model';
+import { Link, Redirect } from 'react-router-dom';
+import { initDataPengampu, inputDataUjian } from '../../models/UjianData';
+import DataPengampu from '../../models/item_model';
+import { isNullOrUndefined } from './node_modules/util';
 
 /**
- * State UpdateUjian
+ * State TambahUjian
  */
-interface UpdateUjianState { 
+interface TambahUjianState { 
   listpengampu: Array<DataPengampu>; 
   listmapel: Array<DataPengampu>;
-  selected_data?: Partial<DataUjian>;
+
   ckelas?: DataPengampu;
   listkelaspilihan: Array<DataPengampu>;
-  idujian: string;
-  updatesuccess: boolean;
+  idujian?: string;
 }
 
 /**
- * Atribut UpdateUjian
+ * Atribut TambahUjian
  */
-interface UpdateUjianAttribute { className?: string; }
+interface TambahUjianAttribute { className?: string; }
 
 /**
- * Update Ujian
+ * Tambah Ujian
  */
-class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, UpdateUjianState>
+class TambahUjian extends Component<TambahUjianAttribute, TambahUjianState>
 {
   /**
    * Konstruktor
    */
-  constructor(props: any) 
+  constructor(props: Readonly<TambahUjianAttribute>) 
   {
     super(props);
-    
     this.state = {
       listpengampu: [],
       listmapel: [],
-      listkelaspilihan: [],
-      idujian: props.match.params.idujian,
-      updatesuccess: false
+      listkelaspilihan: []
     }
 
     this.onKelasChange = this.onKelasChange.bind(this);
     this.onHapusKelas = this.onHapusKelas.bind(this);
     this.onTambahKelas = this.onTambahKelas.bind(this);
-    this.onSubmitUpdateDataUjian = this.onSubmitUpdateDataUjian.bind(this);
+    this.onSubmitTambahUjian = this.onSubmitTambahUjian.bind(this);
   }
 
   /**
@@ -65,7 +60,6 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
           lidmapel[val.idmapel] = '';
           return true;
         }
-        else return false;
       });
 
       this.setState({
@@ -79,16 +73,12 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
   /**
    * Penambahan Ujian
    */
-  public onSubmitUpdateDataUjian(event:any) 
-	{ 
-		event.preventDefault();
-		if(this.state.selected_data === undefined) return;
+  public onSubmitTambahUjian(event:any)
+  {
+    event.preventDefault();
 
-		var idujian = this.state.selected_data.idujian;
     var fdata = new FormData(event.target);
-		
-		if(idujian === undefined) return;
-
+  
     var data = {
       namaUjian: fdata.get('namaUjian') as string,
       idmapel: fdata.get('idmapel') as string,
@@ -96,14 +86,13 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
       jumlahSoal: parseInt(fdata.get('jumlahSoal') as string) || 5,
       pelaksanaan_ujian: this.state.listkelaspilihan
     };
-
-		console.log(data);
-
-		updateDataUjian(idujian, data).then(list =>{
-      this.setState({ updatesuccess: true });
-		});
-  }
   
+    console.log(data);
+  
+    inputDataUjian(data).then(idujian => {  
+      this.setState({ idujian: String(idujian) }) 
+    });
+  }
 
 	/**
 	 * Perubahan Kelas pada Select
@@ -115,7 +104,7 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
 		var listkelas = this.state.listpengampu;
 
 		var kelas = listkelas.find((el, i, arr) => {
-			return el.idkelas === idkelas;
+			return el.idkelas == idkelas;
 		});
 
 		console.log(kelas);
@@ -131,7 +120,7 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
 	public onHapusKelas(idkelas:string)
 	{
 		var list = this.state.listkelaspilihan.filter((el, i, arr) => {
-			return el.idkelas !== idkelas;
+			return el.idkelas != idkelas;
 		});
 
 		this.setState({ listkelaspilihan: list });
@@ -170,6 +159,7 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
       }
     }
   }
+
   /**
    * Render View
    */
@@ -179,10 +169,10 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
     var listkelaspilihan = this.state.listkelaspilihan;
     var listkelas = this.state.listpengampu;
     
-    if(this.state.updatesuccess)
+    if(!isNullOrUndefined(this.state.idujian))
     {
       return (
-        <Redirect to={"/soal/"+ this.state.idujian +"/update"} />
+        <Redirect to={"/soal/"+ this.state.idujian +"/tambah"} />
       );
     }
 
@@ -192,11 +182,11 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
           <Col xs="12" lg="12">
             <Card>
               <CardHeader>
-                <h5 className="text-center">UPDATE UJIAN</h5>
+                <h5 className="text-center">TAMBAH UJIAN</h5>
               </CardHeader>
 			  
               <CardBody>
-                <Form onSubmit={this.onSubmitUpdateDataUjian} className="form-horizontal">
+                <Form onSubmit={this.onSubmitTambahUjian} className="form-horizontal">
                   <h6>Keterangan Ujian :</h6>
                   <FormGroup row>
                   <Col sm="3">
@@ -219,7 +209,7 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
                   </Col>
                 </FormGroup>
                       
-                <h6>Update Kelas</h6>
+                <h6>Kelas</h6>
                 <FormGroup row>
                   <Col sm="5">
                     <Input type="select" onChange={this.onKelasChange}>
@@ -281,4 +271,4 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
   }
 }
 
-export default UpdateUjian;
+export default TambahUjian;

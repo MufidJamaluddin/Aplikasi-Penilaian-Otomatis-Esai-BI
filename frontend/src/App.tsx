@@ -5,12 +5,10 @@ import '@coreui/icons/css/coreui-icons.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'simple-line-icons/scss/simple-line-icons.scss';
 import './App.scss';
-import { LayoutAdmin } from './layout';
-import { GURU_ROUTES, STAF_TU_ROUTES } from './admin_views/routes';
-import { GURU_NAV, STAF_TU_NAV } from './admin_views/nav';
+import { LayoutAdmin, SiswaLayout } from './layout';
+import { GURU_NAV, STAF_TU_NAV } from './navs';
 import API from './models/api';
-import { SISWA_ROUTES } from './page_views/routes';
-import SiswaLayout from './page_views/Layout';
+import { GURU_ROUTES, STAF_TU_ROUTES, SISWA_ROUTES } from './routes';
 
 /**
  * Deklarasi Komponen
@@ -21,12 +19,12 @@ const loading = () =>
 </div>;
 
 const Login = Loadable({
-  loader: () => import('./page_views/Login/Login'),
+  loader: () => import('./views/user/Login'),
   loading
 });
 
 const Gantipassword = Loadable({
-  loader: () => import('./page_views/Gantipassword/Gantipassword'),
+  loader: () => import('./views/user/Gantipassword'),
   loading
 });
 

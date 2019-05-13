@@ -10,7 +10,7 @@ var Template = require('@coreui/react/lib');
 /**
  * Komponen Header dan Footer
  */
-const Footer = React.lazy(() => import('../layout/admin/Footer'));
+const Footer = React.lazy(() => import('./admin/Footer'));
 
 /**
  * Model Cust KoPL 9

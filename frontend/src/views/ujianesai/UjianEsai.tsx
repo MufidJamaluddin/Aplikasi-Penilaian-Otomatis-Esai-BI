@@ -5,11 +5,10 @@ import FormGroup from 'reactstrap/lib/FormGroup';
 import { RouteComponentProps } from 'react-router-dom';
 import Countdown from "react-countdown-now";
 import JawabanTab from "./JawabanTab";
-import { initDataSoal } from './../../models/SoalData';
-import { getDataUjian } from './../../models/UjianData';
-import DataSoal from "./../../models/item_model";
-import DataUjian from "./../../models/item_model";
-import { Ujian } from '../../admin_views';
+import { initDataPengerjaan } from '../../models/PengerjaanUjianData';
+import DataSoal from "../../models/item_model";
+import DataUjian from "../../models/item_model";
+import DataPelaksanaanUjian from "../../models/item_model";
 
 interface UjianEsaiState 
 { 
@@ -18,6 +17,7 @@ interface UjianEsaiState
   modal: boolean;
   listsoal: Array<DataSoal>; 
   ujian: Partial<DataUjian>;
+  pelaksanaan?: DataPelaksanaanUjian;
 }
 
 interface RouteParam { idujian:string; }
@@ -49,12 +49,12 @@ class UjianEsai extends Component<UjianEsaiAttribute & RouteComponentProps<Route
 
   componentDidMount()
   {
-    getDataUjian(this.idujian).then(data=>{
-      this.setState({ ujian: data });
-    });
-
-    initDataSoal(this.idujian).then(list => {
-      this.setState({ listsoal: list });
+    initDataPengerjaan().then(value=>{
+      this.setState({
+        ujian: value.data_ujian,
+        listsoal: value.list_soal,
+        pelaksanaan: value.data_pelaksanaan
+      });
     });
   }
 
@@ -89,6 +89,9 @@ class UjianEsai extends Component<UjianEsaiAttribute & RouteComponentProps<Route
 	public render() : JSX.Element
 	{
     var ujian = this.state.ujian;
+    var pelaksanaan = this.state.pelaksanaan;
+
+    if(pelaksanaan === undefined || ujian === undefined) return(<h3>Loading...</h3>);
 
     return (
         <Container className="p-4">
@@ -104,7 +107,7 @@ class UjianEsai extends Component<UjianEsaiAttribute & RouteComponentProps<Route
                         </Col>
                         <Col xs="3">
                           <dd className="col-sm-12 text-right">
-                            <b><Countdown date={Date.now() + 3600000} renderer={this.renderTimer}/></b>
+                            <b><Countdown date={Date.parse(pelaksanaan.waktu_mulai) + parseInt(ujian.durasi||'0')} renderer={this.renderTimer}/></b>
                           </dd>
                         </Col>
                       </Row>
@@ -142,24 +145,23 @@ class UjianEsai extends Component<UjianEsaiAttribute & RouteComponentProps<Route
                           })
                         }         
                         </Col>
-
-                              <Col className="col-sm-12 text-right">
-                              <Button  color="success"  onClick={this.toggleSubmitUjian} >Submit Ujian</Button>
+                          <Col className="col-sm-12 text-right">
+                            
+                            <Button  color="success"  onClick={this.toggleSubmitUjian} >Submit Ujian</Button>
                               
-                                <Modal isOpen={this.state.success} toggle={this.toggleSubmitUjian} className={'modal-success ' + this.props.className}>
-                                        <ModalHeader toggle={this.toggleSubmitUjian}>Submit Ujian</ModalHeader>
-                                        <ModalBody>
-                                        
-                                                        <p>Apakah anda yakin ingin menyelesaikan ujian ini ?</p>
-                                                        <p>Sebelum submit ujian kami sarankan check kembali jawaban anda </p>			  
-                                        </ModalBody>
-                                        <ModalFooter>
-                                            <Button color="danger" onClick={this.toggleSubmitUjian}>Tidak</Button>
-                                            <Link to="./bukanujian"><Button color="success" onClick={this.toggleSubmitUjian}>Ya</Button></Link>
-                                        </ModalFooter>
-                                        </Modal>
-                              </Col>
-              
+                            <Modal isOpen={this.state.success} toggle={this.toggleSubmitUjian} className={'modal-success ' + this.props.className}>
+                              <ModalHeader toggle={this.toggleSubmitUjian}>Submit Ujian</ModalHeader>
+                              <ModalBody>
+                                <p>Apakah anda yakin ingin menyelesaikan ujian ini ?</p>
+                                <p>Sebelum submit ujian kami sarankan check kembali jawaban anda </p>			  
+                              </ModalBody>
+                              <ModalFooter>
+                                  <Button color="danger" onClick={this.toggleSubmitUjian}>Tidak</Button>
+                                  <Link to="./bukanujian"><Button color="success" onClick={this.toggleSubmitUjian}>Ya</Button></Link>
+                              </ModalFooter>
+                            </Modal>
+                            
+                          </Col>
                       </Row>
                     </CardBody>
                     

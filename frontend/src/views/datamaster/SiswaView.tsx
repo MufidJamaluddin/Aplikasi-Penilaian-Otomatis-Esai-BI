@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Card, CardBody, CardHeader, Col, Row, Table, Button,Form, FormGroup, Input, InputGroup,Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import DataSiswa from '../../models/item_model';
-import { initDatasiswa, inputDatasiswa, updateSiswa, hapusSiswa } from './SiswaData';
+import { initDatasiswa, inputDatasiswa, updateSiswa, hapusSiswa } from '../../models/SiswaData';
 import { initDatakelas } from '../../models/KelasData';
 import DataKelas from '../../models/item_model';
 

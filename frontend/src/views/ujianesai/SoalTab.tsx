@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FormGroup, Input, Col, TabPane } from 'reactstrap';
-import { updateDataSoal } from './../../models/SoalData';
+import { updateDataSoal } from '../../models/SoalData';
 
 interface SoalTabAttribute 
 { 

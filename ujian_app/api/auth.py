@@ -5,35 +5,20 @@ from datetime import timedelta, datetime
 import json
 
 class AuthAPI(MethodView):
-    
-    def getIdPelaksanaanUjian(self, nim):
-        siswarepo = SiswaRepository()
-        pelaksanaanrepo = PelaksanaanUjianRepository()
-
-        siswa = siswarepo.findById(nim)
-        pelaksanaan = pelaksanaanrepo.findByKeys(idkelas=siswa.idkelas,status_pelaksanaan='1').first()
-
-        if pelaksanaan:
-            ujian = pelaksanaan.ujian
-            waktu_berakhir_ujian = pelaksanaan.waktu_mulai + timedelta(minutes=ujian.durasi)
-            
-            if pelaksanaan.waktu_mulai <= datetime.now() < waktu_berakhir_ujian:
-                return ujian.idujian
-            else:
-                pelaksanaanrepo.selesaiUjian(pelaksanaan.idujian, pelaksanaan.idkelas)
-        else:
-            return False
 
     def get(self):
         '''
         Mendapatkan nama dan role
         '''
+        pel_repo = PelaksanaanUjianRepository()
+
         cur_user = session.get('user')
         if not cur_user:
             return json.dumps({'role':'', 'nama':'', 'username':''})
 
         if cur_user['role'] == 'siswa':
-            idujian = self.getIdPelaksanaanUjian(cur_user['username'])
+            pelaksanaan = pel_repo.findPelaksanaanUjianByNim(cur_user['username'])
+            idujian = pelaksanaan.ujian.idujian
             if idujian:
                 cur_user['pelaksanaanujian'] = idujian
 
@@ -44,6 +29,7 @@ class AuthAPI(MethodView):
         Melakukan aksi login
         '''
         repo = AkunRepository()
+        pel_repo = PelaksanaanUjianRepository()
         
         if not request.is_json:
             return '', 400
@@ -64,7 +50,8 @@ class AuthAPI(MethodView):
                 session['user'] = dt
 
                 if user.role == 'siswa':
-                    idujian = self.getIdPelaksanaanUjian(user.username)
+                    pelaksanaan = pel_repo.findPelaksanaanUjianByNim(user.username)
+                    idujian = pelaksanaan.ujian.idujian
                     if idujian:
                         dt['pelaksanaanujian'] = idujian
 

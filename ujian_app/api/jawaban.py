@@ -16,9 +16,14 @@ class JawabanAPI(MethodView):
         Menyimpan data jawaban
         '''
         data_jawaban = request.get_json()
-        idsoal = data_ujian['idsoal']
-        nis = data_ujian['nis']
-        jawabanEsai = data_ujian['jawabanEsai']
+        idsoal = data_jawaban['idsoal']
+        nis = data_jawaban['nis']
+        jawabanEsai = data_jawaban['jawabanEsai']
+
+        jawaban = self.repository.findByKeys(idsoal=idsoal, nis=nis).first()
+        
+        if jawaban:
+            self.repository.updateJawaban(jawaban.idjawaban, jawabanEsai)
         
         jawaban = self.repository.save(
             idsoal = idsoal,

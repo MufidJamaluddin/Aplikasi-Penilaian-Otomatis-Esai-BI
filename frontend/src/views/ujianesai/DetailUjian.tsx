@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, Modal, ModalHeader, ModalBody, ModalFooter, Col, Row, Table, Button,Form, FormGroup, Input } from 'reactstrap';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { initDataPelaksanaan, mulaiUjian } from './../../models/PelaksanaanData';
-import DataUjian from './../../models/item_model';
+import { initDataPelaksanaan, mulaiUjian } from '../../models/PelaksanaanData';
+import DataUjian from '../../models/item_model';
 
 interface DetailUjianState 
 { 

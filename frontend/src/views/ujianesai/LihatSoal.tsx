@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { CardGroup, Button, Card, CardBody, CardHeader, Col, Row, TabContent, Container } from 'reactstrap';
 import SoalTab from './SoalTab';
-import { initDataSoal } from './../../models/SoalData';
-import DataSoal from './../../models/item_model';
+import { initDataSoal } from '../../models/SoalData';
+import DataSoal from '../../models/item_model';
 
 interface LihatSoalState { soalTab: number; listsoal: Array<DataSoal>; }
 

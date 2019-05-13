@@ -1,5 +1,5 @@
-import API from "../../models/api";
-import DataSiswa from '../../models/item_model';
+import API from "./api";
+import DataSiswa from './item_model';
 
 /**
  * Data dari API (Backend di Server)
