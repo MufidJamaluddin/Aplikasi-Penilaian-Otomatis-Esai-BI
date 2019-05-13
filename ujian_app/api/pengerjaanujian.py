@@ -22,13 +22,13 @@ class PengerjaanUjianAPI(MethodView):
         '''
         cur_user = session.get('user')
 
-        if cur_user.role != 'siswa':
-            return '', 400
+        if cur_user['role'] != 'siswa':
+            return 'Forbidden', 403
 
         pelaksanaan = self.repository.findPelaksanaanUjianByNim(cur_user['username'])
 
         if not pelaksanaan:
-            return '', 400
+            return 'Ujian Ditutup', 400
         
         dtpel = {}
         dtpel['idkelas'] = pelaksanaan.idkelas

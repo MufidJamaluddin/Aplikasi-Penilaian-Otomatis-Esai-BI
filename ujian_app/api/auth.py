@@ -2,6 +2,7 @@ from flask import session, request
 from flask.views import MethodView
 from ujian_app.repository import AkunRepository, SiswaRepository, PelaksanaanUjianRepository
 from datetime import timedelta, datetime
+from copy import deepcopy
 import json
 
 class AuthAPI(MethodView):
@@ -12,15 +13,16 @@ class AuthAPI(MethodView):
         '''
         pel_repo = PelaksanaanUjianRepository()
 
-        cur_user = session.get('user')
+        cur_user = deepcopy(session.get('user'))
         if not cur_user:
             return json.dumps({'role':'', 'nama':'', 'username':''})
 
         if cur_user['role'] == 'siswa':
             pelaksanaan = pel_repo.findPelaksanaanUjianByNim(cur_user['username'])
-            idujian = pelaksanaan.ujian.idujian
-            if idujian:
-                cur_user['pelaksanaanujian'] = idujian
+            if pelaksanaan:
+                idujian = pelaksanaan.ujian.idujian
+                if idujian:
+                    cur_user['pelaksanaanujian'] = idujian
 
         return json.dumps(cur_user), 200
 
@@ -51,9 +53,10 @@ class AuthAPI(MethodView):
 
                 if user.role == 'siswa':
                     pelaksanaan = pel_repo.findPelaksanaanUjianByNim(user.username)
-                    idujian = pelaksanaan.ujian.idujian
-                    if idujian:
-                        dt['pelaksanaanujian'] = idujian
+                    if pelaksanaan:
+                        idujian = pelaksanaan.ujian.idujian
+                        if idujian:
+                            dt['pelaksanaanujian'] = idujian
 
                 return json.dumps(dt), 200
 

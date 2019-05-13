@@ -18,7 +18,7 @@ interface JsonAPIPengerjaan {
  */
 function initDataPengerjaan()
 {
-    return API<JsonAPIPengerjaan>('/api/pelaksanaan/');
+    return API<JsonAPIPengerjaan>('/api/pengerjaanujian');
 }
 
 export { initDataPengerjaan }

@@ -18,6 +18,7 @@ interface UjianEsaiState
   listsoal: Array<DataSoal>; 
   ujian: Partial<DataUjian>;
   pelaksanaan?: DataPelaksanaanUjian;
+  pesan_error?: any;
 }
 
 interface RouteParam { idujian:string; }
@@ -55,6 +56,8 @@ class UjianEsai extends Component<UjianEsaiAttribute & RouteComponentProps<Route
         listsoal: value.list_soal,
         pelaksanaan: value.data_pelaksanaan
       });
+    }).then((error:any) => {
+      if(error) this.setState({ pesan_error: error });
     });
   }
 
@@ -91,6 +94,7 @@ class UjianEsai extends Component<UjianEsaiAttribute & RouteComponentProps<Route
     var ujian = this.state.ujian;
     var pelaksanaan = this.state.pelaksanaan;
 
+    if(this.state.pesan_error) return(<h3>{String(this.state.pesan_error)}</h3>)
     if(pelaksanaan === undefined || ujian === undefined) return(<h3>Loading...</h3>);
 
     return (

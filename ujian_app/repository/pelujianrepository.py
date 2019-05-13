@@ -19,6 +19,22 @@ class PelaksanaanUjianRepository(GenericRepository):
                 return pelaksanaan
             else:
                 self.selesaiUjian(pelaksanaan.idujian, pelaksanaan.idkelas)
+                jml_beres = Pelaksanaanujian.query.filter_by(
+                    idujian=ujian.idujian, 
+                    idkelas=siswa.idkelas, 
+                    status_pelaksanaan='2'
+                ).count()
+                jml_ujian = Pelaksanaanujian.query.filter_by(
+                    idujian=ujian.idujian, 
+                    idkelas=siswa.idkelas
+                ).count()
+
+                if(jml_beres == jml_ujian):
+                    ujian.status_ujian = 2
+                    db.session.add(ujian)
+                    db.session.commit()
+
+                return None
         else:
             return None
 
