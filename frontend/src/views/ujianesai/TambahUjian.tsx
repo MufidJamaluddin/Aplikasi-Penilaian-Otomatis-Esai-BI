@@ -3,7 +3,7 @@ import { Input, Card, CardBody, CardHeader, Col, Row, Table, Button, Form, FormG
 import { Link, Redirect } from 'react-router-dom';
 import { initDataPengampu, inputDataUjian } from '../../models/UjianData';
 import DataPengampu from '../../models/item_model';
-import { isNullOrUndefined } from './node_modules/util';
+import { isNullOrUndefined } from 'util';
 
 /**
  * State TambahUjian
