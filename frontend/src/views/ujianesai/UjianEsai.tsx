@@ -97,6 +97,9 @@ class UjianEsai extends Component<UjianEsaiAttribute & RouteComponentProps<Route
     if(this.state.pesan_error) return(<h3>{String(this.state.pesan_error)}</h3>)
     if(pelaksanaan === undefined || ujian === undefined) return(<h3>Loading...</h3>);
 
+    let waktu_mulai = new Date(pelaksanaan.waktu_mulai)
+    let waktu_akhir = waktu_mulai.setMinutes(waktu_mulai.getMinutes() + parseInt(ujian.durasi)) 
+
     return (
         <Container className="p-4">
           <Row className="justify-content-center">
@@ -111,7 +114,7 @@ class UjianEsai extends Component<UjianEsaiAttribute & RouteComponentProps<Route
                         </Col>
                         <Col xs="3">
                           <dd className="col-sm-12 text-right">
-                            <b><Countdown date={Date.parse(pelaksanaan.waktu_mulai) + parseInt(ujian.durasi||'0')} renderer={this.renderTimer}/></b>
+                            <b><Countdown date={waktu_akhir} renderer={this.renderTimer}/></b>
                           </dd>
                         </Col>
                       </Row>

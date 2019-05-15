@@ -28,6 +28,7 @@ class PengampuAPI(MethodView):
 
         for pengampu in listpengampu:
             tpengampu = {}
+            tpengampu['idpengampu'] = pengampu.idpengampu
             tpengampu['idmapel'] = pengampu.idmapel
             tpengampu['idkelas'] = pengampu.idkelas
             tpengampu['idguru'] = pengampu.idguru
