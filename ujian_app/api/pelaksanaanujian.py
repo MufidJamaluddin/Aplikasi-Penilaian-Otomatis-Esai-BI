@@ -31,6 +31,7 @@ class PelaksanaanUjianAPI(MethodView):
                 waktu_selesai = p.waktu_mulai + timedelta(minutes=ujian.durasi)
                 pel['waktu_mulai'] = waktu_mulai + ' s.d '+ waktu_selesai.strftime('%H:%M')
             pel['status_pelaksanaan'] = p.status_pelaksanaan
+            pel['status_penilaian'] = p.status_penilaian
             listpel.append(pel)
         
         ujiand['pelaksanaan_ujian'] = listpel

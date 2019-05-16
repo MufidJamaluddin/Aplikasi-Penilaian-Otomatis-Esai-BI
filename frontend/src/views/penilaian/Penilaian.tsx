@@ -80,7 +80,7 @@ class Penilaian extends Component<PenilaianModel, PenilaianStateModel>
                     <td>{ ujian.idujian }</td>
                     <td>{ ujian.namaMapel }</td>
                     <td>{ ujian.namaUjian }</td>
-                    <td><Link to="./NilaiUjian"><Button className="btn-twitter btn-brand icon btn-sm">Nilai Ujian</Button></Link></td>
+                    <td><Link to={"./penilaian/" + ujian.idujian}><Button className="btn-twitter btn-brand icon btn-sm">Nilai Ujian</Button></Link></td>
 
                  </tr>
 

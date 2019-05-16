@@ -29,6 +29,7 @@ class PelaksanaanUjianRepository(GenericRepository):
                 ).count()
 
                 pelaksanaan.status_pelaksanaan = 2
+                pelaksanaan.status_penilaian = 1
                 db.session.add(pelaksanaan)
 
                 if(jml_beres == jml_ujian):
