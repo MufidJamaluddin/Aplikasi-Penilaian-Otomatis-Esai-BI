@@ -91,3 +91,10 @@ export default interface DataJawabanSoal
     nis : string;
     jawabanEsai : string;
 }
+
+export default interface DataNilai
+{
+    nis: string;
+    idsujian: string;
+    nilai: number;
+}

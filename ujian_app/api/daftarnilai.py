@@ -1,12 +1,21 @@
 from flask.views import MethodView
+from flask import json, request
+from ujian_app.utils import AlchemyEncoder
+from ujian_app.repository import DaftarNilaiRepository
 
 class DaftarNilaiAPI(MethodView):
     
-    def get(self):
-        return 'get akun daftar nilai'
-
-    def post(self):
-        return 'post akun daftar nilai'
+    def __init__(self):
+        '''
+        Inisialisasi Daftar Nilai Ujian
+        '''
+        self.repository = DaftarNilaiRepository()
     
-    def put(self):
-        return 'put akun daftar nilai'
+    def get(self):
+        '''
+        Mendapatkan semua daftar nilai 
+        '''
+        list_nilai = self.repository.findAll()
+        return json.dumps({'list': list_nilai }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
+
+   

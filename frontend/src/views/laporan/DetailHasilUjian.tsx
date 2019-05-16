@@ -1,6 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Form, Card, CardBody, CardHeader, Col, Row, Table, Button, FormGroup, Input } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import DataNilai from '../../models/item_model';
+import { initDaftarnilaiujian} from '../../models/NilaiData';
+
+
 interface DetailHasilUjianStateModel {}
 
 interface DetailHasilUjianPropsModel { className?: string; }
@@ -72,40 +76,7 @@ class DetailHasilUjian extends Component<DetailHasilUjianPropsModel, DetailHasil
                     <td>80</td>
                   </tr>
 
-                  <tr>
-                    <td>161511002</td>
-                    <td>Agit Prasetya</td>
-                    <td>70</td>
-                  </tr>
-
-                  <tr>
-                    <td>161511003</td>
-                    <td>Akamal Muhammad Kristanto</td>
-                    <td>88</td>
-                  </tr>
-                 
-                 
-                  <tr>
-                    <td>161511004</td>
-                    <td>Aulia Aqma Dinillah</td>
-                    <td>65</td>
-                  </tr>
-                 
-                 
-                  <tr>
-                    <td>161511005</td>
-                    <td>Mufid Jamaluddin</td>
-                    <td>78</td>
-                  </tr>
-
-                 
-                  <tr>
-                    <td>161511006</td>
-                    <td>Nurindah Yuniarti</td>
-                    <td>85</td>
-                  </tr>
-
-				  </tbody>
+      				  </tbody>
         </Table>
         
         <Col className="col-sm-12 text-right">
