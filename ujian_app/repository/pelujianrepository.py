@@ -18,7 +18,6 @@ class PelaksanaanUjianRepository(GenericRepository):
             if pelaksanaan.waktu_mulai <= datetime.now() < waktu_berakhir_ujian:
                 return pelaksanaan
             else:
-                self.selesaiUjian(pelaksanaan.idujian, pelaksanaan.idkelas)
                 jml_beres = Pelaksanaanujian.query.filter_by(
                     idujian=ujian.idujian, 
                     idkelas=siswa.idkelas, 
@@ -29,11 +28,15 @@ class PelaksanaanUjianRepository(GenericRepository):
                     idkelas=siswa.idkelas
                 ).count()
 
+                pelaksanaan.status_pelaksanaan = 2
+                db.session.add(pelaksanaan)
+
                 if(jml_beres == jml_ujian):
                     ujian.status_ujian = 2
                     db.session.add(ujian)
-                    db.session.commit()
-
+                
+                db.session.commit()
+                
                 return None
         else:
             return None
@@ -43,13 +46,6 @@ class PelaksanaanUjianRepository(GenericRepository):
         pel.waktu_mulai = datetime.now()
         pel.status_pelaksanaan = 1
         pel.ujian.status_ujian = 1
-
-        db.session.add(pel)
-        db.session.commit()
-    
-    def selesaiUjian(self, idujian, idkelas):
-        pel = Pelaksanaanujian.query.filter_by(idujian=idujian, idkelas=idkelas).one()
-        pel.status_pelaksanaan = 2
 
         db.session.add(pel)
         db.session.commit()

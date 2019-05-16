@@ -2,6 +2,19 @@ import API from "./api";
 import DataJawabanSoal from './item_model';
 
 interface JsonAPIJawaban{ idjawaban:string; }
+interface JsonAPIDataJawaban { data: DataJawabanSoal; }
+
+/**
+ * Mendapatkan Data Jawaban
+ * @param data Data Jawaban
+ */
+function initDataJawaban(idsoal:string)
+{
+    return API<JsonAPIDataJawaban>('/api/jawaban/'+ idsoal).then(value => {
+        console.log(value);
+        return value.data;
+    });
+}
 
 /**
  * Menginputkan Data Jawaban
@@ -38,4 +51,4 @@ function updateDataJawaban(idjawaban: string, data:any)
     });
 }
 
-export {inputDataJawaban, updateDataJawaban }
+export {initDataJawaban, inputDataJawaban, updateDataJawaban }

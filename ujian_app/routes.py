@@ -41,6 +41,7 @@ def define_api_routes():
         {'url':'/api/ujianesai', 'name':'ujianesai', 'view':UjianEsaiAPI, 'methods':['GET','POST']},
 
         {'url':'/api/jawaban/<int:idjawaban>', 'name':'ubahjawaban', 'view':JawabanAPI, 'methods':['PUT']},
+        {'url':'/api/jawaban/<int:idsoal>', 'name':'jawabansiswa', 'view':JawabanAPI, 'methods':['GET']},
         {'url':'/api/jawaban', 'name':'jawaban', 'view':JawabanAPI, 'methods':['POST']},
 
         {'url':'/api/pelaksanaan/<int:idujian>/<int:idkelas>', 'name':'laksanakanujian', 'view':PelaksanaanUjianAPI, 'methods':['POST']},

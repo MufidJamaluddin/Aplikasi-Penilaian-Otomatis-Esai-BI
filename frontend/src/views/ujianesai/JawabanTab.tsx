@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { FormGroup, Input, Col, TabPane } from 'reactstrap';
-import { inputDataJawaban, updateDataJawaban } from '../../models/JawabanData'
+import { initDataJawaban, inputDataJawaban, updateDataJawaban } from '../../models/JawabanData';
 
 const INTERVAL = 1000;
 
@@ -17,7 +17,7 @@ interface JawabanState
 {
     idsoal: string; 
     idjawaban?: string, 
-    jawabanEsai: string; 
+    jawabanEsai?: string; 
 }
 
 class JawabanTab extends Component<SoalTabAttribute, JawabanState>
@@ -31,7 +31,7 @@ class JawabanTab extends Component<SoalTabAttribute, JawabanState>
     constructor(props:any)
     {
         super(props);
-        this.state = { idsoal: props.idsoal, jawabanEsai: '' }
+        this.state = { idsoal: props.idsoal }
 
         this._interval_typing = setInterval(()=>{this._waktunya_ngirim = true}, INTERVAL);
         this.onJawabanEsaiChange = this.onJawabanEsaiChange.bind(this);
@@ -40,6 +40,16 @@ class JawabanTab extends Component<SoalTabAttribute, JawabanState>
     onJawabanEsaiChange(event:any)
     {
         this.setState({ jawabanEsai: event.target.value });
+    }
+
+    componentDidMount()
+    {
+        initDataJawaban(this.props.idsoal).then(jawaban => {
+            this.setState({ jawabanEsai: jawaban.jawabanEsai || '' });
+        })
+        .catch(error=> {
+            console.log(error);
+        });
     }
 
     componentDidUpdate(prevProps: SoalTabAttribute, prevState: JawabanState)
@@ -82,6 +92,7 @@ class JawabanTab extends Component<SoalTabAttribute, JawabanState>
                         type="textarea" 
                         rows="6" 
                         placeholder="Input Jawaban" 
+                        value={this.state.jawabanEsai||''}
                         onChange={this.onJawabanEsaiChange}
                         required/> 
                 </Col>                      

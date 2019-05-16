@@ -56,7 +56,7 @@ class UjianEsai extends Component<UjianEsaiAttribute & RouteComponentProps<Route
         listsoal: value.list_soal,
         pelaksanaan: value.data_pelaksanaan
       });
-    }).then((error:any) => {
+    }).catch((error:any) => {
       if(error) this.setState({ pesan_error: error });
     });
   }
