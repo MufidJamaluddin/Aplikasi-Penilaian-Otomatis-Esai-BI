@@ -45,7 +45,9 @@ def define_api_routes():
         {'url':'/api/jawaban', 'name':'jawaban', 'view':JawabanAPI, 'methods':['POST']},
 
         {'url':'/api/pelaksanaan/<int:idujian>/<int:idkelas>', 'name':'laksanakanujian', 'view':PelaksanaanUjianAPI, 'methods':['POST']},
-        {'url':'/api/pelaksanaan/<int:idujian>', 'name':'pelaksanaanujian', 'view':PelaksanaanUjianAPI, 'methods':['GET']}
+        {'url':'/api/pelaksanaan/<int:idujian>', 'name':'pelaksanaanujian', 'view':PelaksanaanUjianAPI, 'methods':['GET']},
+
+        {'url':'/api/penilaian', 'name':'penilaianmanual', 'view':PenilaianAPI, 'methods':['GET']}
     ]
 
     for route in routes_api:
