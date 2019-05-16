@@ -98,7 +98,7 @@ class UjianEsai extends Component<UjianEsaiAttribute & RouteComponentProps<Route
     if(pelaksanaan === undefined || ujian === undefined) return(<h3>Loading...</h3>);
 
     let waktu_mulai = new Date(pelaksanaan.waktu_mulai)
-    let waktu_akhir = waktu_mulai.setMinutes(waktu_mulai.getMinutes() + parseInt(ujian.durasi)) 
+    let waktu_akhir = waktu_mulai.setMinutes(waktu_mulai.getMinutes() + parseInt(ujian.durasi || '0')) 
 
     return (
         <Container className="p-4">

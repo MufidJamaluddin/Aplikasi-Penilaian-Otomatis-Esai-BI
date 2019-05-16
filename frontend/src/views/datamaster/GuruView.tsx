@@ -263,7 +263,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
 		return (
 			<ModalGuruForm
 				className={'modal-info modal-lg ' + this.props.className}
-				header="Edit Data Guru"
+				header="Detail Guru"
 				isOpen={this.state.modal.detail}
 				toggle={this.toggleDetailGuru}
 				onClickSubmit={this.onDetailDataGuru}
@@ -287,7 +287,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
 		return (
 			<ModalGuruForm
 				className={'modal-warning modal-lg ' + this.props.className}
-				header="Edit Data Guru"
+				header="Edit Guru"
 				strsubmit="Edit"
 				isOpen={this.state.modal.update}
 				toggle={this.toggleUpdateGuru}
@@ -309,7 +309,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
 		return (
 			<ModalForm
 				className={'modal-danger modal-lg ' + this.props.className}
-				header="Edit Data Guru"
+				header="Hapus Guru"
 				strsubmit="Ya"
 				isOpen={this.state.modal.delete}
 				toggle={this.toggleDeleteGuru}

@@ -263,7 +263,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
     return (
       <Modal isOpen={this.state.edit} toggle={this.toggleUpdateSiswa} className={'modal-warning modal-md' + this.props.className}>
       <Form onSubmit={this.editSiswa} className="form-horizontal">
-        <ModalHeader toggle={this.toggleUpdateSiswa}>Update Siswa</ModalHeader>
+        <ModalHeader toggle={this.toggleUpdateSiswa}>Edit Data Siswa</ModalHeader>
         <ModalBody>
      
           <FormGroup row>
@@ -319,7 +319,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
     return (
     <Modal isOpen={this.state.delete} toggle={this.toggleDeleteSiswa} className={'modal-danger ' + this.props.className}>
       <Form onSubmit={this.deleteSiswa} className="form-horizontal">
-        <ModalHeader toggle={this.toggleDeleteSiswa}>Delete Siswa</ModalHeader>
+        <ModalHeader toggle={this.toggleDeleteSiswa}>Hapus Siswa</ModalHeader>
         
         <ModalBody>
         <p> Apakah anda yakin ingin menghapus <b>{nama}</b> dari data Siswa ?</p>

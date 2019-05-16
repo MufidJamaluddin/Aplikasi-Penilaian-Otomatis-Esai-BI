@@ -147,7 +147,6 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
         toggle={ this.toggleUpdateKelas }
         onClickSubmit={ this.editKelas }>
         <FormGroup row>
-          Nama Kelas {namaKelas} Baru
           <Col sm="12">
             <Input type="text" defaultValue={namaKelas}
               name="namaKelas" required />
@@ -166,7 +165,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
     return (
       <ModalForm 
         className={"modal-danger " + this.props.className}
-        header={"Delete Kelas " + namaKelas } 
+        header="Hapus Kelas " 
         strsubmit="Ya"
         isOpen={ this.state.modal.delete }
         toggle={ this.toggleDeleteKelas }

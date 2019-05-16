@@ -147,13 +147,12 @@ renderModalEdit()
   return (
     <ModalForm 
       className={'modal-warning ' + this.props.className}
-      header={ "Edit Kelas "}
+      header={ "Edit Mata Pelajaran "}
       strsubmit="Edit"
       isOpen={ this.state.modal.edit }
       toggle={ this.toggleUpdateMatapelajaran }
       onClickSubmit={ this.editMatapelajaran }>
       <FormGroup row>
-        Edit Matapelajaran {namaMapel}
         <Col sm="12">
           <Input type="text" defaultValue={namaMapel}
             name="namaMapel" required />
@@ -174,7 +173,7 @@ renderModalDelete()
   return (
     <ModalForm 
       className={"modal-danger " + this.props.className}
-      header={"Delete Mata Pelajaran " + namaMapel } 
+      header="Hapus Mata Pelajaran"
       strsubmit="Ya"
       isOpen={ this.state.modal.delete }
       toggle={ this.toggleDeleteMatapelajaran }
@@ -207,7 +206,7 @@ render()
             <Input type="number" min="0" max="100" placeholder="KKM"
               name="KKM" required />
           </Col>
-          <Col sm="2">
+          <Col sm="4">
             <Button size="sm" type="submit" color="success" className="px-4"><i className="fa fa-plus"></i><span>Tambah Mata Pelajaran</span></Button>
           </Col>
         </FormGroup>

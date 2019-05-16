@@ -323,7 +323,7 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 				</Col>
 				
 				<Col sm="12">
-				<Table responsive bssize="sm">
+				<Table responsive size="sm">
 					<thead>
 						<tr>
 							<th>Mata Pelajaran</th>
