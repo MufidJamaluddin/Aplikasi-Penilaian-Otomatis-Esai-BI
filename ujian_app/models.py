@@ -196,3 +196,4 @@ class Ujian(Base):
     matapelajaran = relationship('Matapelajaran', lazy='select')
     pelaksanaan_ujian = relationship('Pelaksanaanujian', lazy='selectin')
     listsoal = relationship('Soal', lazy='selectin')
+    guru = relationship('Guru')

@@ -1,5 +1,4 @@
-from ujian_app import app, excel
+from ujian_app import app
 
 if __name__ == "__main__":
-    excel.init_excel(app)
     app.run(port=5000)

@@ -1,5 +1,4 @@
 from flask import Flask
-import flask_excel as excel
 from celery import Celery
 from flask_sqlalchemy import SQLAlchemy
 from .config import get_config

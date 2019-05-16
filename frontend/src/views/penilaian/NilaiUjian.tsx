@@ -110,6 +110,9 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
         <ModalHeader toggle={this.toggleNilaiManual}>Akhiri Penilaian Manual</ModalHeader>
           <ModalBody>
             <p>1. Download jawaban esai siswa di kelas {datapel_selected.namaKelas}</p>
+            <Link to={'/penilaianmanual/'+this.idujian+'/'+datapel_selected.idsoal}>
+              <Button>Download Jawaban </Button>
+            </Link>
             <p>2. Lakukan penilaian secara manual untuk dijadikan data latih dengan mengisi kolom nilai yang tersedia</p>
             <p>3. Upload File Jawaban SIswa di kelas {datapel_selected.namaKelas} yang telah dinilai sebagian secara manual</p>
             <Input type="file"></Input>
@@ -188,7 +191,7 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
                   </Col>
 
                   <Col className="col-sm-12 text-right">
-                    <Link to="./penilaian">
+                    <Link to="/penilaian">
                       <Button  color="primary">Kembali</Button>
                     </Link>
                     <Button  color="success" onClick={this.toggleSubmitNilaiManual}>Selanjutnya</Button>
@@ -227,7 +230,7 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
                     <Progress animated color="success" value="55" className="mb-3" />
                     
                     <Col col="6" sm="4" md="2" xl className="mb-3 mb-xl-0">
-                      <Link to="./detailhasilujian"><Button block color="primary">LIHAT HASIL PENILAIAN</Button></Link>
+                      <Link to="/hasilujian"><Button block color="primary">LIHAT HASIL PENILAIAN</Button></Link>
                     </Col>
                     
                   </TabPane>
