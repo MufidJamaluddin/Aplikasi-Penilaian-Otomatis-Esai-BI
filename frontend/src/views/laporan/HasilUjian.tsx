@@ -1,20 +1,44 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input, InputGroup } from 'reactstrap';
 import { Link } from 'react-router-dom';
-interface HasilUjianStateModel {}
+import DataUjian from '../../models/item_model';
+import { initDataUjian } from '../../models/UjianData';
 
-interface HasilUjianPropsModel { className?: string; }
+interface HasilUjianStateModel {
+  state:boolean; 
+  listujian: Array<DataUjian>;
+  selected_data?: Partial<DataUjian>;
+  isLoading:boolean;
+ }
 
-class HasilUjian extends Component<HasilUjianPropsModel, HasilUjianStateModel>
+
+interface HasilUjianModel { className?: string; }
+
+class HasilUjian extends Component<HasilUjianModel, HasilUjianStateModel>
 {
-  constructor(props: Readonly<HasilUjianPropsModel>) 
+  constructor(props: Readonly<HasilUjianModel>) 
   {
     super(props);
-
+    
+    this.state = {
+      state: false,
+      listujian: [],
+      isLoading: true,
+    };
   }
+    // --------------------------- INIT DATA ------------------------------------------//
+    public componentDidMount()
+    {
+      initDataUjian().then(list => {
+        this.setState({ listujian: list });
+      });
+    }
+  
 
   public render() : JSX.Element 
   {
+    var listujian = this.state.listujian;
+    
     return (
       <div className="animated fadeIn">
         <Row>
@@ -46,61 +70,26 @@ class HasilUjian extends Component<HasilUjianPropsModel, HasilUjianStateModel>
                 </thead>
                 
                 <tbody>
-                  <tr>
-                    <td>TST00001</td>
-                    <td>Pendidikan Kewarganegaraan</td>
-                    <td>PKN Bab 1</td>
-                    <td></td>
+                {
+                  listujian.map(ujian => {
+                    return (
+                  <tr key={ujian.idujian}>
+                    <td>{ ujian.idujian }</td>
+                    <td>{ ujian.namaMapel }</td>
+                    <td>{ ujian.namaUjian }</td>
                     <td>
-                        <Link to="./detailhasilujian">
+                        <Link to="/hasilujian/:idujian">
                             <Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
                         </Link>
                     </td>
                  </tr>
-
-                 <tr>
-                    <td>TST00002</td>
-                    <td>Pendidikan Kewarganegaraan</td>
-                    <td>PKN Bab 2</td>
-                    <td></td>
-                    <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button></td>
-                 </tr>
-
-                 <tr>
-                    <td>TST00003</td>
-                    <td>Biologi</td>
-                    <td>Biologi Bab 1</td>
-                    <td></td>
-                    <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button></td>
-                 </tr>
-
                  
-                 <tr>
-                    <td>TST00004</td>
-                    <td>Biologi</td>
-                    <td>Biologi Bab 2</td>
-                    <td></td>
-                    <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button></td>
-                 </tr>
+                 );
+                })
+              }
 
-                 
-                 <tr>
-                    <td>TST00005</td>
-                    <td>Biologi</td>
-                    <td>Biologi Bab 3</td>
-                    <td></td>
-                    <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button></td>
-                 </tr>
 
-                 <tr>
-                    <td>TST00006</td>
-                    <td>Biologi</td>
-                    <td>Biologi Bab 4</td>
-                    <td></td>
-                    <td><Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button></td>
-                 </tr>
-
-				  </tbody>
+				        </tbody>
                 </Table>
               </CardBody>
             </Card>
