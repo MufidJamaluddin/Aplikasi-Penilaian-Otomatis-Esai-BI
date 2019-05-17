@@ -9,7 +9,7 @@ interface DetailHasilUjianStateModel {}
 
 interface DetailHasilUjianPropsModel { className?: string; }
 
-class DetailHasilUjian extends Component<DetailHasilUjianPropsModel, DetailHasilUjianStateModel>
+class DetailHasilUjian extends PureComponent<DetailHasilUjianPropsModel, DetailHasilUjianStateModel>
 {
   constructor(props: Readonly<DetailHasilUjianPropsModel>) 
   {
