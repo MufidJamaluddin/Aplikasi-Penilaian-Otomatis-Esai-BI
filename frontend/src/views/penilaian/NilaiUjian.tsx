@@ -110,7 +110,7 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
         <ModalHeader toggle={this.toggleNilaiManual}>Akhiri Penilaian Manual</ModalHeader>
           <ModalBody>
             <p>1. Download jawaban esai siswa di kelas {datapel_selected.namaKelas}</p>
-            <Link to={'/penilaianmanual/'+this.idujian+'/'+datapel_selected.idsoal}>
+            <Link to={'http://localhost:5000/penilaianmanual/'+this.idujian+'/'+datapel_selected.idkelas}>
               <Button>Download Jawaban </Button>
             </Link>
             <p>2. Lakukan penilaian secara manual untuk dijadikan data latih dengan mengisi kolom nilai yang tersedia</p>

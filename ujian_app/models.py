@@ -99,6 +99,8 @@ class Kelas(Base):
     namaKelas = Column(String(12))
     status_ujian = Column(Boolean)
 
+    siswa = relationship('Siswa', lazy='select')
+
 
 class Matapelajaran(Base):
     __tablename__ = 'matapelajaran'
@@ -144,6 +146,10 @@ class Siswa(Base):
     password = Column(String(40))
 
     kelas = relationship('Kelas', lazy='joined')
+    jawaban = relationship('Jawaban', lazy='select')
+
+    def __repr__(self):
+        return self.nis
 
 
 class Soal(Base):
