@@ -1,8 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { Form, Card, CardBody, CardHeader, Col, Row, Table, Button, FormGroup, Input } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import DataNilai from '../../models/item_model';
-import { initDaftarnilaiujian} from '../../models/NilaiData';
+
 
 
 interface DetailHasilUjianStateModel {}
