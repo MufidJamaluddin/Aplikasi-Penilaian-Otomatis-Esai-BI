@@ -13,3 +13,4 @@ from .ujianrepository import UjianRepository
 from .soalrepository import SoalRepository
 from .pelujianrepository import PelaksanaanUjianRepository
 from .jawabanrepository import JawabanRepository
+from .daftarnilairepository import DaftarNilaiRepository

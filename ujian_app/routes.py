@@ -14,8 +14,7 @@ def define_api_routes():
         {'url':'/api/auth/<string:username>', 'name':'auth_logout', 'view':AuthAPI, 'methods':['DELETE']},
         {'url':'/api/panelsiswa', 'name':'panelsiswa', 'view':PanelSiswaAPI, 'methods':['GET']},
 
-        {'url':'/api/daftarnilai', 'name':'daftarnilai', 'view':DaftarNilaiAPI, 'methods':['GET','POST','PUT']},
-        
+            
         {'url':'/api/kelas', 'name':'kelas', 'view':KelasAPI, 'methods':['GET','POST']},
         {'url':'/api/kelas/<int:idkelas>', 'name':'kelas_dt', 'view':KelasAPI, 'methods':['PUT','DELETE']},
 
@@ -47,7 +46,9 @@ def define_api_routes():
         {'url':'/api/pelaksanaan/<int:idujian>/<int:idkelas>', 'name':'laksanakanujian', 'view':PelaksanaanUjianAPI, 'methods':['POST']},
         {'url':'/api/pelaksanaan/<int:idujian>', 'name':'pelaksanaanujian', 'view':PelaksanaanUjianAPI, 'methods':['GET']},
 
-        {'url':'/penilaianmanual/<int:idujian>/<int:idkelas>', 'name':'penilaianmanual', 'view':PenilaianAPI, 'methods':['GET']}
+        {'url':'/penilaianmanual/<int:idujian>/<int:idkelas>', 'name':'penilaianmanual', 'view':PenilaianAPI, 'methods':['GET']},
+        
+        {'url':'/api/daftarnilai/<int:idujian>', 'name':'daftarnilaiujian', 'view':DaftarNilaiAPI, 'methods':['GET']},
     ]
 
     for route in routes_api:

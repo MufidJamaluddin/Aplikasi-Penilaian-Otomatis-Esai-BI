@@ -6,7 +6,11 @@ import { initDataPelaksanaan } from '../../models/PelaksanaanData';
 import DataUjian from '../../models/item_model';
 import DataPelaksanaanUjian from '../../models/item_model';
 
-interface NilaiUjianStateModel { activeTab: number; primary:boolean; info:boolean; modal: boolean;
+interface NilaiUjianStateModel { 
+  activeTab: number; 
+  submitnilaimanual:boolean; 
+  nilaimanual:boolean; 
+  modal: boolean;
   /**
    * Data Ujian
    */
@@ -35,8 +39,8 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
 		this.toggle = this.toggle.bind(this);
     this.state = {
       activeTab: 0,
-      primary: false,
-      info:false,
+      submitnilaimanual: false,
+      nilaimanual:false,
 			modal: false 
     };
 
@@ -64,14 +68,14 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
 	public toggleSubmitNilaiManual() : void 
 	{
     this.setState({
-      primary: !this.state.primary,
+      submitnilaimanual: !this.state.submitnilaimanual,
     });
   }
 
   public toggleNilaiManual(datapel?:DataPelaksanaanUjian)
 	{
     this.setState({
-      info: !this.state.info,
+      nilaimanual: !this.state.nilaimanual,
       datapel_selected: datapel
     });
   }
@@ -106,8 +110,8 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
     let datapel_selected = this.state.datapel_selected;
 
     return (
-      <Modal isOpen={this.state.info} toggle={this.toggleNilaiManual} className={'modal-info ' + this.props.className}>
-        <ModalHeader toggle={this.toggleNilaiManual}>Akhiri Penilaian Manual</ModalHeader>
+      <Modal isOpen={this.state.nilaimanual} toggle={this.toggleNilaiManual} className={'modal-info ' + this.props.className}>
+        <ModalHeader toggle={this.toggleNilaiManual}>Nilai Manual</ModalHeader>
           <ModalBody>
             <p>1. Download jawaban esai siswa di kelas {datapel_selected.namaKelas}</p>
             <Link to={'http://localhost:5000/penilaianmanual/'+this.idujian+'/'+datapel_selected.idkelas}>
@@ -195,7 +199,7 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
                       <Button  color="primary">Kembali</Button>
                     </Link>
                     <Button  color="success" onClick={this.toggleSubmitNilaiManual}>Selanjutnya</Button>
-                    <Modal isOpen={this.state.primary} toggle={this.toggleSubmitNilaiManual} className={'modal-primary ' + this.props.className}>
+                    <Modal isOpen={this.state.submitnilaimanual} toggle={this.toggleSubmitNilaiManual} className={'modal-primary ' + this.props.className}>
                       <ModalHeader toggle={this.toggleSubmitNilaiManual}>Akhiri Penilaian Manual</ModalHeader>
                         <ModalBody>
                           <p className="text-center">Apakah anda yakin ingin mengakhiri penilaian ujian secara manual ? <b>Pastikan jawaban siswa sudah dinilai secara manula minimal 50 % dari seluruh jawaban siswa yang mengikuti ujian</b></p>
