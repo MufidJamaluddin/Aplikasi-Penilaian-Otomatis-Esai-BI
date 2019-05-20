@@ -98,3 +98,4 @@ class GuruAPI(MethodView):
 
         list_guru = self.repository.findAll()
         return json.dumps({'list': list_guru }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
+

@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
     "target": "es5",
     "lib": [
       "dom",
@@ -24,7 +23,7 @@
     "noEmit": true,
     "jsx": "preserve"
   },
-  "exclude":[
+  "exclude": [
     "src/setupProxy.js"
   ],
   "include": [
