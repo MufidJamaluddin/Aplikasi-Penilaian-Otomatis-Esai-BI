@@ -2,7 +2,7 @@ from . import app
 from .api import (
     GuruAPI, PengampuAPI, SiswaAPI, SoalAPI, UjianEsaiAPI, MatapelajaranAPI,
     AuthAPI, DaftarNilaiAPI, KelasAPI, MatapelajaranAPI, PengerjaanUjianAPI,
-    PenilaianAPI, UjianEsaiAPI, PanelSiswaAPI, PelaksanaanUjianAPI, JawabanAPI, ImportGuruAPI,
+    PenilaianAPI, UjianEsaiAPI, PanelSiswaAPI, PelaksanaanUjianAPI, JawabanAPI#, ImportGuruAPI,
 )
 
 def define_api_routes():  
@@ -32,8 +32,8 @@ def define_api_routes():
         {'url':'/api/pengampu/<int:idguru>', 'name':'guru_pengampu', 'view':PengampuAPI, 'methods':['GET']},
         {'url':'/api/pengampu', 'name':'cur_pengampu', 'view':PengampuAPI, 'methods':['GET']},
 
-        {'url':'/api/download','name':'downloadGuru', 'view':ImportGuruAPI, 'methods':['GET']},
-        {'url':'/api/upload', 'name':'uploadGuru', 'view':ImportGuruAPI, 'methods':['GET', 'POST']},
+#        {'url':'/api/download','name':'doDownloadGuru', 'view':ImportGuruAPI, 'methods':['GET']},
+#        {'url':'/api/upload', 'name':'doImportGuru', 'view':ImportGuruAPI, 'methods':['GET', 'POST']},
        
         {'url':'/api/pengerjaanujian', 'name':'pengerjaanujian', 'view':PengerjaanUjianAPI, 'methods':['GET']},
         {'url':'/api/penilaian', 'name':'penilaian', 'view':PenilaianAPI, 'methods':['GET','POST','PUT']},
