@@ -1,3 +1,6 @@
+from ujian_app.models import Soal
+from .angkakehuruf import SkorAngkaKeHuruf
+
 class Konversi(object):
     """
     Kelas untuk Konversi Nilai Angka ke Huruf 
@@ -11,6 +14,9 @@ class Konversi(object):
         '''
         self.idsoal = idsoal
 
+        soal = Soal.query.get(self.idsoal)
+        self.skor_angka_ke_huruf = SkorAngkaKeHuruf(soal.skorMax, soal.skorMin)
+
     def ke_angka(self, huruf:str):
         '''
         Melakukan konversi nilai dari huruf ke angka
@@ -21,4 +27,4 @@ class Konversi(object):
         '''
         Melakukan konversi nilai dari angka ke huruf
         '''
-        pass
+        return self.skor_angka_ke_huruf.konversi(angka)

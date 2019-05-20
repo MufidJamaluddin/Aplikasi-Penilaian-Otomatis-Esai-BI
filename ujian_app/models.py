@@ -90,7 +90,7 @@ class Jawaban(Base):
 
     soal = relationship('Soal', lazy='select')
     siswa = relationship('Siswa', lazy='select')
-
+ 
 
 class Kelas(Base):
     __tablename__ = 'kelas'

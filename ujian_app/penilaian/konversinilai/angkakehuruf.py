@@ -1,7 +1,7 @@
-class NilaiAngkaKeHuruf(object) :
+class SkorAngkaKeHuruf(object) :
     """
-    Kelas yag bertugas untuk konversi nilai angka ke 
-    nilai huruf
+    Kelas yag bertugas untuk konversi skor angka ke 
+    skor huruf
 
     rumus : Skor maksimum - skor minimum / 4
     """

@@ -2,7 +2,7 @@ from penilaian import PenilaianOtomatis
 #from . import celery
 
 #@celery.task
-def pelatihan(*args, **kwargs):
+def penilaian_manual(idsoal):
     """
     Melatih Aplikasi / Training
     Sebelum Aplikasi Siap Menilai
