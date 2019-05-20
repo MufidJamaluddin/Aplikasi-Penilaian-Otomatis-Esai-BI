@@ -1,5 +1,6 @@
 from ujian_app.models import Soal
 from .angkakehuruf import SkorAngkaKeHuruf
+from .hurufkeangka import SkorHurufKeAngka
 
 class Konversi(object):
     """
@@ -16,12 +17,13 @@ class Konversi(object):
 
         soal = Soal.query.get(self.idsoal)
         self.skor_angka_ke_huruf = SkorAngkaKeHuruf(soal.skorMax, soal.skorMin)
+        self.skor_huruf_ke_angka = SkorHurufKeAngka(soal.skorMax, soal.skorMin)
 
     def ke_angka(self, huruf:str):
         '''
         Melakukan konversi nilai dari huruf ke angka
         '''
-        pass
+        return self.skor_huruf_ke_angka.konversi(huruf)
 
     def ke_huruf(self, angka:int):
         '''
