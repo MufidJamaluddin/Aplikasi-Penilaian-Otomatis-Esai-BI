@@ -114,6 +114,7 @@ class Ujian(Base):
 
     guru = relationship('Guru')
     matapelajaran = relationship('Matapelajaran')
+    listsoal = relationship('Soal')
 
 
 class DaftarNilaiUjian(Base):
@@ -145,7 +146,6 @@ class PelaksanaanUjian(Base):
 
     kelas = relationship('Kelas')
     ujian = relationship('Ujian')
-    listsoal = relationship('Soal')
 
 
 class Soal(Base):
