@@ -1,16 +1,17 @@
-from penilaian import PenilaianOtomatis
-#from . import celery
+from ujian_app.penilaian import PenilaianOtomatis, PenilaianManual
+from . import celery
 
-#@celery.task
-def penilaian_manual(idsoal):
+@celery.task
+def penilaian_manual(idsoal, idkelas):
     """
     Melatih Aplikasi / Training
     Sebelum Aplikasi Siap Menilai
     """
-    pass
+    pmanual = PenilaianManual(idsoal, idkelas)
+    pmanual.nilai_manual()
 
-#@celery.task
-def penilaian_otomatis(*args, **kwargs):
+@celery.task
+def penilaian_otomatis(idsoal):
     '''
     Melakukan Task Penilaian Otomatis
     '''

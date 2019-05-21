@@ -59,10 +59,9 @@ class AuthAPI(MethodView):
 
                 if user.role == 'siswa':
                     pelaksanaan = pel_repo.findPelaksanaanUjianByNim(user.username)
-                    if pelaksanaan:
+                    if pelaksanaan is not None:
                         idujian = pelaksanaan.ujian.idujian
-                        if idujian:
-                            dt['pelaksanaanujian'] = idujian
+                        dt['pelaksanaanujian'] = idujian
 
                 return json.dumps(dt), 200
 

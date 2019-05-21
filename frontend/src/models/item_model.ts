@@ -26,6 +26,7 @@ export default interface DataSiswa
     nama: string;
     idkelas: string;
     password?: string;
+    angkatan: string;
     kelas:Partial<DataKelas>;
 }
 

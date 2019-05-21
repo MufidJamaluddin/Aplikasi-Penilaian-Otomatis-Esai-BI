@@ -2,7 +2,7 @@ from flask.views import MethodView
 from flask import json, request, session
 from ujian_app.utils import AlchemyEncoder
 from ujian_app.repository import UjianRepository, GuruRepository
-from ujian_app.models import Pelaksanaanujian, Soal
+from ujian_app.models import PelaksanaanUjian, Soal, db
 
 class UjianEsaiAPI(MethodView):
    
@@ -65,18 +65,10 @@ class UjianEsaiAPI(MethodView):
         idmapel = data_Ujian['idmapel']
         status_ujian = 0
 
-        pelaksanaan_ujian = []
-        listpelaksanaan = data_Ujian['pelaksanaan_ujian']
-        if listpelaksanaan:
-            for p in listpelaksanaan:
-                pelaksanaan = Pelaksanaanujian()
-                pelaksanaan.idkelas = p['idkelas']
-                pelaksanaan.status_pelaksanaan = 0
-                pelaksanaan_ujian.append(pelaksanaan)
-
         listsoal = []
         for i in range(jumlahSoal):
             soal = Soal()
+            soal.soalEsai = ''
             listsoal.append(soal)
         
         ujian = self.repository.save(
@@ -86,9 +78,20 @@ class UjianEsaiAPI(MethodView):
             jumlahSoal=jumlahSoal, 
             durasi=durasi,
             status_ujian=status_ujian,
-            pelaksanaan_ujian=pelaksanaan_ujian,
             listsoal=listsoal
         )
+
+        listpelaksanaan = data_Ujian['pelaksanaan_ujian']
+        if listpelaksanaan:
+            for p in listpelaksanaan:
+                pelaksanaan = PelaksanaanUjian()
+                pelaksanaan.idujian = ujian.idujian
+                pelaksanaan.idkelas = p['idkelas']
+                pelaksanaan.status_pelaksanaan = 0
+                db.session.add(pelaksanaan)
+        
+        db.session.commit()
+
         return json.dumps({'idujian':ujian.idujian }), 201, {'Content-Type': 'application/json'}
    
     def put(self, idujian):
@@ -107,7 +110,7 @@ class UjianEsaiAPI(MethodView):
         listpelaksanaan = data_Ujian['pelaksanaan_ujian']
         if listpelaksanaan:
             for p in listpelaksanaan:
-                pelaksanaan = Pelaksanaanujian()
+                pelaksanaan = PelaksanaanUjian()
                 pelaksanaan.idkelas = p['idkelas']
                 pelaksanaan.status_pelaksanaan = 0
                 pelaksanaan_ujian.append(pelaksanaan)

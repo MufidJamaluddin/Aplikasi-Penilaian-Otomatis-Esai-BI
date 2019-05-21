@@ -19,6 +19,7 @@ class SiswaAPI(MethodView):
             rsiswa['nama'] = siswa.nama
             rsiswa['kelas'] = {}
             rsiswa['kelas']['namaKelas'] = siswa.kelas.namaKelas
+            rsiswa['angkatan'] = siswa.angkatan
             lres_siswa.append(rsiswa)
 
         return lres_siswa        
@@ -34,7 +35,14 @@ class SiswaAPI(MethodView):
         idkelas = data_siswa['idkelas']
         nama = data_siswa['nama']
         password = data_siswa['password']
-        self.repository.save(nis=nis, idkelas=idkelas, nama=nama, password=password)
+        angkatan = data_siswa['angkatan']
+        self.repository.save(
+            nis=nis, 
+            idkelas=idkelas,
+            nama=nama, 
+            password=password,
+            angkatan=angkatan
+        )
 
         list_siswa = self._getAllData()
         return json.dumps({'list': list_siswa }, cls=AlchemyEncoder), 201, {'Content-Type': 'application/json'}

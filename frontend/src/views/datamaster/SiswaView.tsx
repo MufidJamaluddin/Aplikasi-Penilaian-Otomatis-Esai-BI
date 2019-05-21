@@ -136,6 +136,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
       idkelas: fdata.get('idkelas'),
       nama: fdata.get('nama'),
       password: fdata.get('nis'),
+      angkatan: fdata.get('angkatan'),
     };
 
     inputDatasiswa(data).then(list => {
@@ -216,6 +217,14 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
                 type="text" 
                 placeholder="Nama Siswa" 
                 name="nama"
+                required/>
+            </Col>
+
+            <Col sm="12">
+              <Input  
+                type="text" 
+                placeholder="ANGKATAN" 
+                name="angkatan"
                 required/>
             </Col>
               
@@ -389,6 +398,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
                       <th>NIS</th>
                       <th>Nama Siswa</th>
                       <th>Kelas</th>
+                      <th>Angkatan</th>
                       <th>Username</th>
                       <th>Aksi</th>
                     </tr>
@@ -402,6 +412,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
                         <td>{siswa.nis}</td>
                         <td>{siswa.nama}</td>
 					              <td>{siswa.kelas.namaKelas}</td>
+                        <td>{siswa.angkatan}</td>
                         <td>{siswa.nis}</td>
 					              <td>
                           <Button className="btn-stack-overflow btn-brand icon btn-sm" 
