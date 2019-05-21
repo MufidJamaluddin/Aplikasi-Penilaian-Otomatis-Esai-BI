@@ -10,8 +10,7 @@ const alt_logo = "Logo Aplikasi KoPL9";
 interface DefaultHeaderPropsModel { nama: string; onLogout:any; }
 
 class Header extends Component<DefaultHeaderPropsModel> 
-{
-  public render() : JSX.Element
+{  public render() : JSX.Element
   {
     return (
       <React.Fragment>

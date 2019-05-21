@@ -97,7 +97,6 @@ class Kelas(Base):
 
     idkelas = Column(Integer, primary_key=True, autoincrement=True)
     namaKelas = Column(String(12))
-    status_ujian = Column(Boolean)
 
     siswa = relationship('Siswa', lazy='select')
 
