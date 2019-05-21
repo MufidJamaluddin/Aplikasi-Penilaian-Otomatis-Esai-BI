@@ -11,11 +11,10 @@ class PelaksanaanUjianRepository(GenericRepository):
         siswa = Siswa.query.get(nim)
         pelaksanaan = PelaksanaanUjian.query.filter_by(
             idkelas=siswa.idkelas,
-            status_pelaksanaan='1',
-            flag='1'
+            status_pelaksanaan=1
         ).first()
 
-        if pelaksanaan:
+        if pelaksanaan is not None:
             ujian = pelaksanaan.ujian
             waktu_berakhir_ujian = pelaksanaan.waktu_mulai + timedelta(minutes=ujian.durasi)
             
@@ -25,13 +24,14 @@ class PelaksanaanUjianRepository(GenericRepository):
                 jml_beres = PelaksanaanUjian.query.filter_by(
                     idujian=ujian.idujian, 
                     idkelas=siswa.idkelas, 
-                    status_pelaksanaan='2',
-                    flag='1'
+                    status_pelaksanaan=2,
+                    flag=1
                 ).count()
+
                 jml_ujian = PelaksanaanUjian.query.filter_by(
                     idujian=ujian.idujian, 
                     idkelas=siswa.idkelas,
-                    flag='1'
+                    flag=1
                 ).count()
 
                 pelaksanaan.status_pelaksanaan = 2

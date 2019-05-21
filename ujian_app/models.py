@@ -108,7 +108,7 @@ class Ujian(Base):
     idmapel = Column(ForeignKey('matapelajaran.idmapel'), nullable=False, index=True)
     namaUjian = Column(String(30), nullable=False)
     jumlahSoal = Column(SmallInteger, nullable=False)
-    durasi = Column(Time)
+    durasi = Column(SmallInteger)
     status_ujian = Column(String(1), server_default=text("'0'"))
     flag = Column(String(1), server_default=text("'0'"))
 

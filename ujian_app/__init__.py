@@ -32,4 +32,10 @@ def make_app():
     define_api_routes(app)
     define_root_routes(app)
 
+#    SQLAlchemy Debug Queries
+#    if app.config['DEBUG']:
+#        import logging
+#        logging.basicConfig()
+#        logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
+
     return app
