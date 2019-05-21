@@ -37,7 +37,7 @@ class Guru(Base):
     namaGuru = Column(String(50), nullable=False)
     username = Column(String(30), nullable=False, unique=True)
     password = Column(String(40), nullable=False)
-    flag = Column(Boolean, server_default=True)
+    flag = Column(String(1), server_default=text("'0'"))
 
     listpengampu = relationship('Pengampu')
     listujian = relationship('Ujian')
@@ -48,7 +48,7 @@ class Kelas(Base):
 
     idkelas = Column(Integer, primary_key=True)
     namaKelas = Column(String(12), nullable=False)
-    flag = Column(Boolean, server_default=True)
+    flag = Column(String(1), server_default=text("'0'"))
 
     siswa = relationship('Siswa', lazy='select')
 
@@ -59,7 +59,7 @@ class Matapelajaran(Base):
     idmapel = Column(Integer, primary_key=True)
     namaMapel = Column(String(30), nullable=False)
     KKM = Column(String(2), nullable=False)
-    flag = Column(Boolean, server_default=True)
+    flag = Column(String(1), server_default=text("'0'"))
 
 
 class Staftu(Base):
@@ -78,7 +78,7 @@ class Pengampu(Base):
     idmapel = Column(ForeignKey('matapelajaran.idmapel'), nullable=False, index=True)
     idkelas = Column(ForeignKey('kelas.idkelas'), nullable=False, index=True)
     idguru = Column(ForeignKey('guru.idguru'), nullable=False, index=True)
-    flag = Column(Boolean, server_default=True)
+    flag = Column(String(1), server_default=text("'0'"))
 
     guru = relationship('Guru')
     kelas = relationship('Kelas')
@@ -93,7 +93,7 @@ class Siswa(Base):
     nama = Column(String(20), nullable=False)
     angkatan = Column(String(4), nullable=False)
     password = Column(String(40), nullable=False)
-    flag = Column(Boolean, server_default=True)
+    flag = Column(String(1), server_default=text("'0'"))
 
     kelas = relationship('Kelas')
     daftarnilaiujian = relationship('DaftarNilaiUjian')
@@ -110,7 +110,7 @@ class Ujian(Base):
     jumlahSoal = Column(SmallInteger, nullable=False)
     durasi = Column(Time)
     status_ujian = Column(String(1), server_default=text("'0'"))
-    flag = Column(Boolean, server_default=True)
+    flag = Column(String(1), server_default=text("'0'"))
 
     guru = relationship('Guru')
     matapelajaran = relationship('Matapelajaran')
@@ -124,7 +124,7 @@ class DaftarNilaiUjian(Base):
     idujian = Column(ForeignKey('ujian.idujian'), nullable=False, index=True)
     nilai = Column(String(3))
     namaKelas = Column(String(12))
-    flag = Column(Boolean, server_default=True)
+    flag = Column(String(1), server_default=text("'0'"))
 
     ujian = relationship('Ujian')
     siswa = relationship('Siswa')
@@ -141,7 +141,7 @@ class PelaksanaanUjian(Base):
     status_penilaian = Column(String(1), server_default=text("'0'"))
     progress_penilaian = Column(String(3))
     pesan_progress_penilaian = Column(String(50))
-    flag = Column(Boolean, server_default=True)
+    flag = Column(String(1), server_default=text("'0'"))
 
     kelas = relationship('Kelas')
     ujian = relationship('Ujian')
@@ -158,7 +158,7 @@ class Soal(Base):
     skorMax = Column(String(3))
     kompetensiDasar = Column(String(100))
     materiPokok = Column(String(100))
-    flag = Column(Boolean, server_default=True)
+    flag = Column(String(1), server_default=text("'0'"))
 
     ujian = relationship('Ujian')
 

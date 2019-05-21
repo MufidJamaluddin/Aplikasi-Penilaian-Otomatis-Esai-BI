@@ -1,5 +1,5 @@
-from . import Preprocesser
-from . import Konversi
+from .pemrosesan_teks import Preprocesser
+from .konversinilai import Konversi
 from ujian_app.models import Jawaban, FiturReferensiPenilaian, db
 from math import sqrt
 

@@ -2,7 +2,7 @@ from flask.views import MethodView
 from flask import json, request, session
 from ujian_app.utils import AlchemyEncoder
 from ujian_app.repository import UjianRepository, GuruRepository
-from ujian_app.models import Pelaksanaanujian, Soal
+from ujian_app.models import PelaksanaanUjian, Soal
 
 class UjianEsaiAPI(MethodView):
    
@@ -69,7 +69,7 @@ class UjianEsaiAPI(MethodView):
         listpelaksanaan = data_Ujian['pelaksanaan_ujian']
         if listpelaksanaan:
             for p in listpelaksanaan:
-                pelaksanaan = Pelaksanaanujian()
+                pelaksanaan = PelaksanaanUjian()
                 pelaksanaan.idkelas = p['idkelas']
                 pelaksanaan.status_pelaksanaan = 0
                 pelaksanaan_ujian.append(pelaksanaan)
@@ -107,7 +107,7 @@ class UjianEsaiAPI(MethodView):
         listpelaksanaan = data_Ujian['pelaksanaan_ujian']
         if listpelaksanaan:
             for p in listpelaksanaan:
-                pelaksanaan = Pelaksanaanujian()
+                pelaksanaan = PelaksanaanUjian()
                 pelaksanaan.idkelas = p['idkelas']
                 pelaksanaan.status_pelaksanaan = 0
                 pelaksanaan_ujian.append(pelaksanaan)

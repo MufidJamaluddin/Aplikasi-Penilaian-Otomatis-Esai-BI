@@ -1,8 +1,9 @@
 from flask import request
+from flask.views import MethodView
 from ujian_app.models import Jawaban
 from ujian_app.tasks import penilaian_manual
 
-class ImportPenilaianAPI:
+class ImportPenilaianAPI(MethodView):
     '''
     Kelas untuk import penilaian manual
     '''
@@ -23,7 +24,7 @@ class ImportPenilaianAPI:
                 skor = value[column_skor] if column_skor < len(value) else None
                 if nis is None and skor is None:
                     continue
-                jawaban = Jawaban.query.filter_by(nis=nis, skor=None).first()
+                jawaban = Jawaban.query.filter_by(idsoal=idsoal, nis=nis, skor=None).first()
                 jawaban.skor = skor
                 Jawaban.session.add(jawaban)
 

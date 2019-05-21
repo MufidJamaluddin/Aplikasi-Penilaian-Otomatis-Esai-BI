@@ -2,7 +2,7 @@ from flask.views import MethodView
 from flask import json, request, session
 from ujian_app.utils import AlchemyEncoder
 from ujian_app.repository import PelaksanaanUjianRepository
-from ujian_app.models import Pelaksanaanujian, Soal
+from ujian_app.models import PelaksanaanUjian, Soal
 
 class PengerjaanUjianAPI(MethodView):
     '''
