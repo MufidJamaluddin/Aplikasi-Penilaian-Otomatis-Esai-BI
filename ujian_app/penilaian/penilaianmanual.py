@@ -1,6 +1,6 @@
 from . import Preprocesser
 from . import Konversi
-from ujian_app.models import Jawaban, Fiturreferensipenilaian, db
+from ujian_app.models import Jawaban, FiturReferensiPenilaian, db
 from math import sqrt
 
 class PenilaianManual(object):
@@ -23,7 +23,7 @@ class PenilaianManual(object):
             fitur_vspace = self.preprocesser.preprocess_text(jawaban.jawabanEsai)
 
             for key, value in fitur_vspace:
-                fitur_ref = Fiturreferensipenilaian()
+                fitur_ref = FiturReferensiPenilaian()
                 skorHuruf = self.konversi.skor_angka_ke_huruf(jawaban.skorAngka)
 
                 jawaban.skorHuruf = skorHuruf
@@ -35,4 +35,4 @@ class PenilaianManual(object):
                 db.session.add(fitur_ref)
                 db.session.add(jawaban)
             
-        db.session.commit()
+            db.session.commit()

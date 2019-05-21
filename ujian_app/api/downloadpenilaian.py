@@ -1,15 +1,15 @@
 from flask import Response
 from flask.views import MethodView
-from ujian_app.models import Jawaban, Pelaksanaanujian, Siswa
+from ujian_app.models import Jawaban, PelaksanaanUjian, Siswa
 from sqlalchemy.sql.expression import and_
 from tempfile import NamedTemporaryFile
 from openpyxl import load_workbook
 from copy import deepcopy, copy
 
-class PenilaianAPI(MethodView):
+class DownloadPenilaianAPI(MethodView):
     
     def get_wb_penilaian_manual(self, idujian, idkelas):
-        pel = Pelaksanaanujian.query.filter_by(idkelas=idkelas, idujian=idujian).first()
+        pel = PelaksanaanUjian.query.filter_by(idkelas=idkelas, idujian=idujian).first()
 
         workbook = load_workbook("template/penilaian_manual.xlsx")
         sheet = workbook.active
