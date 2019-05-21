@@ -93,7 +93,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
   }
   
 	public toggleDeleteGuru(dataguru?: Partial<DataGuru>) 
-	{c
+	{
 		var state = this.state.modal.delete || false;
 
 		if(dataguru === undefined) 

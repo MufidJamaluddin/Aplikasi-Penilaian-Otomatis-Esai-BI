@@ -1,22 +1,26 @@
 from flask import Flask
 from celery import Celery
 from flask_sqlalchemy import SQLAlchemy
-from .config import get_config
 
-def make_celery(app):
+def make_celery(name, config):
     '''
-    Membuat objek Celery
-    Asynchronous Task Queue
-    sumber : http://flask.pocoo.org/docs/1.0/patterns/celery
+    Membuat Objek Celery
     '''
     celery = Celery(
-        app.import_name,
-        backend=app.config['CELERY_RESULT_BACKEND'],
-        broker=app.config['CELERY_BROKER_URL']
+        name,
+        backend=config['CELERY_RESULT_BACKEND'],
+        broker=config['CELERY_BROKER_URL']
     )
 
-    celery.conf.update(app.config)
+    # Menambahkan konfigurasi tambahan
+    celery.conf.update(config)
+    return celery
 
+def init_celery(celery, app):
+    '''
+    Menambahkan Konteks Aplikasi ke Celery
+    sumber : http://flask.pocoo.org/docs/1.0/patterns/celery
+    '''
     class ContextTask(celery.Task):
         # Inherit untuk menambahkan konteks
         # aplikasi Flask

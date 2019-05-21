@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Modal, Table, CardGroup, Progress, ModalBody, ModalFooter, ModalHeader, Input, Button, Card, CardBody, CardHeader, Col, Row, TabContent, TabPane, Container } from 'reactstrap';
+import { Modal, Table, CardGroup, Progress, ModalBody, ModalFooter, ModalHeader, Form, Input, Button, Card, CardBody, CardHeader, Col, Row, TabContent, TabPane, Container } from 'reactstrap';
 import FormGroup from 'reactstrap/lib/FormGroup';
 import { initDataPelaksanaan } from '../../models/PelaksanaanData';
 import DataUjian from '../../models/item_model';
@@ -111,7 +111,8 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
 
     return (
       <Modal isOpen={this.state.nilaimanual} toggle={this.toggleNilaiManual} className={'modal-info ' + this.props.className}>
-        <ModalHeader toggle={this.toggleNilaiManual}>Nilai Manual</ModalHeader>
+        <Form method="post" action={'/penilaianmanual/'+this.idujian+'/'+datapel_selected.idkelas}>
+          <ModalHeader toggle={this.toggleNilaiManual}>Nilai Manual</ModalHeader>
           <ModalBody>
             <p>1. Download jawaban esai siswa di kelas {datapel_selected.namaKelas}</p>
             <Link to={'/penilaianmanual/'+this.idujian+'/'+datapel_selected.idkelas}>
@@ -119,13 +120,14 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
             </Link>
             <p>2. Lakukan penilaian secara manual untuk dijadikan data latih dengan mengisi kolom nilai yang tersedia</p>
             <p>3. Upload File Jawaban SIswa di kelas {datapel_selected.namaKelas} yang telah dinilai sebagian secara manual</p>
-            <Input type="file"></Input>
+            <Input type="file" required></Input>
       
             </ModalBody>
           <ModalFooter>
             <Button color="danger" onClick={(e:any)=>this.toggleNilaiManual()}>Tidak</Button>
-            <Button color="success">Ya</Button>
+            <Button color="success" type="submit">Upload</Button>
           </ModalFooter>
+        </Form>
       </Modal> 
     )
   }

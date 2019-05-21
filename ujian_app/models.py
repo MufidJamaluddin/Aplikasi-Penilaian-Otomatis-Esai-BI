@@ -1,5 +1,9 @@
-# coding: utf-8
-from sqlalchemy import Boolean, Column, Date, DateTime, Float, ForeignKey, ForeignKeyConstraint, Index, Integer, SmallInteger, String, Table, Text, Time
+from sqlalchemy import ( 
+    Boolean, Column, Date, DateTime, Float, 
+    ForeignKey, ForeignKeyConstraint, Index, 
+    Integer, SmallInteger, BigInteger, String, 
+    Table, Text, Time, text
+)
 from sqlalchemy.orm import relationship
 
 # Dev Command: 
@@ -24,80 +28,27 @@ class Akun(Base):
     role = Column(String(6))
 
 
-class Daftarnilaiujian(Base):
-    __tablename__ = 'daftarnilaiujian'
-
-    nis = Column(ForeignKey('siswa.nis'), primary_key=True, nullable=False)
-    idujian = Column(ForeignKey('ujian.idujian'), primary_key=True, nullable=False, index=True)
-    nilai = Column(String(3))
-
-    ujian = relationship('Ujian', lazy='selectin')
-    siswa = relationship('Siswa', lazy='joined')
-
-
-class Fiturobjekpenilaian(Base):
-    __tablename__ = 'fiturobjekpenilaian'
-
-    idsoal = Column(Integer, primary_key=True, nullable=False)
-    idjawaban = Column(Integer, primary_key=True, nullable=False)
-    term = Column(String(50), primary_key=True, nullable=False)
-    skorHuruf = Column(String(1))
-    tf = Column(Float)
-    ntf_rf = Column(Float)
-
-
-class Fiturreferensipenilaian(Base):
-    __tablename__ = 'fiturreferensipenilaian'
-    __table_args__ = (
-        ForeignKeyConstraint(['term', 'idsoal'], ['term.term', 'term.idsoal']),
-        Index('FK_MEMILIKI_BANYAK', 'term', 'idsoal')
-    )
-
-    idjawaban = Column(ForeignKey('jawaban.idjawaban'), primary_key=True, nullable=False)
-    skorHuruf = Column(String(1), primary_key=True, nullable=False)
-    term = Column(String(50), primary_key=True, nullable=False)
-    idsoal = Column(Integer, primary_key=True, nullable=False)
-    tf = Column(Float)
-    ntf_rf = Column(Float)
-
-    jawaban = relationship('Jawaban', lazy='noload')
-    term1 = relationship('Term', lazy='joined')
-
-
 class Guru(Base):
     __tablename__ = 'guru'
 
-    idguru = Column(Integer, primary_key=True, autoincrement=True)
+    idguru = Column(Integer, primary_key=True)
     nip = Column(String(20))
     nuptk = Column(String(20))
-    namaGuru = Column(String(50))
-    username = Column(String(30), nullable=False)
-    password = Column(String(40))
+    namaGuru = Column(String(50), nullable=False)
+    username = Column(String(30), nullable=False, unique=True)
+    password = Column(String(40), nullable=False)
+    flag = Column(String(1), server_default=text("'0'"))
 
     listpengampu = relationship('Pengampu')
     listujian = relationship('Ujian')
 
 
-class Jawaban(Base):
-    __tablename__ = 'jawaban'
-
-    idjawaban = Column(Integer, primary_key=True, autoincrement=True)
-    idsoal = Column(ForeignKey('soal.idsoal'), nullable=False, index=True)
-    nis = Column(ForeignKey('siswa.nis'), nullable=False, index=True)
-    jawabanEsai = Column(Text)
-    skorAngka = Column(String(3))
-    nilaiOtomatis = Column(Boolean)
-
-    soal = relationship('Soal', lazy='select')
-    siswa = relationship('Siswa', lazy='select')
- 
-
 class Kelas(Base):
     __tablename__ = 'kelas'
 
-    idkelas = Column(Integer, primary_key=True, autoincrement=True)
-    namaKelas = Column(String(12))
-    status_ujian = Column(Boolean)
+    idkelas = Column(Integer, primary_key=True)
+    namaKelas = Column(String(12), nullable=False)
+    flag = Column(String(1), server_default=text("'0'"))
 
     siswa = relationship('Siswa', lazy='select')
 
@@ -105,23 +56,19 @@ class Kelas(Base):
 class Matapelajaran(Base):
     __tablename__ = 'matapelajaran'
 
-    idmapel = Column(Integer, primary_key=True, autoincrement=True)
-    namaMapel = Column(String(30))
-    KKM = Column(String(2))
+    idmapel = Column(Integer, primary_key=True)
+    namaMapel = Column(String(30), nullable=False)
+    KKM = Column(String(2), nullable=False)
+    flag = Column(String(1), server_default=text("'0'"))
 
 
-class Pelaksanaanujian(Base):
-    __tablename__ = 'pelaksanaanujian'
+class Staftu(Base):
+    __tablename__ = 'staftu'
 
-    idkelas = Column(ForeignKey('kelas.idkelas'), primary_key=True, nullable=False)
-    idujian = Column(ForeignKey('ujian.idujian'), primary_key=True, nullable=False, index=True)
-    waktu_mulai = Column(DateTime(timezone=False))
-    status_pelaksanaan = Column(String(1))
-    status_penilaian = Column(String(1))
-    progress_penilaian = Column(String(3))
+    nama = Column(String(50), nullable=False)
+    username = Column(String(30), primary_key=True)
+    password = Column(String(40), nullable=False)
 
-    kelas = relationship('Kelas', lazy='selectin')
-    ujian = relationship('Ujian', lazy='select')
 
 
 class Pengampu(Base):
@@ -131,10 +78,11 @@ class Pengampu(Base):
     idmapel = Column(ForeignKey('matapelajaran.idmapel'), nullable=False, index=True)
     idkelas = Column(ForeignKey('kelas.idkelas'), nullable=False, index=True)
     idguru = Column(ForeignKey('guru.idguru'), nullable=False, index=True)
+    flag = Column(String(1), server_default=text("'0'"))
 
-    guru = relationship('Guru', lazy='select')
-    kelas = relationship('Kelas', lazy='select')
-    matapelajaran = relationship('Matapelajaran', lazy='select')
+    guru = relationship('Guru')
+    kelas = relationship('Kelas')
+    matapelajaran = relationship('Matapelajaran')
 
 
 class Siswa(Base):
@@ -142,50 +90,14 @@ class Siswa(Base):
 
     nis = Column(String(10), primary_key=True)
     idkelas = Column(ForeignKey('kelas.idkelas'), nullable=False, index=True)
-    nama = Column(String(20))
-    password = Column(String(40))
-
-    kelas = relationship('Kelas', lazy='joined')
-    jawaban = relationship('Jawaban', lazy='select')
-
-    def __repr__(self):
-        return self.nis
-
-
-class Soal(Base):
-    __tablename__ = 'soal'
-
-    idsoal = Column(Integer, primary_key=True)
-    idujian = Column(ForeignKey('ujian.idujian'), nullable=False, index=True)
-    soalEsai = Column(Text)
-    skorMin = Column(String(3))
-    skorMax = Column(String(3))
-    kompetensiDasar = Column(String(100))
-    materiPokok = Column(String(100))
-
-    ujian = relationship('Ujian')
-
-
-class StafTU(Base):
-    __tablename__ = 'staftu'
-
-    nama = Column(String(50), nullable=False)
-    username = Column(String(30), primary_key=True)
+    nama = Column(String(20), nullable=False)
+    angkatan = Column(String(4), nullable=False)
     password = Column(String(40), nullable=False)
+    flag = Column(String(1), server_default=text("'0'"))
 
-
-class Term(Base):
-    __tablename__ = 'term'
-
-    idsoal = Column(ForeignKey('soal.idsoal'), primary_key=True, nullable=False, index=True)
-    term = Column(String(50), primary_key=True, nullable=False)
-    max_tf = Column(Float)
-    max_rf_A = Column(Float)
-    max_rf_B = Column(Float)
-    max_rf_C = Column(Float)
-    max_rf_D = Column(Float)
-
-    soal = relationship('Soal', lazy='select')
+    kelas = relationship('Kelas')
+    daftarnilaiujian = relationship('DaftarNilaiUjian')
+    jawaban = relationship('Jawaban')
 
 
 class Ujian(Base):
@@ -194,12 +106,99 @@ class Ujian(Base):
     idujian = Column(Integer, primary_key=True)
     idguru = Column(ForeignKey('guru.idguru'), nullable=False, index=True)
     idmapel = Column(ForeignKey('matapelajaran.idmapel'), nullable=False, index=True)
-    namaUjian = Column(String(30))
-    jumlahSoal = Column(SmallInteger)
-    durasi = Column(SmallInteger)
-    status_ujian = Column(String(1))
+    namaUjian = Column(String(30), nullable=False)
+    jumlahSoal = Column(SmallInteger, nullable=False)
+    durasi = Column(Time)
+    status_ujian = Column(String(1), server_default=text("'0'"))
+    flag = Column(String(1), server_default=text("'0'"))
 
-    matapelajaran = relationship('Matapelajaran', lazy='select')
-    pelaksanaan_ujian = relationship('Pelaksanaanujian', lazy='selectin')
-    listsoal = relationship('Soal', lazy='selectin')
     guru = relationship('Guru')
+    matapelajaran = relationship('Matapelajaran')
+    listsoal = relationship('Soal')
+
+
+class DaftarNilaiUjian(Base):
+    __tablename__ = 'daftarnilaiujian'
+
+    iddaftarnilai = Column(BigInteger, primary_key=True)
+    nis = Column(ForeignKey('siswa.nis'), nullable=False, index=True)
+    idujian = Column(ForeignKey('ujian.idujian'), nullable=False, index=True)
+    nilai = Column(String(3))
+    namaKelas = Column(String(12))
+    flag = Column(String(1), server_default=text("'0'"))
+
+    ujian = relationship('Ujian')
+    siswa = relationship('Siswa')
+
+
+class PelaksanaanUjian(Base):
+    __tablename__ = 'pelaksanaanujian'
+
+    idpelaksanaan = Column(BigInteger, primary_key=True)
+    idkelas = Column(ForeignKey('kelas.idkelas'), nullable=False, index=True)
+    idujian = Column(ForeignKey('ujian.idujian'), nullable=False, index=True)
+    waktu_mulai = Column(DateTime)
+    status_pelaksanaan = Column(String(1), server_default=text("'0'"))
+    status_penilaian = Column(String(1), server_default=text("'0'"))
+    progress_penilaian = Column(String(3))
+    pesan_progress_penilaian = Column(String(50))
+    flag = Column(String(1), server_default=text("'0'"))
+
+    kelas = relationship('Kelas')
+    ujian = relationship('Ujian')
+
+
+class Soal(Base):
+    __tablename__ = 'soal'
+
+    idsoal = Column(BigInteger, primary_key=True)
+    idujian = Column(ForeignKey('ujian.idujian'), nullable=False, index=True)
+    soalEsai = Column(Text, nullable=False)
+    skorMin = Column(String(3))
+    skorMax = Column(String(3))
+    kompetensiDasar = Column(String(100))
+    materiPokok = Column(String(100))
+    flag = Column(String(1), server_default=text("'0'"))
+
+    ujian = relationship('Ujian')
+
+
+class Jawaban(Base):
+    __tablename__ = 'jawaban'
+
+    idjawaban = Column(BigInteger, primary_key=True)
+    idsoal = Column(ForeignKey('soal.idsoal'), nullable=False, index=True)
+    nis = Column(ForeignKey('siswa.nis'), nullable=False, index=True)
+    jawabanEsai = Column(Text)
+    skorHuruf = Column(String(1))
+    skorAngka = Column(SmallInteger)
+    nilaiOtomatis = Column(SmallInteger)
+    namaKelas = Column(String(12))
+    panjangVektor = Column(Float)
+
+    soal = relationship('Soal')
+    siswa = relationship('Siswa')
+
+
+class FiturObjekPenilaian(Base):
+    __tablename__ = 'fiturobjekpenilaian'
+
+    idjawaban = Column(ForeignKey('jawaban.idjawaban'), primary_key=True, nullable=False)
+    term = Column(String(50), primary_key=True, nullable=False)
+    tf = Column(Float)
+    ntf_rf = Column(Float)
+
+    jawaban = relationship('Jawaban')
+
+
+class FiturReferensiPenilaian(Base):
+    __tablename__ = 'fiturreferensipenilaian'
+
+    idjawaban = Column(ForeignKey('jawaban.idjawaban'), primary_key=True, nullable=False)
+    skorHuruf = Column(String(1), primary_key=True, nullable=False)
+    term = Column(String(1), primary_key=True, nullable=False)
+    tf = Column(Float)
+    rf = Column(Float)
+    ntf_rf = Column(Float)
+
+    jawaban = relationship('Jawaban')

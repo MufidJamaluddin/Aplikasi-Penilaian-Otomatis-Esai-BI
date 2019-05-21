@@ -1,11 +1,12 @@
-from . import app
+from flask import current_app
 from .api import (
     GuruAPI, PengampuAPI, SiswaAPI, SoalAPI, UjianEsaiAPI, MatapelajaranAPI,
     AuthAPI, DaftarNilaiAPI, KelasAPI, MatapelajaranAPI, PengerjaanUjianAPI,
-    PenilaianAPI, UjianEsaiAPI, PanelSiswaAPI, PelaksanaanUjianAPI, JawabanAPI#, ImportGuruAPI,
+    DownloadPenilaianAPI, UjianEsaiAPI, PanelSiswaAPI, PelaksanaanUjianAPI,
+    JawabanAPI, ImportPenilaianAPI#, ImportGuruAPI,
 )
 
-def define_api_routes():  
+def define_api_routes(app):  
     '''
     Definisi Route API Aplikasi
     '''  
@@ -36,7 +37,6 @@ def define_api_routes():
 #        {'url':'/api/upload', 'name':'doImportGuru', 'view':ImportGuruAPI, 'methods':['GET', 'POST']},
        
         {'url':'/api/pengerjaanujian', 'name':'pengerjaanujian', 'view':PengerjaanUjianAPI, 'methods':['GET']},
-        {'url':'/api/penilaian', 'name':'penilaian', 'view':PenilaianAPI, 'methods':['GET','POST','PUT']},
 
         {'url':'/api/ujianesai/<int:idujian>', 'name':'ujianesai_dt', 'view':UjianEsaiAPI, 'methods':['PUT','DELETE']},
         {'url':'/api/ujianesai/<int:idujian>', 'name':'ujianesai_ket', 'view':UjianEsaiAPI, 'methods':['GET']},
@@ -49,21 +49,27 @@ def define_api_routes():
         {'url':'/api/pelaksanaan/<int:idujian>/<int:idkelas>', 'name':'laksanakanujian', 'view':PelaksanaanUjianAPI, 'methods':['POST']},
         {'url':'/api/pelaksanaan/<int:idujian>', 'name':'pelaksanaanujian', 'view':PelaksanaanUjianAPI, 'methods':['GET']},
 
-        {'url':'/penilaianmanual/<int:idujian>/<int:idkelas>', 'name':'penilaianmanual', 'view':PenilaianAPI, 'methods':['GET']},
-        
+        {'url':'/penilaianmanual/<int:idujian>/<int:idkelas>', 'name':'penilaianmanual', 'view':DownloadPenilaianAPI, 'methods':['GET']},
+        {'url':'/penilaianmanual/<int:idujian>/<int:idkelas>', 'name':'importpenilaian', 'view':ImportPenilaianAPI, 'methods':['POST']},
+
         {'url':'/api/daftarnilai/<int:idujian>', 'name':'daftarnilaiujian', 'view':DaftarNilaiAPI, 'methods':['GET']},
     ]
 
     for route in routes_api:
         app.add_url_rule(route['url'], view_func=route['view'].as_view(route['name']), methods=route['methods'])
 
-# Panggil Disini
-define_api_routes()
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def index(path):
+def index(path = None):
     '''
     Selain Route API, Handle oleh FrontEnd (ReactJS)
     '''
-    return app.send_static_file('index.html')
+    return current_app.send_static_file('index.html')
+
+
+def define_root_routes(app):
+    '''
+    Mendefinisikan Route untuk Root ReactJS
+    Default ke index.html 
+    '''
+    app.add_url_rule('/', 'root_app', index)
+    app.add_url_rule('/<path:path>', 'root_app_default', index)
