@@ -15,7 +15,7 @@ class Konversi(object):
         self.idsoal = idsoal
 
         soal = Soal.query.get(self.idsoal)
-        self.skor_angka_ke_huruf = SkorAngkaKeHuruf(soal.skorMax, soal.skorMin)
+        self.skor_angka_ke_huruf = SkorAngkaKeHuruf(int(soal.skorMax), int(soal.skorMin))
 
     def ke_angka(self, huruf:str):
         '''

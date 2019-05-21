@@ -12,27 +12,33 @@ class PenilaianManual(object):
         self.konversi = Konversi(idsoal)
     
     def hitung_panjang_vektor(self, **vector_space):
-        vspace_value = list(vector_space.values)
-        kuadrat_vspace = [(a**2) for a in vspace_value]
+        vspace_value = vector_space.items()
+        kuadrat_vspace = [(tf**2) for term, tf in vspace_value]
         return sum(kuadrat_vspace)
     
     def nilai_manual(self):
-        list_jawaban = Jawaban.query.filter_by(idsoal=self.idsoal)
+        list_jawaban = Jawaban.query.filter_by(idsoal=self.idsoal).all()
 
         for jawaban in list_jawaban:
             fitur_vspace = self.preprocesser.preprocess_text(jawaban.jawabanEsai)
+            panjangVektor = self.hitung_panjang_vektor(**fitur_vspace)
 
-            for key, value in fitur_vspace:
+            skorHuruf = self.konversi.ke_huruf(int(jawaban.skorAngka))
+
+            setattr(jawaban, 'panjangVektor', panjangVektor)
+            setattr(jawaban, 'skorHuruf', skorHuruf)
+
+            db.session.add(jawaban)
+
+            db.session.commit()
+            db.session.flush()
+
+            for key, value in fitur_vspace.items():
                 fitur_ref = FiturReferensiPenilaian()
-                skorHuruf = self.konversi.skor_angka_ke_huruf(jawaban.skorAngka)
-
-                jawaban.skorHuruf = skorHuruf
-
                 fitur_ref.idjawaban = jawaban.idjawaban
                 fitur_ref.skorHuruf = skorHuruf
                 fitur_ref.term = key
                 fitur_ref.tf = value
                 db.session.add(fitur_ref)
-                db.session.add(jawaban)
             
             db.session.commit()
