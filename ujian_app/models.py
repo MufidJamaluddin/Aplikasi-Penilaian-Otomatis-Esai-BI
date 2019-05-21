@@ -161,6 +161,7 @@ class Soal(Base):
     flag = Column(String(1), server_default=text("'0'"))
 
     ujian = relationship('Ujian')
+    jawaban = relationship('Jawaban')
 
 
 class Jawaban(Base):

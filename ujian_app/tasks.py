@@ -11,8 +11,9 @@ def penilaian_manual(idsoal, idkelas):
     pmanual.nilai_manual()
 
 @celery.task
-def penilaian_otomatis(idsoal):
+def penilaian_otomatis(idujian):
     '''
     Melakukan Task Penilaian Otomatis
     '''
-    pass
+    potomatis = PenilaianOtomatis(idujian)
+    potomatis.nilai_otomatis()
