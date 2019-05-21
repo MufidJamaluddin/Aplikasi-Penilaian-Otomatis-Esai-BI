@@ -205,7 +205,7 @@ create table Ujian
    idmapel              int not null,
    namaUjian            varchar(30) not null,
    jumlahSoal           smallint not null,
-   durasi               time,
+   durasi               smallint,
    status_ujian         char(1) default '0',
    flag                 bool default 1,
    primary key (idujian)
