@@ -1,47 +1,12 @@
-from .pemrosesan_teks import Preprocesser
+from ujian_app.models import Soal
+from .penskoranotomatis import PenskoranOtomatis
 
 class PenilaianOtomatis(object):
     '''
-    Kelas yang bertugas melakukan penilaian ujian esai 
-    secara otomatis pada satu ujian
+    Melakukan Penilaian Otomatis
     '''
-
     def __init__(self, idujian):
         self.idujian = idujian
-    
-    def seleksi_data(self):
-        '''
-        Menentukan seleksi data latih sebagai referensi
-        klasifikasi
-        '''
-        pass
-
-    def pemrosesan_teks_datauji(self):
-        '''
-        Melakukan Pemrosesan Teks Data Uji 
-        ( Esai Siswa yang Belum Dinilai )
-        '''
-        pass
-
-    def pembobotan_term(self):
-        '''
-        Melakukan pembobotan jawaban esai siswa
-        '''
-        pass
-    
-    def kalkulasi_panjang_vektor(self, **vektor_term_dict):
-        '''
-        Melakukan kalkulasi panjag vektor dari
-        vektor term (tipe data dictionary python)
-        '''
-        pass
-    
-    def klasifikasi_knn(self):
-        '''
-        Melakukan klasifikasi jawaban esai siswa dengan 
-        K-Nearest Neighbor
-        '''
-        pass
     
     def kalkulasi_nilai_ujian_siswa(self):
         '''
@@ -51,6 +16,11 @@ class PenilaianOtomatis(object):
     
     def nilai_otomatis(self):
         '''
-        Melakukan penilaian otomatis
+        Melakukan Penilaian Otomatis
         '''
-        pass
+        listsoal = Soal.query(Soal.idsoal).filter_by(idujian=idujian, flag='1')
+        for soal in listsoal:
+            penskoran_otomatis = PenskoranOtomatis(soal.idsoal)
+            penskoran_otomatis.skor_otomatis()
+        
+        self.kalkulasi_nilai_ujian_siswa()
