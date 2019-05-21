@@ -77,6 +77,7 @@ class UjianEsaiAPI(MethodView):
         listsoal = []
         for i in range(jumlahSoal):
             soal = Soal()
+            soal.soalEsai = ''
             listsoal.append(soal)
         
         ujian = self.repository.save(
