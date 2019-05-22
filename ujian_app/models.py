@@ -70,6 +70,16 @@ class Staftu(Base):
     password = Column(String(40), nullable=False)
 
 
+class Similarity(Base):
+    __tablename__ = 'similarity'
+
+    idsoal = Column('idsoal', BigInteger(20)),
+    idjawaban_uji = Column('idjawaban_uji', BigInteger(20)),
+    idjawaban_latih = Column('idjawaban_latih', BigInteger(20)),
+    cosinesimilarity = Column('cosinesimilarity', Float(asdecimal=True)),
+    skorHuruf = Column('skorHuruf', String(1)),
+    skorAngka = Column('skorAngka', SmallInteger)
+
 
 class Pengampu(Base):
     __tablename__ = 'pengampu'

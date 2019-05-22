@@ -3,7 +3,8 @@ from .seleksidata import SeleksiData
 from .pembobotan import NtfRfLabeledWeighter, NtfRfUnlabeledWeighter
 from ujian_app.models import ( 
     Soal, Jawaban, FiturObjekPenilaian, 
-    FiturReferensiPenilaian, FiturObjekPenilaian, db
+    FiturReferensiPenilaian, FiturObjekPenilaian, 
+    Similarity, db,
 )
 from math import sqrt
 
@@ -53,6 +54,7 @@ class PenskoranOtomatis(object):
 
                 fitur_vspace = self.preprocesser.preprocess_text(jawaban.jawabanEsai)
                 jawaban.panjangVektor =  self.kalkulasi_panjang_vektor(**fitur_vspace)
+                jawaban.nilaiOtomatis = 1
                 db.session.add(jawaban)
 
                 for key, value in fitur_vspace.items():
@@ -95,7 +97,25 @@ class PenskoranOtomatis(object):
         Melakukan klasifikasi jawaban esai siswa dengan 
         K-Nearest Neighbor
         '''
-        pass
+        count_class = {}
+        kat_class = None
+
+        listidjawaban = db.query(Jawaban.idjawaban).filter_by(
+            idsoal=self.idsoal,
+            nilaiOtomatis=1
+        )
+
+        for jawaban in listidjawaban:
+            list_sim = db.query(Similarity.skorAngka, Similarity.skorHuruf).filter_by(
+                idjawaban=jawaban.idjawaban
+            ).limit(3)
+
+            for sim in list_sim:
+                if count_class[sim.skorHuruf] is None:
+                    count_class[sim.skorHuruf] = 1
+                else:
+                    count_class[sim.skorHuruf] = count_class[sim.skorHuruf] + 1
+
     
     def skor_otomatis(self):
         '''
