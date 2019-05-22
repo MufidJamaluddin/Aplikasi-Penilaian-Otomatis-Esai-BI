@@ -1,4 +1,4 @@
-from ujian_app.models import Soal
+from ujian_app.models import Soal, db
 from .penskoranotomatis import PenskoranOtomatis
 
 class PenilaianOtomatis(object):
@@ -18,7 +18,8 @@ class PenilaianOtomatis(object):
         '''
         Melakukan Penilaian Otomatis
         '''
-        listsoal = Soal.query(Soal.idsoal).filter_by(idujian=idujian, flag='1')
+        listsoal = db.session.query(Soal.idsoal).filter_by(idujian=self.idujian, flag='1')
+        
         for soal in listsoal:
             penskoran_otomatis = PenskoranOtomatis(soal.idsoal)
             penskoran_otomatis.skor_otomatis()

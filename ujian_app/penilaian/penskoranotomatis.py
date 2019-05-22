@@ -1,5 +1,6 @@
 from .pemrosesan_teks import Preprocesser
 from .seleksidata import SeleksiData
+from .pembobotan import NtfRfLabeledWeighter, NtfRfUnlabeledWeighter
 from ujian_app.models import ( 
     Soal, Jawaban, FiturObjekPenilaian, 
     FiturReferensiPenilaian, FiturObjekPenilaian, db
@@ -19,16 +20,16 @@ class PenskoranOtomatis(object):
             secara random
         '''
         self.idsoal = idsoal
-        self.seleksi_data = SeleksiData(idsoal)
+#        self.penseleksi_data = SeleksiData(idsoal)
         self.preprocesser = Preprocesser()
 
-    
-    def seleksi_data(self):
-        '''
-        Menentukan seleksi data latih sebagai referensi
-        klasifikasi
-        '''
-        self.seleksi_data.undersampling()
+
+#    def seleksi_data(self):
+#        '''
+#        Menentukan seleksi data latih sebagai referensi
+#        klasifikasi
+#        '''
+#        self.penseleksi_data.undersampling()
 
 
     def pemrosesan_teks_datauji(self):
@@ -37,37 +38,55 @@ class PenskoranOtomatis(object):
         ( Esai Siswa yang Belum Dinilai )
         '''
         listjawaban = Jawaban.query.filter_by(
-            skorHuruf = None
+            skorHuruf = None,
+            idsoal = self.idsoal
         )
 
         for jawaban in listjawaban:
-            fitur_vspace = self.preprocesser.preprocess_text(jawaban.jawabanEsai)
-            jawaban.panjangVektor =  self.kalkulasi_panjang_vektor(**fitur_vspace)
-            db.session.add(jawaban)
 
-            for key, value in fitur_vspace:
-                fitur_obj = FiturObjekPenilaian()
-                fitur_obj.idjawaban = jawaban.idjawaban
-                fitur_obj.term = key
-                fitur_obj.tf = value
-                db.session.add(fitur_obj)
+            # Jika Jawabannya NULL
+            if jawaban.jawabanEsai is None:
+                continue
+
+            # Jika Jawabannya Bukan String Blank
+            if jawaban.jawabanEsai.strip():
+
+                fitur_vspace = self.preprocesser.preprocess_text(jawaban.jawabanEsai)
+                jawaban.panjangVektor =  self.kalkulasi_panjang_vektor(**fitur_vspace)
                 db.session.add(jawaban)
+
+                for key, value in fitur_vspace.items():
+                    fitur_obj = FiturObjekPenilaian()
+                    fitur_obj.idjawaban = jawaban.idjawaban
+                    fitur_obj.term = key
+                    fitur_obj.tf = value
+                    db.session.add(fitur_obj)
+                    db.session.add(jawaban)
             
-            db.session.commit()
+                db.session.commit()
 
 
-    def pembobotan_term(self):
+    def pembobotan_term_datalatih(self):
         '''
         Melakukan pembobotan jawaban esai siswa
         '''
-        pass
+        ntf_rf = NtfRfLabeledWeighter(self.idsoal)
+        ntf_rf.calculate_and_save()
     
+    def pembobotan_term_datauji(self):
+        '''
+        Melakukan pembobotan jawaban esai siswa
+        '''
+        ntf_rf = NtfRfUnlabeledWeighter(self.idsoal)
+        ntf_rf.calculate_and_save()
+
     def kalkulasi_panjang_vektor(self, **vector_space):
         '''
         Melakukan kalkulasi panjag vektor dari
         vektor term (tipe data dictionary python)
         '''
-        kuadrat_vspace = [(tf**2) for term, tf in vector_space.items]
+        vspace_items = vector_space.items()
+        kuadrat_vspace = [(tf**2) for term, tf in vspace_items]
         hasil = sum(kuadrat_vspace)
         return sqrt(hasil)
     
@@ -82,7 +101,8 @@ class PenskoranOtomatis(object):
         '''
         Melakukan penskoran otomatis
         '''
-        self.seleksi_data()
+        #self.seleksi_data()
         self.pemrosesan_teks_datauji()
-        self.pembobotan_term()
+        self.pembobotan_term_datalatih()
+        self.pembobotan_term_datauji()
         self.klasifikasi_knn()
