@@ -4,7 +4,7 @@ from .pembobotan import NtfRfLabeledWeighter, NtfRfUnlabeledWeighter
 from ujian_app.models import ( 
     Soal, Jawaban, FiturObjekPenilaian, 
     FiturReferensiPenilaian, FiturObjekPenilaian, 
-    Similarity, db,
+    Similarity, db
 )
 from math import sqrt
 
@@ -97,25 +97,59 @@ class PenskoranOtomatis(object):
         Melakukan klasifikasi jawaban esai siswa dengan 
         K-Nearest Neighbor
         '''
-        count_class = {}
-        kat_class = None
 
+        # AMBIL LIST ID JAWABAN YANG:
+        #   SOAL YANG DIUJI
+        #   YANG DINILAI OTOMATIS
         listidjawaban = db.query(Jawaban.idjawaban).filter_by(
             idsoal=self.idsoal,
             nilaiOtomatis=1
         )
 
+        # AMBIL 3 BUAH SIMILARITY JAWABAN
+        #   KNN K=3
         for jawaban in listidjawaban:
-            list_sim = db.query(Similarity.skorAngka, Similarity.skorHuruf).filter_by(
+
+            list_sim = db.query(
+                Similarity.idjawaban_uji,
+                Similarity.skorAngka, 
+                Similarity.skorHuruf
+            ).filter_by(
                 idjawaban=jawaban.idjawaban
             ).limit(3)
 
+            # DICTIONARY KEMUNCULAN SKOR HURUF
+            count_class = {}
+
             for sim in list_sim:
                 if count_class[sim.skorHuruf] is None:
-                    count_class[sim.skorHuruf] = 1
+                    # SKOR ANGKA DAN ID JAWABAN
+                    # DATA UJI YG TERDEKAT 
+                    count_class[sim.skorHuruf] = {
+                        'freq': 1,
+                        'idjawaban_uji': sim.idjawaban_uji,
+                        'skorAngka': sim.skorAngka
+                    }
                 else:
-                    count_class[sim.skorHuruf] = count_class[sim.skorHuruf] + 1
+                    count_class[sim.skorHuruf]['freq'] += 1
+            
+            # URUTKAN BERDASARKAN INDEX KEDUA PADA TUPLE (ASC)
+            #   INDEX PERTAMA   (0): SKOR
+            #   INDEX KEDUA     (1): DICT
+            sorted_cc = sorted(count_class.items(), key=lambda a:a[1]['freq'])
 
+            # AMBIL SKOR KEMUNCULAN YG TERBESAR
+            skor_huruf, sm = sorted_cc.pop()
+            
+            # SIMPAN SKOR ANGKA
+            db.session.query(Jawaban).filter(
+                Jawaban.idjawaban == sm['idjawaban_uji']
+            ).update({
+                'skorHuruf': skor_huruf,
+                'skorAngka': sm['skorAngka']
+            })
+
+            db.session.commit()
     
     def skor_otomatis(self):
         '''
