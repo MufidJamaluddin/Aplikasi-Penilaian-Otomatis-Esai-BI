@@ -1,4 +1,4 @@
-from ujian_app.models import Soal, db
+from ujian_app.models import Soal, Jawaban, DaftarNilaiUjian, db
 from .penskoranotomatis import PenskoranOtomatis
 
 class PenilaianOtomatis(object):

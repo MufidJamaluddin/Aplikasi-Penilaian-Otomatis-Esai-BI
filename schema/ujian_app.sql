@@ -281,7 +281,7 @@ JOIN
 
 GROUP BY a.idjawaban, b.idjawaban
 
-ORDER BY a.idjawaban, cosinesimilarity DESC
+ORDER BY idjawaban_uji, cosinesimilarity DESC
 
 --
 -- Indexes for dumped tables
