@@ -12,7 +12,7 @@ class SeleksiData(object):
     '''
     def __init__(self, idsoal):
         self.idsoal = idsoal
-        self.listidjawaban = {'A':[], 'B':[], 'C':[], 'D':[]}
+        self.listidjawaban = {}
     
     def get_list_idjawaban(self, skorHuruf):
         '''
@@ -51,8 +51,9 @@ class SeleksiData(object):
 
         for key, val in self.listidjawaban:
             if min_count is None:
-                min_count = val.length
-                min_class = key
+                if val.length > 0:
+                    min_count = val.length
+                    min_class = key
             elif min_count > val.length:
                 if val.length > 0:
                     min_count = val.length
