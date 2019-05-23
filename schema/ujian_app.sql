@@ -249,39 +249,54 @@ DROP TABLE IF EXISTS `akun`;
 
 CREATE VIEW `akun` AS select `guru`.`namaGuru` AS `nama`,`guru`.`username` AS `username`,`guru`.`password` AS `password`,'guru' AS `role` from `guru` where (`guru`.`flag` = 1) union all select `siswa`.`nama` AS `nama`,`siswa`.`nis` AS `username`,`siswa`.`password` AS `password`,'siswa' AS `role` from `siswa` where (`siswa`.`flag` = 1) union all select `staftu`.`nama` AS `nama`,`staftu`.`username` AS `username`,`staftu`.`password` AS `password`,'staftu' AS `role` from `staftu` ;
 
+-- --------------------------------------------------------
 
+--
+-- Structure for view `similarity`
+--
 CREATE VIEW similarity AS
 
 SELECT 
 	uji.idsoal AS idsoal,
 	a.idjawaban AS idjawaban_uji,
-    
-    b.idjawaban AS idjawaban_latih,
-    
-    SUM(a.ntf_rf * b.ntf_rf) / (uji.panjangVektor * latih.panjangVektor) AS cosinesimilarity,
-    
-    latih.skorHuruf AS skorHuruf, 
-    latih.skorAngka AS skorAngka
-
+  b.idjawaban AS idjawaban_latih,  
+  SUM(a.ntf_rf * b.ntf_rf) / (uji.panjangVektor * latih.panjangVektor) AS cosinesimilarity,  
+  latih.skorHuruf AS skorHuruf, 
+  latih.skorAngka AS skorAngka
 FROM 
 	fiturobjekpenilaian AS a 
-
 JOIN 
 	fiturreferensipenilaian AS b 
-    ON a.term = b.term
-
+  ON (a.term = b.term)
 JOIN
 	jawaban AS uji 
-    ON (uji.idjawaban = a.idjawaban)
-
+  ON (uji.idjawaban = a.idjawaban)
 JOIN
 	jawaban AS latih 
-    ON (latih.idjawaban = b.idjawaban)
-
+  ON (latih.idjawaban = b.idjawaban)
 
 GROUP BY a.idjawaban, b.idjawaban
+ORDER BY idjawaban_uji, cosinesimilarity DESC;
 
-ORDER BY idjawaban_uji, cosinesimilarity DESC
+-- --------------------------------------------------------
+
+--
+-- Structure for view `nilaiujian`
+--
+CREATE VIEW nilaiujian  AS 
+  SELECT 
+    soal.idujian AS idujian,
+    jawaban.namaKelas AS namaKelas,
+    jawaban.nis AS nis,
+    sum(jawaban.skorAngka) AS nilai 
+  FROM 
+    jawaban
+  JOIN 
+    soal
+    ON soal.idsoal = jawaban.idsoal
+  
+  GROUP BY soal.idujian, jawaban.nis
+  ORDER BY soal.idujian, jawaban.namaKelas, jawaban.nis;
 
 --
 -- Indexes for dumped tables
