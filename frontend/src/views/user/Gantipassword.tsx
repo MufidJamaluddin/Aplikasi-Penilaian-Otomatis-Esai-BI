@@ -39,11 +39,13 @@ class Gantipassword extends Component<GantipasswordModel, GantipasswordStateMode
                 <Card className="p-4">
                   <CardBody>
                     <Form>
+                    <Link to="./login">
+                      <Button color="primary">Kembali</Button>
+                    </Link>
                       <h1 className="text-center">Ganti Password</h1>
-                      <p className="text-muted text-center">Automated Essay Scoring</p>
                       <Alert color="info" isOpen={this.state.visible} toggle={this.onDismiss}>
-							Password behasil diubah
-					  </Alert>
+                        Password behasil diubah
+                      </Alert>
 					  <InputGroup className="mb-3">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
@@ -81,15 +83,10 @@ class Gantipassword extends Component<GantipasswordModel, GantipasswordStateMode
                       </InputGroup>
                       <Row>
 
-						<Col xs="6">
-						<Link to="./login">
-                          <Button color="primary" className="px-5">Kembali</Button>
-						</Link>
-						</Col>
-
-						<Col xs="6">
-						  <Button color="success" onClick={this.onSuccess} className="px-5" >Ganti Password</Button>
-                        </Col>
+						
+                      <Col xs="12">
+                        <Button color="success" size="lg" block onClick={this.onSuccess} >Ganti Password</Button>
+                      </Col>
 
                       </Row>
                     </Form>

@@ -149,8 +149,8 @@ class DetailUjian extends Component<DetailUjianAttribute & RouteComponentProps<R
               <CardHeader>
                 <Col md="12">
                   <h6>ID Ujian : { this.idujian }</h6>
-                  <h6>{dataujian.namaMapel}</h6>
-                  <h6>{dataujian.namaUjian}</h6>
+                  <h6>Nama Ujian : {dataujian.namaUjian}</h6>
+                  <h6>Mata Pelajaran : {dataujian.namaMapel}</h6>
                   <h6>Durasi Ujian : {dataujian.durasi} Menit</h6>
                   <h6>Jumlah Soal : {dataujian.jumlahSoal}</h6>
                 </Col>
