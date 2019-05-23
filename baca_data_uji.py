@@ -1,4 +1,3 @@
-from ujian_app.penilaian import Preprocesser, PenilaianManual
 from ujian_app.models import Jawaban, FiturReferensiPenilaian,db
 import pyexcel
 
@@ -9,6 +8,8 @@ app = make_app()
 #
 #   Baca Excel MIA-2
 #
+
+print('Baca Excel')
 
 book = pyexcel.iget_book(file_name="data/XII-MIA-2.xlsx")
 

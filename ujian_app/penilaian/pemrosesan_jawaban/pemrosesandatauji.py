@@ -15,7 +15,9 @@ class PemrosesanDataUji(PemrosesanJawaban):
         Melakukan Pemrosesan Teks Data Uji
         (Jawaban) Berdasarkan ID Soal
         '''
-        for jawaban in self.get_list_jawaban(idsoal):
+        listjawaban = self.get_list_jawaban(idsoal)
+        
+        for jawaban in listjawaban:
 
             # Jika Jawabannya NULL
             if jawaban.jawabanEsai is None:
