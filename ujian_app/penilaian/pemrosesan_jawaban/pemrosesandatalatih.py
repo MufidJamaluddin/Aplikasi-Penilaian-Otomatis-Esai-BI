@@ -28,7 +28,9 @@ class PemrosesanDataLatih(PemrosesanJawaban):
         '''
         konverter = self.get_konverter(idsoal)
 
-        for jawaban in self.get_list_jawaban(idsoal, idkelas):
+        listjawaban = self.get_list_jawaban(idsoal, idkelas)
+
+        for jawaban in listjawaban:
 
             if jawaban.skorAngka is None:
                 continue
@@ -37,7 +39,7 @@ class PemrosesanDataLatih(PemrosesanJawaban):
             if jawaban.jawabanEsai.strip():
 
                 fitur_vspace = self.premrosesan_teks(jawaban.jawabanEsai)
-                panjangVektor = self.hitung_panjang_vektor(**fitur_vspace)
+                panjangVektor = self.kalkulasi_panjang_vektor(**fitur_vspace)
 
                 skorHuruf = konverter.konversi(int(jawaban.skorAngka))
 

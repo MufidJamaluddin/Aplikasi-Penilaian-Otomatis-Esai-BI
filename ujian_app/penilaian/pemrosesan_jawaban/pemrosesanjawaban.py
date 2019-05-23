@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from math import sqrt
-from ujian_app.penilaian import Preprocesser
+from ujian_app.penilaian.pemrosesan_teks import Preprocesser
 from ujian_app.models import Jawaban, Siswa
 from sqlalchemy.sql.expression import and_
 
@@ -29,7 +29,7 @@ class PemrosesanJawaban(ABC):
         '''
         Melakukan pemrosesan teks
         '''
-        return self.premrosesan_teks.preprocess_text(jawabanEsai)
+        return self.preprocesser.preprocess_text(jawabanEsai)
 
 
     def get_list_jawaban(self, idsoal, idkelas = None):
@@ -42,18 +42,18 @@ class PemrosesanJawaban(ABC):
             # Data Uji
             listjawaban = Jawaban.query.filter_by(
                 skorHuruf = None,
-                idsoal = self.idsoal
+                idsoal = idsoal
             )
+            return listjawaban
         else:
             # Data Latih
-            list_jawaban = Jawaban.query.join(Siswa).filter(
+            listjawaban = Jawaban.query.join(Siswa).filter(
                 and_(
-                    Jawaban.idsoal == self.idsoal,
-                    Siswa.idkelas == self.idkelas
+                    Jawaban.idsoal == idsoal,
+                    Siswa.idkelas == idkelas
                 )
             )
-        
-        return listjawaban
+            return listjawaban
     
 
     @abstractmethod

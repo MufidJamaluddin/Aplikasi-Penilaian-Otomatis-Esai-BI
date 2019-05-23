@@ -39,11 +39,10 @@ class KNearestNeighbor(object):
             idjawaban_uji: idjawaban data uji
         '''
         list_sim = db.session.query(
-            Similarity.idjawaban_uji,
             Similarity.skorAngka, 
             Similarity.skorHuruf
         ).filter_by(
-            idjawaban=idjawaban_uji
+            idjawaban_uji=idjawaban_uji
         ).limit(self.k)
         return list_sim
     
@@ -77,18 +76,17 @@ class KNearestNeighbor(object):
         '''
         for jawaban in self.get_list_id_jawaban(idsoal):
 
-            list_sim = self.get_cosine_similarity(jawaban.idjawaban_uji)
+            list_sim = self.get_cosine_similarity(jawaban.idjawaban)
 
             # DICTIONARY KEMUNCULAN SKOR HURUF
             count_class = {}
 
             for sim in list_sim:
-                if count_class[sim.skorHuruf] is None:
+                if count_class.get(sim.skorHuruf, None) is None:
                     # SKOR ANGKA DAN ID JAWABAN
                     # DATA UJI YG TERDEKAT 
                     count_class[sim.skorHuruf] = {
                         'freq': 1,
-                        'idjawaban_uji': sim.idjawaban_uji,
                         'skorAngka': sim.skorAngka
                     }
                 else:
@@ -103,7 +101,7 @@ class KNearestNeighbor(object):
             skor_huruf, sm = sorted_cc.pop()
 
             self.simpan_skor(
-                sm['idjawaban_uji'],
+                jawaban.idjawaban,
                 skor_huruf,
                 sm['skorAngka']
             )
