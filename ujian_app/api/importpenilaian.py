@@ -1,32 +1,56 @@
 from flask import request
 from flask.views import MethodView
-from ujian_app.models import Jawaban
-from ujian_app.tasks import penilaian_manual
+from ujian_app.models import Jawaban, db
+from ujian_app.tasks import penskoran_manual
 
 class ImportPenilaianAPI(MethodView):
     '''
     Kelas untuk import penilaian manual
     '''
 
-    def post(self, idsoal, idkelas):
-        book = request.get_book(field_name='file')
-
+    def save_workbook_skor(self, idsoal, book):
+        '''
+        Menyimpann workbook skor jawaban esai
+        '''
         row_mulai_penilaian = 17
         column_nis = 1
-        column_skor = 3
+        column_jawaban = 3
+        column_skor = 4
+        namaKelas = None
 
         for sheet in book:
-            i = 0
 
-            for index, value in enumerate(sheet.array[row_mulai_penilaian-1:]):
-                i += 1
-                nis = value[column_nis] if column_nis < len(value) else None
-                skor = value[column_skor] if column_skor < len(value) else None
-                if nis is None and skor is None:
+            for index, row in enumerate(sheet.array):
+                if index == 3:
+                    namaKelas = row[3] if 3 < len(row) else None
+                if index >= row_mulai_penilaian:
+                    i+=1
+                    nis = row[column_nis] if column_nis < len(row) else None
+                    jawabanEsai = row[column_jawaban] if column_jawaban < len(row) else None
+                    skor = row[column_skor] if column_skor < len(row) else None
+                    if (nis is None) or (skor is None) or (jawabanEsai is None):
+                        continue
+                else:
                     continue
-                jawaban = Jawaban.query.filter_by(idsoal=idsoal, nis=nis, skor=None).first()
-                jawaban.skor = skor
-                Jawaban.session.add(jawaban)
+                
+                jawaban = Jawaban()
+                jawaban.idsoal = idsoal
+                jawaban.nis = nis
+                jawaban.jawabanEsai = jawabanEsai
+                jawaban.skorAngka = skor
+                jawaban.namaKelas = namaKelas
 
-        Jawaban.session.commit()
-        penilaian_manual.apply_async(idsoal, idkelas)
+                db.session.add(jawaban)
+                
+            db.session.commit()
+
+
+    def post(self, idsoal, idkelas):
+        '''
+        Upload File / Import
+        '''
+        workbook = request.iget_book(field_name='file')
+        self.save_workbook_skor(idsoal, workbook)
+
+        # Background Task Celery
+        penskoran_manual.apply_async(idsoal, idkelas)

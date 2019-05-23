@@ -1,4 +1,3 @@
-from .pemrosesandatauji import PemrosesanDataUji
 from .seleksidata import SeleksiData
 from .pembobotan import NtfRfFactory
 from .knearestneighbor import KNearestNeighbor
@@ -7,7 +6,9 @@ from ujian_app.models import (
     FiturReferensiPenilaian, FiturObjekPenilaian, 
     Similarity, db
 )
-from math import sqrt
+from ujian_app.penilaian.pemrosesan_jawaban import (
+    PemrosesanDataUji
+)
 
 class PenskoranOtomatis(object):
     '''
@@ -41,7 +42,7 @@ class PenskoranOtomatis(object):
         Melakukan Pemrosesan Teks Data Uji 
         ( Esai Siswa yang Belum Dinilai )
         '''
-        self.pemroses_data_uji.process_and_save(self.idsoal)
+        self.pemroses_data_uji.proses_dan_simpan(self.idsoal)
 
 
     def pembobotan_term_datalatih(self):
