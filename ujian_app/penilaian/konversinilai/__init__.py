@@ -1,1 +1,1 @@
-from .konversi import Konversi
+from .konversi import KonversiFactory

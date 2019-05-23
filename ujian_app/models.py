@@ -73,12 +73,12 @@ class Staftu(Base):
 class Similarity(Base):
     __tablename__ = 'similarity'
 
-    idsoal = Column('idsoal', BigInteger(20)),
-    idjawaban_uji = Column('idjawaban_uji', BigInteger(20)),
-    idjawaban_latih = Column('idjawaban_latih', BigInteger(20)),
-    cosinesimilarity = Column('cosinesimilarity', Float(asdecimal=True)),
-    skorHuruf = Column('skorHuruf', String(1)),
-    skorAngka = Column('skorAngka', SmallInteger)
+    idjawaban_uji = Column(BigInteger, primary_key=True),
+    idjawaban_latih = Column(BigInteger, primary_key=True),
+    idsoal = Column(BigInteger),
+    cosinesimilarity = Column(Float(asdecimal=True)),
+    skorHuruf = Column(String(1)),
+    skorAngka = Column(SmallInteger)
 
 
 class Pengampu(Base):

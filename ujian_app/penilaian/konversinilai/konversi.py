@@ -1,30 +1,23 @@
 from ujian_app.models import Soal
 from .angkakehuruf import SkorAngkaKeHuruf
 
-class Konversi(object):
+class KonversiFactory(object):
     """
     Kelas untuk Konversi Nilai Angka ke Huruf 
-    dan Nilai Huruf ke Angka
+    Factory
     Berdasarkan Data Soal
     """
 
-    def __init__(self, idsoal):
+    def get_data_soal(self, idsoal):
         '''
-        idsoal : idsoal Soal yang akan dinilai
+        Mendapatkan Data Soal
         '''
-        self.idsoal = idsoal
+        return Soal.query.filter_by(idsoal=idsoal).first()
 
-        soal = Soal.query.get(self.idsoal)
-        self.skor_angka_ke_huruf = SkorAngkaKeHuruf(int(soal.skorMax), int(soal.skorMin))
-
-    def ke_angka(self, huruf:str):
+    def create(self, idsoal):
         '''
-        Melakukan konversi nilai dari huruf ke angka
+        Membuat Konversi Angka ke Huruf
         '''
-        pass
-
-    def ke_huruf(self, angka:int):
-        '''
-        Melakukan konversi nilai dari angka ke huruf
-        '''
-        return self.skor_angka_ke_huruf.konversi(angka)
+        soal = self.get_data_soal(idsoal)
+        konverter = SkorAngkaKeHuruf(int(soal.skorMax), int(soal.skorMin))
+        return konverter
