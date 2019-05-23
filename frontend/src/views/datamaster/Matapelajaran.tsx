@@ -148,7 +148,7 @@ renderModalEdit()
     <ModalForm 
       className={'modal-warning ' + this.props.className}
       header={ "Edit Mata Pelajaran "}
-      strsubmit="Edit"
+      strsubmit="Simpan"
       isOpen={ this.state.modal.edit }
       toggle={ this.toggleUpdateMatapelajaran }
       onClickSubmit={ this.editMatapelajaran }>
