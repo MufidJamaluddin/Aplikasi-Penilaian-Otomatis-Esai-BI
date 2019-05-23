@@ -8,7 +8,7 @@ class ImportPenilaianAPI(MethodView):
     Kelas untuk import penilaian manual
     '''
 
-    def save_workbook_skor(self, idsoal, book):
+    def save_workbook_skor(self, book):
         '''
         Menyimpann workbook skor jawaban esai
         '''
@@ -17,18 +17,22 @@ class ImportPenilaianAPI(MethodView):
         column_jawaban = 3
         column_skor = 4
         namaKelas = None
+        idsoal = None
 
         for sheet in book:
 
             for index, row in enumerate(sheet.array):
                 if index == 3:
                     namaKelas = row[3] if 3 < len(row) else None
+                if index == 8:
+                    idsoal = row[3] if 3 < len(row) else None
                 if index >= row_mulai_penilaian:
-                    i+=1
                     nis = row[column_nis] if column_nis < len(row) else None
-                    jawabanEsai = row[column_jawaban] if column_jawaban < len(row) else None
+                    jawabanEsai = str(row[column_jawaban]) if column_jawaban < len(row) else None
                     skor = row[column_skor] if column_skor < len(row) else None
                     if (nis is None) or (skor is None) or (jawabanEsai is None):
+                        continue
+                    if (nis != '') or (skor != '') or (not jawabanEsai.strip()):
                         continue
                 else:
                     continue
@@ -45,12 +49,14 @@ class ImportPenilaianAPI(MethodView):
             db.session.commit()
 
 
-    def post(self, idsoal, idkelas):
+    def post(self, idujian, idkelas):
         '''
         Upload File / Import
         '''
-        workbook = request.iget_book(field_name='file')
-        self.save_workbook_skor(idsoal, workbook)
+        workbook = request.get_book(field_name='file')
+        self.save_workbook_skor(workbook)
 
         # Background Task Celery
-        penskoran_manual.apply_async(idsoal, idkelas)
+        penskoran_manual.apply_async(args=[idujian, idkelas])
+
+        return '', 204

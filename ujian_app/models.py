@@ -128,7 +128,7 @@ class Ujian(Base):
 
 
 class NilaiUjian(Base):
-    __tablename__ = 'daftarnilai'
+    __tablename__ = 'nilaiujian'
 
     idujian = Column(ForeignKey('ujian.idujian'), primary_key=True)
     nis = Column(ForeignKey('siswa.nis'), primary_key=True)

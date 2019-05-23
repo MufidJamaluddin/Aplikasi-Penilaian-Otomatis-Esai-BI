@@ -111,7 +111,11 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
 
     return (
       <Modal isOpen={this.state.nilaimanual} toggle={this.toggleNilaiManual} className={'modal-info ' + this.props.className}>
-        <Form method="post" action={'/penilaianmanual/'+this.idujian+'/'+datapel_selected.idkelas}>
+        <Form 
+          method="post" 
+          action={'/penilaianmanual/'+this.idujian+'/'+datapel_selected.idkelas}
+          enctype="multipart/form-data"
+          >
           <ModalHeader toggle={this.toggleNilaiManual}>Nilai Manual</ModalHeader>
           <ModalBody>
             <p>1. Download jawaban esai siswa di kelas {datapel_selected.namaKelas}</p>
@@ -120,7 +124,7 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
             </Link>
             <p>2. Lakukan penilaian secara manual untuk dijadikan data latih dengan mengisi kolom nilai yang tersedia</p>
             <p>3. Upload File Jawaban SIswa di kelas {datapel_selected.namaKelas} yang telah dinilai sebagian secara manual</p>
-            <Input type="file" required></Input>
+            <Input type="file" name="file" required></Input>
       
             </ModalBody>
           <ModalFooter>
