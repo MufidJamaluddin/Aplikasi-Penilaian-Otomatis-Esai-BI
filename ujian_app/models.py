@@ -127,6 +127,18 @@ class Ujian(Base):
     listsoal = relationship('Soal')
 
 
+class NilaiUjian(Base):
+    __tablename__ = 'daftarnilai'
+
+    idujian = Column(ForeignKey('ujian.idujian'), primary_key=True)
+    nis = Column(ForeignKey('siswa.nis'), primary_key=True)
+    nilai = Column(SmallInteger)
+    namaKelas = Column(String(12))
+
+    ujian = relationship('Ujian')
+    siswa = relationship('Siswa')
+
+
 class DaftarNilaiUjian(Base):
     __tablename__ = 'daftarnilaiujian'
 

@@ -7,21 +7,24 @@ class PenilaianOtomatis(object):
     '''
     def __init__(self, idujian):
         self.idujian = idujian
+        self.penskor = PenskoranOtomatis()
     
-    def kalkulasi_nilai_ujian_siswa(self):
+    def get_list_id_soal(self):
         '''
-        Melakukan kalkulasi nilai ujian siswa
+        Mendapatkan list id soal
+        pada ujian ini
         '''
-        pass
+        listsoal = db.session.query(Soal.idsoal).filter_by(
+            idujian=self.idujian, flag='1'
+        )
+        return listsoal
     
     def nilai_otomatis(self):
         '''
         Melakukan Penilaian Otomatis
         '''
-        listsoal = db.session.query(Soal.idsoal).filter_by(idujian=self.idujian, flag='1')
+        listsoal = self.get_list_id_soal()
         
         for soal in listsoal:
-            penskoran_otomatis = PenskoranOtomatis(soal.idsoal)
-            penskoran_otomatis.skor_otomatis()
-        
-        self.kalkulasi_nilai_ujian_siswa()
+            self.penskor.set_id_soal(soal.idsoal)
+            self.penskor.skor_otomatis()
