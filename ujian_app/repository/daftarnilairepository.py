@@ -1,7 +1,7 @@
 from . import GenericRepository
-from ujian_app.models import DaftarNilaiUjian
+from ujian_app.models import NilaiUjian
 
 class DaftarNilaiRepository(GenericRepository):
 
     def __init__(self):
-        super().__init__(DaftarNilaiUjian)
+        super().__init__(NilaiUjian)

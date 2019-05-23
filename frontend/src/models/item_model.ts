@@ -96,6 +96,7 @@ export default interface DataJawabanSoal
 export default interface DataNilai
 {
     nis: string;
-    idsujian: string;
+    nama: string;
     nilai: number;
+    namaKelas: string;
 }
