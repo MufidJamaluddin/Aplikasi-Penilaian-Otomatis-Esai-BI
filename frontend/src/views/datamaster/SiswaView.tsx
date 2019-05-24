@@ -223,7 +223,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
             <Col sm="12">
               <Input  
                 type="text" 
-                placeholder="ANGKATAN" 
+                placeholder="Angkatan" 
                 name="angkatan"
                 required/>
             </Col>
@@ -242,7 +242,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
         </ModalBody>
         
         <ModalFooter>
-          <Button color="danger" onClick= {(e:any) => this.toggleTambahSiswa() }>Cancel</Button>
+          <Button color="danger" onClick= {(e:any) => this.toggleTambahSiswa() }>Batak</Button>
           <Button color="success" type="submit">Tambah</Button>
         </ModalFooter>
         
