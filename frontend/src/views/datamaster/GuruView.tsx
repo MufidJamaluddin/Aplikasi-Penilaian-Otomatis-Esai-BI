@@ -221,8 +221,8 @@ class Guru extends Component<GuruModel, GuruStateModel>
 							<i className="fa fa-download"></i>
 						</Button>
 					</li>
-					<li><p>Isi data guru sesuai dengan format kolom yang tersedia pada Template XLSX<b>(kolom pertama tidak boleh diubah/diedit)</b></p></li>
-					<li><p>Upload Template XLSX Guru yang sudah diisi</p></li>
+					<li><p>Isi data guru sesuai dengan format kolom yang tersedia pada Template Excel<b>(kolom pertama tidak boleh diubah/diedit)</b></p></li>
+					<li><p>Upload Template Excel Guru yang sudah diisi</p></li>
 				</ol>
 	 			<Input type="file" id="file-input" name="file-input" />
 			</ModalForm>

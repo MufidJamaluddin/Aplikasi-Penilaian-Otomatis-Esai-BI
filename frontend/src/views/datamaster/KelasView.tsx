@@ -142,7 +142,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
       <ModalForm 
         className={'modal-warning ' + this.props.className}
         header={ "Edit Kelas "}
-        strsubmit="Edit"
+        strsubmit="Simpan"
         isOpen={ this.state.modal.edit }
         toggle={ this.toggleUpdateKelas }
         onClickSubmit={ this.editKelas }>

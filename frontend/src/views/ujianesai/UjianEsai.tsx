@@ -109,8 +109,8 @@ class UjianEsai extends Component<UjianEsaiAttribute & RouteComponentProps<Route
                     <CardHeader>
                       <Row>
                         <Col xs="9">
-                          <dd className="col-sm-12 text-left"><b>{ujian.namaMapel||''}</b></dd>
-                          <dd className="col-sm-12 text-left"><b>{ujian.namaUjian||''}</b></dd>
+                          <dd className="col-sm-12 text-left"><b>Nama Mata Pelajaran : {ujian.namaMapel||''}</b></dd>
+                          <dd className="col-sm-12 text-left"><b>Nama ujian : {ujian.namaUjian||''}</b></dd>
                         </Col>
                         <Col xs="3">
                           <dd className="col-sm-12 text-right">
