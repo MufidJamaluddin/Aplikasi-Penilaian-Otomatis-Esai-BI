@@ -28,7 +28,7 @@ class NtfRfUnlabeledWeighter(object):
         return ntf
 
 
-    def calculate_rf(self, idsoal, tf:int, term:str):
+    def calculate_rf(self, idsoal, term:str):
         """
         Max RF
         """
@@ -46,7 +46,7 @@ class NtfRfUnlabeledWeighter(object):
 
         """
         ntf = self.calculate_ntf(idsoal, tf, term)
-        rf = self.calculate_rf(idsoal, tf, term)
+        rf = self.calculate_rf(idsoal, term)
 
         ntf_rf = ntf * rf
 
