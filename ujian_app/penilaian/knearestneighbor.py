@@ -13,9 +13,9 @@ class KNearestNeighbor(object):
         '''
         k_knn : Nilai K tetangga terdekaat pada KNN
         '''
-        self.k = k_knn
+        self.__k = k_knn
 
-    def get_list_id_jawaban(self, idsoal):
+    def __get_list_idjawaban(self, idsoal):
         ''' 
         Ambil list idjawaban yang akan 
         dinilai otomatis
@@ -27,7 +27,7 @@ class KNearestNeighbor(object):
         )
         return listidjawaban
     
-    def get_cosine_similarity(self, idjawaban_uji):
+    def __get_cosine_similarity(self, idjawaban_uji):
         '''
         Mendapatkan list cosine similarity
         antara jawaban data uji (jawaban yang akan 
@@ -43,10 +43,10 @@ class KNearestNeighbor(object):
             Similarity.skorHuruf
         ).filter_by(
             idjawaban_uji=idjawaban_uji
-        ).limit(self.k)
+        ).limit(self.__k)
         return list_sim
     
-    def simpan_skor(self, idjawaban_uji, skorHuruf, skorAngka):
+    def __simpan_skor(self, idjawaban_uji, skor_huruf, skor_angka):
         '''
         Simpan Skor Hasil Klasifikasi
 
@@ -59,8 +59,8 @@ class KNearestNeighbor(object):
         db.session.query(Jawaban).filter(
             Jawaban.idjawaban == idjawaban_uji
         ).update({
-            'skorHuruf': skorHuruf,
-            'skorAngka': skorAngka
+            'skorHuruf': skor_huruf,
+            'skorAngka': skor_angka
         })
 
         db.session.commit()
@@ -74,9 +74,9 @@ class KNearestNeighbor(object):
             idsoal: soal yg jawabannya akan dilakukan
                     klasifikasi
         '''
-        for jawaban in self.get_list_id_jawaban(idsoal):
+        for jawaban in self.__get_list_idjawaban(idsoal):
 
-            list_sim = self.get_cosine_similarity(jawaban.idjawaban)
+            list_sim = self.__get_cosine_similarity(jawaban.idjawaban)
 
             # DICTIONARY KEMUNCULAN SKOR HURUF
             count_class = {}
@@ -100,7 +100,7 @@ class KNearestNeighbor(object):
             # AMBIL SKOR KEMUNCULAN YG TERBESAR
             skor_huruf, sm = sorted_cc.pop()
 
-            self.simpan_skor(
+            self.__simpan_skor(
                 jawaban.idjawaban,
                 skor_huruf,
                 sm['skorAngka']

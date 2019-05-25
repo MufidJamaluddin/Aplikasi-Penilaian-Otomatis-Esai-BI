@@ -5,17 +5,28 @@ class PenilaianOtomatis(object):
     '''
     Melakukan Penilaian Otomatis
     '''
+
     def __init__(self, idujian):
-        self.idujian = idujian
-        self.penskor = PenskoranOtomatis()
+        '''
+        Konstruktor
+        '''
+        self.__idujian = idujian
+        self.__penskor = PenskoranOtomatis()
     
-    def get_list_id_soal(self):
+    def __del__(self):
+        '''
+        Destruktor
+        '''
+        del self.__idujian
+        del self.__penskor
+    
+    def __get_list_id_soal(self):
         '''
         Mendapatkan list id soal
         pada ujian ini
         '''
         listsoal = db.session.query(Soal.idsoal).filter_by(
-            idujian=self.idujian, flag='1'
+            idujian=self.__idujian, flag='1'
         )
         return listsoal
     
@@ -23,8 +34,8 @@ class PenilaianOtomatis(object):
         '''
         Melakukan Penilaian Otomatis
         '''
-        listsoal = self.get_list_id_soal()
+        listsoal = self.__get_list_id_soal()
         
         for soal in listsoal:
-            self.penskor.set_id_soal(soal.idsoal)
-            self.penskor.skor_otomatis()
+            self.__penskor.set_id_soal(soal.idsoal)
+            self.__penskor.skor_otomatis()

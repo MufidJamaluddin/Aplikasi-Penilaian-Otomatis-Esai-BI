@@ -11,10 +11,12 @@ class PemrosesanJawaban(ABC):
     '''
 
     def __init__(self):
-        self.preprocesser = Preprocesser()
+        self.__preprocesser = Preprocesser()
     
+    def __del__(self):
+        del self.__preprocesser
 
-    def kalkulasi_panjang_vektor(self, **vector_space):
+    def _kalkulasi_panjang_vektor(self, **vector_space):
         '''
         Melakukan kalkulasi panjag vektor dari
         vektor term (tipe data dictionary python)
@@ -25,14 +27,14 @@ class PemrosesanJawaban(ABC):
         return sqrt(hasil)
     
 
-    def premrosesan_teks(self, jawabanEsai):
+    def _premrosesan_teks(self, jawabanEsai):
         '''
         Melakukan pemrosesan teks
         '''
-        return self.preprocesser.preprocess_text(jawabanEsai)
+        return self.__preprocesser.preprocess_text(jawabanEsai)
 
 
-    def get_list_jawaban(self, idsoal, idkelas = None):
+    def _get_list_jawaban(self, idsoal, idkelas = None):
         '''
         Mendapatkan list data uji
         (jawaban yang akan belum dinilai guru)

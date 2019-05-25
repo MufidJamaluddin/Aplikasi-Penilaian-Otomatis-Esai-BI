@@ -15,7 +15,7 @@ class PemrosesanDataUji(PemrosesanJawaban):
         Melakukan Pemrosesan Teks Data Uji
         (Jawaban) Berdasarkan ID Soal
         '''
-        listjawaban = self.get_list_jawaban(idsoal)
+        listjawaban = self._get_list_jawaban(idsoal)
         
         for jawaban in listjawaban:
 
@@ -26,8 +26,8 @@ class PemrosesanDataUji(PemrosesanJawaban):
             # Jika Jawabannya Bukan String Blank
             if jawaban.jawabanEsai.strip():
 
-                fitur_vspace = self.premrosesan_teks(jawaban.jawabanEsai)
-                jawaban.panjangVektor = self.kalkulasi_panjang_vektor(**fitur_vspace)
+                fitur_vspace = self._premrosesan_teks(jawaban.jawabanEsai)
+                jawaban.panjangVektor = self._kalkulasi_panjang_vektor(**fitur_vspace)
                 jawaban.nilaiOtomatis = 1
                 db.session.add(jawaban)
 

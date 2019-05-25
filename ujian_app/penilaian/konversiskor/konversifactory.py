@@ -8,7 +8,7 @@ class KonversiFactory(object):
     Berdasarkan Data Soal
     """
 
-    def get_data_soal(self, idsoal):
+    def __get_data_soal(self, idsoal):
         '''
         Mendapatkan Data Soal
         '''
@@ -18,6 +18,6 @@ class KonversiFactory(object):
         '''
         Membuat Konversi Angka ke Huruf
         '''
-        soal = self.get_data_soal(idsoal)
+        soal = self.__get_data_soal(idsoal)
         konverter = SkorAngkaKeHuruf(int(soal.skorMax), int(soal.skorMin))
         return konverter

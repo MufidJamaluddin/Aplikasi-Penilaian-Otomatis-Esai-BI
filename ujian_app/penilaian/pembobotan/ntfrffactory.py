@@ -11,21 +11,27 @@ class NtfRfFactory(object):
     '''
 
     def __init__(self):
-        self.docnum_repository = DocNumRepository()
-        self.ntfrf_repository = NtfRfRepository()
-        self.ntfrflabelled = None
-        self.ntfrfunlabelled = None
+        self.__docnum_repository = DocNumRepository()
+        self.__ntfrf_repository = NtfRfRepository()
+        self.__ntfrflabelled = None
+        self.__ntfrfunlabelled = None
+    
+    def __del__(self):
+        del self.__docnum_repository
+        del self.__ntfrf_repository
+        del self.__ntfrflabelled
+        del self.__ntfrfunlabelled    
     
     def create(self, training=True):
         if training:
-            if self.ntfrflabelled is None:
-                self.ntfrflabelled = NtfRfLabeledWeighter(
-                    self.docnum_repository, self.ntfrf_repository
+            if self.__ntfrflabelled is None:
+                self.__ntfrflabelled = NtfRfLabeledWeighter(
+                    self.__docnum_repository, self.__ntfrf_repository
                 )
-            return self.ntfrflabelled
+            return self.__ntfrflabelled
         else:
-            if self.ntfrfunlabelled is None:
-                self.ntfrfunlabelled = NtfRfUnlabeledWeighter(
-                    self.docnum_repository, self.ntfrf_repository
+            if self.__ntfrfunlabelled is None:
+                self.__ntfrfunlabelled = NtfRfUnlabeledWeighter(
+                    self.__docnum_repository, self.__ntfrf_repository
                 )
-            return self.ntfrfunlabelled
+            return self.__ntfrfunlabelled
