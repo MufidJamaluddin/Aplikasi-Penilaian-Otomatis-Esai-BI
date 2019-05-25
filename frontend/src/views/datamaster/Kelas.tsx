@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { CardBody, Col, Table, Button,Form, FormGroup, Input } from 'reactstrap';
 import DataKelas from '../../models/item_model';
 import { initDatakelas, inputDatakelas, updateKelas, hapusKelas } from '../../models/KelasData';
-import { ModalForm, LayoutCard } from '../../layout';
+import { ModalForm, LayoutCard, Loading } from '../../layout';
 
 /**
  * Kelas View
@@ -180,11 +180,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
     var list_kelas = this.state.list_kelas;
 
     if(this.state.isLoading)
-      return (<div className="d-flex justify-content-center">
-                <div className="spinner-border text-success" role="status">
-                  <span className="sr-only">Loading...</span>
-                </div>
-              </div>);
+      return (Loading);
   
     return (
       <LayoutCard>
