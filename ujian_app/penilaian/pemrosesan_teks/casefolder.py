@@ -5,13 +5,13 @@ class CaseFolder(object):
     Bertugas Melakukan Case Folding
     """
 
-    def lowercase(self, teks:str):
+    def __lowercase(self, teks:str):
         """
         Melakukan Lowercase Teks (Penyeragaman)
         """
         return teks.lower()
 
-    def remove_punctuation(self, teks:str):
+    def __remove_punctuation(self, teks:str):
         """
         Menghilangkan karakter selain huruf A-Z
         dan selain tanda hubung kata berulang (-),
@@ -31,6 +31,6 @@ class CaseFolder(object):
         '''
         Melakukan Case Folding
         '''
-        result = self.lowercase(teks)
-        result = self.remove_punctuation(result)
+        result = self.__lowercase(teks)
+        result = self.__remove_punctuation(result)
         return result

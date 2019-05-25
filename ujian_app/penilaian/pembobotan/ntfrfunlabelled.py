@@ -9,17 +9,17 @@ class NtfRfUnlabeledWeighter(object):
     """
 
     def __init__(self, docnum_repository, ntfrf_repository):
-        self.docnum_repository = docnum_repository
-        self.ntfrf_repository = ntfrf_repository
+        self.__docnum_repository = docnum_repository
+        self.__ntfrf_repository = ntfrf_repository
     
 
-    def calculate_ntf(self, idsoal, tf:int, term:str):
+    def __calculate_ntf(self, idsoal, tf:int, term:str):
         """
         Menghitung Normalized Term Frequency (ntf)
         
             NTF = TF / MAX_TF
         """
-        max_tf = self.ntfrf_repository.get_max_tf(idsoal, term)
+        max_tf = self.__ntfrf_repository.get_max_tf(idsoal, term)
         
         if max_tf == 0:
             max_tf = 1
@@ -28,16 +28,16 @@ class NtfRfUnlabeledWeighter(object):
         return ntf
 
 
-    def calculate_rf(self, idsoal, term:str):
+    def __calculate_rf(self, idsoal, term:str):
         """
         Max RF
         """
-        rf = self.ntfrf_repository.get_max_rf(idsoal, term)
+        rf = self.__ntfrf_repository.get_max_rf(idsoal, term)
 
         return rf
 
 
-    def calculate(self, idsoal, tf:int, term:str):
+    def __calculate(self, idsoal, tf:int, term:str):
         """
         Menghitung Normalized Term Frequency - Relevance Frequency (ntf.rf)
         Return : ntf_rf
@@ -45,8 +45,8 @@ class NtfRfUnlabeledWeighter(object):
             NTFRF = NTF x RF
 
         """
-        ntf = self.calculate_ntf(idsoal, tf, term)
-        rf = self.calculate_rf(idsoal, term)
+        ntf = self.__calculate_ntf(idsoal, tf, term)
+        rf = self.__calculate_rf(idsoal, term)
 
         ntf_rf = ntf * rf
 
@@ -59,7 +59,7 @@ class NtfRfUnlabeledWeighter(object):
         )
 
         for fitur in list_fitur:
-            ntf_rf = self.calculate(idsoal, fitur.tf, fitur.term)
+            ntf_rf = self.__calculate(idsoal, fitur.tf, fitur.term)
 
             fitur.ntf_rf = ntf_rf
 
