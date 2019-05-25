@@ -8,9 +8,9 @@ import React from 'react';
  * Lazy Loading View
  * Diload Jika Ada Permintaan
  */
-const Guru = React.lazy(() => import('./views/datamaster/GuruView'));
-const Siswa = React.lazy(() => import('./views/datamaster/SiswaView'));
-const Kelas = React.lazy(() => import('./views/datamaster/KelasView'));
+const Guru = React.lazy(() => import('./views/datamaster/Guru'));
+const Siswa = React.lazy(() => import('./views/datamaster/Siswa'));
+const Kelas = React.lazy(() => import('./views/datamaster/Kelas'));
 const Matapelajaran = React.lazy(() => import('./views/datamaster/Matapelajaran'));
 
 /**

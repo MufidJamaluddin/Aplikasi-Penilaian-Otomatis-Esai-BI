@@ -5,7 +5,7 @@ import '@coreui/icons/css/coreui-icons.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'simple-line-icons/scss/simple-line-icons.scss';
 import './App.scss';
-import { LayoutAdmin, SiswaLayout } from './layout';
+import { LayoutAdmin, SiswaLayout, Loading } from './layout';
 import { GURU_NAV, STAF_TU_NAV } from './navs';
 import API from './models/api';
 import { GURU_ROUTES, STAF_TU_ROUTES, SISWA_ROUTES } from './routes';
@@ -13,11 +13,6 @@ import { GURU_ROUTES, STAF_TU_ROUTES, SISWA_ROUTES } from './routes';
 /**
  * Deklarasi Komponen
  */
-const loading = () => 
-<div className="spinner-border spinner-lg text-success text-center" role="status">
-  <span className="sr-only">Loading...</span>
-</div>;
-
 const Login = Loadable({
   loader: () => import('./views/user/Login'),
   loading
@@ -199,13 +194,7 @@ class App extends Component<{}, AppState>
    */
   public render()
   {
-    if (this.state.unchecked_role) return(
-      <div className="d-flex justify-content-center">
-        <div className="spinner-border text-success" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      </div>
-    );
+    if (this.state.unchecked_role) return(Loading);
     
     if(this.state.auth) return (
       <BrowserRouter>

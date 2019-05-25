@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, Card, CardBody, CardHeader, Col, Row, Table, Button, FormGroup, Input } from 'reactstrap';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { initDaftarnilaiujian } from './../../models/NilaiData';
+import { Loading } from '../../layout';
 import DataNilai from './../../models/item_model';
 import DataUjian from './../../models/item_model';
 
@@ -76,7 +77,7 @@ class DetailHasilUjian extends Component<DetailHasilUjianPropsModel & RouteCompo
   {
     let ujian = this.state.ujian;
 
-    if(ujian === undefined) return (<h3>Loading...</h3>)
+    if(ujian === undefined) return (Loading)
 
     return (
       <div className="animated fadeIn">

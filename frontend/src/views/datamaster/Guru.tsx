@@ -3,7 +3,7 @@ import DataGuru from '../../models/item_model';
 import DataMatapelajaran from '../../models/item_model';
 import DataKelas from '../../models/item_model';
 import { CardBody, CardHeader, Col, Table, Button, Input, InputGroup } from 'reactstrap';
-import { ModalForm, LayoutCard } from '../../layout';
+import { ModalForm, LayoutCard, Loading } from '../../layout';
 import ModalGuruForm from './ModalGuru';
 import { initDataGuru, inputDataGuru, updateDataGuru, hapusDataGuru } from '../../models/GuruData';
 import { initDatakelas } from '../../models/KelasData';
@@ -322,13 +322,7 @@ class Guru extends Component<GuruModel, GuruStateModel>
 	public render() : JSX.Element
 	{
 		if(this.state.isLoading)      
-			return (
-				<div className="d-flex justify-content-center">
-					<div className="spinner-border text-success" role="status">
-						<span className="sr-only">Loading...</span>
-					</div>
-				</div>
-			);
+			return (Loading);
 
     return (
       <LayoutCard>
