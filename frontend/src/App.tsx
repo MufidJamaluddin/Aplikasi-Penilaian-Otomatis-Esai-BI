@@ -15,12 +15,12 @@ import { GURU_ROUTES, STAF_TU_ROUTES, SISWA_ROUTES } from './routes';
  */
 const Login = Loadable({
   loader: () => import('./views/user/Login'),
-  loading
+  loading(){ return Loading }
 });
 
 const Gantipassword = Loadable({
   loader: () => import('./views/user/Gantipassword'),
-  loading
+  loading(){ return Loading }
 });
 
 /**
