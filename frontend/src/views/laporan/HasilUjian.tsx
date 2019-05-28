@@ -78,7 +78,7 @@ class HasilUjian extends Component<HasilUjianModel, HasilUjianStateModel>
                     <td>{ ujian.namaMapel }</td>
                     <td>{ ujian.namaUjian }</td>
                     <td>
-                        <Link to="/hasilujian/:idujian">
+                        <Link to={"/hasilujian/" + ujian.idujian}>
                             <Button className="btn-twitter btn-brand icon btn-sm"><i className="fa fa-eye"></i></Button>
                         </Link>
                     </td>

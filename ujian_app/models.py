@@ -46,7 +46,7 @@ class Guru(Base):
 class Kelas(Base):
     __tablename__ = 'kelas'
 
-    idkelas = Column(Integer, primary_key=True)
+    idkelas = Column(Integer, primary_key=True, autoincrement=True)
     namaKelas = Column(String(12), nullable=False)
     flag = Column(String(1), server_default=text("'0'"))
 
@@ -69,6 +69,16 @@ class Staftu(Base):
     username = Column(String(30), primary_key=True)
     password = Column(String(40), nullable=False)
 
+
+class Similarity(Base):
+    __tablename__ = 'similarity'
+
+    idjawaban_uji = Column(BigInteger, primary_key=True)
+    idjawaban_latih = Column(BigInteger, primary_key=True)
+    idsoal = Column(BigInteger)
+    cosinesimilarity = Column(Float(asdecimal=True))
+    skorHuruf = Column(String(1))
+    skorAngka = Column(SmallInteger)
 
 
 class Pengampu(Base):
@@ -108,13 +118,25 @@ class Ujian(Base):
     idmapel = Column(ForeignKey('matapelajaran.idmapel'), nullable=False, index=True)
     namaUjian = Column(String(30), nullable=False)
     jumlahSoal = Column(SmallInteger, nullable=False)
-    durasi = Column(Time)
+    durasi = Column(SmallInteger)
     status_ujian = Column(String(1), server_default=text("'0'"))
     flag = Column(String(1), server_default=text("'0'"))
 
     guru = relationship('Guru')
     matapelajaran = relationship('Matapelajaran')
     listsoal = relationship('Soal')
+
+
+class NilaiUjian(Base):
+    __tablename__ = 'nilaiujian'
+
+    idujian = Column(ForeignKey('ujian.idujian'), primary_key=True)
+    nis = Column(ForeignKey('siswa.nis'), primary_key=True)
+    nilai = Column(SmallInteger)
+    namaKelas = Column(String(12))
+
+    ujian = relationship('Ujian')
+    siswa = relationship('Siswa')
 
 
 class DaftarNilaiUjian(Base):
@@ -161,6 +183,7 @@ class Soal(Base):
     flag = Column(String(1), server_default=text("'0'"))
 
     ujian = relationship('Ujian')
+    jawaban = relationship('Jawaban')
 
 
 class Jawaban(Base):

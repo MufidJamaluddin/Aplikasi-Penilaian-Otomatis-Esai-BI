@@ -1,56 +1,41 @@
-from .pemrosesan_teks import Preprocesser
+from ujian_app.models import Soal, Jawaban, DaftarNilaiUjian, db
+from .penskoranotomatis import PenskoranOtomatis
 
 class PenilaianOtomatis(object):
     '''
-    Kelas yang bertugas melakukan penilaian ujian esai 
-    secara otomatis pada satu ujian
+    Melakukan Penilaian Otomatis
     '''
 
     def __init__(self, idujian):
-        self.idujian = idujian
+        '''
+        Konstruktor
+        '''
+        self.__idujian = idujian
+        self.__penskor = PenskoranOtomatis()
     
-    def seleksi_data(self):
+    def __del__(self):
         '''
-        Menentukan seleksi data latih sebagai referensi
-        klasifikasi
+        Destruktor
         '''
-        pass
-
-    def pemrosesan_teks_datauji(self):
-        '''
-        Melakukan Pemrosesan Teks Data Uji 
-        ( Esai Siswa yang Belum Dinilai )
-        '''
-        pass
-
-    def pembobotan_term(self):
-        '''
-        Melakukan pembobotan jawaban esai siswa
-        '''
-        pass
+        del self.__idujian
+        del self.__penskor
     
-    def kalkulasi_panjang_vektor(self, **vektor_term_dict):
+    def __get_list_id_soal(self):
         '''
-        Melakukan kalkulasi panjag vektor dari
-        vektor term (tipe data dictionary python)
+        Mendapatkan list id soal
+        pada ujian ini
         '''
-        pass
-    
-    def klasifikasi_knn(self):
-        '''
-        Melakukan klasifikasi jawaban esai siswa dengan 
-        K-Nearest Neighbor
-        '''
-        pass
-    
-    def kalkulasi_nilai_ujian_siswa(self):
-        '''
-        Melakukan kalkulasi nilai ujian siswa
-        '''
-        pass
+        listsoal = db.session.query(Soal.idsoal).filter_by(
+            idujian=self.__idujian, flag='1'
+        )
+        return listsoal
     
     def nilai_otomatis(self):
         '''
-        Melakukan penilaian otomatis
+        Melakukan Penilaian Otomatis
         '''
-        pass
+        listsoal = self.__get_list_id_soal()
+        
+        for soal in listsoal:
+            self.__penskor.set_id_soal(soal.idsoal)
+            self.__penskor.skor_otomatis()

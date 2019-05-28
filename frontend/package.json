@@ -19,6 +19,7 @@
     "enzyme-adapter-react-16": "^1.12.1",
     "flag-icon-css": "^3.2.1",
     "font-awesome": "^4.7.0",
+    "http-proxy-middleware": "^0.19.1",
     "prop-types": "^15.6.2",
     "react": "^16.8.6",
     "react-app-polyfill": "^0.2.2",
@@ -31,8 +32,7 @@
     "react-test-renderer": "^16.8.6",
     "reactstrap": "^7.0.2",
     "simple-line-icons": "^2.4.1",
-    "typescript": "^3.4.5",
-    "http-proxy-middleware": "^0.19.1"
+    "typescript": "^3.4.5"
   },
   "devDependencies": {
     "mv": "^2.1.1",

@@ -1,5 +1,5 @@
 from . import GenericRepository
-from ujian_app.models import Ujian, Guru, db
+from ujian_app.models import Ujian, Guru, PelaksanaanUjian, db
 
 class UjianRepository(GenericRepository):
 
@@ -15,8 +15,13 @@ class UjianRepository(GenericRepository):
    
     def deleteUjian(self, idujian):
         ujian = self.findById(idujian)
+
+        pelaksanaan_ujian = PelaksanaanUjian.query.filter_by(
+            idujian=idujian, 
+            status_pelaksanaan='0'
+        )
         
-        for i in ujian.pelaksanaan_ujian:
+        for i in pelaksanaan_ujian:
             db.session.delete(i)
         
         for i in ujian.listsoal:

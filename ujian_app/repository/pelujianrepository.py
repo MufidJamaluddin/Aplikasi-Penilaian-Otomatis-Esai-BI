@@ -9,9 +9,12 @@ class PelaksanaanUjianRepository(GenericRepository):
     
     def findPelaksanaanUjianByNim(self, nim):
         siswa = Siswa.query.get(nim)
-        pelaksanaan = PelaksanaanUjian.query.filter_by(idkelas=siswa.idkelas,status_pelaksanaan='1').first()
+        pelaksanaan = PelaksanaanUjian.query.filter_by(
+            idkelas=siswa.idkelas,
+            status_pelaksanaan=1
+        ).first()
 
-        if pelaksanaan:
+        if pelaksanaan is not None:
             ujian = pelaksanaan.ujian
             waktu_berakhir_ujian = pelaksanaan.waktu_mulai + timedelta(minutes=ujian.durasi)
             
@@ -21,11 +24,14 @@ class PelaksanaanUjianRepository(GenericRepository):
                 jml_beres = PelaksanaanUjian.query.filter_by(
                     idujian=ujian.idujian, 
                     idkelas=siswa.idkelas, 
-                    status_pelaksanaan='2'
+                    status_pelaksanaan=2,
+                    flag=1
                 ).count()
+
                 jml_ujian = PelaksanaanUjian.query.filter_by(
                     idujian=ujian.idujian, 
-                    idkelas=siswa.idkelas
+                    idkelas=siswa.idkelas,
+                    flag=1
                 ).count()
 
                 pelaksanaan.status_pelaksanaan = 2
@@ -43,10 +49,16 @@ class PelaksanaanUjianRepository(GenericRepository):
             return None
 
     def mulaiUjian(self, idujian, idkelas):
-        pel = PelaksanaanUjian.query.filter_by(idujian=idujian, idkelas=idkelas).one()
-        pel.waktu_mulai = datetime.now()
-        pel.status_pelaksanaan = 1
-        pel.ujian.status_ujian = 1
+        pel = PelaksanaanUjian.query.filter_by(
+            idujian=idujian, 
+            idkelas=idkelas,
+            flag='1'
+        ).first()
 
-        db.session.add(pel)
-        db.session.commit()
+        if pel:
+            pel.waktu_mulai = datetime.now()
+            pel.status_pelaksanaan = 1
+            pel.ujian.status_ujian = 1
+
+            db.session.add(pel)
+            db.session.commit()

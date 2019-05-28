@@ -1,4 +1,4 @@
-from .konversinilai import Konversi
+from .konversiskor import KonversiFactory
 from .penilaianotomatis import PenilaianOtomatis
-from .penilaianmanual import PenilaianManual
+from .penskoranmanual import PenskoranManual
 from .pemrosesan_teks import Preprocesser
