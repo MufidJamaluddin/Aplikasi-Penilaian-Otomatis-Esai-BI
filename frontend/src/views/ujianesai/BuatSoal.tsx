@@ -95,9 +95,13 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
   {
     return (
       <Modal isOpen={this.state.modal.batal} toggle={this.toggleBatalUjian} className={'modal-danger ' + this.props.className}>
-        <ModalHeader toggle={this.toggleBatalUjian}>Batal Input Soal</ModalHeader>
+        <ModalHeader toggle={this.toggleBatalUjian}></ModalHeader>
           <ModalBody>
-            <p>Apakah anda yakin ingin mengakhiri input soal ?</p>
+            <p>
+                Apakah anda yakin ingin membatalkan input soal ?
+                jika tekan ya maka semua soal yang anda 
+                inputkan sebelumnya tidak akan disimpan
+            </p>
           </ModalBody>
         <ModalFooter>
           <Button color="danger" onClick={this.toggleBatalUjian}>Tidak</Button>
@@ -113,7 +117,7 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
   {
     return (
       <Modal isOpen={this.state.modal.submit} toggle={this.toggleSubmitSoal} className={'modal-success ' + this.props.className}>
-        <ModalHeader toggle={this.toggleSubmitSoal}>Submit Ujian</ModalHeader>
+        <ModalHeader toggle={this.toggleSubmitSoal}>Submit Soal</ModalHeader>
           <ModalBody>
             <p> Apakah anda yakin ingin submit soal ? <b>Pastikan semua soal yang anda masukkan telah diinput dengan benar</b></p>
           </ModalBody>

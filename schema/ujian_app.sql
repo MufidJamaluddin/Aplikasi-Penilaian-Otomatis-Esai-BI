@@ -1,281 +1,522 @@
-/*==============================================================*/
-/* DBMS name:      MySQL 5.0                                    */
-/* Created on:     20/05/2019 20:30:26                          */
-/*==============================================================*/
+-- phpMyAdmin SQL Dump
+-- version 4.8.5
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: May 22, 2019 at 10:18 AM
+-- Server version: 10.1.39-MariaDB
+-- PHP Version: 7.3.5
 
-drop table if exists StafTU;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
 
-drop table if exists DaftarNilaiUjian;
 
-drop table if exists FiturObjekPenilaian;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
-drop table if exists FiturReferensiPenilaian;
+--
+-- Database: `ujian_app`
+--
 
-drop table if exists Guru;
+-- --------------------------------------------------------
 
-drop table if exists Jawaban;
-
-drop table if exists Kelas;
-
-drop table if exists Matapelajaran;
-
-drop table if exists PelaksanaanUjian;
-
-drop table if exists Pengampu;
-
-drop table if exists Siswa;
-
-drop table if exists Soal;
-
-drop table if exists Ujian;
-
-/*==============================================================*/
-/* Table: StafTU                                                */
-/* Tambahan u/ Pengelolaan Data Master				*/
-/*==============================================================*/
-CREATE TABLE StafTU (
-  nama varchar(50) NOT NULL,
-  username varchar(30) NOT NULL,
-  password varchar(40) NOT NULL,
-  primary key (username)
-) ENGINE=MyISAM;
-
-/*==============================================================*/
-/* Table: DaftarNilaiUjian                                      */
-/*==============================================================*/
-create table DaftarNilaiUjian
-(
-   iddaftarnilai        bigint not null auto_increment,
-   nis                  char(10) not null,
-   idujian              int not null,
-   nilai                char(3),
-   namaKelas            varchar(12),
-   flag                 bool default 1,
-   primary key (iddaftarnilai)
+--
+-- Stand-in structure for view `akun`
+-- (See below for the actual view)
+--
+CREATE TABLE `akun` (
+`nama` varchar(50)
+,`username` varchar(30)
+,`password` varchar(40)
+,`role` varchar(6)
 );
 
-/*==============================================================*/
-/* Table: FiturObjekPenilaian                                   */
-/*==============================================================*/
-create table FiturObjekPenilaian
-(
-   idjawaban            bigint not null,
-   term                 varchar(50) not null,
-   tf                   float,
-   ntf_rf               float,
-   primary key (idjawaban, term)
-);
+-- --------------------------------------------------------
 
-/*==============================================================*/
-/* Table: FiturReferensiPenilaian                               */
-/*==============================================================*/
-create table FiturReferensiPenilaian
-(
-   idjawaban            bigint not null,
-   skorHuruf            char(1) not null,
-   term                 char(50) not null,
-   tf                   float,
-   rf                   float,
-   ntf_rf               float,
-   primary key (idjawaban, skorHuruf, term)
-);
+--
+-- Table structure for table `daftarnilaiujian`
+--
 
-/*==============================================================*/
-/* Table: Guru                                                  */
-/*==============================================================*/
-create table Guru
-(
-   idguru               int not null auto_increment,
-   nip                  varchar(20),
-   nuptk                varchar(20),
-   namaGuru             varchar(50) not null,
-   username             varchar(30) not null,
-   password             varchar(40) not null,
-   flag                 bool default 1,
-   primary key (idguru)
-);
+CREATE TABLE `daftarnilaiujian` (
+  `iddaftarnilai` bigint(20) NOT NULL,
+  `nis` char(10) NOT NULL,
+  `idujian` int(11) NOT NULL,
+  `nilai` char(3) DEFAULT NULL,
+  `namaKelas` varchar(12) DEFAULT NULL,
+  `flag` tinyint(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*==============================================================*/
-/* Table: Jawaban                                               */
-/*==============================================================*/
-create table Jawaban
-(
-   idjawaban            bigint not null auto_increment,
-   idsoal               bigint not null,
-   nis                  char(10) not null,
-   jawabanEsai          text,
-   skorHuruf            char(1),
-   skorAngka            char(3),
-   nilaiOtomatis        bool,
-   namaKelas            varchar(12),
-   panjangVektor        float,
-   primary key (idjawaban)
-);
+-- --------------------------------------------------------
 
-/*==============================================================*/
-/* Table: Kelas                                                 */
-/*==============================================================*/
-create table Kelas
-(
-   idkelas              int not null auto_increment,
-   namaKelas            varchar(12) not null,
-   flag                 bool default 1,
-   primary key (idkelas)
-);
+--
+-- Table structure for table `fiturobjekpenilaian`
+--
 
-/*==============================================================*/
-/* Table: Matapelajaran                                         */
-/*==============================================================*/
-create table Matapelajaran
-(
-   idmapel              int not null auto_increment,
-   namaMapel            varchar(30) not null,
-   KKM                  char(2) not null,
-   flag                 bool default 1,
-   primary key (idmapel)
-);
-
-/*==============================================================*/
-/* Table: PelaksanaanUjian                                      */
-/*==============================================================*/
-create table PelaksanaanUjian
-(
-   idpelaksanaan        bigint not null auto_increment,
-   idkelas              int not null,
-   idujian              int not null,
-   waktu_mulai          datetime,
-   status_pelaksanaan   char(1) default '0',
-   status_penilaian     char(1) default '0',
-   progress_penilaian   char(3),
-   pesan_progress_penilaian varchar(50),
-   flag                 bool,
-   primary key (idpelaksanaan)
-);
-
-/*==============================================================*/
-/* Table: Pengampu                                              */
-/*==============================================================*/
-create table Pengampu
-(
-   idpengampu           int not null auto_increment,
-   idmapel              int not null,
-   idkelas              int not null,
-   idguru               int not null,
-   flag                 bool default 1,
-   primary key (idpengampu)
-);
-
-/*==============================================================*/
-/* Table: Siswa                                                 */
-/*==============================================================*/
-create table Siswa
-(
-   nis                  char(10) not null,
-   idkelas              int not null,
-   nama                 varchar(20) not null,
-   angkatan             char(4) not null,
-   password             varchar(40) not null,
-   flag                 bool default 1,
-   primary key (nis)
-);
-
-/*==============================================================*/
-/* Table: Soal                                                  */
-/*==============================================================*/
-create table Soal
-(
-   idsoal               bigint not null auto_increment,
-   idujian              int not null,
-   soalEsai             text not null,
-   skorMin              char(3),
-   skorMax              char(3),
-   kompetensiDasar      varchar(100),
-   materiPokok          varchar(100),
-   flag                 bool default 1,
-   primary key (idsoal)
-);
-
-/*==============================================================*/
-/* Table: Ujian                                                 */
-/*==============================================================*/
-create table Ujian
-(
-   idujian              int not null auto_increment,
-   idguru               int not null,
-   idmapel              int not null,
-   namaUjian            varchar(30) not null,
-   jumlahSoal           smallint not null,
-   durasi               time,
-   status_ujian         char(1) default '0',
-   flag                 bool default 1,
-   primary key (idujian)
-);
+CREATE TABLE `fiturobjekpenilaian` (
+  `idjawaban` bigint(20) NOT NULL,
+  `term` varchar(50) NOT NULL,
+  `tf` float DEFAULT NULL,
+  `ntf_rf` float DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
-/*==============================================================*/
-/* View: Akun                                                   */
-/*==============================================================*/
-CREATE VIEW Akun  
-AS  
-   select namaGuru AS nama, username, password,'guru' AS role from Guru where flag=1
-   union all
-   select nama, nis AS username, password, 'siswa' AS role from Siswa where flag=1
-   union all
-   select nama, username, password, 'staftu' AS role from StafTU ;
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fiturreferensipenilaian`
+--
+
+CREATE TABLE `fiturreferensipenilaian` (
+  `idjawaban` bigint(20) NOT NULL,
+  `skorHuruf` char(1) NOT NULL,
+  `term` char(50) NOT NULL,
+  `tf` float DEFAULT NULL,
+  `rf` float DEFAULT NULL,
+  `ntf_rf` float DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
+-- --------------------------------------------------------
 
-/*==============================================================*/
-/* Foreign Key                                                  */
-/*==============================================================*/
+--
+-- Table structure for table `guru`
+--
 
-alter table DaftarNilaiUjian add constraint FK_MEMILIKI foreign key (nis)
-      references Siswa (nis) on delete restrict on update restrict;
-
-alter table DaftarNilaiUjian add constraint FK_MENDAPATKAN foreign key (idujian)
-      references Ujian (idujian) on delete restrict on update restrict;
-
-alter table FiturObjekPenilaian add constraint FK_SEBAGAI_OBJ_PENILAIAN foreign key (idjawaban)
-      references Jawaban (idjawaban) on delete restrict on update restrict;
-
-alter table FiturReferensiPenilaian add constraint FK_SEBAGAI_REF_PENILAIAN foreign key (idjawaban)
-      references Jawaban (idjawaban) on delete restrict on update restrict;
-
-alter table Jawaban add constraint FK_DIJAWAB_DENGAN foreign key (idsoal)
-      references Soal (idsoal) on delete restrict on update restrict;
-
-alter table Jawaban add constraint FK_MENGISI foreign key (nis)
-      references Siswa (nis) on delete restrict on update restrict;
-
-alter table PelaksanaanUjian add constraint FK_DILAKSANAAN_DI foreign key (idkelas)
-      references Kelas (idkelas) on delete restrict on update restrict;
-
-alter table PelaksanaanUjian add constraint FK_DILAKSANAKAN_PADA foreign key (idujian)
-      references Ujian (idujian) on delete restrict on update restrict;
-
-alter table Pengampu add constraint FK_MELAKSANAKAN_TUGAS foreign key (idguru)
-      references Guru (idguru) on delete restrict on update restrict;
-
-alter table Pengampu add constraint FK_MENGAJAR foreign key (idmapel)
-      references Matapelajaran (idmapel) on delete restrict on update restrict;
-
-alter table Pengampu add constraint FK_MENGAJAR_DI foreign key (idkelas)
-      references Kelas (idkelas) on delete restrict on update restrict;
-
-alter table Siswa add constraint FK_MENGIKUTI foreign key (idkelas)
-      references Kelas (idkelas) on delete restrict on update restrict;
-
-alter table Soal add constraint FK_TERDIRI_DARI foreign key (idujian)
-      references Ujian (idujian) on delete restrict on update restrict;
-
-alter table Ujian add constraint FK_MEMBUAT foreign key (idguru)
-      references Guru (idguru) on delete restrict on update restrict;
-
-alter table Ujian add constraint FK_UNTUK_MEMENUHI foreign key (idmapel)
-      references Matapelajaran (idmapel) on delete restrict on update restrict;
+CREATE TABLE `guru` (
+  `idguru` int(11) NOT NULL,
+  `nip` varchar(20) DEFAULT NULL,
+  `nuptk` varchar(20) DEFAULT NULL,
+  `namaGuru` varchar(50) NOT NULL,
+  `username` varchar(30) NOT NULL,
+  `password` varchar(40) NOT NULL,
+  `flag` tinyint(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
-/*==============================================================*/
-/* Unique Key                                                   */
-/*==============================================================*/
-ALTER TABLE Guru ADD UNIQUE(username);
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jawaban`
+--
+
+CREATE TABLE `jawaban` (
+  `idjawaban` bigint(20) NOT NULL,
+  `idsoal` bigint(20) NOT NULL,
+  `nis` char(10) NOT NULL,
+  `jawabanEsai` text,
+  `skorHuruf` char(1) DEFAULT NULL,
+  `skorAngka` char(3) DEFAULT NULL,
+  `nilaiOtomatis` tinyint(1) DEFAULT NULL,
+  `namaKelas` varchar(12) DEFAULT NULL,
+  `panjangVektor` float DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kelas`
+--
+
+CREATE TABLE `kelas` (
+  `idkelas` int(11) NOT NULL,
+  `namaKelas` varchar(12) NOT NULL,
+  `flag` tinyint(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `matapelajaran`
+--
+
+CREATE TABLE `matapelajaran` (
+  `idmapel` int(11) NOT NULL,
+  `namaMapel` varchar(30) NOT NULL,
+  `KKM` char(2) NOT NULL,
+  `flag` tinyint(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pelaksanaanujian`
+--
+
+CREATE TABLE `pelaksanaanujian` (
+  `idpelaksanaan` bigint(20) NOT NULL,
+  `idkelas` int(11) NOT NULL,
+  `idujian` int(11) NOT NULL,
+  `waktu_mulai` datetime DEFAULT NULL,
+  `status_pelaksanaan` char(1) DEFAULT '0',
+  `status_penilaian` char(1) DEFAULT '0',
+  `progress_penilaian` char(3) DEFAULT NULL,
+  `pesan_progress_penilaian` varchar(50) DEFAULT NULL,
+  `flag` tinyint(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pengampu`
+--
+
+CREATE TABLE `pengampu` (
+  `idpengampu` int(11) NOT NULL,
+  `idmapel` int(11) NOT NULL,
+  `idkelas` int(11) NOT NULL,
+  `idguru` int(11) NOT NULL,
+  `flag` tinyint(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `siswa`
+--
+
+CREATE TABLE `siswa` (
+  `nis` char(10) NOT NULL,
+  `idkelas` int(11) NOT NULL,
+  `nama` varchar(20) NOT NULL,
+  `angkatan` char(4) NOT NULL,
+  `password` varchar(40) NOT NULL,
+  `flag` tinyint(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `soal`
+--
+
+CREATE TABLE `soal` (
+  `idsoal` bigint(20) NOT NULL,
+  `idujian` int(11) NOT NULL,
+  `soalEsai` text NOT NULL,
+  `skorMin` char(3) DEFAULT NULL,
+  `skorMax` char(3) DEFAULT NULL,
+  `kompetensiDasar` varchar(100) DEFAULT NULL,
+  `materiPokok` varchar(100) DEFAULT NULL,
+  `flag` tinyint(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `staftu`
+--
+
+CREATE TABLE `staftu` (
+  `nama` varchar(50) NOT NULL,
+  `username` varchar(30) NOT NULL,
+  `password` varchar(40) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ujian`
+--
+
+CREATE TABLE `ujian` (
+  `idujian` int(11) NOT NULL,
+  `idguru` int(11) NOT NULL,
+  `idmapel` int(11) NOT NULL,
+  `namaUjian` varchar(30) NOT NULL,
+  `jumlahSoal` smallint(6) NOT NULL,
+  `durasi` smallint(6) DEFAULT NULL,
+  `status_ujian` char(1) DEFAULT '0',
+  `flag` tinyint(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `akun`
+--
+DROP TABLE IF EXISTS `akun`;
+
+CREATE VIEW `akun` AS select `guru`.`namaGuru` AS `nama`,`guru`.`username` AS `username`,`guru`.`password` AS `password`,'guru' AS `role` from `guru` where (`guru`.`flag` = 1) union all select `siswa`.`nama` AS `nama`,`siswa`.`nis` AS `username`,`siswa`.`password` AS `password`,'siswa' AS `role` from `siswa` where (`siswa`.`flag` = 1) union all select `staftu`.`nama` AS `nama`,`staftu`.`username` AS `username`,`staftu`.`password` AS `password`,'staftu' AS `role` from `staftu` ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `similarity`
+--
+CREATE VIEW similarity AS
+
+SELECT 
+	uji.idsoal AS idsoal,
+	a.idjawaban AS idjawaban_uji,
+  b.idjawaban AS idjawaban_latih,  
+  SUM(a.ntf_rf * b.ntf_rf) / (uji.panjangVektor * latih.panjangVektor) AS cosinesimilarity,  
+  latih.skorHuruf AS skorHuruf, 
+  latih.skorAngka AS skorAngka
+FROM 
+	fiturobjekpenilaian AS a 
+JOIN 
+	fiturreferensipenilaian AS b 
+  ON (a.term = b.term)
+JOIN
+	jawaban AS uji 
+  ON (uji.idjawaban = a.idjawaban)
+JOIN
+	jawaban AS latih 
+  ON (latih.idjawaban = b.idjawaban)
+
+GROUP BY a.idjawaban, b.idjawaban
+ORDER BY idjawaban_uji, cosinesimilarity DESC;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `nilaiujian`
+--
+CREATE VIEW nilaiujian  AS 
+  SELECT 
+    soal.idujian AS idujian,
+    jawaban.namaKelas AS namaKelas,
+    jawaban.nis AS nis,
+    sum(jawaban.skorAngka) AS nilai 
+  FROM 
+    jawaban
+  JOIN 
+    soal
+    ON soal.idsoal = jawaban.idsoal
+  
+  GROUP BY soal.idujian, jawaban.nis
+  ORDER BY soal.idujian, jawaban.namaKelas, jawaban.nis;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `daftarnilaiujian`
+--
+ALTER TABLE `daftarnilaiujian`
+  ADD PRIMARY KEY (`iddaftarnilai`),
+  ADD KEY `FK_MEMILIKI` (`nis`),
+  ADD KEY `FK_MENDAPATKAN` (`idujian`);
+
+--
+-- Indexes for table `fiturobjekpenilaian`
+--
+ALTER TABLE `fiturobjekpenilaian`
+  ADD PRIMARY KEY (`idjawaban`,`term`);
+
+--
+-- Indexes for table `fiturreferensipenilaian`
+--
+ALTER TABLE `fiturreferensipenilaian`
+  ADD PRIMARY KEY (`idjawaban`,`skorHuruf`,`term`);
+
+--
+-- Indexes for table `guru`
+--
+ALTER TABLE `guru`
+  ADD PRIMARY KEY (`idguru`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
+-- Indexes for table `jawaban`
+--
+ALTER TABLE `jawaban`
+  ADD PRIMARY KEY (`idjawaban`),
+  ADD KEY `FK_DIJAWAB_DENGAN` (`idsoal`),
+  ADD KEY `FK_MENGISI` (`nis`);
+
+--
+-- Indexes for table `kelas`
+--
+ALTER TABLE `kelas`
+  ADD PRIMARY KEY (`idkelas`);
+
+--
+-- Indexes for table `matapelajaran`
+--
+ALTER TABLE `matapelajaran`
+  ADD PRIMARY KEY (`idmapel`);
+
+--
+-- Indexes for table `pelaksanaanujian`
+--
+ALTER TABLE `pelaksanaanujian`
+  ADD PRIMARY KEY (`idpelaksanaan`),
+  ADD KEY `FK_DILAKSANAAN_DI` (`idkelas`),
+  ADD KEY `FK_DILAKSANAKAN_PADA` (`idujian`);
+
+--
+-- Indexes for table `pengampu`
+--
+ALTER TABLE `pengampu`
+  ADD PRIMARY KEY (`idpengampu`),
+  ADD KEY `FK_MELAKSANAKAN_TUGAS` (`idguru`),
+  ADD KEY `FK_MENGAJAR` (`idmapel`),
+  ADD KEY `FK_MENGAJAR_DI` (`idkelas`);
+
+--
+-- Indexes for table `siswa`
+--
+ALTER TABLE `siswa`
+  ADD PRIMARY KEY (`nis`),
+  ADD KEY `FK_MENGIKUTI` (`idkelas`);
+
+--
+-- Indexes for table `soal`
+--
+ALTER TABLE `soal`
+  ADD PRIMARY KEY (`idsoal`),
+  ADD KEY `FK_TERDIRI_DARI` (`idujian`);
+
+--
+-- Indexes for table `staftu`
+--
+ALTER TABLE `staftu`
+  ADD PRIMARY KEY (`username`);
+
+--
+-- Indexes for table `ujian`
+--
+ALTER TABLE `ujian`
+  ADD PRIMARY KEY (`idujian`),
+  ADD KEY `FK_MEMBUAT` (`idguru`),
+  ADD KEY `FK_UNTUK_MEMENUHI` (`idmapel`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `daftarnilaiujian`
+--
+ALTER TABLE `daftarnilaiujian`
+  MODIFY `iddaftarnilai` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `guru`
+--
+ALTER TABLE `guru`
+  MODIFY `idguru` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+
+--
+-- AUTO_INCREMENT for table `jawaban`
+--
+ALTER TABLE `jawaban`
+  MODIFY `idjawaban` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+
+--
+-- AUTO_INCREMENT for table `kelas`
+--
+ALTER TABLE `kelas`
+  MODIFY `idkelas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `matapelajaran`
+--
+ALTER TABLE `matapelajaran`
+  MODIFY `idmapel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
+-- AUTO_INCREMENT for table `pelaksanaanujian`
+--
+ALTER TABLE `pelaksanaanujian`
+  MODIFY `idpelaksanaan` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `pengampu`
+--
+ALTER TABLE `pengampu`
+  MODIFY `idpengampu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=375;
+
+--
+-- AUTO_INCREMENT for table `soal`
+--
+ALTER TABLE `soal`
+  MODIFY `idsoal` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `ujian`
+--
+ALTER TABLE `ujian`
+  MODIFY `idujian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `daftarnilaiujian`
+--
+ALTER TABLE `daftarnilaiujian`
+  ADD CONSTRAINT `FK_MEMILIKI` FOREIGN KEY (`nis`) REFERENCES `siswa` (`nis`),
+  ADD CONSTRAINT `FK_MENDAPATKAN` FOREIGN KEY (`idujian`) REFERENCES `ujian` (`idujian`);
+
+--
+-- Constraints for table `fiturobjekpenilaian`
+--
+ALTER TABLE `fiturobjekpenilaian`
+  ADD CONSTRAINT `FK_SEBAGAI_OBJ_PENILAIAN` FOREIGN KEY (`idjawaban`) REFERENCES `jawaban` (`idjawaban`);
+
+--
+-- Constraints for table `fiturreferensipenilaian`
+--
+ALTER TABLE `fiturreferensipenilaian`
+  ADD CONSTRAINT `FK_SEBAGAI_REF_PENILAIAN` FOREIGN KEY (`idjawaban`) REFERENCES `jawaban` (`idjawaban`);
+
+--
+-- Constraints for table `jawaban`
+--
+ALTER TABLE `jawaban`
+  ADD CONSTRAINT `FK_DIJAWAB_DENGAN` FOREIGN KEY (`idsoal`) REFERENCES `soal` (`idsoal`),
+  ADD CONSTRAINT `FK_MENGISI` FOREIGN KEY (`nis`) REFERENCES `siswa` (`nis`);
+
+--
+-- Constraints for table `pelaksanaanujian`
+--
+ALTER TABLE `pelaksanaanujian`
+  ADD CONSTRAINT `FK_DILAKSANAAN_DI` FOREIGN KEY (`idkelas`) REFERENCES `kelas` (`idkelas`),
+  ADD CONSTRAINT `FK_DILAKSANAKAN_PADA` FOREIGN KEY (`idujian`) REFERENCES `ujian` (`idujian`);
+
+--
+-- Constraints for table `pengampu`
+--
+ALTER TABLE `pengampu`
+  ADD CONSTRAINT `FK_MELAKSANAKAN_TUGAS` FOREIGN KEY (`idguru`) REFERENCES `guru` (`idguru`),
+  ADD CONSTRAINT `FK_MENGAJAR` FOREIGN KEY (`idmapel`) REFERENCES `matapelajaran` (`idmapel`),
+  ADD CONSTRAINT `FK_MENGAJAR_DI` FOREIGN KEY (`idkelas`) REFERENCES `kelas` (`idkelas`);
+
+--
+-- Constraints for table `siswa`
+--
+ALTER TABLE `siswa`
+  ADD CONSTRAINT `FK_MENGIKUTI` FOREIGN KEY (`idkelas`) REFERENCES `kelas` (`idkelas`);
+
+--
+-- Constraints for table `soal`
+--
+ALTER TABLE `soal`
+  ADD CONSTRAINT `FK_TERDIRI_DARI` FOREIGN KEY (`idujian`) REFERENCES `ujian` (`idujian`);
+
+--
+-- Constraints for table `ujian`
+--
+ALTER TABLE `ujian`
+  ADD CONSTRAINT `FK_MEMBUAT` FOREIGN KEY (`idguru`) REFERENCES `guru` (`idguru`),
+  ADD CONSTRAINT `FK_UNTUK_MEMENUHI` FOREIGN KEY (`idmapel`) REFERENCES `matapelajaran` (`idmapel`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

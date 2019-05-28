@@ -9,11 +9,6 @@ class Stemmer(StemmerSastrawi):
     """
     Bertugas untuk Mengubah Kata Menjadi Kata Dasar
     """
-    @lru_cache()
-    def stem_word(self, word):
-        """Stem Kata"""
-        return super().stem_word(word)
-
     def stem_tokens(self, tokens):
         """
         Stem List Tokens
@@ -34,13 +29,13 @@ class StemmerFactory(StemmerFactorySastrawi):
         """ 
         Membuat Objek Stemmer
         """
-        dictionary = self.get_root_words_dict()
+        dictionary = self.__get_root_words_dict()
 
         stemmer = Stemmer(dictionary)
         return stemmer
 
     @lru_cache()
-    def get_root_words_dict(self):
+    def __get_root_words_dict(self):
         """
         Mendapatkan Daftar Kata Dasar
         Default Sastrawi

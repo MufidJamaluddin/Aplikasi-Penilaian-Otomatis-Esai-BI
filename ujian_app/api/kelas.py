@@ -33,7 +33,7 @@ class KelasAPI(MethodView):
    
     def put(self, idkelas):
         '''
-        Menyimpan data kelas
+        Mengedit data kelas
         '''
         data_kelas = request.get_json()
         namaKelas = data_kelas['namaKelas']

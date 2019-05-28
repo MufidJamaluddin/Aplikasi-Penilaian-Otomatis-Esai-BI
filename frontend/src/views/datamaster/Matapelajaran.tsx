@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { CardBody, Col, Table, Button,Form, FormGroup, Input } from 'reactstrap';
 import DataMatapelajaran from '../../models/item_model';
 import { initDatamatapelajaran, inputDatamatapelajaran, updateMatapelajaran, hapusMatapelajaran } from '../../models/MatapelajaranData';
-import { ModalForm, LayoutCard } from '../../layout';
+import { ModalForm, LayoutCard, Loading } from '../../layout';
 
 
 /**
@@ -148,7 +148,7 @@ renderModalEdit()
     <ModalForm 
       className={'modal-warning ' + this.props.className}
       header={ "Edit Mata Pelajaran "}
-      strsubmit="Edit"
+      strsubmit="Simpan"
       isOpen={ this.state.modal.edit }
       toggle={ this.toggleUpdateMatapelajaran }
       onClickSubmit={ this.editMatapelajaran }>
@@ -188,11 +188,7 @@ render()
   var list_matapelajaran = this.state.list_matapelajaran;
 
   if(this.state.isLoading)
-    return (<div className="d-flex justify-content-center">
-              <div className="spinner-border text-success" role="status">
-                <span className="sr-only">Loading...</span>
-              </div>
-            </div>);
+    return (Loading);
 
   return (
     <LayoutCard>

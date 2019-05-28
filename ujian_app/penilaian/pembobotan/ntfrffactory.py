@@ -1,19 +1,37 @@
-from .tfdata import TfMaxDataStore, DocNumberTermDataStore, RfMaxDataStore
-from .ntfrf import NtfRfLabeledWeighter, NtfRfUnlabeledWeighter
+from ujian_app.repository import DocNumRepository, NtfRfRepository
+from sqlalchemy.sql.expression import and_
+from .ntfrflabelled import NtfRfLabeledWeighter
+from .ntfrfunlabelled import NtfRfUnlabeledWeighter
 
-class NtfRfWeighterFactory(object):
+class NtfRfFactory(object):
+    '''
+    Kelas untuk pembobotan term
+    data latih dan data uji
+    pada tiap soal
+    '''
 
-    def __init__(self, max_tf_data: TfMaxDataStore, doc_rf_term_data: DocNumberTermDataStore | RfMaxDataStore):
-        self.max_tf_data = max_tf_data
-        self.doc_rf_term_data = doc_rf_term_data
-
+    def __init__(self):
+        self.__docnum_repository = DocNumRepository()
+        self.__ntfrf_repository = NtfRfRepository()
+        self.__ntfrflabelled = None
+        self.__ntfrfunlabelled = None
+    
+    def __del__(self):
+        del self.__docnum_repository
+        del self.__ntfrf_repository
+        del self.__ntfrflabelled
+        del self.__ntfrfunlabelled    
+    
     def create(self, training=True):
-        '''
-        training : data yang dinilai guru atau bukan
-        
-        '''
         if training:
-            ntf_rf_weighter = NtfRfLabeledWeighter(self.max_tf_data, self.doc_rf_term_data)
+            if self.__ntfrflabelled is None:
+                self.__ntfrflabelled = NtfRfLabeledWeighter(
+                    self.__docnum_repository, self.__ntfrf_repository
+                )
+            return self.__ntfrflabelled
         else:
-            ntf_rf_weighter = NtfRfUnlabeledWeighter(self.max_tf_data, self.doc_rf_term_data)
-        return ntf_rf_weighter
+            if self.__ntfrfunlabelled is None:
+                self.__ntfrfunlabelled = NtfRfUnlabeledWeighter(
+                    self.__docnum_repository, self.__ntfrf_repository
+                )
+            return self.__ntfrfunlabelled

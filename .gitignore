@@ -6,6 +6,7 @@
 # python
 __pycache__/
 venv/
+deactivate/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

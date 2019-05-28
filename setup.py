@@ -4,5 +4,8 @@ setup(
     name='PenilaianUjianEsaiOtomatis',
     author='Lucky, Mufid, Nurindah',
     packages=['ujian_app'],
-    long_description=open('README.md').read()
+    long_description=open('README.md').read(),
+    package_data={
+        '': ['data/*.txt', 'static/*'],
+    }
 )

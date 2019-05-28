@@ -10,6 +10,7 @@ class PelaksanaanUjianAPI(MethodView):
         Mendapatkan semua PelaksanaanUjian / berasarkan idujian
         '''
         repository = UjianRepository()
+        pel_repo = PelaksanaanUjianRepository()
         ujian = repository.findById(idujian)
 
         ujiand = {}
@@ -20,8 +21,13 @@ class PelaksanaanUjianAPI(MethodView):
         ujiand['durasi'] = str(ujian.durasi)
         ujiand['status_ujian'] = ujian.status_ujian
 
+        pelaksanaan_ujian = pel_repo.findByKeys(
+            idujian=ujian.idujian,
+            flag='1'
+        )
+
         listpel = []
-        for p in ujian.pelaksanaan_ujian:
+        for p in pelaksanaan_ujian:
             pel = {}
             pel['idkelas'] = p.idkelas
             pel['idujian'] = p.idujian

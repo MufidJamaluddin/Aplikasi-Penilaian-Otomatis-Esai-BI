@@ -23,7 +23,7 @@ class TfBigram(object):
     Bertugas Menghitung TF pada term Bigram
     """
 
-    def get_term_bigram(self, indeks_token_pertama:int, tokens:list):
+    def __get_term_bigram(self, indeks_token_pertama:int, tokens:list):
         """
         Menggabungkan Dua String (Bigram)
         """
@@ -40,7 +40,7 @@ class TfBigram(object):
         sz = len(tokens) - 1
 
         for i in range(sz):
-            bigram_token = self.get_term_bigram(i, tokens)
+            bigram_token = self.__get_term_bigram(i, tokens)
 
             if bigram_token in vektor_tf_bigram:
                 vektor_tf_bigram[bigram_token] = vektor_tf_bigram[bigram_token] + 1

@@ -1,23 +1,84 @@
 import React, { Component } from 'react';
 import { Form, Card, CardBody, CardHeader, Col, Row, Table, Button, FormGroup, Input } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { initDaftarnilaiujian } from './../../models/NilaiData';
+import { Loading } from '../../layout';
+import DataNilai from './../../models/item_model';
+import DataUjian from './../../models/item_model';
 
-
-
-interface DetailHasilUjianStateModel {}
+interface DetailHasilUjianStateModel 
+{
+  list_nilai: Array<DataNilai>;
+  list_filter_nilai: Array<DataNilai>;
+  list_kelas: Array<string>;
+  ujian?: DataUjian;
+}
 
 interface DetailHasilUjianPropsModel { className?: string; }
 
-class DetailHasilUjian extends Component<DetailHasilUjianPropsModel, DetailHasilUjianStateModel>
+interface RouteParam { idujian:string; }
+
+class DetailHasilUjian extends Component<DetailHasilUjianPropsModel & RouteComponentProps<RouteParam>, DetailHasilUjianStateModel>
 {
-  constructor(props: Readonly<DetailHasilUjianPropsModel>) 
+  /**
+   * ID UJIAN
+   * Keterangan Ujian
+   */
+  private idujian: string;
+
+  constructor(props: any) 
   {
     super(props);
+    this.idujian = props.match.params.idujian;
+
+    this.state = {
+      list_nilai: [], 
+      list_filter_nilai: [], 
+      list_kelas: []
+    };
+
+    this.onKelasChange = this.onKelasChange.bind(this);
+  }
+
+  componentDidMount()
+  {
+    initDaftarnilaiujian(this.idujian).then(data => {
+      /**
+       * State Berubah -> Render Ulang
+       */
+      let list_fnilai = data.list_nilai.filter(nilai => {
+        return nilai.namaKelas === (data.list_kelas[0]||'')
+      })
+
+      this.setState({ 
+        list_nilai: data.list_nilai, 
+        list_kelas: data.list_kelas,
+        ujian: data.ujian,
+        list_filter_nilai: list_fnilai
+      });
+    })
+  }
+
+  onKelasChange(e:any)
+  {
+    e.preventDefault()
+
+    let kelas_baru = e.target.value;
+
+    let list_nilai_baru = this.state.list_nilai.filter(nilai => {
+      return nilai.namaKelas === kelas_baru
+    })
+
+    this.setState({ list_filter_nilai: list_nilai_baru });
 
   }
 
   public render() : JSX.Element 
   {
+    let ujian = this.state.ujian;
+
+    if(ujian === undefined) return (Loading)
+
     return (
       <div className="animated fadeIn">
         <Row>
@@ -26,31 +87,30 @@ class DetailHasilUjian extends Component<DetailHasilUjianPropsModel, DetailHasil
               <CardHeader>
 
 				            <Col md="12">
-                      <h5>No Test : TST00001</h5>
-                      <h5>Pendidikan Kewarganegaraan</h5>
-                      <h5>PKN Bab 1</h5>
+                      <h5>ID Ujian&emsp;&emsp;&emsp;&emsp;: {ujian.idujian}</h5>
+                      <h5>Matapelajaran&emsp;: {ujian.namaMapel}</h5>
+                      <h5>Nama Ujian &emsp;&emsp;: {ujian.namaUjian}</h5>
                     </Col>
 
               </CardHeader>
 			  
               <CardBody>
                   
-              <Form action="" method="post" className="form-horizontal">
+              <Form className="form-horizontal">
 				<FormGroup row>
                     
 					<Col sm="3">
                        
-                        <Input type="select" >
-                            <option value="XII-IPA 1">Pilih Kelas...</option>
-                            <option value="XII-IPA 1">XII-IPA 1</option>
-                            <option value="XII-IPA 2">XII-IPA 2</option>
-                            <option value="XII-IPA 3">XII-IPA 3</option>
-                            <option value="XII-IPA 4">XII-IPA 4</option>
-                            <option value="XII-IPA 5">XII-IPA 5</option>
-                            <option value="XII-IPA 6">XII-IPA 6</option>
-                            <option value="XII-IPA 7">XII-IPA 7</option>
-                            <option value="XII-IPA 8">XII-IPA 8</option>    
-                        </Input>
+            <Input type="select" onChange={this.onKelasChange}>
+              {
+                this.state.list_kelas.map(kelas => {
+                  return (
+                    <option key={kelas} value={kelas}>{kelas}</option>
+                  )
+                })
+              }
+            </Input>
+
 					</Col>
 					
                     <Col className="col-sm-9 text-right">
@@ -58,28 +118,33 @@ class DetailHasilUjian extends Component<DetailHasilUjianPropsModel, DetailHasil
                     </Col>
 				</FormGroup>
              
-                <Table responsive size="sm">
+        <Table responsive size="sm">
                 
-                <thead>
-                  <tr>
-                    <th>NIS</th>
-                    <th>Nama Siswa</th>
-                    <th>Nilai Akhir</th>
-                  </tr>
-                </thead>
-                
-                <tbody>
-                  <tr>
-                    <td>161511001</td>
-                    <td>Adhitya Noor Muslim</td>
-                    <td>80</td>
-                  </tr>
+          <thead>
+            <tr>
+              <th>NIS</th>
+              <th>Nama Siswa</th>
+              <th>Nilai Ujian</th>
+            </tr>
+          </thead>
 
-      				  </tbody>
+          <tbody>
+          {
+            this.state.list_filter_nilai.map(nilai => {
+              return (
+                <tr key={nilai.nis}>
+                  <td>{nilai.nis}</td>
+                  <td>{nilai.nama}</td>
+                  <td>{nilai.nilai}</td>
+                </tr>
+              );
+            })
+          }
+          </tbody>
         </Table>
         
         <Col className="col-sm-12 text-right">
-          <Link to="./ujian">
+          <Link to="/ujian">
             <Button className="text-right" color="primary" >Kembali</Button>
           </Link>
         </Col>
