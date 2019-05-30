@@ -9,13 +9,14 @@ class SkorAngkaKeHuruf(object) :
     def __init__(self, skor_max:int, skor_min:int, jumlah_kelas=4):
         self.__skor_max = skor_max
         self.__skor_min = skor_min
-        self.__interval = (skor_max - skor_min) / jumlah_kelas
+        interval = (skor_max - skor_min) / jumlah_kelas
+        self.__selisih = interval - 1
 
     def __get_skor_huruf(self, skor_angka:int, ascii_skor:int, batas_atas:int):
         '''
         Mendapatkan skor huruf
         '''
-        batas_bawah = batas_atas - self.__interval
+        batas_bawah = batas_atas - self.__selisih
         if batas_bawah <= skor_angka <= batas_atas:
             return chr(ascii_skor)
         elif skor_angka > self.__skor_min:
