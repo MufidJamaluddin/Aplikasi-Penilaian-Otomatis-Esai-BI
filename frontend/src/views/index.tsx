@@ -7,6 +7,7 @@ import TambahUjian from './ujianesai/TambahUjian';
 import UpdateUjian from './ujianesai/UpdateUjian';
 import Penilaian from './penilaian/Penilaian';
 import NilaiUjian from './penilaian/NilaiUjian';
+import NilaiManual from './penilaian/NilaiManual';
 import BuatSoal from './ujianesai/BuatSoal';
 import DetailUjian from './ujianesai/DetailUjian';
 import LihatSoal from './ujianesai/LihatSoal';
@@ -34,6 +35,7 @@ export {
   DetailHasilUjian,
   Login,
   Gantipassword,
+  NilaiManual,
   UjianEsai,
   PersiapanUjian,
 };
