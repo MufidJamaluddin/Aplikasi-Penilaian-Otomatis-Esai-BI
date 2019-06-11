@@ -33,6 +33,7 @@ const PersiapanUjian = React.lazy(() => import('./views/ujianesai/PersiapanUjian
  */
 const Penilaian = React.lazy(() => import('./views/penilaian/Penilaian'));
 const NilaiUjian = React.lazy(() => import('./views/penilaian/NilaiUjian'));
+const NilaiManual = React.lazy(() => import('./views/penilaian/NilaiManual'));
 
 /**
  * Laporan Ujian
@@ -54,6 +55,7 @@ const GURU_ROUTES = [
   { path: '/ujian', name: 'Ujian', component: Ujian },
 
   { path: '/penilaian/:idujian', name: 'Nilai Ujian', component: NilaiUjian },
+  { path: '/nilaimanual', name: 'Nilai Manual', component: NilaiManual },
   { path: '/penilaian', name: 'Penilaian Ujian', component: Penilaian },
 
   { path: '/hasilujian/:idujian', name: 'Detail Hasil Ujian', component: DetailHasilUjian },
