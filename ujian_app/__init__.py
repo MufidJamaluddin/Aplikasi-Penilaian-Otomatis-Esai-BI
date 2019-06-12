@@ -18,7 +18,6 @@ def make_app():
     
     # Secret Key untuk Session 
     # http://flask.pocoo.org/docs/1.0/quickstart
-    #app.secret_key = hexlify(urandom(24))
     app.secret_key = '228632004176512061657206875912910109'
 
     app.config.update(Config.get_config())

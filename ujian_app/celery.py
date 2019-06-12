@@ -13,7 +13,7 @@ def make_celery(name, config):
     )
 
     # Menambahkan konfigurasi tambahan
-    celery.conf.update(config)
+    # celery.conf.update(config)
     return celery
 
 def init_celery(celery, app):
@@ -29,4 +29,7 @@ def init_celery(celery, app):
                 return self.run(*args, **kwargs)
     
     celery.Task = ContextTask
+
+    from .tasks import penskoran_manual, penilaian_otomatis
+
     return celery
