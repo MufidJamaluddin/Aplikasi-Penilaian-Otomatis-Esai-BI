@@ -8,12 +8,14 @@ def make_celery(name, config):
     '''
     celery = Celery(
         name,
-        backend=config['CELERY_RESULT_BACKEND'],
         broker=config['CELERY_BROKER_URL']
     )
 
     # Menambahkan konfigurasi tambahan
-    # celery.conf.update(config)
+    celery.conf.update({
+        'result_backend': config['CELERY_RESULT_BACKEND']
+    })
+
     return celery
 
 def init_celery(celery, app):
@@ -29,7 +31,5 @@ def init_celery(celery, app):
                 return self.run(*args, **kwargs)
     
     celery.Task = ContextTask
-
-    from .tasks import penskoran_manual, penilaian_otomatis
 
     return celery

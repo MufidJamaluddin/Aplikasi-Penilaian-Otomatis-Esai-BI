@@ -14,3 +14,4 @@ from .soal import SoalAPI
 from .jawaban import JawabanAPI
 from .pelaksanaanujian import PelaksanaanUjianAPI
 from .importpenilaian import ImportPenilaianAPI
+from .penilaian import PenilaianAPI
