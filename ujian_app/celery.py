@@ -1,28 +1,26 @@
 from flask import Flask
 from celery import Celery
 from flask_sqlalchemy import SQLAlchemy
+from .config import Config
 
-def make_celery(name, config):
+def make_celery(name, app):
     '''
     Membuat Objek Celery
     '''
+    config = Config.get_config()
+
     celery = Celery(
         name,
-        broker=config['CELERY_BROKER_URL']
+        broker=config.get('CELERY_BROKER_URL')
     )
 
     # Menambahkan konfigurasi tambahan
     celery.conf.update({
-        'result_backend': config['CELERY_RESULT_BACKEND']
+        'result_backend': config.get('CELERY_RESULT_BACKEND')
     })
 
-    return celery
-
-def init_celery(celery, app):
-    '''
-    Menambahkan Konteks Aplikasi ke Celery
-    sumber : http://flask.pocoo.org/docs/1.0/patterns/celery
-    '''
+    # Menambahkan Konteks Aplikasi ke Celery
+    # sumber : http://flask.pocoo.org/docs/1.0/patterns/celery
     class ContextTask(celery.Task):
         # Inherit untuk menambahkan konteks
         # aplikasi Flask

@@ -2,7 +2,6 @@ from ujian_app.penilaian import (
     PenilaianOtomatis, PenskoranManual
 )
 from celery import task
-from . import celery
 
 @task
 def penskoran_manual(idujian, idkelas):

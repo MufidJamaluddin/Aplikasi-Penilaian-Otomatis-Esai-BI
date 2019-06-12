@@ -6,10 +6,11 @@ from celery.bin import worker
 #   Dua Command yg Harus Dieksekusi
 #   di Dua Terminal
 #   1. Jalankan Aplikasi
-#      python run.py run
+#      python run_app.py run
 #   2. Jalankan Celery Worker : 
-#      celery -A ujian_app.celery worker
+#      python run_cworker.py
 
 if __name__ == "__main__":
     app = make_app()
+    app.app_context().push()
     app.run(port=5000)
