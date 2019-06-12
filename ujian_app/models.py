@@ -10,8 +10,9 @@ from sqlalchemy.orm import relationship
 # flask-sqlacodegen --outfile models.py mysql://ujian_app_user:majubersama@localhost:3306/ujian_app
 # Hrs Di Ubah 
 
-from . import db
+from . import make_db
 
+db = make_db()
 Base = db.Model
 metadata = Base.metadata
 
