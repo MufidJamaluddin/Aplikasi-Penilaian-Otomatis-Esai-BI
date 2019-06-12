@@ -10,6 +10,8 @@ from flask_excel import init_excel
 db = SQLAlchemy()
 celery = make_celery('ujian_app', Config.get_config())
 
+from .tasks import penskoran_manual, penilaian_otomatis
+
 def make_app():
     '''
     Creator objek app
