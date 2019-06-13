@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Modal, Table, CardGroup, Progress, ModalBody, ModalFooter, ModalHeader, Form, Input, Button, Card, CardBody, CardHeader, Col, Row, TabContent, TabPane, Container } from 'reactstrap';
+import { Modal, Table, Progress, ModalBody, ModalFooter, ModalHeader, Form, Input, Button, Card, CardBody, CardHeader, Col, Row, TabContent, TabPane, Container } from 'reactstrap';
 import FormGroup from 'reactstrap/lib/FormGroup';
 import { initDataPelaksanaan } from '../../models/PelaksanaanData';
 import DataUjian from '../../models/item_model';
@@ -9,8 +9,8 @@ import DataPelaksanaanUjian from '../../models/item_model';
 interface NilaiUjianStateModel { 
   activeTab: number; 
   submitnilaimanual:boolean; 
-  nilaimanual:boolean; 
-  modal: boolean;
+  //nilaimanual:boolean; 
+  //modal: boolean;
   /**
    * Data Ujian
    */
@@ -36,19 +36,19 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
   constructor(props:any) 
 	{
 		super(props);
-		this.toggle = this.toggle.bind(this);
+		//this.toggle = this.toggle.bind(this);
     this.state = {
       activeTab: 0,
       submitnilaimanual: false,
-      nilaimanual:false,
-			modal: false 
+    //  nilaimanual:false,
+		//	modal: false 
     };
 
     this.idujian = props.match.params.idujian;
 
-    this.modal= this.modal.bind(this);
+    //this.modal= this.modal.bind(this);
     this.toggleSubmitNilaiManual = this.toggleSubmitNilaiManual.bind(this);
-    this.toggleNilaiManual = this.toggleNilaiManual.bind(this);
+    //this.toggleNilaiManual = this.toggleNilaiManual.bind(this);
   }
 
   componentDidMount()
@@ -58,12 +58,14 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
     });
   }
 
+  /*
 	public modal() : void
 	{
     this.setState({
       modal: !this.state.modal,
     });
   }
+  */
   
 	public toggleSubmitNilaiManual() : void 
 	{
@@ -72,6 +74,7 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
     });
   }
 
+  /*
   public toggleNilaiManual(datapel?:DataPelaksanaanUjian)
 	{
     this.setState({
@@ -79,6 +82,7 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
       datapel_selected: datapel
     });
   }
+  */
 
   toggle(tab:any) {
     if (this.state.activeTab !== tab) {
@@ -95,14 +99,17 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
       case "2":
         return (<span className="badge badge-success">Sudah dinilai manual</span>);
       case "1":
-        return (<Button className="btn-twitter btn-brand icon btn-sm" 
-          onClick={()=>this.toggleNilaiManual(datapel)} >Nilai Ujian</Button>
+        return (
+          <Link to={"/nilaimanual/" + datapel.idujian + '/' + datapel.idkelas}>
+            <Button className="btn-twitter btn-brand icon btn-sm">Nilai Ujian</Button>
+          </Link>
         );
       default:
         return (<span className="badge badge-danger">Belum ujian</span>);
     }
   }
 
+  /*
   renderModalPenilaianManual()
   {
     if(this.state.datapel_selected === undefined) return;
@@ -135,6 +142,7 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
       </Modal> 
     )
   }
+  */
 
 	public render() : JSX.Element
 	{
@@ -148,8 +156,6 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
           <Col md="12">
             <Card>
               <CardBody>
-                
-                { this.renderModalPenilaianManual() }
                 
                 <TabContent activeTab={this.state.activeTab}>
                   

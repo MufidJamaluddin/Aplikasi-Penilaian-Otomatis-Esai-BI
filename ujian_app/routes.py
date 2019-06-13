@@ -2,8 +2,8 @@ from flask import current_app
 from .api import (
     GuruAPI, PengampuAPI, SiswaAPI, SoalAPI, UjianEsaiAPI, MatapelajaranAPI,
     AuthAPI, DaftarNilaiAPI, KelasAPI, MatapelajaranAPI, PengerjaanUjianAPI,
-    DownloadPenilaianAPI, UjianEsaiAPI, PanelSiswaAPI, PelaksanaanUjianAPI,
-    JawabanAPI, ImportPenilaianAPI#, ImportGuruAPI,
+    UjianEsaiAPI, PanelSiswaAPI, PelaksanaanUjianAPI, JawabanAPI, 
+    PenilaianManualAPI, PenilaianOtomatisAPI
 )
 
 def define_api_routes(app):  
@@ -14,7 +14,6 @@ def define_api_routes(app):
         {'url':'/api/auth', 'name':'auth', 'view':AuthAPI, 'methods':['GET','POST']},
         {'url':'/api/auth/<string:username>', 'name':'auth_logout', 'view':AuthAPI, 'methods':['DELETE']},
         {'url':'/api/panelsiswa', 'name':'panelsiswa', 'view':PanelSiswaAPI, 'methods':['GET']},
-
             
         {'url':'/api/kelas', 'name':'kelas', 'view':KelasAPI, 'methods':['GET','POST']},
         {'url':'/api/kelas/<int:idkelas>', 'name':'kelas_dt', 'view':KelasAPI, 'methods':['PUT','DELETE']},
@@ -49,8 +48,10 @@ def define_api_routes(app):
         {'url':'/api/pelaksanaan/<int:idujian>/<int:idkelas>', 'name':'laksanakanujian', 'view':PelaksanaanUjianAPI, 'methods':['POST']},
         {'url':'/api/pelaksanaan/<int:idujian>', 'name':'pelaksanaanujian', 'view':PelaksanaanUjianAPI, 'methods':['GET']},
 
-        {'url':'/penilaianmanual/<int:idujian>/<int:idkelas>', 'name':'penilaianmanual', 'view':DownloadPenilaianAPI, 'methods':['GET']},
-        {'url':'/penilaianmanual/<int:idujian>/<int:idkelas>', 'name':'importpenilaian', 'view':ImportPenilaianAPI, 'methods':['POST']},
+        {'url':'/api/penilaianmanual/<int:idujian>/<int:idkelas>', 'name':'jawaban_nilaimanual', 'view':PenilaianManualAPI, 'methods':['GET']},
+        {'url':'/api/penilaianmanual/<int:idujian>/<int:idkelas>', 'name':'nilaimanual', 'view':PenilaianManualAPI, 'methods':['POST']},
+
+        {'url':'/api/penilaian/<int:idujian>', 'name':'penilaianotomatis', 'view':PenilaianOtomatisAPI, 'methods':['POST']},
 
         {'url':'/api/daftarnilai/<int:idujian>', 'name':'daftarnilaiujian', 'view':DaftarNilaiAPI, 'methods':['GET']},
     ]
