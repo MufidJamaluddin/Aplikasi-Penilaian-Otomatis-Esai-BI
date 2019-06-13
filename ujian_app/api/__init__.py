@@ -5,7 +5,7 @@ from .daftarnilai import DaftarNilaiAPI
 from .kelas import KelasAPI
 from .matapelajaran import MatapelajaranAPI
 from .pengerjaanujian import PengerjaanUjianAPI
-from .downloadpenilaian import DownloadPenilaianAPI
+#from .downloadpenilaian import DownloadPenilaianAPI
 from .ujianesai import UjianEsaiAPI
 from .panelsiswa import PanelSiswaAPI
 from .pengampu import PengampuAPI
@@ -13,5 +13,6 @@ from .ujianesai import UjianEsaiAPI
 from .soal import SoalAPI
 from .jawaban import JawabanAPI
 from .pelaksanaanujian import PelaksanaanUjianAPI
-from .importpenilaian import ImportPenilaianAPI
-from .penilaian import PenilaianAPI
+#from .importpenilaian import ImportPenilaianAPI
+from .penilaianmanual import PenilaianManualAPI
+from .penilaianotomatis import PenilaianOtomatisAPI

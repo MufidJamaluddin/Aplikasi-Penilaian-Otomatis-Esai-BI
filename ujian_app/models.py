@@ -121,6 +121,8 @@ class Ujian(Base):
     jumlahSoal = Column(SmallInteger, nullable=False)
     durasi = Column(SmallInteger)
     status_ujian = Column(String(1), server_default=text("'0'"))
+    progress_penilaian = Column(String(3))
+    pesan_progress_penilaian = Column(String(50))
     flag = Column(String(1), server_default=text("'0'"))
 
     guru = relationship('Guru')
@@ -163,8 +165,6 @@ class PelaksanaanUjian(Base):
     waktu_mulai = Column(DateTime)
     status_pelaksanaan = Column(String(1), server_default=text("'0'"))
     status_penilaian = Column(String(1), server_default=text("'0'"))
-    progress_penilaian = Column(String(3))
-    pesan_progress_penilaian = Column(String(50))
     flag = Column(String(1), server_default=text("'0'"))
 
     kelas = relationship('Kelas')
@@ -199,6 +199,7 @@ class Jawaban(Base):
     nilaiOtomatis = Column(SmallInteger)
     namaKelas = Column(String(12))
     panjangVektor = Column(Float)
+    sample = Column(String(1), server_default=text("'0'"))
 
     soal = relationship('Soal')
     siswa = relationship('Siswa')

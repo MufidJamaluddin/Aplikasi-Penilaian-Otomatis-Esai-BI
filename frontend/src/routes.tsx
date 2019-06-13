@@ -55,7 +55,7 @@ const GURU_ROUTES = [
   { path: '/ujian', name: 'Ujian', component: Ujian },
 
   { path: '/penilaian/:idujian', name: 'Nilai Ujian', component: NilaiUjian },
-  { path: '/nilaimanual', name: 'Nilai Manual', component: NilaiManual },
+  { path: '/nilaimanual/:idujian/:idkelas', name: 'Nilai Manual', component: NilaiManual },
   { path: '/penilaian', name: 'Penilaian Ujian', component: Penilaian },
 
   { path: '/hasilujian/:idujian', name: 'Detail Hasil Ujian', component: DetailHasilUjian },

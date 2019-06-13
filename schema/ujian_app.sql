@@ -112,7 +112,8 @@ CREATE TABLE `jawaban` (
   `skorAngka` char(3) DEFAULT NULL,
   `nilaiOtomatis` tinyint(1) DEFAULT NULL,
   `namaKelas` varchar(12) DEFAULT NULL,
-  `panjangVektor` float DEFAULT NULL
+  `panjangVektor` float DEFAULT NULL,
+  `sample` tinyint(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -155,8 +156,6 @@ CREATE TABLE `pelaksanaanujian` (
   `waktu_mulai` datetime DEFAULT NULL,
   `status_pelaksanaan` char(1) DEFAULT '0',
   `status_penilaian` char(1) DEFAULT '0',
-  `progress_penilaian` char(3) DEFAULT NULL,
-  `pesan_progress_penilaian` varchar(50) DEFAULT NULL,
   `flag` tinyint(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -236,6 +235,8 @@ CREATE TABLE `ujian` (
   `jumlahSoal` smallint(6) NOT NULL,
   `durasi` smallint(6) DEFAULT NULL,
   `status_ujian` char(1) DEFAULT '0',
+  `progress_penilaian` char(3) DEFAULT NULL,
+  `pesan_progress_penilaian` varchar(50) DEFAULT NULL,
   `flag` tinyint(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

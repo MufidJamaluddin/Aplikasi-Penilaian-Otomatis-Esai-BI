@@ -1,26 +1,42 @@
 import React, { Component } from 'react';
-import { Badge, Table, Button, ButtonGroup,  Card, CardBody, CardHeader, Col, Input,Row, TabContent, TabPane } from 'reactstrap';
-import { Link } from 'react-router-dom';
-
+import { Table, Button, ButtonGroup,  Card, CardBody, CardHeader, Col, Input,Row, TabContent, TabPane } from 'reactstrap';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import DataJawabanSoal from '../../models/item_model';
+import { initDataJawaban } from '../../models/PenilaianData';
 
 interface NilaiManualStateModel {
   activeTab:number;
- }
+  listjawaban: Array<any>;
+}
 
+interface RouteParam { idujian:string; idkelas:string; }
 
 interface NilaiManualModel { className?: string; }
 
-class NilaiManual extends Component<NilaiManualModel, NilaiManualStateModel>
+class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<RouteParam>, NilaiManualStateModel>
 {
-  constructor(props: Readonly<NilaiManualModel>) 
-  {
+  private idujian: string;
+  private idkelas: string;
 
+  constructor(props: any) 
+  {
     super(props);
+
+    this.idujian = props.match.params.idujian;
+    this.idkelas = props.match.params.idkelas;
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: 0
+      activeTab: 0,
+      listjawaban: []
     };
+  }
+
+  componentDidMount()
+  {
+    initDataJawaban(this.idujian, this.idkelas).then(list_data => {
+      this.setState({ listjawaban: list_data });
+    });
   }
 
   toggle(tabManual) {
