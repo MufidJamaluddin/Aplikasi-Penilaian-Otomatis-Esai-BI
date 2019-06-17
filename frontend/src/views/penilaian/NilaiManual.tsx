@@ -32,12 +32,12 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
     };
   }
 
-  componentDidMount()
+ /* componentDidMount()
   {
     initDataJawaban(this.idujian, this.idkelas).then(list_data => {
       this.setState({ listjawaban: list_data });
     });
-  }
+  }*/
 
   toggle(tabManual) {
     if (this.state.activeTab !== tabManual) {
