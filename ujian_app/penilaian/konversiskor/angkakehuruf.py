@@ -19,6 +19,8 @@ class SkorAngkaKeHuruf(object) :
         batas_bawah = batas_atas - self.__selisih
         if batas_bawah <= skor_angka <= batas_atas:
             return chr(ascii_skor)
+        elif batas_bawah <= self.__skor_min + 1:
+            return chr(ascii_skor)
         elif skor_angka >= self.__skor_min:
             batas_atas = batas_bawah - 1
             ascii_skor = ascii_skor + 1

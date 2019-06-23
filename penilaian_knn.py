@@ -15,4 +15,4 @@ with app.app_context():
     potomatis = PenilaianOtomatis(ID_UJIAN)
     potomatis.nilai_otomatis()
 
-#penilaian_otomatis.apply_async(args=[ID_UJIAN])
+#penilaian_otomatis.apply_async(args=[ID_UJIAN], retry=False)
