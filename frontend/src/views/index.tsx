@@ -17,6 +17,7 @@ import Login from './user/Login';
 import Gantipassword from './user/Gantipassword';
 import UjianEsai from './ujianesai/UjianEsai';
 import PersiapanUjian from './ujianesai/PersiapanUjian';
+import LaporanUjian from './laporan/LaporanUjian';
 
 export {
   Guru,
@@ -30,6 +31,7 @@ export {
   BuatSoal,
   DetailUjian,
   HasilUjian,
+  LaporanUjian,
   Penilaian,
   NilaiUjian,
   DetailHasilUjian,

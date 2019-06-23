@@ -11,8 +11,8 @@ const GURU_NAV = {
                   icon: 'icon-note',
             },
             {
-                  name: 'Hasil Ujian',
-                  url: '/hasilujian',
+                  name: 'Laporan Ujian',
+                  url: '/laporanujian',
                   icon: 'icon-note',
             },
             {
