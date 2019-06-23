@@ -1,6 +1,8 @@
 import API from "./api";
 import DaftarNilaiUjian from './item_model';
 
+import fetchDownload from 'fetch-download';
+
 /**
  * Mendapatkan DaftarNilaiUjian
  * dan Menampilkannya di View
@@ -16,4 +18,11 @@ function initDaftarnilaiujian(idmapel: string, idkelas: string)
     });
 }
 
-export { initDaftarnilaiujian };
+function downloadDaftarnilaiujian(idmapel: string, idkelas: string)
+{
+    fetchDownload(`/download/daftarnilai/${idmapel}/${idkelas}`).catch(err => {
+        console.log(err);
+    });
+}
+
+export { initDaftarnilaiujian, downloadDaftarnilaiujian };

@@ -102,6 +102,7 @@ interface NilaiUjian
     nis: string;
     nama: string
     nilai: KeyValueMaps<string>;
+    nilai_akhir: number;
 }
 
 export default interface DaftarNilaiUjian

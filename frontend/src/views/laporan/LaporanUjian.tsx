@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardHeader,Form, Col, Row, Table, Button, Input} from 'reactstrap';
 import DaftarNilaiUjian from '../../models/item_model';
-import DataKelas from '../../models/item_model';
-import DataMatapelajaran from '../../models/item_model';
 
 import DataPengampu from '../../models/item_model';
 import { initDataPengampu} from '../../models/UjianData';
 
-import { initDaftarnilaiujian } from '../../models/DaftarNilaiData';
+import { initDaftarnilaiujian, downloadDaftarnilaiujian } from '../../models/DaftarNilaiData';
 import FormGroup from 'reactstrap/lib/FormGroup';
 
 
@@ -41,6 +39,7 @@ class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
   {
     // Matapelajaran Harus Unik
     let lidmapel:any = {};
+    let lidkelas:any = {};
 
     initDataPengampu().then(list => {
       let listmapel = list.filter((val, i, arr) => {
@@ -51,8 +50,16 @@ class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
         }
       });
 
+      let listkelas = list.filter((val, i, arr) => {
+        if(lidkelas[val.idkelas] === undefined)
+        {
+          lidkelas[val.idkelas] = '';
+          return true;
+        }
+      });
+
       this.setState({
-        listkelas: list,
+        listkelas: listkelas,
         listmapel: listmapel
       });
     });
@@ -78,9 +85,23 @@ class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
     }
   }
 
+  render_export_button()
+  {
+    if(this.state.idmapel_selected !== undefined && this.state.idkelas_selected !== undefined)
+    {
+      return(
+        <Button 
+          className="btn-vine btn-brand mr-1 mb-1" 
+          onClick={e=>downloadDaftarnilaiujian(this.state.idmapel_selected, this.state.idkelas_selected)}
+          >
+          <i className="fa fa-download"></i><span>Export as Excel</span>
+        </Button>
+      )
+    }
+  }
+
   render()
   {
-    
     return (
       <div className="animated fadeIn">
       <Row>
@@ -110,10 +131,13 @@ class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
                       }
                     </Input>
                   </Col>
-
+                  
                   <Col className="col-sm-4 text-right">
-                    <Button className="btn-vine btn-brand mr-1 mb-1 "><i className="fa fa-download"></i><span>Export as CSV</span></Button>
+                    {
+                      this.render_export_button()
+                    }
                   </Col>
+                  
                 </FormGroup>
               </Form>
             </CardHeader>
@@ -124,9 +148,12 @@ class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
                 
                 <thead>
                   <tr>
-                    <th className="text-center" rowSpan={2}>NIS</th>
-                    <th className="text-center" rowSpan={2}>Nama siswa</th>
-                    <th className="text-center" colSpan={Object.keys(this.state.list_ujian).length}>Nama Ujian</th>
+                    <th className="text-center align-middle" rowSpan={2}>NIS</th>
+                    <th className="text-center align-middle" rowSpan={2}>Nama Siswa</th>
+                    <th className="text-center align-middle" colSpan={Object.keys(this.state.list_ujian).length}>
+                        Nilai Ujian
+                    </th>
+                    <th className="text-center align-middle" rowSpan={2}>Nilai Akhir</th>
                   </tr>
                 
                   <tr>
@@ -143,7 +170,7 @@ class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
                     this.state.list_nilai.map(dt_nilai => {
                       return (
                         <tr key={dt_nilai.nis}>
-                          <td>{dt_nilai.nis}</td>
+                          <td className="text-center">{dt_nilai.nis}</td>
                           <td>{dt_nilai.nama}</td>
                           {
                             Object.keys(this.state.list_ujian).map(idujian => {
@@ -152,6 +179,7 @@ class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
                               )
                             })
                           }
+                          <td className="text-center">{dt_nilai.nilai_akhir}</td>
                         </tr>
                       )
                     })
