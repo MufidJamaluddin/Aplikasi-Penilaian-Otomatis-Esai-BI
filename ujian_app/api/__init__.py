@@ -16,3 +16,5 @@ from .pelaksanaanujian import PelaksanaanUjianAPI
 #from .importpenilaian import ImportPenilaianAPI
 from .penilaianmanual import PenilaianManualAPI
 from .penilaianotomatis import PenilaianOtomatisAPI
+
+from .downloaddaftarnilai import DownloadDaftarNilaiAPI

@@ -1,8 +1,6 @@
 from flask.views import MethodView
 from flask import json, request
-from ujian_app.utils import AlchemyEncoder
 from ujian_app.repository import DaftarNilaiRepository
-from ujian_app.models import NilaiUjian, Siswa
 
 class DaftarNilaiAPI(MethodView):
     
@@ -21,13 +19,20 @@ class DaftarNilaiAPI(MethodView):
             data_nilai['nama'] = dt_nilai_siswa.nama
             data_nilai['nilai'] = {}
 
+            nilai_akhir = 0
             for dt_nilai in dt_nilai_siswa.daftarnilaiujian:
                 nama_ujian = dt_nilai.ujian.namaUjian
                 id_ujian = dt_nilai.ujian.idujian
                 data_nilai['nilai'][id_ujian] = dt_nilai.nilai
                 list_ujian[id_ujian] = nama_ujian
-            
+                nilai_akhir += int(dt_nilai.nilai)
+
+            data_nilai['nilai_akhir'] = nilai_akhir
             list_data_nilai.append(data_nilai)
+
+        sz = len(list_ujian)
+        for dt_nilai in list_data_nilai:
+            dt_nilai['nilai_akhir'] = dt_nilai['nilai_akhir'] / sz
 
         return json.jsonify({
             'list_ujian': list_ujian,

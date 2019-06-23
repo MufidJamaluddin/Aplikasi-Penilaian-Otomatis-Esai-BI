@@ -149,6 +149,7 @@ class DaftarNilaiUjian(Base):
     nis = Column(ForeignKey('siswa.nis'), nullable=False, index=True)
     idujian = Column(ForeignKey('ujian.idujian'), nullable=False, index=True)
     nilai = Column(String(3))
+    #nilai = Column(SmallInteger)
     namaKelas = Column(String(12))
     flag = Column(String(1), server_default=text("'0'"))
 

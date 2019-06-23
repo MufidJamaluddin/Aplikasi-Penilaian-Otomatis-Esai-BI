@@ -17,6 +17,7 @@
     "core-js": "^2.6.5",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.12.1",
+    "fetch-download": "^1.1.1",
     "flag-icon-css": "^3.2.1",
     "font-awesome": "^4.7.0",
     "http-proxy-middleware": "^0.19.1",
