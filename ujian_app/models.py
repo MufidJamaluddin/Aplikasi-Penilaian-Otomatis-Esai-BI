@@ -201,6 +201,9 @@ class Jawaban(Base):
     panjangVektor = Column(Float)
     sample = Column(String(1), server_default=text("'0'"))
 
+    skorHurufS = Column(String(1))
+    skorAngkaS = Column(SmallInteger)
+
     soal = relationship('Soal')
     siswa = relationship('Siswa')
 
