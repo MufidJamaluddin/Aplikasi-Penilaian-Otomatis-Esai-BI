@@ -40,7 +40,6 @@ const NilaiManual = React.lazy(() => import('./views/penilaian/NilaiManual'));
  */
 const HasilUjian = React.lazy(() => import('./views/laporan/HasilUjian'));
 const LaporanUjian = React.lazy(() => import('./views/laporan/LaporanUjian'));
-const DetailHasilUjian = React.lazy(() => import('./views/laporan/DetailHasilUjian'));
 
 /**
  * Routes yang Dapat Diakses oleh Guru
@@ -58,8 +57,7 @@ const GURU_ROUTES = [
   { path: '/penilaian/:idujian', name: 'Nilai Ujian', component: NilaiUjian },
   { path: '/nilaimanual/:idujian/:idkelas', name: 'Nilai Manual', component: NilaiManual },
   { path: '/penilaian', name: 'Penilaian Ujian', component: Penilaian },
-
-  { path: '/hasilujian/:idujian', name: 'Detail Hasil Ujian', component: DetailHasilUjian },
+  
   { path: '/hasilujian', name: 'Hasil Ujian', component: HasilUjian },
   { path: '/laporanujian', name: 'Laporan Ujian', component: LaporanUjian }
 ];

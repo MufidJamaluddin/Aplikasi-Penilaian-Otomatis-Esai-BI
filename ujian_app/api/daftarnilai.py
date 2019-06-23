@@ -1,53 +1,35 @@
 from flask.views import MethodView
 from flask import json, request
 from ujian_app.utils import AlchemyEncoder
-from ujian_app.repository import DaftarNilaiRepository, UjianRepository
+from ujian_app.repository import DaftarNilaiRepository
 from ujian_app.models import NilaiUjian, Siswa
 
 class DaftarNilaiAPI(MethodView):
     
     def __init__(self):
-        '''
-        Inisialisasi Daftar Nilai Ujian
-        '''
-        self.nilairepository = DaftarNilaiRepository()
-        self.ujianrepository = UjianRepository()
+        self.__repository = DaftarNilaiRepository()
     
-    def get(self, idujian):
-        '''
-        Mendapatkan semua daftar nilai 
-        '''
-        list_nilai = self.nilairepository.findByKeys(idujian=idujian).join(Siswa).order_by(
-            NilaiUjian.namaKelas, Siswa.nama
-        )
-        ujian = self.ujianrepository.findById(idujian)
+    def post(self):
+        data_req = request.get_json()
+        dnilai_siswa = self.__repository.get_nilai(data_req.get('idmapel', ''), data_req.get('idkelas', ''))
 
-        dt_list_nilai = []
-        dt_list_kelas = []
-        dt_ujian = {} #dict()
-        kelas_lama = None
+        list_data_nilai = []
+        list_ujian = {}
+        for dt_nilai_siswa in dnilai_siswa:
+            data_nilai = {}
+            data_nilai['nis'] = dt_nilai_siswa.nis
+            data_nilai['nama'] = dt_nilai_siswa.nama
+            data_nilai['nilai'] = {}
 
-        dt_ujian['idujian'] = ujian.idujian
-        dt_ujian['namaMapel'] = ujian.matapelajaran.namaMapel
-        dt_ujian['namaUjian'] = ujian.namaUjian
-
-        for nilai in list_nilai:
-            if nilai.nilai is None:
-                continue
+            for dt_nilai in dt_nilai_siswa.daftarnilaiujian:
+                nama_ujian = dt_nilai.ujian.namaUjian
+                id_ujian = dt_nilai.ujian.idujian
+                data_nilai['nilai'][id_ujian] = dt_nilai.nilai
+                list_ujian[id_ujian] = nama_ujian
             
-            dt_nilai = {}
-            dt_nilai['nis'] = nilai.nis
-            dt_nilai['nama'] = nilai.siswa.nama
-            dt_nilai['nilai'] = int(nilai.nilai)
-            dt_nilai['namaKelas'] = nilai.namaKelas
-            dt_list_nilai.append(dt_nilai)
-
-            if kelas_lama != nilai.namaKelas:
-                dt_list_kelas.append(nilai.namaKelas)
-                kelas_lama = nilai.namaKelas
+            list_data_nilai.append(data_nilai)
 
         return json.jsonify({
-                'list_nilai': dt_list_nilai,
-                'list_kelas': dt_list_kelas,
-                'ujian': dt_ujian
-            })
+            'list_ujian': list_ujian,
+            'list_nilai': list_data_nilai
+        })

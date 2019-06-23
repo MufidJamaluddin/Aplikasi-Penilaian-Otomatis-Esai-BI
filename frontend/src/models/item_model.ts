@@ -93,10 +93,19 @@ export default interface DataJawabanSoal
     jawabanEsai : string;
 }
 
-export default interface DataNilai
+interface KeyValueMaps<T> {
+    [key: string]: T;
+}
+
+interface NilaiUjian
 {
     nis: string;
-    nama: string;
-    nilai: number;
-    namaKelas: string;
+    nama: string
+    nilai: KeyValueMaps<string>;
+}
+
+export default interface DaftarNilaiUjian
+{
+    list_ujian: KeyValueMaps<string>;
+    list_nilai: Array<NilaiUjian>;
 }
