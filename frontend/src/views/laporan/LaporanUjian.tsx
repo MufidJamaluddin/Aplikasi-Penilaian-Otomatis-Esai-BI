@@ -3,15 +3,18 @@ import { Card, CardBody, CardHeader,Form, Col, Row, Table, Button, Input} from '
 import DaftarNilaiUjian from '../../models/item_model';
 import DataKelas from '../../models/item_model';
 import DataMatapelajaran from '../../models/item_model';
-import { initDatakelas } from '../../models/KelasData';
-import { initDatamatapelajaran } from '../../models/MatapelajaranData';
+
+import DataPengampu from '../../models/item_model';
+import { initDataPengampu} from '../../models/UjianData';
+
 import { initDaftarnilaiujian } from '../../models/DaftarNilaiData';
 import FormGroup from 'reactstrap/lib/FormGroup';
 
+
 interface LaporanUjianStateModel extends Partial<DaftarNilaiUjian>
 {
-  listkelas: Array<DataKelas>;
-  listmapel: Array<DataMatapelajaran>;
+  listkelas: Array<DataPengampu>;
+  listmapel: Array<DataPengampu>;
   isLoading: boolean;
   idmapel_selected?: string;
   idkelas_selected?: string;
@@ -36,12 +39,22 @@ class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
     // --------------------------- INIT DATA ------------------------------------------//
   componentDidMount()
   {
-    initDatakelas().then(list_kelas => {
-      this.setState({ listkelas: list_kelas });
-    });
+    // Matapelajaran Harus Unik
+    let lidmapel:any = {};
 
-    initDatamatapelajaran().then(list_mapel => {
-      this.setState({ listmapel: list_mapel });
+    initDataPengampu().then(list => {
+      let listmapel = list.filter((val, i, arr) => {
+        if(lidmapel[val.idmapel] === undefined)
+        {
+          lidmapel[val.idmapel] = '';
+          return true;
+        }
+      });
+
+      this.setState({
+        listkelas: list,
+        listmapel: listmapel
+      });
     });
   }
 
