@@ -100,7 +100,7 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
         return (<span className="badge badge-success">Sudah dinilai manual</span>);
       case "1":
         return (
-          <Link to={"/nilaimanual/" + datapel.idujian + '/' + datapel.idkelas}>
+          <Link to={`/penilaian/${datapel.idujian}/${datapel.idkelas}`}>
             <Button className="btn-twitter btn-brand icon btn-sm">Nilai Ujian</Button>
           </Link>
         );
@@ -196,7 +196,7 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
                               <tr key={index}>
                                 <td>{pel.namaKelas}</td>
                                 <td>40</td>
-                                <td>{this.getStatusPenilaianBadge(pel.status_penilaian,pel)}</td>
+                                <td>{this.getStatusPenilaianBadge(pel.status_penilaian, pel)}</td>
                               </tr>
                             )
                           })

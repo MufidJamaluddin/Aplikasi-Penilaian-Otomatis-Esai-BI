@@ -1,6 +1,7 @@
 from . import GenericRepository
 from ujian_app.models import Jawaban, Soal, Kelas, db
 from sqlalchemy.sql.expression import and_
+from sqlalchemy.orm import aliased
 
 class JawabanRepository(GenericRepository):
 
@@ -17,10 +18,9 @@ class JawabanRepository(GenericRepository):
                 and_(
                     Soal.idujian == idujian,
                     Soal.idsoal == idsoal,
-                    Jawaban.namaKelas == kelas.namaKelas
+                    Jawaban.namaKelas == kelas[0]
                 )
             )\
-            .order_by(Soal.idsoal, Jawaban.nis)\
             .all()
         return listjawaban
     
