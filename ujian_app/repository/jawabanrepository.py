@@ -7,13 +7,16 @@ class JawabanRepository(GenericRepository):
     def __init__(self):
         super().__init__(Jawaban)
 
-    def find_by_ujian_kelas(self, idujian, idkelas):
-        kelas = db.session.query(Kelas.namaKelas).filter_by(idkelas=idkelas).first()
+    def find_by_soal(self, idujian, idkelas, idsoal):
+        kelas = db.session\
+            .query(Kelas.namaKelas)\
+            .filter_by(idkelas=idkelas).first()
 
         listjawaban = Jawaban.query\
             .join(Soal).filter(
                 and_(
                     Soal.idujian == idujian,
+                    Soal.idsoal == idsoal,
                     Jawaban.namaKelas == kelas.namaKelas
                 )
             )\

@@ -6,10 +6,10 @@ import json
 
 class PenilaianManualAPI(MethodView):
 
-    def get(self, idujian, idkelas):
+    def get(self, idujian, idkelas, idsoal):
         repo = JawabanRepository()
 
-        list_jawaban = repo.find_by_ujian_kelas(idujian, idkelas)
+        list_jawaban = repo.find_by_soal(idujian, idkelas, idsoal)
         return json.dumps({'list': list_jawaban}, cls=AlchemyEncoder), 200
 
     def post(self, idujian, idkelas):

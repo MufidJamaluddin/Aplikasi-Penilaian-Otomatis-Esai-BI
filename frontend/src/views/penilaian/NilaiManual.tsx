@@ -1,12 +1,90 @@
 import React, { Component } from 'react';
 import { Table, Button, ButtonGroup,  Card, CardBody, CardHeader, Col, Input,Row, TabContent, TabPane } from 'reactstrap';
 import { Link, RouteComponentProps } from 'react-router-dom';
+
+import { initDataPelaksanaan } from '../../models/PelaksanaanData';
+import DataUjian from '../../models/item_model';
+
 import DataJawabanSoal from '../../models/item_model';
 import { initDataJawaban } from '../../models/PenilaianData';
 
-interface NilaiManualStateModel {
+// --------------------------- Component Tab -----------------------------------//
+
+interface NilaiJawabanTabProps 
+{
+  idtab: number;
+  idujian: string; 
+  idkelas: string;
+  idsoal: string;
+}
+
+class NilaiJawabanTab extends Component<NilaiJawabanTabProps>
+{
+  render()
+  {
+    return (
+      <TabPane tabId={this.props.idtab} >
+        <Table responsive size="sm">
+          <tbody>
+            <tr>
+              <td><b>Soal</b></td>
+              <td>Jelaskan 3 faktor eksternal yang mempengaruhi pertumbuhan ?</td>
+            </tr>
+            <tr>
+              <td><b>Materi</b></td>
+              <td>Pertumbuhan Tumbuhan</td>
+            </tr>
+            <tr>
+              <td><b>Kompetensi Dasar</b></td>
+              <td>Siswa dapat menjelaskan  3 faktor eksternal yang mempengaruhi pertumbuhan</td>
+            </tr>
+            <tr>
+              <td><b>Skor Minimal</b></td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td><b>Skor Maksimal</b></td>
+              <td>20</td>
+            </tr>
+          </tbody>
+        </Table>                      
+        
+        <Table responsive size="sm">
+          <thead>
+            <tr>
+              <th>NIS</th>
+              <th>Jawaban Esai</th>
+              <th>Skor</th>
+              <th> </th>
+              <th> </th>
+              <th> </th>
+            </tr>
+          </thead>
+            
+          <tbody>
+            
+            <tr>
+              <td>161511017</td>
+              <td> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+              <td colSpan= {4} >
+                <Input type="number" className="sm-7" min="0" max="100"/>
+              </td>
+            </tr>
+          
+          </tbody>
+        </Table>
+      </TabPane>
+    );
+  }
+}
+
+//---------------------------- Component Nilai Manual --------------------------//
+
+interface NilaiManualStateModel 
+{
   activeTab:number;
-  listjawaban: Array<any>;
+  listjawaban: Array<DataJawabanSoal>;
+  ujian?: DataUjian;
 }
 
 interface RouteParam { idujian:string; idkelas:string; }
@@ -32,12 +110,13 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
     };
   }
 
- /* componentDidMount()
+  componentDidMount()
   {
-    initDataJawaban(this.idujian, this.idkelas).then(list_data => {
-      this.setState({ listjawaban: list_data });
+    initDataPelaksanaan(this.idujian).then(data => {
+      console.log(data);
+      this.setState({ ujian: data });
     });
-  }*/
+  }
 
   toggle(tabManual) {
     if (this.state.activeTab !== tabManual) {
@@ -47,41 +126,36 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
     }
   }
 
-
-  public render() : JSX.Element 
+  render()
   {
-    
+    if(this.state.ujian === undefined) return;
+
     return (
       <div className="animated fadeIn">
-               <Row>
+        <Row>
           <Col>
             <Card>
               <CardHeader>
-
-              <Table responsive size="sm">
-                        
-                        <tbody>
-                          <tr>
-                            <td><b>Kelas</b></td>
-                            <td>XII-IPA 1</td>
-                          </tr>
-
-                          <tr>
-                            <td><b>Mata Pelajaran</b></td>
-                            <td>Biologi</td>
-                          </tr>
-
-                          <tr>
-                            <td><b>Nama Ujian</b></td>
-                            <td>UH 1 Pertumbuhan Tumbuhan</td>
-                          </tr>
-                        </tbody>
-                      </Table>
-
+                <Table responsive size="sm">      
+                  <tbody>
+                    <tr>
+                      <td><b>Kelas</b></td>
+                      <td>{this.state.ujian.namaKelas}</td>
+                    </tr>
+                    <tr>
+                      <td><b>Mata Pelajaran</b></td>
+                      <td>{this.state.ujian.namaMapel}</td>
+                    </tr>
+                    <tr>
+                      <td><b>Nama Ujian</b></td>
+                      <td>{this.state.ujian.namaUjian}</td>
+                    </tr>
+                  </tbody>
+                </Table>
               </CardHeader>
+
               <CardBody>
                 <Row>
-                  
                   <Col className="col-sm-12 text-center">
                     <ButtonGroup className="text-center" >
                       <Button outline color="primary" onClick={() => this.toggle(0)} action active={this.state.activeTab === 0} >Soal 1 </Button>
@@ -99,130 +173,13 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
                   
                   <Col xs="12">
                     <TabContent activeTab={this.state.activeTab}>
-                      <TabPane tabId={0} >
-                        <Table responsive size="sm">
-                        
-                          <tbody>
-                            <tr>
-                              <td><b>Soal</b></td>
-                              <td>Jelaskan 3 faktor eksternal yang mempengaruhi pertumbuhan ?</td>
-                            </tr>
-
-                            <tr>
-                              <td><b>Materi</b></td>
-                              <td>Pertumbuhan Tumbuhan</td>
-                            </tr>
-
-                            <tr>
-                              <td><b>Kompetensi Dasar</b></td>
-                              <td>Siswa dapat menjelaskan  3 faktor eksternal yang mempengaruhi pertumbuhan</td>
-                            </tr>
-
-                            <tr>
-                              <td><b>Skor Minimal</b></td>
-                              <td>5</td>
-                            </tr>
-
-                            <tr>
-                              <td><b>Skor Maksimal</b></td>
-                              <td>20</td>
-                            </tr>
-
-                          </tbody>
-
-                        </Table>                      
-                        
-                        <Table responsive size="sm">
-                            <thead>
-                              <tr>
-                                <th>NIS</th>
-                                <th>Jawaban Esai</th>
-                                <th>Skor</th>
-                                <th> </th>
-                                <th> </th>
-                                <th> </th>
-                              </tr>
-                            </thead>
-                            
-                            <tbody>
-                              <tr>
-                                <td>161511017</td>
-                                <td> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
-                                <td colSpan= {4} ><Input type="number" className="sm-7" min="0" max="100"/></td>
-                             </tr>
-
-                             <tr>
-                                <td>161511017</td>
-                                <td> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
-                                <td colSpan= {4} ><Input type="number" className="sm-7" min="0" max="100"/></td>
-                             </tr>
-
-                             <tr>
-                                <td>161511017</td>
-                                <td> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
-                                <td colSpan= {4} ><Input type="number" className="sm-7" min="0" max="100"/></td>
-                             </tr>
-                            </tbody>
-                        </Table>
-                      </TabPane>
-
-                      <TabPane tabId={1} >                      
-                        <Table responsive size="sm">
-                            <thead>
-                              <tr>
-                                <th>NIS</th>
-                                <th>Jawaban Esai</th>
-                                <th>Skor</th>
-                              </tr>
-                            </thead>
-                            
-                            <tbody>
-                              <tr >
-                                <td>161511018</td>
-                                <td> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
-                                <td><Input type="number" min="0" max="100" placeholder="Input Skor"/></td>
-                            </tr>
-                            </tbody>
-                        </Table>
-                      </TabPane>
-                      <TabPane tabId={2} >                      
-                        <Table responsive size="sm">
-                            <thead>
-                              <tr>
-                                <th>NIS</th>
-                                <th>Jawaban Esai</th>
-                                <th>Skor</th>
-                              </tr>
-                            </thead>
-                            
-                            <tbody>
-                              <tr >
-                                <td>161511019</td>
-                                <td> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
-                                <td><Input type="number" min="0" max="100" placeholder="Input Skor"/></td>
-                            </tr>
-                            </tbody>
-                        </Table>
-                      </TabPane>
-                      <TabPane tabId={3} >                      
-                        <Table responsive size="sm">
-                            <thead>
-                              <tr>
-                                <th>NIS</th>
-                                <th>Jawaban Esai</th>
-                                <th>Skor</th>
-                              </tr>
-                            </thead>
-                            
-                            <tbody>
-                              <tr >
-                                <td>161511020</td>
-                                <td> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
-                                <td><Input type="number" min="0" max="100" placeholder="Input Skor"/></td>
-                            </tr>
-                            </tbody>
-                        </Table>
-                      </TabPane>
+                      
+                      <NilaiJawabanTab idujian={this.idujian} idkelas={this.idkelas} idtab={0} idsoal={"0"}/> 
+                      <NilaiJawabanTab idujian={this.idujian} idkelas={this.idkelas} idtab={1} idsoal={"0"}/> 
+                      <NilaiJawabanTab idujian={this.idujian} idkelas={this.idkelas} idtab={2} idsoal={"0"}/> 
+                      <NilaiJawabanTab idujian={this.idujian} idkelas={this.idkelas} idtab={3} idsoal={"0"}/> 
+                      <NilaiJawabanTab idujian={this.idujian} idkelas={this.idkelas} idtab={4} idsoal={"0"}/> 
+                     
                     </TabContent>
                   </Col>
                 </Row>
