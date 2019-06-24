@@ -89,8 +89,9 @@ export default interface DataJawabanSoal
 {
     idjawaban?: string;
     idsoal: string;
-    nis : string;
+    nis: string;
     jawabanEsai : string;
+    skorAngka: string;
 }
 
 interface KeyValueMaps<T> {

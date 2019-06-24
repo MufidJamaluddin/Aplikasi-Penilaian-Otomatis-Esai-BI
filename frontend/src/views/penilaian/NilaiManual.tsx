@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
-import { Table, Button, ButtonGroup,  Card, CardBody, CardHeader, Col, Input,Row, TabContent, TabPane } from 'reactstrap';
+import { Table, Button, ButtonGroup,  Card, CardBody, CardHeader, Col, Input,Row, TabContent, TabPane, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Link, RouteComponentProps } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import { initDataPelaksanaan } from '../../models/PelaksanaanData';
 import DataUjian from '../../models/item_model';
 
+import { initDataSoal } from '../../models/SoalData';
+import DataSoal from '../../models/item_model';
+
 import DataJawabanSoal from '../../models/item_model';
-import { initDataJawaban } from '../../models/PenilaianData';
+import { initDataJawaban, nilaiManual, akhiriPenilaianManual } from '../../models/PenilaianData';
 
 // --------------------------- Component Tab -----------------------------------//
 
@@ -15,11 +19,43 @@ interface NilaiJawabanTabProps
   idtab: number;
   idujian: string; 
   idkelas: string;
-  idsoal: string;
+  datasoal: DataSoal;
 }
 
-class NilaiJawabanTab extends Component<NilaiJawabanTabProps>
+interface NilaiJawabanTabState
 {
+  listjawaban: Array<DataJawabanSoal>;
+}
+
+class NilaiJawabanTab extends Component<NilaiJawabanTabProps, NilaiJawabanTabState>
+{
+  constructor(props: any)
+  {
+    super(props);
+    this.state = {
+      listjawaban: []
+    }
+  }
+
+  componentDidMount()
+  {
+    initDataJawaban(this.props.idujian, this.props.idkelas, this.props.datasoal.idsoal)
+    .then(data => {
+      this.setState({ listjawaban: data });
+    });
+  }
+
+  componentDidUpdate(prevProps)
+  {
+    if(this.props.datasoal.idsoal !== prevProps.datasoal.idsoal)
+    {
+      initDataJawaban(this.props.idujian, this.props.idkelas, this.props.datasoal.idsoal)
+      .then(data => {
+        this.setState({ listjawaban: data });
+      });
+    }
+  }
+
   render()
   {
     return (
@@ -28,23 +64,23 @@ class NilaiJawabanTab extends Component<NilaiJawabanTabProps>
           <tbody>
             <tr>
               <td><b>Soal</b></td>
-              <td>Jelaskan 3 faktor eksternal yang mempengaruhi pertumbuhan ?</td>
+              <td>{ this.props.datasoal.soalEsai }</td>
             </tr>
             <tr>
-              <td><b>Materi</b></td>
-              <td>Pertumbuhan Tumbuhan</td>
+              <td><b>Materi Pokok</b></td>
+              <td>{ this.props.datasoal.materiPokok }</td>
             </tr>
             <tr>
               <td><b>Kompetensi Dasar</b></td>
-              <td>Siswa dapat menjelaskan  3 faktor eksternal yang mempengaruhi pertumbuhan</td>
+              <td>{ this.props.datasoal.kompetensiDasar }</td>
             </tr>
             <tr>
               <td><b>Skor Minimal</b></td>
-              <td>5</td>
+              <td>{ this.props.datasoal.skorMin }</td>
             </tr>
             <tr>
               <td><b>Skor Maksimal</b></td>
-              <td>20</td>
+              <td>{ this.props.datasoal.skorMax }</td>
             </tr>
           </tbody>
         </Table>                      
@@ -52,7 +88,7 @@ class NilaiJawabanTab extends Component<NilaiJawabanTabProps>
         <Table responsive size="sm">
           <thead>
             <tr>
-              <th>NIS</th>
+              <th>No</th>
               <th>Jawaban Esai</th>
               <th>Skor</th>
               <th> </th>
@@ -62,15 +98,34 @@ class NilaiJawabanTab extends Component<NilaiJawabanTabProps>
           </thead>
             
           <tbody>
-            
-            <tr>
-              <td>161511017</td>
-              <td> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
-              <td colSpan= {4} >
-                <Input type="number" className="sm-7" min="0" max="100"/>
-              </td>
-            </tr>
-          
+            {
+              this.state.listjawaban.map((jawaban, i) => {
+                return (
+                  <tr key={jawaban.idjawaban}>
+                    <td>{i+1}</td>
+                    <td>{jawaban.jawabanEsai}</td>
+                    <td colSpan={4} >
+                      <Input 
+                        defaultValue={jawaban.skorAngka}
+                        onChange={e => { 
+                          var skorAngka = e.target.value;
+                          if (this.props.datasoal.skorMin > skorAngka)
+                            e.target.value = this.props.datasoal.skorMin;
+                          else if (skorAngka > this.props.datasoal.skorMax)
+                            e.target.value = this.props.datasoal.skorMax;
+                        
+                          nilaiManual(jawaban.idjawaban, skorAngka);
+                        }}
+                        type="number" 
+                        className="sm-7" 
+                        min={this.props.datasoal.skorMin}  
+                        max={this.props.datasoal.skorMax} 
+                        />
+                    </td>
+                  </tr>
+                )
+              })
+            }
           </tbody>
         </Table>
       </TabPane>
@@ -83,8 +138,10 @@ class NilaiJawabanTab extends Component<NilaiJawabanTabProps>
 interface NilaiManualStateModel 
 {
   activeTab:number;
+  showModal: boolean;
   listjawaban: Array<DataJawabanSoal>;
   ujian?: DataUjian;
+  listsoal: Array<DataSoal>;
 }
 
 interface RouteParam { idujian:string; idkelas:string; }
@@ -96,6 +153,10 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
   private idujian: string;
   private idkelas: string;
 
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
   constructor(props: any) 
   {
     super(props);
@@ -104,17 +165,28 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
     this.idkelas = props.match.params.idkelas;
 
     this.toggle = this.toggle.bind(this);
+    this.toggle_modal = this.toggle_modal.bind(this);
+
     this.state = {
       activeTab: 0,
-      listjawaban: []
+      showModal: false,
+      listjawaban: [],
+      listsoal: []
     };
   }
 
   componentDidMount()
   {
     initDataPelaksanaan(this.idujian).then(data => {
-      console.log(data);
+      data.namaKelas = data.pelaksanaan_ujian.filter(pel => {
+        return pel.idkelas == this.idkelas
+      })[0].namaKelas;
+
       this.setState({ ujian: data });
+    });
+
+    initDataSoal(this.idujian).then(data => {
+      this.setState({ listsoal: data });
     });
   }
 
@@ -126,9 +198,41 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
     }
   }
 
+  toggle_modal()
+  {
+    this.setState({ showModal: !this.state.showModal })
+  }
+
+  render_modal()
+  {
+    return (
+      <Modal isOpen={this.state.showModal} toggle={this.toggle_modal} className='modal-primary'>
+        <ModalHeader toggle={this.toggle_modal}>Akhiri Penilaian Manual</ModalHeader>
+        <ModalBody>
+          <p className="text-center">
+            Apakah anda yakin ingin mengakhiri penilaian manual kelas {this.state.ujian.namaKelas}
+            <b>Pastikan anda telah menilai ujian esai siswa sesuai rubrik yang telah anda buat</b>
+          </p>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={this.toggle_modal}>Kembali</Button>
+          <Button 
+            color="warning" 
+            onClick={() => {
+              akhiriPenilaianManual(this.idujian, this.idkelas).then(dt => {
+                this.context.router.history.push(`/penilaian/${this.idujian}`)
+              })
+            } }>
+              Akhiri Penilaian Manual {this.state.ujian.namaKelas}
+          </Button>
+        </ModalFooter>
+      </Modal>
+    );
+  }
+
   render()
   {
-    if(this.state.ujian === undefined) return;
+    if(this.state.ujian === undefined) return (<div>Loading...</div>);
 
     return (
       <div className="animated fadeIn">
@@ -141,6 +245,7 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
                     <tr>
                       <td><b>Kelas</b></td>
                       <td>{this.state.ujian.namaKelas}</td>
+                      <td></td>
                     </tr>
                     <tr>
                       <td><b>Mata Pelajaran</b></td>
@@ -157,39 +262,52 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
               <CardBody>
                 <Row>
                   <Col className="col-sm-12 text-center">
-                    <ButtonGroup className="text-center" >
-                      <Button outline color="primary" onClick={() => this.toggle(0)} action active={this.state.activeTab === 0} >Soal 1 </Button>
-                      <Button outline color="primary" onClick={() => this.toggle(1)} action active={this.state.activeTab === 1} >Soal 2 </Button>
-                      <Button outline color="primary" onClick={() => this.toggle(2)} action active={this.state.activeTab === 2} >Soal 3 </Button>
-                      <Button outline color="primary" onClick={() => this.toggle(3)} action active={this.state.activeTab === 3} >Soal 4 </Button>
-                      <Button outline color="primary" onClick={() => this.toggle(4)} action active={this.state.activeTab === 4} >Soal 5 </Button>
-                      <Button outline color="primary" onClick={() => this.toggle(4)} action active={this.state.activeTab === 4} >Soal 6 </Button>
-                      <Button outline color="primary" onClick={() => this.toggle(4)} action active={this.state.activeTab === 4} >Soal 7 </Button>
-                      <Button outline color="primary" onClick={() => this.toggle(4)} action active={this.state.activeTab === 4} >Soal 8 </Button>
-                      <Button outline color="primary" onClick={() => this.toggle(4)} action active={this.state.activeTab === 4} >Soal 9 </Button>
-                      <Button outline color="primary" onClick={() => this.toggle(4)} action active={this.state.activeTab === 4} >Soal 10 </Button>
+                    <ButtonGroup className="text-center">
+                      {
+                        this.state.listsoal.map((soal, i) => {
+                          return (
+                            <Button 
+                              key={i}
+                              outline 
+                              color="primary" 
+                              onClick={() => this.toggle(i)} 
+                              active={this.state.activeTab === i}>
+                              Soal {i+1}
+                            </Button>
+                          );
+                        })
+                      }
                     </ButtonGroup>
                   </Col>
                   
                   <Col xs="12">
                     <TabContent activeTab={this.state.activeTab}>
-                      
-                      <NilaiJawabanTab idujian={this.idujian} idkelas={this.idkelas} idtab={0} idsoal={"0"}/> 
-                      <NilaiJawabanTab idujian={this.idujian} idkelas={this.idkelas} idtab={1} idsoal={"0"}/> 
-                      <NilaiJawabanTab idujian={this.idujian} idkelas={this.idkelas} idtab={2} idsoal={"0"}/> 
-                      <NilaiJawabanTab idujian={this.idujian} idkelas={this.idkelas} idtab={3} idsoal={"0"}/> 
-                      <NilaiJawabanTab idujian={this.idujian} idkelas={this.idkelas} idtab={4} idsoal={"0"}/> 
-                     
+                      {
+                        this.state.listsoal.map((soal, i) => {
+                          return (
+                            <NilaiJawabanTab
+                              key={soal.idsoal}
+                              idujian={this.idujian}
+                              idkelas={this.idkelas}
+                              datasoal={soal}
+                              idtab={i}/>
+                          );
+                        })
+                      }
                     </TabContent>
                   </Col>
                 </Row>
                   
-                  <Col className="col-sm-12 text-right">
-                    <ButtonGroup className="text-right" >
+                <Col className="col-sm-12 text-right">
+                  <ButtonGroup className="text-right" >
+                    <Link to={`/penilaian/${this.idujian}`}>
                       <Button color="primary">Kembali</Button>
-                      <Button color="success">Akhiri Penilaian Manual</Button>
-                    </ButtonGroup>
-                  </Col>
+                    </Link>
+                    <Button color="warning" onClick={this.toggle_modal}>Akhiri Penilaian Manual</Button>
+                  </ButtonGroup>
+                </Col>
+
+                {this.render_modal()}
                   
               </CardBody>
             </Card>

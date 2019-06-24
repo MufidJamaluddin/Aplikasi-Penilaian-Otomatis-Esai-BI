@@ -48,10 +48,11 @@ def define_api_routes(app):
         {'url':'/api/pelaksanaan/<int:idujian>/<int:idkelas>', 'name':'laksanakanujian', 'view':PelaksanaanUjianAPI, 'methods':['POST']},
         {'url':'/api/pelaksanaan/<int:idujian>', 'name':'pelaksanaanujian', 'view':PelaksanaanUjianAPI, 'methods':['GET']},
 
-        {'url':'/api/penilaianmanual/<int:idujian>/<int:idkelas>', 'name':'jawaban_nilaimanual', 'view':PenilaianManualAPI, 'methods':['GET']},
-        {'url':'/api/penilaianmanual/<int:idujian>/<int:idkelas>', 'name':'nilaimanual', 'view':PenilaianManualAPI, 'methods':['POST']},
+        {'url':'/api/penilaianmanual/<int:idujian>/<int:idkelas>/<int:idsoal>', 'name':'jawaban_nilaimanual', 'view':PenilaianManualAPI, 'methods':['GET']},
+        {'url':'/api/penilaianmanual/<int:idujian>/<int:idkelas>', 'name':'mulai_nilaimanual', 'view':PenilaianManualAPI, 'methods':['POST']},
+        {'url':'/api/penilaianmanual', 'name':'nilaimanual', 'view':PenilaianManualAPI, 'methods':['PUT']},
 
-        {'url':'/api/penilaian/<int:idujian>', 'name':'penilaianotomatis', 'view':PenilaianOtomatisAPI, 'methods':['POST']},
+        {'url':'/api/penilaianotomatis/<int:idujian>', 'name':'penilaianotomatis', 'view':PenilaianOtomatisAPI, 'methods':['POST']},
 
         {'url':'/api/daftarnilai', 'name':'daftarnilaiujian', 'view':DaftarNilaiAPI, 'methods':['POST']},
 
