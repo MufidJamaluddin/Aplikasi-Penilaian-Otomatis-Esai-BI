@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader,Form, Col, Row, Table, Button, Input} from 'reactstrap';
+import { Card, CardBody, CardHeader,Form, Col, Row, Table, Button, Input } from 'reactstrap';
+import { Line } from 'react-chartjs-2';
 import DaftarNilaiUjian from '../../models/item_model';
 
 import DataPengampu from '../../models/item_model';
@@ -8,6 +9,38 @@ import { initDataPengampu} from '../../models/UjianData';
 import { initDaftarnilaiujian, downloadDaftarnilaiujian } from '../../models/DaftarNilaiData';
 import FormGroup from 'reactstrap/lib/FormGroup';
 
+//-------------------------------//
+interface GrafikGarisProps { nama: string; nilai_ujian: any; list_ujian: any, key: string;  }
+
+class GrafikGaris extends React.PureComponent<GrafikGarisProps>
+{
+  render() 
+  {
+    const list_nilai = Object.values(this.props.nilai_ujian);
+    const list_ujian = Object.keys(this.props.nilai_ujian).map(key => { return this.props.list_ujian[key] });
+
+    const card_data = {
+      labels: list_ujian,
+      datasets: [
+        {
+          label: 'Nilai ' + this.props.nama,
+          borderColor: 'rgba(255,255,255,.55)',
+          data: list_nilai,
+        },
+      ],
+    };
+
+    return (
+      <Line 
+        data={card_data} 
+        width={30}
+        options={{ maintainAspectRatio: false }} 
+        />
+    );
+  }
+}
+
+//------------------------------//
 
 interface LaporanUjianStateModel extends Partial<DaftarNilaiUjian>
 {
@@ -131,6 +164,11 @@ class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
                       }
                     </Input>
                   </Col>
+                  {
+                    this.state.listmapel.map(mapel => {
+                      return (<p>{ mapel.KKM }</p>)
+                    })
+                  }
                   
                   <Col className="col-sm-4 text-right">
                     {
@@ -150,6 +188,7 @@ class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
                   <tr>
                     <th className="text-center align-middle" rowSpan={2}>NIS</th>
                     <th className="text-center align-middle" rowSpan={2}>Nama Siswa</th>
+                    <th className="text-center align-middle" rowSpan={2}>Perkembangan</th>
                     <th className="text-center align-middle" colSpan={Object.keys(this.state.list_ujian).length}>
                         Nilai Ujian
                     </th>
@@ -171,7 +210,15 @@ class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
                       return (
                         <tr key={dt_nilai.nis}>
                           <td className="text-center">{dt_nilai.nis}</td>
-                          <td>{dt_nilai.nama}</td>
+                          <td className="text-center">{dt_nilai.nama}</td>
+                          <td>
+                            <GrafikGaris
+                              key={dt_nilai.nis}
+                              nama={dt_nilai.nama}
+                              nilai_ujian={dt_nilai.nilai}
+                              list_ujian={this.state.list_ujian}
+                              />
+                          </td>
                           {
                             Object.keys(this.state.list_ujian).map(idujian => {
                               return (
