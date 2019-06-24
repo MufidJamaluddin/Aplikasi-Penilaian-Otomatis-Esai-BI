@@ -13,6 +13,7 @@
     "@types/react-router-dom": "^4.3.3",
     "@types/reactstrap": "^7.1.4",
     "bootstrap": "^4.2.1",
+    "chart.js": "^2.8.0",
     "classnames": "^2.2.6",
     "core-js": "^2.6.5",
     "enzyme": "^3.8.0",
