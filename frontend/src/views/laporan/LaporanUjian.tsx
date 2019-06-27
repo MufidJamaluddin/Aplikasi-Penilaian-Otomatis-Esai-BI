@@ -255,7 +255,7 @@ class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
                 
                 <Table responsive size="sm" className="table table-bordered">
                     <tbody>
-                        <tr>
+                        <tr className="table-active">
                           <th className="text-center align-middle" rowSpan={2}>NIS</th>
                           <th className="text-center align-middle" rowSpan={2}>Nama Siswa</th>
                           <th className="text-center align-middle" colSpan={Object.keys(this.state.list_ujian).length}>
@@ -267,7 +267,7 @@ class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
                         <tr>
                           {
                             Object.values(this.state.list_ujian).map((nama_ujian, i) => {
-                              return (<th className="text-center" key={i}>{nama_ujian}</th>);
+                              return (<th className="table-active text-center" key={i}>{nama_ujian}</th>);
                             })
                           }
                         </tr>
@@ -286,7 +286,7 @@ class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
                         </tr>
 
                         <tr>
-                          <th className="text-center" colSpan={Object.keys(this.state.list_ujian).length+3}>Grafik Perkembangan Ujian Siswa</th>
+                          <th className="table-light text-center" colSpan={Object.keys(this.state.list_ujian).length+3}>Grafik Perkembangan Ujian Siswa</th>
                         </tr>
 
                         <tr key={dt_nilai.nis}>
