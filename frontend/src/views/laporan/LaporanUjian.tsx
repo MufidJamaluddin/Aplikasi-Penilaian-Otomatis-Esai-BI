@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader,Form, Col, Row, Table, Button, Input } from 'reactstrap';
+import { Card, CardBody, CardHeader,Form, Col, Collapse,  Row, Table, Button, Input } from 'reactstrap';
 import { Line } from 'react-chartjs-2';
 import DaftarNilaiUjian from '../../models/item_model';
 
@@ -24,7 +24,8 @@ class GrafikGaris extends React.PureComponent<GrafikGarisProps>
       datasets: [
         {
           label: 'Nilai ' + this.props.nama,
-          borderColor: 'rgba(255,255,255,.55)',
+          borderColor: 'rgba(19,141,117,.55)',
+          backgroundColor: 'rgba(115,198,182,.55)',
           data: list_nilai,
         },
       ],
@@ -49,6 +50,13 @@ interface LaporanUjianStateModel extends Partial<DaftarNilaiUjian>
   isLoading: boolean;
   idmapel_selected?: string;
   idkelas_selected?: string;
+  collapse:boolean;
+  accordion:Array<boolean>;
+  custom:Array<boolean>;
+  status:string;
+  fadeIn:boolean;
+  timeout:number;
+
 }
 
 interface LaporanUjianModel { className?: string; }
@@ -58,14 +66,73 @@ class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
   constructor(props: any) 
   {
     super(props);
+
+    this.onEntering = this.onEntering.bind(this);
+    this.onEntered = this.onEntered.bind(this);
+    this.onExiting = this.onExiting.bind(this);
+    this.onExited = this.onExited.bind(this);
+    this.toggle = this.toggle.bind(this);
+    this.toggleAccordion = this.toggleAccordion.bind(this);
+    this.toggleCustom = this.toggleCustom.bind(this);
+    this.toggleFade = this.toggleFade.bind(this);
     
     this.state = {
+      collapse: false,
+      accordion: [true, false, false],
+      custom: [true, false],
+      status: 'Closed',
+      fadeIn: true,
+      timeout: 300,
       listkelas: [],
       listmapel: [],
       isLoading: true,
       list_nilai: [],
       list_ujian: {"": ""}
     };
+  }
+
+  onEntering() {
+    this.setState({ status: 'Opening...' });
+  }
+
+  onEntered() {
+    this.setState({ status: 'Opened' });
+  }
+
+  onExiting() {
+    this.setState({ status: 'Closing...' });
+  }
+
+  onExited() {
+    this.setState({ status: 'Closed' });
+  }
+
+  toggle() {
+    this.setState({ collapse: !this.state.collapse });
+  }
+
+  toggleAccordion(tab) {
+
+    const prevState = this.state.accordion;
+    const state = prevState.map((x, index) => tab === index ? !x : false);
+
+    this.setState({
+      accordion: state,
+    });
+  }
+
+  toggleCustom(tab) {
+
+    const prevState = this.state.custom;
+    const state = prevState.map((x, index) => tab === index ? !x : false);
+
+    this.setState({
+      custom: state,
+    });
+  }
+
+  toggleFade() {
+    this.setState({ fadeIn: !this.state.fadeIn });
   }
     // --------------------------- INIT DATA ------------------------------------------//
   componentDidMount()
@@ -129,6 +196,7 @@ class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
           >
           <i className="fa fa-download"></i><span>Export as Excel</span>
         </Button>
+
       )
     }
   }
@@ -181,44 +249,32 @@ class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
             </CardHeader>
 
               <CardBody>
-             
-                <Table responsive size="sm" className="table table-bordered table-hover">
-                
-                <thead>
-                  <tr>
-                    <th className="text-center align-middle" rowSpan={2}>NIS</th>
-                    <th className="text-center align-middle" rowSpan={2}>Nama Siswa</th>
-                    <th className="text-center align-middle" rowSpan={2}>Perkembangan</th>
-                    <th className="text-center align-middle" colSpan={Object.keys(this.state.list_ujian).length}>
-                        Nilai Ujian
-                    </th>
-                    <th className="text-center align-middle" rowSpan={2}>Nilai Akhir</th>
-                  </tr>
-                
-                  <tr>
-                    {
-                      Object.values(this.state.list_ujian).map((nama_ujian, i) => {
-                        return (<th className="text-center" key={i}>{nama_ujian}</th>);
-                      })
-                    }
-                  </tr>
-                </thead>
-                
-                <tbody>
-                  {
+              {
                     this.state.list_nilai.map(dt_nilai => {
                       return (
+                
+                <Table responsive size="sm" className="table table-bordered">
+                    <tbody>
+                        <tr>
+                          <th className="text-center align-middle" rowSpan={2}>NIS</th>
+                          <th className="text-center align-middle" rowSpan={2}>Nama Siswa</th>
+                          <th className="text-center align-middle" colSpan={Object.keys(this.state.list_ujian).length}>
+                              Nilai Ujian
+                          </th>
+                          <th className="text-center align-middle" rowSpan={2}>Nilai Akhir</th>
+                        </tr>
+                      
+                        <tr>
+                          {
+                            Object.values(this.state.list_ujian).map((nama_ujian, i) => {
+                              return (<th className="text-center" key={i}>{nama_ujian}</th>);
+                            })
+                          }
+                        </tr>
+
                         <tr key={dt_nilai.nis}>
                           <td className="text-center">{dt_nilai.nis}</td>
                           <td className="text-center">{dt_nilai.nama}</td>
-                          <td>
-                            <GrafikGaris
-                              key={dt_nilai.nis}
-                              nama={dt_nilai.nama}
-                              nilai_ujian={dt_nilai.nilai}
-                              list_ujian={this.state.list_ujian}
-                              />
-                          </td>
                           {
                             Object.keys(this.state.list_ujian).map(idujian => {
                               return (
@@ -228,12 +284,27 @@ class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
                           }
                           <td className="text-center">{dt_nilai.nilai_akhir}</td>
                         </tr>
-                      )
-                    })
-                  }
-                </tbody>
-                
+
+                        <tr>
+                          <th className="text-center" colSpan={Object.keys(this.state.list_ujian).length+3}>Grafik Perkembangan Ujian Siswa</th>
+                        </tr>
+
+                        <tr key={dt_nilai.nis}>
+                          <td colSpan={Object.keys(this.state.list_ujian).length+3}>
+                              <GrafikGaris
+                                key={dt_nilai.nis}
+                                nama={dt_nilai.nama}
+                                nilai_ujian={dt_nilai.nilai}
+                                list_ujian={this.state.list_ujian}
+                                />
+                          </td>
+                        </tr>    
+                    </tbody>
                 </Table>
+                )
+              })
+            }
+                
               </CardBody>
             </Card>
           </Col>
