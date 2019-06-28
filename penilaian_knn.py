@@ -11,8 +11,8 @@ print('Mulai penilaian otomatis dg KNN ...')
 
 app = make_app()
 
-with app.app_context():
-    potomatis = PenilaianOtomatis(ID_UJIAN)
-    potomatis.nilai_otomatis()
+#with app.app_context():
+ #   potomatis = PenilaianOtomatis(ID_UJIAN)
+  #  potomatis.nilai_otomatis()
 
-#penilaian_otomatis.apply_async(args=[ID_UJIAN], retry=False)
+penilaian_otomatis.apply_async(args=[ID_UJIAN], retry=False)

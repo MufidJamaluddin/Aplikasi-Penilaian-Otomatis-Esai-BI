@@ -3,7 +3,7 @@ from .api import (
     GuruAPI, PengampuAPI, SiswaAPI, SoalAPI, UjianEsaiAPI, MatapelajaranAPI,
     AuthAPI, DaftarNilaiAPI, KelasAPI, MatapelajaranAPI, PengerjaanUjianAPI,
     UjianEsaiAPI, PanelSiswaAPI, PelaksanaanUjianAPI, JawabanAPI, 
-    PenilaianManualAPI, PenilaianOtomatisAPI, DownloadDaftarNilaiAPI
+    PenilaianManualAPI, PenilaianOtomatisAPI, DownloadDaftarNilaiAPI,NilaiUjianAPI
 )
 
 def define_api_routes(app):  
@@ -53,7 +53,8 @@ def define_api_routes(app):
         {'url':'/api/penilaianmanual', 'name':'nilaimanual', 'view':PenilaianManualAPI, 'methods':['PUT']},
 
         {'url':'/api/penilaianotomatis/<int:idujian>', 'name':'penilaianotomatis', 'view':PenilaianOtomatisAPI, 'methods':['POST']},
-
+        
+        {'url':'/api/nilaiujian/<int:idujian>/<int:idkelas>', 'name':'nilaiujian', 'view':NilaiUjianAPI, 'methods':['GET']},   
         {'url':'/api/daftarnilai', 'name':'daftarnilaiujian', 'view':DaftarNilaiAPI, 'methods':['POST']},
 
         {'url':'/download/daftarnilai/<int:idmapel>/<int:idkelas>', 'name':'downloaddaftarnilaiujian', 'view':DownloadDaftarNilaiAPI, 'methods':['GET']},
