@@ -48,7 +48,7 @@ class HasilUjian extends Component<HasilUjianModel, HasilUjianStateModel>
 
 				 <Col md="4">
                       <InputGroup>
-                        <Input type="text" id="search" name="search" placeholder="Cari Hasil Ujian..." />
+                        <Input type="text" id="search" name="search" placeholder="Cari Ujian..." />
 						<Button type="button" color="primary"><i className="fa fa-search"></i></Button>
 						 </InputGroup>
                     </Col>
@@ -62,8 +62,8 @@ class HasilUjian extends Component<HasilUjianModel, HasilUjianStateModel>
                 <thead>
                   <tr>
                     <th>No. Ujian</th>
-                    <th>Nama Ujian</th>
                     <th>Mata Pelajaran</th>
+                    <th>Nama Ujian</th>
                     <th></th>
                     <th></th>
                   </tr>

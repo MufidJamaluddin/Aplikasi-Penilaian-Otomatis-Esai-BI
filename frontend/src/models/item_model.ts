@@ -106,8 +106,24 @@ interface NilaiUjian
     nilai_akhir: number;
 }
 
+interface SkorUjian
+{
+    nis: string;
+    nama: string;
+    nilai: number;
+    keterangan: string;
+    skor: KeyValueMaps<string>;
+    status: KeyValueMaps<string>;
+}
+
 export default interface DaftarNilaiUjian
 {
     list_ujian: KeyValueMaps<string>;
     list_nilai: Array<NilaiUjian>;
+}
+
+export default interface DaftarSkorUjian
+{
+    list_soal: KeyValueMaps<string>;
+    list_skor: Array<SkorUjian>;
 }
