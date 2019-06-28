@@ -1,7 +1,8 @@
 from ujian_app.penilaian.pemrosesan_jawaban import (
     PemrosesanDataLatih
 )
-from ujian_app.models import Soal, db
+from ujian_app.models import Soal, Kelas, db
+from sqlalchemy import func
 
 class PenilaianManual(object):
     '''
@@ -21,6 +22,17 @@ class PenilaianManual(object):
             idujian = idujian, flag = '1'
         )
         return listsoal
+    
+    def __hitung_nilai_ujian(self, idujian, idkelas):
+
+        kelas = Kelas.query.get(idkelas)
+
+        connection = db.engine.engine.raw_connection()
+
+        cursor = connection.cursor()
+        cursor.callproc("hitung_nilai_ujian_latih", [idujian, kelas.namaKelas])
+        cursor.close()
+        connection.commit()
 
     def nilai_manual(self, idujian, idkelas):
         '''
@@ -30,3 +42,5 @@ class PenilaianManual(object):
 
         for soal in listsoal:
             self.pemroses.proses_dan_simpan(soal.idsoal, idkelas)
+        
+        self.__hitung_nilai_ujian(idujian, idkelas)

@@ -12,8 +12,8 @@ app = make_app()
 #
 
 list_data_uji = [
-    {'nama':'XII-MIA-2', 'idkelas': '15'},
-    {'nama':'XII-MIA-3', 'idkelas': '16'}
+    {'nama':'XI-IIS-3', 'idkelas': '12'}
+    
 ]
 
 for nkelas in list_data_uji:

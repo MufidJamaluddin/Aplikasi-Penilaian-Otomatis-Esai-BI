@@ -29,7 +29,16 @@ class PenilaianOtomatis(object):
             idujian=self.__idujian, flag='1'
         )
         return listsoal
-    
+
+    def __hitung_nilai_ujian(self):
+
+        connection = db.engine.engine.raw_connection()
+        
+        cursor = connection.cursor()
+        cursor.callproc("hitung_nilai_ujian_uji", [self.__idujian])
+        cursor.close()
+        connection.commit()
+
     def nilai_otomatis(self):
         '''
         Melakukan Penilaian Otomatis
@@ -39,3 +48,5 @@ class PenilaianOtomatis(object):
         for soal in listsoal:
             self.__penskor.set_id_soal(soal.idsoal)
             self.__penskor.skor_otomatis()
+        
+        self.__hitung_nilai_ujian()
