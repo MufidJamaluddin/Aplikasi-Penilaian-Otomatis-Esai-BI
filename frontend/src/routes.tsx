@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import DetailHasilUjian from './views/laporan/DetailHasilUjian';
 
 /**
  * Lazy Loading View
@@ -58,6 +59,7 @@ const GURU_ROUTES = [
   { path: '/penilaian/:idujian', name: 'Penilaian Ujian', component: NilaiUjian },
   { path: '/penilaian', name: 'Daftar Penilaian Ujian', component: Penilaian },
   
+  { path: '/hasilujian/:idujian', name: 'Hasil Ujian', component: DetailHasilUjian },
   { path: '/hasilujian', name: 'Hasil Ujian', component: HasilUjian },
   { path: '/laporanujian', name: 'Laporan Ujian', component: LaporanUjian }
 ];
