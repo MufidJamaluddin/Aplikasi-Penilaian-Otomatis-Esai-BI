@@ -16,7 +16,6 @@ import { Loading } from '../../layout';
 
 interface DetailHasilUjianStateModel extends Partial<DaftarSkorUjian>
 {
-  
   ujian?: DataUjian;
   list_kelas: Array<DataPengampu>;
 }
@@ -109,7 +108,6 @@ class DetailHasilUjian extends Component<DetailHasilUjianPropsModel & RouteCompo
                   <h5>ID Ujian&emsp;&emsp;&emsp;&emsp;: {this.idujian}</h5>
                   <h5>Matapelajaran&emsp;: {this.state.ujian.namaMapel}</h5>
                   <h5>Nama Ujian &emsp;&emsp;: {this.state.ujian.namaUjian}</h5>
-                  <h5>KKM &emsp;&emsp;: {this.state.ujian.KKM}</h5>
                 </Col>
               </CardHeader>
               <CardBody>
