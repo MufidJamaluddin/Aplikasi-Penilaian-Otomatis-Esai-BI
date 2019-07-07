@@ -118,6 +118,9 @@ class ProgressRepository:
             self.simpan_progress()
         self.simpan()
     
+    def clear_jawaban(self):
+        self.idjawaban = None
+    
     def set_jawaban(self, idjawaban):
         '''
         Set State idjawaban

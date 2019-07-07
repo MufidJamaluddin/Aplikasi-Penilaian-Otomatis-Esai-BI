@@ -114,5 +114,3 @@ class PenskoranOtomatis(object):
         # Tahap 4
         if self.__progress.kode_proses == 4:
             self.__klasifikasi_knn()
-        
-        self.__progress.set_proses(None)

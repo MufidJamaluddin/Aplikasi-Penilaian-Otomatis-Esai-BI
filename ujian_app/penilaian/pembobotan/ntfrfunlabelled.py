@@ -74,4 +74,4 @@ class NtfRfUnlabeledWeighter(object):
                 db.session.add(fitur)
                 db.session.commit()
                 # Lanjut
-                self.__progress.set_jawaban(None)
+                self.__progress.clear_jawaban()
