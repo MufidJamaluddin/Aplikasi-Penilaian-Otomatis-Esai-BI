@@ -60,8 +60,8 @@ class PenilaianOtomatis(object):
         
         i = 0
         for soal in listsoal:
-            if i == 0:
-                self.__progress.set_soal(soal.idsoal, 'Soal 1')
+            if self.__progress.idsoal == None:
+                self.__progress.set_soal(soal.idsoal, ' Soal 1')
             # Lanjut Progress Terakhir ...
             if self.__progress.idsoal == soal.idsoal:
                 self.__penskor.set_id_soal(soal.idsoal)
@@ -70,7 +70,7 @@ class PenilaianOtomatis(object):
                 if next_soal < jumlah_soal:
                     self.__progress.set_soal(
                         listsoal[next_soal], 
-                        'Soal %s' % next_soal
+                        ' Soal %s' % next_soal
                     )
             i += 1
         
