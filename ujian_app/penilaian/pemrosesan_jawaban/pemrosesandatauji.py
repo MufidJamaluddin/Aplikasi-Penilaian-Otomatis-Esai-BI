@@ -35,20 +35,23 @@ class PemrosesanDataUji(PemrosesanJawaban):
 
             # Jika Jawabannya Bukan String Blank
             if jawaban.jawabanEsai.strip():
-
-                fitur_vspace = self._premrosesan_teks(jawaban.jawabanEsai)
-                jawaban.panjangVektor = self._kalkulasi_panjang_vektor(**fitur_vspace)
-                jawaban.nilaiOtomatis = 1
-                db.session.add(jawaban)
-
-                for key, value in fitur_vspace.items():
-                    fitur_obj = FiturObjekPenilaian()
-                    fitur_obj.idjawaban = jawaban.idjawaban
-                    fitur_obj.term = key
-                    fitur_obj.tf = value
-                    db.session.add(fitur_obj)
+                
+                try:
+                    fitur_vspace = self._premrosesan_teks(jawaban.jawabanEsai)
+                    jawaban.panjangVektor = self._kalkulasi_panjang_vektor(**fitur_vspace)
+                    jawaban.nilaiOtomatis = 1
                     db.session.add(jawaban)
-            
-                db.session.commit()
-            
+
+                    for key, value in fitur_vspace.items():
+                        fitur_obj = FiturObjekPenilaian()
+                        fitur_obj.idjawaban = jawaban.idjawaban
+                        fitur_obj.term = key
+                        fitur_obj.tf = value
+                        db.session.add(fitur_obj)
+                        db.session.add(jawaban)
+                
+                    db.session.commit()
+                except:
+                    pass
+
             self.__progress.set_jawaban(None)

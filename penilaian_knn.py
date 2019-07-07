@@ -15,4 +15,4 @@ app = make_app()
  #   potomatis = PenilaianOtomatis(ID_UJIAN)
   #  potomatis.nilai_otomatis()
 
-penilaian_otomatis.apply_async(args=[ID_UJIAN], retry=False)
+penilaian_otomatis.apply_async(args=[ID_UJIAN])

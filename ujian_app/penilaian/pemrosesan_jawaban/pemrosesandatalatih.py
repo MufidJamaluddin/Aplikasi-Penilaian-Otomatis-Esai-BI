@@ -60,4 +60,4 @@ class PemrosesanDataLatih(PemrosesanJawaban):
                     fitur_ref.tf = value
                     db.session.add(fitur_ref)
                 
-                db.session.commit()
+        db.session.commit()
