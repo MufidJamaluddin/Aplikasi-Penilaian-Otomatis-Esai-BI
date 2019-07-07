@@ -38,6 +38,7 @@ export default interface DataPelaksanaanUjian
     status_pelaksanaan: string;
     status_penilaian?: string;
     progress_penilaian?: number;
+    pesan_progress_penilaian?: string;
 }
 
 export default interface DataUjian

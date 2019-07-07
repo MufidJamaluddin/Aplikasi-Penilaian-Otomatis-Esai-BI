@@ -5,7 +5,7 @@ from ujian_app.models import Ujian
 import json
 import time
 
-ID_UJIAN = 5
+ID_UJIAN = 1
 
 print('Mulai penilaian otomatis dg KNN ...')
 

@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Modal, Table, Progress, ModalBody, ModalFooter, ModalHeader, Form, Input, Button, Card, CardBody, CardHeader, Col, Row, TabContent, TabPane, Container } from 'reactstrap';
+import { Modal, Table, Progress, ModalBody, ModalFooter, ModalHeader, Button, Card, CardBody, CardHeader, Col, Row, TabContent, TabPane, Container } from 'reactstrap';
 import FormGroup from 'reactstrap/lib/FormGroup';
 import { initDataPelaksanaan } from '../../models/PelaksanaanData';
 import DataUjian from '../../models/item_model';
 import DataPelaksanaanUjian from '../../models/item_model';
+import { nilaiOtomatis } from '../../models/PenilaianData';
 
 interface NilaiUjianStateModel { 
   activeTab: number; 
   submitnilaimanual:boolean; 
-  //nilaimanual:boolean; 
-  //modal: boolean;
   /**
    * Data Ujian
    */
@@ -32,40 +31,46 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
    * Keterangan Ujian
    */
   private idujian: string;
+  private task_interval?: any;
 
   constructor(props:any) 
 	{
-		super(props);
-		//this.toggle = this.toggle.bind(this);
+    super(props);
+    
     this.state = {
       activeTab: 0,
       submitnilaimanual: false,
-    //  nilaimanual:false,
-		//	modal: false 
     };
 
     this.idujian = props.match.params.idujian;
 
-    //this.modal= this.modal.bind(this);
     this.toggleSubmitNilaiManual = this.toggleSubmitNilaiManual.bind(this);
-    //this.toggleNilaiManual = this.toggleNilaiManual.bind(this);
+    this.loadData = this.loadData.bind(this);
+  }
+
+  loadData()
+  {
+    initDataPelaksanaan(this.idujian).then(value => {
+      if(value.status_ujian == '2')
+      {
+        this.setState({ dataujian: value, activeTab: 1 });
+      }
+      else this.setState({ dataujian: value, activeTab: 0 });
+    });
   }
 
   componentDidMount()
   {
-    initDataPelaksanaan(this.idujian).then(value =>{
-      this.setState({ dataujian: value });
-    });
+    this.task_interval = setInterval(this.loadData, 3000);
   }
 
-  /*
-	public modal() : void
-	{
-    this.setState({
-      modal: !this.state.modal,
-    });
+  componentWillUnmount()
+  {
+    if(this.task_interval)
+    {
+      clearInterval(this.task_interval);
+    }
   }
-  */
   
 	public toggleSubmitNilaiManual() : void 
 	{
@@ -74,20 +79,15 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
     });
   }
 
-  /*
-  public toggleNilaiManual(datapel?:DataPelaksanaanUjian)
-	{
-    this.setState({
-      nilaimanual: !this.state.nilaimanual,
-      datapel_selected: datapel
-    });
-  }
-  */
+  toggle(tab: number) 
+  {
+    if (this.state.activeTab !== tab) 
+    {
+      nilaiOtomatis(this.idujian);
 
-  toggle(tab:any) {
-    if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
+        submitnilaimanual: false
       });
     }
   }
@@ -144,6 +144,20 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
   }
   */
 
+  render_btn_hasil(dataujian: DataPelaksanaanUjian)
+  {
+    if(dataujian.progress_penilaian == 100)
+    {
+      return (
+        <Col col="6" sm="4" md="2" xl className="mb-3 mb-xl-0">
+        <Link to={"/hasilujian/" + dataujian.idujian}>
+          <Button block color="primary">LIHAT HASIL PENILAIAN</Button>
+        </Link>
+        </Col>
+      )
+    }
+  }
+
 	public render() : JSX.Element
 	{
     if(this.state.dataujian === undefined) return (<h3>Loading...</h3>);
@@ -184,7 +198,6 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
                       <thead>
                         <tr>
                           <th>Nama Kelas</th>
-                          <th>Jumlah siswa yang mengikuti ujian</th>
                           <th>Status Penilaian Manual</th>
                         </tr>
                       </thead>
@@ -195,7 +208,6 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
                             return (
                               <tr key={index}>
                                 <td>{pel.namaKelas}</td>
-                                <td>40</td>
                                 <td>{this.getStatusPenilaianBadge(pel.status_penilaian, pel)}</td>
                               </tr>
                             )
@@ -208,17 +220,23 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
 
                   <Col className="col-sm-12 text-right">
                     <Link to="/penilaian">
-                      <Button  color="primary">Kembali</Button>
+                      <Button color="primary">Kembali</Button>
                     </Link>
-                    <Button  color="success" onClick={this.toggleSubmitNilaiManual}>Selanjutnya</Button>
-                    <Modal isOpen={this.state.submitnilaimanual} toggle={this.toggleSubmitNilaiManual} className={'modal-primary ' + this.props.className}>
+                    <Button color="success" onClick={this.toggleSubmitNilaiManual}>Selanjutnya</Button>
+                    <Modal 
+                      isOpen={this.state.submitnilaimanual} 
+                      toggle={this.toggleSubmitNilaiManual} 
+                      className={'modal-primary ' + this.props.className}>
                       <ModalHeader toggle={this.toggleSubmitNilaiManual}>Akhiri Penilaian Manual</ModalHeader>
                         <ModalBody>
-                          <p className="text-center">Apakah anda yakin ingin mengakhiri penilaian ujian secara manual ? <b>Pastikan jawaban siswa sudah dinilai secara manula minimal 50 % dari seluruh jawaban siswa yang mengikuti ujian</b></p>
+                          <p className="text-center">
+                            Apakah anda yakin ingin mengakhiri penilaian ujian secara manual?<br/>Untuk memastikan akurasi yang lebih baik, <b>pastikan jawaban siswa sudah dinilai secara manula minimal 50 % dari seluruh jawaban siswa yang mengikuti ujian dan mewakili semua strata nilai.</b>
+                          </p>
                           <p className="text-center"> Jika sudah yakin, Tekan <b>"Lakukan Penilaian Otomatis"</b> untuk menilai jawaban esai siswa secara otomatis</p>
                         </ModalBody>
                         <ModalFooter>
                           <Button color="primary" onClick={this.toggleSubmitNilaiManual}>Kembali</Button>
+                          &nbsp;
                           <Button color="success" onClick={() => this.toggle(1)} action active={this.state.activeTab === 1}>Lakukan Penilaian Otomatis</Button>
                         </ModalFooter>
                     </Modal>
@@ -243,11 +261,17 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
                       </FormGroup>     
                     </CardHeader>
                       
-                    <Progress animated color="success" value="55" className="mb-3" />
+                    <Progress animated color="success" value={dataujian.progress_penilaian||'0'} className="mb-3" />
+                    <div>
+                      <p className="h1 text-center">{dataujian.progress_penilaian||'0'}%</p>
+                      <p className="h3 text-center">
+                        {dataujian.progress_penilaian == 100? 'Penilaian Otomatis Telah Selesai': dataujian.pesan_progress_penilaian||''}
+                      </p>
+                    </div>
                     
-                    <Col col="6" sm="4" md="2" xl className="mb-3 mb-xl-0">
-                      <Link to="/hasilujian"><Button block color="primary">LIHAT HASIL PENILAIAN</Button></Link>
-                    </Col>
+                    {
+                      this.render_btn_hasil(dataujian)
+                    }
                     
                   </TabPane>
                 </TabContent>
