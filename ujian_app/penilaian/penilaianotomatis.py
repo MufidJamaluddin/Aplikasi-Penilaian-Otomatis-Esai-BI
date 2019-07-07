@@ -1,4 +1,5 @@
 from ujian_app.models import Soal, Jawaban, DaftarNilaiUjian, db
+from ujian_app.repository import ProgressRepository
 from .penskoranotomatis import PenskoranOtomatis
 
 class PenilaianOtomatis(object):
@@ -11,7 +12,8 @@ class PenilaianOtomatis(object):
         Konstruktor
         '''
         self.__idujian = idujian
-        self.__penskor = PenskoranOtomatis()
+        self.__progress = ProgressRepository()
+        self.__penskor = PenskoranOtomatis(self.__progress)
     
     def __del__(self):
         '''
@@ -19,6 +21,7 @@ class PenilaianOtomatis(object):
         '''
         del self.__idujian
         del self.__penskor
+        del self.__progress
     
     def __get_list_id_soal(self):
         '''
@@ -46,7 +49,14 @@ class PenilaianOtomatis(object):
         listsoal = self.__get_list_id_soal()
         
         for soal in listsoal:
-            self.__penskor.set_id_soal(soal.idsoal)
-            self.__penskor.skor_otomatis()
+            
+            if self.__progress.idsoal == None:
+                self.__progress.set_soal(soal.idsoal)
+            
+            if self.__progress.idsoal == soal.idsoal:
+                self.__penskor.set_id_soal(soal.idsoal)
+                self.__penskor.skor_otomatis()
+                self.__progress.set_soal(None)
         
         self.__hitung_nilai_ujian()
+        self.__progress.akhiri()
