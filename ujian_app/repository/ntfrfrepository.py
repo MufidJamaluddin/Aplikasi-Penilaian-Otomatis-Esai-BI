@@ -12,6 +12,10 @@ class NtfRfRepository(object):
     Relevance Frequency
     '''
 
+    def clear_lrucache(self):
+        self.get_max_rf.cache_clear()
+        self.get_max_tf.cache_clear()
+
     @lru_cache()
     def get_max_rf(self, idsoal, term):
         '''

@@ -25,6 +25,13 @@ class NtfRfFactory(object):
         del self.__ntfrfunlabelled    
     
     def create(self, training=True):
+        '''
+        Memberikan NTFRF Instance 
+        Setiap Pergantian Soal
+        '''
+        self.__docnum_repository.clear_lrucache()
+        self.__ntfrf_repository.clear_lrucache()
+
         if training:
             if self.__ntfrflabelled is None:
                 self.__ntfrflabelled = NtfRfLabeledWeighter(
