@@ -46,6 +46,7 @@ class PenilaianOtomatis(object):
         listsoal = self.__get_list_id_soal()
         
         for soal in listsoal:
+            #print(soal.idsoal)
             self.__penskor.set_id_soal(soal.idsoal)
             self.__penskor.skor_otomatis()
         
