@@ -9,6 +9,7 @@ from ujian_app.models import (
 from ujian_app.penilaian.pemrosesan_jawaban import (
     PemrosesanDataUji
 )
+from ujian_app.repository import ProgressRepository
 
 class PenskoranOtomatis(object):
     '''
@@ -16,14 +17,15 @@ class PenskoranOtomatis(object):
     secara otomatis
     '''
 
-    def __init__(self):
+    def __init__(self, progress_state: ProgressRepository):
         '''
         Konstruktor
         '''
         self.__idsoal = None
-        self.__knn = KNearestNeighbor(3)
-        self.__pemroses_data_uji = PemrosesanDataUji()
-        self.__ntfrffactory = NtfRfFactory()
+        self.__knn = KNearestNeighbor(3, progress_state)
+        self.__pemroses_data_uji = PemrosesanDataUji(progress_state)
+        self.__ntfrffactory = NtfRfFactory(progress_state)
+        self.__progress = progress_state
     
 
     def __del__(self):
@@ -89,7 +91,28 @@ class PenskoranOtomatis(object):
             raise Exception('idsoal belum di set')
         
         #self.seleksi_data()
-        self.__pemrosesan_teks_datauji()
-        self.__pembobotan_term_datalatih()
-        self.__pembobotan_term_datauji()
-        self.__klasifikasi_knn()
+
+        # Persiapan
+        if self.__progress.kode_proses == None:
+            self.__progress.set_proses(1)
+
+        # Tahap 1
+        if self.__progress.kode_proses == 1:
+            self.__pemrosesan_teks_datauji()
+            self.__progress.set_proses(2)
+
+        # Tahap 2
+        if self.__progress.kode_proses == 2:
+            self.__pembobotan_term_datalatih()
+            self.__progress.set_proses(3)
+
+        # Tahap 3
+        if self.__progress.kode_proses == 3:
+            self.__pembobotan_term_datauji()
+            self.__progress.set_proses(4)
+
+        # Tahap 4
+        if self.__progress.kode_proses == 4:
+            self.__klasifikasi_knn()
+        
+        self.__progress.set_proses(None)

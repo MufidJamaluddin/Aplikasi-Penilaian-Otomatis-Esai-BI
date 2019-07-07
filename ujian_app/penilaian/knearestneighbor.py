@@ -4,16 +4,19 @@ from ujian_app.models import (
     Similarity, db
 )
 
+from ujian_app.repository import ProgressRepository
+
 class KNearestNeighbor(object):
     '''
     Kelas untuk klasifikasi KNN
     '''
 
-    def __init__(self, k_knn:int):
+    def __init__(self, k_knn:int, progress_state: ProgressRepository):
         '''
         k_knn : Nilai K tetangga terdekaat pada KNN
         '''
         self.__k = k_knn
+        self.__progress = progress_state
 
     def __get_list_idjawaban(self, idsoal):
         ''' 
@@ -76,6 +79,13 @@ class KNearestNeighbor(object):
         '''
         for jawaban in self.__get_list_idjawaban(idsoal):
 
+            if self.__progress.idjawaban is None:
+                self.__progress.set_jawaban(jawaban.idjawaban)
+            
+            # Lanjutkan Progress Terakhir
+            if self.__progress.idjawaban != jawaban.idjawaban:
+                continue
+
             list_sim = self.__get_cosine_similarity(jawaban.idjawaban)
 
             # DICTIONARY KEMUNCULAN SKOR HURUF
@@ -105,3 +115,5 @@ class KNearestNeighbor(object):
                 skor_huruf,
                 sm['skorAngka']
             )
+
+            self.__progress.set_jawaban(None)

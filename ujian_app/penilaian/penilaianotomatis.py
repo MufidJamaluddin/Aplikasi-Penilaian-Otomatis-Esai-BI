@@ -1,4 +1,5 @@
 from ujian_app.models import Soal, Jawaban, DaftarNilaiUjian, db
+from ujian_app.repository import ProgressRepository
 from .penskoranotomatis import PenskoranOtomatis
 
 class PenilaianOtomatis(object):
@@ -11,7 +12,8 @@ class PenilaianOtomatis(object):
         Konstruktor
         '''
         self.__idujian = idujian
-        self.__penskor = PenskoranOtomatis()
+        self.__progress = ProgressRepository()
+        self.__penskor = PenskoranOtomatis(self.__progress)
     
     def __del__(self):
         '''
@@ -19,6 +21,7 @@ class PenilaianOtomatis(object):
         '''
         del self.__idujian
         del self.__penskor
+        del self.__progress
     
     def __get_list_id_soal(self):
         '''
@@ -27,7 +30,7 @@ class PenilaianOtomatis(object):
         '''
         listsoal = db.session.query(Soal.idsoal).filter_by(
             idujian=self.__idujian, flag='1'
-        )
+        ).all()
         return listsoal
 
     def __hitung_nilai_ujian(self):
@@ -44,10 +47,33 @@ class PenilaianOtomatis(object):
         Melakukan Penilaian Otomatis
         '''
         listsoal = self.__get_list_id_soal()
+        jumlah_soal = len(listsoal)
+
+        self.__progress.load(self.__idujian, jumlah_soal)
+
+        if self.__progress.selesai:
+            return
         
+        if self.__progress.selesai_potomatis:
+            self.__hitung_nilai_ujian()
+            return
+        
+        i = 0
         for soal in listsoal:
-            #print(soal.idsoal)
-            self.__penskor.set_id_soal(soal.idsoal)
-            self.__penskor.skor_otomatis()
+            if self.__progress.idsoal == None:
+                self.__progress.set_soal(soal.idsoal, ' Soal 1')
+            # Lanjut Progress Terakhir ...
+            if self.__progress.idsoal == soal.idsoal:
+                self.__penskor.set_id_soal(soal.idsoal)
+                self.__penskor.skor_otomatis()
+                next_soal = i+1
+                if next_soal < jumlah_soal:
+                    self.__progress.set_soal(
+                        listsoal[next_soal], 
+                        ' Soal %s' % next_soal
+                    )
+            i += 1
         
+        self.__progress.akhiri_potomatis()
         self.__hitung_nilai_ujian()
+        self.__progress.akhiri()
