@@ -13,6 +13,7 @@ __pycache__/
 
 # Static File
 static/
+state/
 
 # map js
 *.js.map

@@ -93,26 +93,26 @@ class PenskoranOtomatis(object):
         #self.seleksi_data()
 
         # Persiapan
-        if self.__progress == None:
+        if self.__progress.kode_proses == None:
             self.__progress.set_proses(1)
 
         # Tahap 1
-        if self.__progress == 1:
+        if self.__progress.kode_proses == 1:
             self.__pemrosesan_teks_datauji()
             self.__progress.set_proses(2)
 
         # Tahap 2
-        if self.__progress == 2:
+        if self.__progress.kode_proses == 2:
             self.__pembobotan_term_datalatih()
             self.__progress.set_proses(3)
 
         # Tahap 3
-        if self.__progress == 3:
+        if self.__progress.kode_proses == 3:
             self.__pembobotan_term_datauji()
             self.__progress.set_proses(4)
 
         # Tahap 4
-        if self.__progress == 4:
+        if self.__progress.kode_proses == 4:
             self.__klasifikasi_knn()
         
         self.__progress.set_proses(None)
