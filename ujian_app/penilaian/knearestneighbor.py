@@ -116,4 +116,4 @@ class KNearestNeighbor(object):
                 sm['skorAngka']
             )
 
-            self.__progress.set_jawaban(None)
+            self.__progress.clear_jawaban()

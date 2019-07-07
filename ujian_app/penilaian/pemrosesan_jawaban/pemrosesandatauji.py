@@ -54,4 +54,4 @@ class PemrosesanDataUji(PemrosesanJawaban):
                 except:
                     pass
 
-            self.__progress.set_jawaban(None)
+            self.__progress.clear_jawaban()
