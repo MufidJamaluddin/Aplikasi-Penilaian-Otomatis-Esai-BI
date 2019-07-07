@@ -18,3 +18,4 @@ from .daftarnilairepository import DaftarNilaiRepository
 # Penilaian
 from .ntfrfrepository import NtfRfRepository
 from .docnumrepository import DocNumRepository
+from .progressrepository import ProgressRepository

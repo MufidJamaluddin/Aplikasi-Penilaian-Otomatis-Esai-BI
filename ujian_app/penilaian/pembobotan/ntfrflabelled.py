@@ -8,9 +8,10 @@ class NtfRfLabeledWeighter(object):
     Data Berlabel (Training)
     """
 
-    def __init__(self, docnum_repository, ntfrf_repository):
+    def __init__(self, docnum_repository, ntfrf_repository, progress_state):
         self.__docnum_repository = docnum_repository
         self.__ntfrf_repository = ntfrf_repository
+        self.__progress = progress_state
 
     def __calculate_ntf(self, idsoal, tf:int, term:str):
         """
@@ -64,11 +65,21 @@ class NtfRfLabeledWeighter(object):
         )
 
         for fitur in list_fitur:
-            rf, ntf_rf = self.__calculate(idsoal, fitur.tf,\
-                fitur.term, fitur.skorHuruf)
+            
+            if self.__progress.idjawaban is None:
+                self.__progress.set_jawaban(fitur.idjawaban)
+            
+            # Lanjutkan Progress Terakhir
+            if self.__progress.idjawaban == fitur.idjawaban:
+                
+                rf, ntf_rf = self.__calculate(idsoal, fitur.tf,\
+                    fitur.term, fitur.skorHuruf)
 
-            fitur.rf = rf
-            fitur.ntf_rf = ntf_rf
+                fitur.rf = rf
+                fitur.ntf_rf = ntf_rf
 
-            db.session.add(fitur)
-            db.session.commit()
+                db.session.add(fitur)
+                db.session.commit()
+
+                # Lanjut
+                self.__progress.set_jawaban(None)

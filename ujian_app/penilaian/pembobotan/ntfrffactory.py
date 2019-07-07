@@ -2,6 +2,7 @@ from ujian_app.repository import DocNumRepository, NtfRfRepository
 from sqlalchemy.sql.expression import and_
 from .ntfrflabelled import NtfRfLabeledWeighter
 from .ntfrfunlabelled import NtfRfUnlabeledWeighter
+from ujian_app.repository import ProgressRepository
 
 class NtfRfFactory(object):
     '''
@@ -10,9 +11,10 @@ class NtfRfFactory(object):
     pada tiap soal
     '''
 
-    def __init__(self):
+    def __init__(self, progress_state: ProgressRepository):
         self.__docnum_repository = DocNumRepository()
         self.__ntfrf_repository = NtfRfRepository()
+        self.__progress = progress_state
         self.__ntfrflabelled = None
         self.__ntfrfunlabelled = None
     
@@ -26,12 +28,16 @@ class NtfRfFactory(object):
         if training:
             if self.__ntfrflabelled is None:
                 self.__ntfrflabelled = NtfRfLabeledWeighter(
-                    self.__docnum_repository, self.__ntfrf_repository
+                    self.__docnum_repository, 
+                    self.__ntfrf_repository,
+                    self.__progress
                 )
             return self.__ntfrflabelled
         else:
             if self.__ntfrfunlabelled is None:
                 self.__ntfrfunlabelled = NtfRfUnlabeledWeighter(
-                    self.__docnum_repository, self.__ntfrf_repository
+                    self.__docnum_repository, 
+                    self.__ntfrf_repository,
+                    self.__progress
                 )
             return self.__ntfrfunlabelled
