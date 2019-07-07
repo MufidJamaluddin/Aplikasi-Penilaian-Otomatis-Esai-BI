@@ -142,6 +142,7 @@ class ProgressRepository:
         )
         if self.__ujian.pesan_progress_penilaian is not None:
             self.__ujian.pesan_progress_penilaian += self.nama_soal
+        self.__ujian.status_ujian = 3
 
         db.session.add(self.__ujian)
         db.session.commit()
