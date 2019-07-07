@@ -20,6 +20,8 @@ class PelaksanaanUjianAPI(MethodView):
         ujiand['namaMapel'] = ujian.matapelajaran.namaMapel
         ujiand['durasi'] = str(ujian.durasi)
         ujiand['status_ujian'] = ujian.status_ujian
+        ujiand['progress_penilaian'] = ujian.progress_penilaian
+        ujiand['pesan_progress_penilaian'] = ujian.pesan_progress_penilaian
 
         pelaksanaan_ujian = pel_repo.findByKeys(
             idujian=ujian.idujian,

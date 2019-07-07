@@ -12,7 +12,7 @@ app = make_app()
 #
 
 list_data_uji = [
-    {'nama':'X-IIS-3', 'idkelas': '20'}
+    {'nama':'XI-IIS-3', 'idkelas': '12'}
     
 ]
 

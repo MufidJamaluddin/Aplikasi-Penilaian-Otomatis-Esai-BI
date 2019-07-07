@@ -30,7 +30,7 @@ function akhiriPenilaianManual(idujian: string, idkelas: string)
 
 function nilaiOtomatis(idujian: string|number)
 {
-    return API<{}>('/api/penilaianmanual/'+idujian, {
+    return API<{}>('/api/penilaianotomatis/'+idujian, {
         method: 'POST'
     });
 }

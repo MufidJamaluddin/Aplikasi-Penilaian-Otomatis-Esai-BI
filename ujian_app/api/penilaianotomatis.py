@@ -9,7 +9,7 @@ class PenilaianOtomatisAPI(MethodView):
         repo = UjianRepository()
         penilaian_otomatis.apply_async(args=[idujian])
         repo.update(idujian, {
-            'status_ujian': 3,
+            'status_ujian': 2,
             'progress_penilaian': 0, 
             'pesan_progress_penilaian': 'Menunggu Antrian Tugas'
         })

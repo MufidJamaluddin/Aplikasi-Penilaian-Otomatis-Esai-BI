@@ -66,14 +66,16 @@ class PenilaianOtomatis(object):
             if self.__progress.idsoal == soal.idsoal:
                 self.__penskor.set_id_soal(soal.idsoal)
                 self.__penskor.skor_otomatis()
-                next_soal = i+1
+                
+                next_soal = i + 1
                 if next_soal < jumlah_soal:
-                    self.__progress.set_soal(
-                        listsoal[next_soal], 
-                        ' Soal %s' % next_soal
-                    )
+                    next_idsoal = listsoal[next_soal].idsoal
+                    next_namasoal = ' Soal %s' % next_soal
+                    self.__progress.set_soal(next_idsoal, next_namasoal)
             i += 1
         
         self.__progress.akhiri_potomatis()
-        self.__hitung_nilai_ujian()
-        self.__progress.akhiri()
+        try:
+            self.__hitung_nilai_ujian()
+        finally:
+            self.__progress.akhiri()

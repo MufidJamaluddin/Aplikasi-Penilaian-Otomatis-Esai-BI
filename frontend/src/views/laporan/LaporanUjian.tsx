@@ -249,68 +249,53 @@ class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
             </CardHeader>
 
               <CardBody>
-              {
-                    this.state.list_nilai.map(dt_nilai => {
-                      return (
-                
-                <Table responsive size="sm" className="table table-bordered">
-                    <tbody>
-                        <tr className="table-active">
-                          <th className="text-center align-middle" rowSpan={2}>NIS</th>
-                          <th className="text-center align-middle" rowSpan={2}>Nama Siswa</th>
-                          <th className="text-center align-middle" colSpan={Object.keys(this.state.list_ujian).length}>
-                              Nilai Ujian
-                          </th>
-                          <th className="text-center align-middle" rowSpan={2}>Nilai Akhir</th>
-                        </tr>
-                      
-                        <tr>
-                          {
-                            Object.values(this.state.list_ujian).map((nama_ujian, i) => {
-                              return (<th className="table-active text-center" key={i}>{nama_ujian}</th>);
-                            })
-                          }
-                        </tr>
-
-                        <tr key={dt_nilai.nis}>
-                          <td className="text-center">{dt_nilai.nis}</td>
-                          <td className="text-center">{dt_nilai.nama}</td>
-                          {
-                            Object.keys(this.state.list_ujian).map(idujian => {
-                              return (
-                                <td className="text-center" key={idujian}>{ dt_nilai.nilai[idujian] || '' }</td>
-                              )
-                            })
-                          }
-                          <td className="text-center">{dt_nilai.nilai_akhir}</td>
-                        </tr>
-
-                        <tr>
-                          <th className="table-light text-center" colSpan={Object.keys(this.state.list_ujian).length+3}>Grafik Perkembangan Ujian Siswa</th>
-                        </tr>
-
-                        <tr key={dt_nilai.nis}>
-                          <td colSpan={Object.keys(this.state.list_ujian).length+3}>
-                              <GrafikGaris
-                                key={dt_nilai.nis}
-                                nama={dt_nilai.nama}
-                                nilai_ujian={dt_nilai.nilai}
-                                list_ujian={this.state.list_ujian}
-                                />
-                          </td>
-                        </tr>    
-                    </tbody>
+                <Table responsive size="sm" className="table table-hover">
+                  <thead>
+                    <tr>
+                      <th className="text-center align-middle" rowSpan={2}>NIS</th>
+                      <th className="text-center align-middle" rowSpan={2}>Nama Siswa</th>
+                      <th className="text-center align-middle" colSpan={Object.keys(this.state.list_ujian).length}>
+                          Nilai Ujian
+                      </th>
+                      <th className="text-center align-middle" rowSpan={2}>Nilai Akhir</th>
+                    </tr>
+                    <tr>
+                      {
+                        Object.values(this.state.list_ujian).map((nama_ujian, i) => {
+                          return (<th className="table-active text-center" key={i}>{nama_ujian}</th>);
+                        })
+                      }
+                    </tr>
+                  </thead>
+                  <tbody >
+                    { 
+                      this.state.list_nilai.map(dt_nilai => {
+                        return (
+                          <tr key={dt_nilai.nis}>
+                            <td className="text-center">{dt_nilai.nis}</td>
+                            <td>&nbsp;{dt_nilai.nama}</td>
+                            {
+                              Object.keys(this.state.list_ujian).map(idujian => {
+                                return (
+                                  <td className="text-center" key={idujian}>
+                                    { dt_nilai.nilai[idujian] || '' }
+                                  </td>
+                                )
+                              })
+                            }
+                            <td className="text-center">{dt_nilai.nilai_akhir}</td>
+                          </tr>
+                        )
+                      })
+                    }
+                  </tbody>
                 </Table>
-                )
-              })
-            }
-                
+
               </CardBody>
             </Card>
           </Col>
         </Row>
       </div>
-
     );
   }
 }

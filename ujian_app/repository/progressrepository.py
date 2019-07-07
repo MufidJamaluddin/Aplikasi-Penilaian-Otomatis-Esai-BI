@@ -85,11 +85,19 @@ class ProgressRepository:
         Simpan State
         '''
         if self.__file is None:
-            self.__file = open("state/ujian_%s.json" % self.idujian, "w")
+            self.__file = open('state/ujian_%s.json' % self.idujian, 'w+')
+        
+        # 'w' nya ga jalan
+        self.__file.seek(0)
+        self.__file.write('                                        ' * 100)
+        #self.__file.truncate()
+        self.__file.seek(0)
+
+        # simpan state terbaru
         self.__file.write(self.__toJson())
         self.__file.flush()
     
-    def set_soal(self, idsoal, nama_soal = ''):
+    def set_soal(self, idsoal, nama_soal):
         '''
         Set State Soal
         '''
@@ -142,7 +150,6 @@ class ProgressRepository:
         )
         if self.__ujian.pesan_progress_penilaian is not None:
             self.__ujian.pesan_progress_penilaian += self.nama_soal
-        self.__ujian.status_ujian = 3
 
         db.session.add(self.__ujian)
         db.session.commit()
