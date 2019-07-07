@@ -1,6 +1,7 @@
 import json
 import os
 from ujian_app.models import Ujian, db
+from flask import current_app
 
 class ProgressRepository:
     '''
@@ -45,6 +46,7 @@ class ProgressRepository:
             'idujian': self.idujian,
             'total_proses': self.total_proses,
             'total_proses_selesai': self.total_proses_selesai,
+            'nama_soal': self.nama_soal,
             'idsoal' : self.idsoal,
             'kode_proses' : self.kode_proses,
             'idjawaban' : self.idjawaban,
@@ -68,6 +70,7 @@ class ProgressRepository:
                     self.total_proses = data.get('total_proses')
                     self.total_proses_selesai = data.get('total_proses_selesai')
                     self.idsoal = data.get('idsoal')
+                    self.nama_soal = data.get('nama_soal')
                     self.kode_proses = data.get('kode_proses')
                     self.idjawaban = data.get('idjawaban')
                     self.selesai = data.get('selesai')
@@ -84,6 +87,7 @@ class ProgressRepository:
         if self.__file is None:
             self.__file = open("state/ujian_%s.json" % self.idujian, "w")
         self.__file.write(self.__toJson())
+        self.__file.flush()
     
     def set_soal(self, idsoal, nama_soal = ''):
         '''
@@ -134,8 +138,10 @@ class ProgressRepository:
         self.__ujian.progress_penilaian = self.get_progress()
         self.__ujian.pesan_progress_penilaian = self.__kprogress.get(
             str(self.kode_proses),
-            'Menunggu Antrian '
-        ) + self.nama_soal
+            None
+        )
+        if self.__ujian.pesan_progress_penilaian is not None:
+            self.__ujian.pesan_progress_penilaian += self.nama_soal
 
         db.session.add(self.__ujian)
         db.session.commit()
