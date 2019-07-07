@@ -61,6 +61,7 @@ class ProgressRepository:
 
             if os.path.exists(filename):
                 with open(filename, "r") as read_file:
+                    read_file.seek(0)
                     data = json.load(read_file)
                     self.idujian = idujian
                     self.jumlah_soal = jumlah_soal
