@@ -70,7 +70,7 @@ class PenilaianOtomatis(object):
                 next_soal = i + 1
                 if next_soal < jumlah_soal:
                     next_idsoal = listsoal[next_soal].idsoal
-                    next_namasoal = 'Soal {}'.format(next_soal)
+                    next_namasoal = 'Soal {}'.format(next_soal + 1)
                     self.__progress.set_soal(next_idsoal, next_namasoal)
             i = i + 1
         
