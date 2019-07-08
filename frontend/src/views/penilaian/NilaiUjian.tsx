@@ -56,11 +56,14 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
         this.setState({ dataujian: value, activeTab: 1 });
       }
       else this.setState({ dataujian: value, activeTab: 0 });
+    }).catch((e:any) => {
+      console.log(e)
     });
   }
 
   componentDidMount()
   {
+    this.loadData()
     this.task_interval = setInterval(this.loadData, 3000);
   }
 
@@ -84,6 +87,8 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
     if (this.state.activeTab !== tab) 
     {
       nilaiOtomatis(this.idujian);
+
+      this.loadData();
 
       this.setState({
         activeTab: tab,
@@ -222,6 +227,7 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
                     <Link to="/penilaian">
                       <Button color="primary">Kembali</Button>
                     </Link>
+                    {' '}
                     <Button color="success" onClick={this.toggleSubmitNilaiManual}>Selanjutnya</Button>
                     <Modal 
                       isOpen={this.state.submitnilaimanual} 
