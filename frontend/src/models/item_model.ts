@@ -121,11 +121,12 @@ export default interface DaftarNilaiUjian
 {
     list_ujian: KeyValueMaps<string>;
     list_nilai: Array<NilaiUjian>;
-    list_nilaiujian: KeyValueMaps<Array<any>>;
+    list_nilaiujian: KeyValueMaps<Array<number>>;
 }
 
 export default interface DaftarSkorUjian
 {
     list_soal: KeyValueMaps<string>;
     list_skor: Array<SkorUjian>;
+    list_skorsoal: KeyValueMaps<Array<number>>;
 }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Card, CardBody, CardHeader,Form, Col, Collapse,  Row, Table, Button, Input } from 'reactstrap';
 import ChartComponent, { Line } from 'react-chartjs-2';
 import DaftarNilaiUjian from '../../models/item_model';
@@ -16,7 +16,7 @@ require('chartjs-chart-box-and-violin-plot');
 //-------------------------------//
 interface GrafikGarisProps { nama: string; nilai_ujian: any; list_ujian: any, key: string;  }
 
-class GrafikGaris extends React.PureComponent<GrafikGarisProps>
+class GrafikGaris extends PureComponent<GrafikGarisProps>
 {
   render() 
   {
@@ -52,7 +52,7 @@ interface GrafikBoxplotProps
   list_nilaiujian: any;
 }
 
-class GrafikBoxplot extends React.PureComponent<GrafikBoxplotProps>
+class GrafikBoxplot extends PureComponent<GrafikBoxplotProps>
 {
   chartInstance?: any;
   
@@ -70,7 +70,7 @@ class GrafikBoxplot extends React.PureComponent<GrafikBoxplotProps>
       labels: labels,
       datasets: [{
         label: 'Resume Capaian Siswa',
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: 'rgba(19,141,117,.55)',
         backgroundColor: 'rgba(115,198,182,.55)',
         data: data_t
@@ -101,7 +101,7 @@ interface LaporanUjianStateModel extends Partial<DaftarNilaiUjian>
 
 interface LaporanUjianModel { className?: string; }
 
-class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
+class LaporanUjian extends PureComponent<LaporanUjianModel, LaporanUjianStateModel>
 {
   constructor(props: any) 
   {
@@ -317,7 +317,7 @@ class LaporanUjian extends Component<LaporanUjianModel, LaporanUjianStateModel>
                   </Col>
                   <Col className="col-sm-3">
                       <Input type="select" onChange={e=>{this.setState({tampilan: e.target.value})}} defaultValue="0">
-                      <option value="0">Resume Capaian Siswa</option>
+                        <option value="0">Resume Capaian Siswa</option>
                         <option value="1">Tabel Nilai Ujian</option>
                         <option value="2">Perkembangan Nilai Ujian Siswa</option>
                       </Input>
