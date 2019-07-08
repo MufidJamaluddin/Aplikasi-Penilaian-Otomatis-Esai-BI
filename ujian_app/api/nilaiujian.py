@@ -14,6 +14,9 @@ class NilaiUjianAPI(MethodView):
 
         list_data_skor = []
         list_soal = {}
+        list_skorsoal = {}
+        list_skorsoalc = {}
+
         for dt_skor_siswa in dskor_siswa:
             data_skor = {}
             data_skor['nis'] = dt_skor_siswa.nis
@@ -24,8 +27,9 @@ class NilaiUjianAPI(MethodView):
             nilai = 0
             for dt_skor in dt_skor_siswa.jawaban:
                 id_soal = dt_skor.idsoal
-                data_skor['skor'][id_soal] = dt_skor.skorAngka
-                nilai = nilai + int(dt_skor.skorAngka or 0)
+                skor_angka = int(dt_skor.skorAngka or 0)
+                data_skor['skor'][id_soal] = skor_angka
+                nilai = nilai + skor_angka
                 if dt_skor.nilaiOtomatis == 0:
                     data_skor['status'][id_soal] = 'Dinilai Manual'
                 elif dt_skor.nilaiOtomatis == 1:
@@ -33,6 +37,10 @@ class NilaiUjianAPI(MethodView):
                 else:
                     data_skor['status'][id_soal] = ''
                 list_soal[id_soal] = True
+
+                if list_skorsoal.get(id_soal, None) == None:
+                    list_skorsoal[id_soal] = []
+                list_skorsoal[id_soal].append(skor_angka)
 
             data_skor['nilai'] = nilai
             if int(dt_skor.soal.ujian.matapelajaran.KKM) > nilai:
@@ -45,9 +53,12 @@ class NilaiUjianAPI(MethodView):
         i = 0
         for id_soal in sorted(list_soal.keys()):
             i += 1
-            list_soal[id_soal] = "Soal %d" % i
+            nama_soal = "Soal %d" % i
+            list_soal[id_soal] = nama_soal
+            list_skorsoalc[nama_soal] = list_skorsoal[id_soal]
 
         return json.jsonify({
             'list_soal': list_soal,
-            'list_skor': list_data_skor
+            'list_skor': list_data_skor,
+            'list_skorsoal': list_skorsoalc
         })
