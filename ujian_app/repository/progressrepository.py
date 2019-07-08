@@ -3,17 +3,12 @@ import os
 from ujian_app.models import Ujian, db
 from flask import current_app
 
+
 class ProgressRepository:
     '''
     Menyimpan Progress Penilaian Otomatis
     '''
-    def __del__(self):
-        if self.__file is not None:
-            self.__file.close()
-            del self.__file
-        del self.__ujian
-        del self.__kprogress
-        
+     
     def __init__(self):
         self.__kprogress = {
             '1': 'Pemrosesan Jawaban Esai Siswa',
@@ -23,6 +18,14 @@ class ProgressRepository:
         }
         self.__ujian = None
         self.__file = None
+    
+    def __del__(self):
+        if self.__file:
+            self.__file.close()
+            del self.__file
+        del self.__ujian
+        del self.__kprogress
+
 
     def register_state(self, idujian, jumlah_soal):
         '''
@@ -30,17 +33,22 @@ class ProgressRepository:
         '''
         self.idujian = idujian
         self.jumlah_soal = jumlah_soal
-        self.total_proses = 5 * int(jumlah_soal) + 2
+        self.total_proses = 5 * int(jumlah_soal)
         self.total_proses_selesai = 0
         self.idsoal = None
         self.kode_proses = None
         self.idjawaban = None
         self.selesai = False
         self.selesai_potomatis = False
+        self.nama_soal = ''
+        self.jumlah_jawaban = 0
+        self.jawaban_ke = 0
+        self.hitung_jawaban = True
+
         self.__file = None
         self.__ujian = None
-        self.nama_soal = ''
     
+
     def __toJson(self):
         return json.dumps({
             'idujian': self.idujian,
@@ -51,33 +59,40 @@ class ProgressRepository:
             'kode_proses' : self.kode_proses,
             'idjawaban' : self.idjawaban,
             'selesai': self.selesai,
-            'selesai_potomatis': self.selesai_potomatis
+            'selesai_potomatis': self.selesai_potomatis,
+            'jumlah_jawaban': self.jumlah_jawaban,
+            'hitung_jawaban': self.hitung_jawaban,
+            'jawaban_ke': self.jawaban_ke
         })
 
     def load(self, idujian, jumlah_soal):
         '''
         Load State Data
         '''
-        if self.__file is None:
-            filename = "state/ujian_%s.json" % idujian
+        filename = "state/ujian_{}.json".format(idujian)
 
-            if os.path.exists(filename):
-                with open(filename, "r") as read_file:
-                    read_file.seek(0)
-                    data = json.load(read_file)
-                    self.idujian = idujian
-                    self.jumlah_soal = jumlah_soal
-                    self.total_proses = data.get('total_proses')
-                    self.total_proses_selesai = data.get('total_proses_selesai')
-                    self.idsoal = data.get('idsoal')
-                    self.nama_soal = data.get('nama_soal')
-                    self.kode_proses = data.get('kode_proses')
-                    self.idjawaban = data.get('idjawaban')
-                    self.selesai = data.get('selesai')
-                    self.selesai_potomatis = data.get('selesai_potomatis')
+        if os.path.exists(filename):
+            with open(filename, "r") as read_file:
+                read_file.seek(0)
+                json_string = read_file.read()
 
-            else:
-                self.register_state(idujian, jumlah_soal)
+                data = json.loads(json_string.strip())
+
+                self.idujian = idujian
+                self.jumlah_soal = jumlah_soal
+                self.total_proses = data.get('total_proses')
+                self.total_proses_selesai = data.get('total_proses_selesai')
+                self.idsoal = data.get('idsoal')
+                self.nama_soal = data.get('nama_soal')
+                self.kode_proses = data.get('kode_proses')
+                self.idjawaban = data.get('idjawaban')
+                self.selesai = data.get('selesai')
+                self.selesai_potomatis = data.get('selesai_potomatis')
+                self.hitung_jawaban = data.get('hitung_jawaban')
+                self.jumlah_jawaban = data.get('jumlah_jawaban')
+                self.jawaban_ke = data.get('jawaban_ke')
+        else:
+            self.register_state(idujian, jumlah_soal)
 
 
     def simpan(self):
@@ -85,14 +100,15 @@ class ProgressRepository:
         Simpan State
         '''
         if self.__file is None:
-            self.__file = open('state/ujian_%s.json' % self.idujian, 'w+')
+            self.__file = open("state/ujian_{}.json".format(self.idujian), "w")
         
         # 'w' nya ga jalan
         self.__file.seek(0)
-        self.__file.write('                                        ' * 100)
-        #self.__file.truncate()
-        self.__file.seek(0)
+        self.__file.write('                                        ' * 20)
+        self.__file.truncate()
+        self.__file.flush()
 
+        self.__file.seek(0)
         # simpan state terbaru
         self.__file.write(self.__toJson())
         self.__file.flush()
@@ -126,11 +142,24 @@ class ProgressRepository:
         Set State idjawaban
         '''
         self.idjawaban = idjawaban
+        if idjawaban:
+            self.jawaban_ke += 1
+            if self.hitung_jawaban:
+                self.jumlah_jawaban += 1
+            else:
+                self.total_proses_selesai += 1
+            if self.jawaban_ke % 10 == 1:
+                self.simpan_progress()
+        else:
+            self.hitung_jawaban = False
+            self.total_proses = (self.total_proses * self.jumlah_jawaban) + 2
+            self.total_proses_selesai = self.total_proses_selesai * self.jumlah_jawaban
+
         self.simpan()
     
     def akhiri(self):
         self.selesai = True
-        self.total_proses_selesai += 1
+        self.total_proses_selesai = self.total_proses
         self.simpan_progress()
     
     def akhiri_potomatis(self):
@@ -141,18 +170,26 @@ class ProgressRepository:
         '''
         Mendapatkan progress dalam persentase
         '''
-        return (self.total_proses_selesai * 100) / self.total_proses
+        progress = int((self.total_proses_selesai * 100) / self.total_proses)
+        return progress
     
     def simpan_progress(self):
+        
         if self.__ujian is None:
             self.__ujian = Ujian.query.get(self.idujian)
-        self.__ujian.progress_penilaian = self.get_progress()
-        self.__ujian.pesan_progress_penilaian = self.__kprogress.get(
-            str(self.kode_proses),
-            None
-        )
-        if self.__ujian.pesan_progress_penilaian is not None:
-            self.__ujian.pesan_progress_penilaian += self.nama_soal
+        
+        prog = self.get_progress()
+
+        if prog < 100:
+            self.__ujian.progress_penilaian = prog
+            pesan_prog = self.__kprogress.get(
+                str(self.kode_proses),
+                'Menunggu Eksekusi '
+            )
+            self.__ujian.pesan_progress_penilaian = '{} {}'.format(pesan_prog, self.nama_soal)
+        else:
+            self.__ujian.progress_penilaian = '100'
+            self.__ujian.pesan_progress_penilaian = 'Penilaian Otomatis Telah Selesai'
 
         db.session.add(self.__ujian)
         db.session.commit()

@@ -8,9 +8,9 @@ class PenilaianOtomatisAPI(MethodView):
     def post(self, idujian):
         repo = UjianRepository()
         penilaian_otomatis.apply_async(args=[idujian])
-        repo.update(idujian, {
-            'status_ujian': 2,
-            'progress_penilaian': 0, 
-            'pesan_progress_penilaian': 'Menunggu Antrian Tugas'
-        })
+        repo.update(idujian,
+            status_ujian = 2,
+            progress_penilaian = '0', 
+            pesan_progress_penilaian = 'Menunggu Antrian Tugas'
+        )
         return json.dumps({'status': 'OK', 'progress': 0})

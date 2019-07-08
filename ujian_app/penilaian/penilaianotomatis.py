@@ -61,7 +61,7 @@ class PenilaianOtomatis(object):
         i = 0
         for soal in listsoal:
             if self.__progress.idsoal == None:
-                self.__progress.set_soal(soal.idsoal, ' Soal 1')
+                self.__progress.set_soal(soal.idsoal, 'Soal 1')
             # Lanjut Progress Terakhir ...
             if self.__progress.idsoal == soal.idsoal:
                 self.__penskor.set_id_soal(soal.idsoal)
@@ -70,9 +70,9 @@ class PenilaianOtomatis(object):
                 next_soal = i + 1
                 if next_soal < jumlah_soal:
                     next_idsoal = listsoal[next_soal].idsoal
-                    next_namasoal = ' Soal %s' % next_soal
+                    next_namasoal = 'Soal {}'.format(next_soal)
                     self.__progress.set_soal(next_idsoal, next_namasoal)
-            i += 1
+            i = i + 1
         
         self.__progress.akhiri_potomatis()
         try:
