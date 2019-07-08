@@ -121,6 +121,7 @@ export default interface DaftarNilaiUjian
 {
     list_ujian: KeyValueMaps<string>;
     list_nilai: Array<NilaiUjian>;
+    list_nilaiujian: KeyValueMaps<Array<any>>;
 }
 
 export default interface DaftarSkorUjian

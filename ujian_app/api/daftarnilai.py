@@ -13,6 +13,7 @@ class DaftarNilaiAPI(MethodView):
 
         list_data_nilai = []
         list_ujian = {}
+        list_nilaiujian = {}
         for dt_nilai_siswa in dnilai_siswa:
             data_nilai = {}
             data_nilai['nis'] = dt_nilai_siswa.nis
@@ -21,11 +22,17 @@ class DaftarNilaiAPI(MethodView):
 
             nilai_akhir = 0
             for dt_nilai in dt_nilai_siswa.daftarnilaiujian:
+                nilai_ujian = int(dt_nilai.nilai)
                 nama_ujian = dt_nilai.ujian.namaUjian
                 id_ujian = dt_nilai.ujian.idujian
-                data_nilai['nilai'][id_ujian] = dt_nilai.nilai
+                data_nilai['nilai'][id_ujian] = nilai_ujian
                 list_ujian[id_ujian] = nama_ujian
-                nilai_akhir += int(dt_nilai.nilai)
+                nilai_akhir += nilai_ujian
+                if list_nilaiujian.get(nama_ujian, None) == None:
+                    list_nilaiujian[nama_ujian] = []
+                    list_nilaiujian[nama_ujian].append(nilai_ujian)
+                else:
+                    list_nilaiujian[nama_ujian].append(nilai_ujian)
 
             data_nilai['nilai_akhir'] = nilai_akhir
             list_data_nilai.append(data_nilai)
@@ -36,5 +43,6 @@ class DaftarNilaiAPI(MethodView):
 
         return json.jsonify({
             'list_ujian': list_ujian,
-            'list_nilai': list_data_nilai
+            'list_nilai': list_data_nilai,
+            'list_nilaiujian': list_nilaiujian
         })
