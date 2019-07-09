@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Input, Card, CardBody, CardHeader, Col, Row, Table, Button, Form, FormGroup } from 'reactstrap';
 import { Link, Redirect } from 'react-router-dom';
-import { initDataPengampu, inputDataUjian } from '../../models/UjianData';
-import DataPengampu from '../../models/item_model';
+import DataPengampu from '../../models';
 import { isNullOrUndefined } from 'util';
+import { UjianViewModel } from '../../viewmodels/ujianesai';
 
 /**
  * State TambahUjian
@@ -27,6 +27,8 @@ interface TambahUjianAttribute { className?: string; }
  */
 class TambahUjian extends Component<TambahUjianAttribute, TambahUjianState>
 {
+  readonly vm: UjianViewModel;
+
   /**
    * Konstruktor
    */
@@ -43,6 +45,8 @@ class TambahUjian extends Component<TambahUjianAttribute, TambahUjianState>
     this.onHapusKelas = this.onHapusKelas.bind(this);
     this.onTambahKelas = this.onTambahKelas.bind(this);
     this.onSubmitTambahUjian = this.onSubmitTambahUjian.bind(this);
+
+    this.vm = UjianViewModel.getInstance();
   }
 
   /**
@@ -53,7 +57,7 @@ class TambahUjian extends Component<TambahUjianAttribute, TambahUjianState>
     // Matapelajaran Harus Unik
     var lidmapel:any = {};
 
-    initDataPengampu().then(list => {
+    this.vm.initDataPengampu().then(list => {
       var listmapel = list.filter((val, i, arr) => {
         if(lidmapel[val.idmapel] === undefined)
         {
@@ -89,7 +93,7 @@ class TambahUjian extends Component<TambahUjianAttribute, TambahUjianState>
   
     console.log(data);
   
-    inputDataUjian(data).then(idujian => {  
+    this.vm.inputDataUjian(data).then(idujian => {  
       this.setState({ idujian: String(idujian) }) 
     });
   }

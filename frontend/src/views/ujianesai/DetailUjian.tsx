@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, Modal, ModalHeader, ModalBody, ModalFooter, Col, Row, Table, Button,Form, FormGroup, Input } from 'reactstrap';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { initDataPelaksanaan, mulaiUjian } from '../../models/PelaksanaanData';
-import DataUjian from '../../models/item_model';
+import DataUjian from '../../models';
+import { PelaksanaanViewModel } from '../../viewmodels/ujianesai';
+import { isNullOrUndefined } from 'util';
 
 interface DetailUjianState 
 { 
@@ -34,6 +35,8 @@ class DetailUjian extends Component<DetailUjianAttribute & RouteComponentProps<R
    */
   private idujian: string;
 
+  readonly vm: PelaksanaanViewModel;
+
   constructor(props:any) 
   {
     super(props);
@@ -52,11 +55,13 @@ class DetailUjian extends Component<DetailUjianAttribute & RouteComponentProps<R
     this.getStatusBadge = this.getStatusBadge.bind(this);
 
     this.laksanakanUjian = this.laksanakanUjian.bind(this);
+
+    this.vm = PelaksanaanViewModel.getInstance();
   }
 
   componentDidMount()
   {
-    initDataPelaksanaan(this.idujian).then(value =>{
+    this.vm.initDataPelaksanaan(this.idujian).then(value =>{
       this.setState({ dataujian: value });
     });
   }
@@ -65,9 +70,9 @@ class DetailUjian extends Component<DetailUjianAttribute & RouteComponentProps<R
   {
     e.preventDefault();
 
-    if(this.state.cidkelas === undefined) return;
+    if(isNullOrUndefined(this.state.cidkelas)) return;
 
-    mulaiUjian(this.idujian, this.state.cidkelas).then(value =>{
+    this.vm.mulaiUjian(this.idujian, this.state.cidkelas).then(value =>{
       this.setState({ dataujian: value, primary: false });
     });
   }

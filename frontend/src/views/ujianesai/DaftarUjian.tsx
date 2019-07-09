@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input, InputGroup } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import DataUjian from '../../models/item_model';
-import { initDataUjian, hapusDataUjian } from '../../models/UjianData';
+import DataUjian from '../../models';
 import { ModalForm } from '../../layout';
+import { UjianViewModel } from '../../viewmodels/ujianesai';
+import { isNullOrUndefined } from 'util';
 
 /**
  * Ujian Modal
  */
 interface ModalState {
 	delete: boolean;
-	}
+}
 
 /**
  * State dan Atribute View Class
@@ -30,6 +31,8 @@ interface UjianModel { className?: string; }
  */
 class Ujian extends Component<UjianModel, UjianStateModel>
 {
+  readonly vm: UjianViewModel;
+
   constructor(props: Readonly<UjianModel>) 
   {
     super(props);
@@ -44,13 +47,15 @@ class Ujian extends Component<UjianModel, UjianStateModel>
     this.toggleDeleteUjian = this.toggleDeleteUjian.bind(this);
     this.onDeleteDataUjian = this.onDeleteDataUjian.bind(this);
     this.getElementStatus = this.getElementStatus.bind(this);
+
+    this.vm = UjianViewModel.getInstance();
   }
 
   // --------------------------- INIT DATA ------------------------------------------//
 
   public componentDidMount()
   {
-    initDataUjian().then(list => {
+    this.vm.initDataUjian().then(list => {
       this.setState({ listujian: list });
     });
   }
@@ -62,7 +67,7 @@ class Ujian extends Component<UjianModel, UjianStateModel>
 	{
 		var state = this.state.modal.delete || false;
 
-		if(dataujian === undefined) 
+		if(isNullOrUndefined(dataujian)) 
 			this.setState({ modal: { delete: !state } });
 		else
 			this.setState({ modal: { delete: !state }, selected_data: dataujian });
@@ -116,12 +121,12 @@ class Ujian extends Component<UjianModel, UjianStateModel>
       event.preventDefault();
       
       var selected_data = this.state.selected_data;
-      if(selected_data === undefined) return;
+      if(isNullOrUndefined(selected_data)) return;
   
       var idujian = selected_data.idujian;
-      if(idujian === undefined) return;
+      if(isNullOrUndefined(idujian)) return;
   
-      hapusDataUjian(idujian).then(listujian => {
+      this.vm.hapusDataUjian(idujian).then(listujian => {
         var state = this.state.modal.delete || false;
         this.setState({ listujian: listujian, modal: { delete: !state } });
       });

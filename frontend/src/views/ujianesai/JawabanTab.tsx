@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { FormGroup, Input, Col, TabPane } from 'reactstrap';
-import { initDataJawaban, inputDataJawaban, updateDataJawaban } from '../../models/JawabanData';
+import { JawabanViewModel } from "../../viewmodels/ujianesai";
+
 
 const INTERVAL = 1000;
 
@@ -28,6 +29,8 @@ class JawabanTab extends Component<SoalTabAttribute, JawabanState>
     private _interval_typing:any;
     private _waktunya_ngirim:boolean = false;
 
+    readonly vm: JawabanViewModel;
+
     constructor(props:any)
     {
         super(props);
@@ -35,6 +38,8 @@ class JawabanTab extends Component<SoalTabAttribute, JawabanState>
 
         this._interval_typing = setInterval(()=>{this._waktunya_ngirim = true}, INTERVAL);
         this.onJawabanEsaiChange = this.onJawabanEsaiChange.bind(this);
+
+        this.vm = JawabanViewModel.getInstance();
     }
 
     onJawabanEsaiChange(event:any)
@@ -44,7 +49,7 @@ class JawabanTab extends Component<SoalTabAttribute, JawabanState>
 
     componentDidMount()
     {
-        initDataJawaban(this.props.idsoal).then(jawaban => {
+        this.vm.initDataJawaban(this.props.idsoal).then(jawaban => {
             this.setState({ jawabanEsai: jawaban.jawabanEsai || '' });
         })
         .catch(error=> {
@@ -61,11 +66,11 @@ class JawabanTab extends Component<SoalTabAttribute, JawabanState>
 
             if(this.state.idjawaban)
             {
-                updateDataJawaban(this.state.idjawaban, this.state);
+                this.vm.updateDataJawaban(this.state.idjawaban, this.state);
             }
             else
             {
-                inputDataJawaban(this.state).then(idjawaban => {
+                this.vm.inputDataJawaban(this.state).then(idjawaban => {
                     this.setState({ idjawaban: idjawaban });
                 });
             }

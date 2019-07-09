@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Input, Card, CardBody, CardHeader, Col, Row, Table, Button, Form, FormGroup } from 'reactstrap';
 import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
-import { initDataPengampu, updateDataUjian } from '../../models/UjianData';
-import DataPengampu from '../../models/item_model';
+import DataPengampu from '../../models';
 import { isNullOrUndefined } from 'util';
-import DataUjian from '../../models/item_model';
+import DataUjian from '../../models';
+import { UjianViewModel } from '../../viewmodels/ujianesai';
 
 /**
  * State UpdateUjian
@@ -29,6 +29,8 @@ interface UpdateUjianAttribute { className?: string; }
  */
 class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, UpdateUjianState>
 {
+  readonly vm: UjianViewModel;
+
   /**
    * Konstruktor
    */
@@ -48,6 +50,8 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
     this.onHapusKelas = this.onHapusKelas.bind(this);
     this.onTambahKelas = this.onTambahKelas.bind(this);
     this.onSubmitUpdateDataUjian = this.onSubmitUpdateDataUjian.bind(this);
+
+    this.vm = UjianViewModel.getInstance();
   }
 
   /**
@@ -58,7 +62,7 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
     // Matapelajaran Harus Unik
     var lidmapel:any = {};
 
-    initDataPengampu().then(list => {
+    this.vm.initDataPengampu().then(list => {
       var listmapel = list.filter((val, i, arr) => {
         if(lidmapel[val.idmapel] === undefined)
         {
@@ -87,7 +91,7 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
 		var idujian = this.state.selected_data.idujian;
     var fdata = new FormData(event.target);
 		
-		if(idujian === undefined) return;
+		if(isNullOrUndefined(idujian)) return;
 
     var data = {
       namaUjian: fdata.get('namaUjian') as string,
@@ -99,7 +103,7 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
 
 		console.log(data);
 
-		updateDataUjian(idujian, data).then(list =>{
+		this.vm.updateDataUjian(idujian, data).then(list =>{
       this.setState({ updatesuccess: true });
 		});
   }
@@ -120,7 +124,7 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
 
 		console.log(kelas);
 
-		if(kelas === undefined)	return;
+		if(isNullOrUndefined(kelas))	return;
 		
 		this.setState({ ckelas: kelas });
 	}

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { CardGroup, Button, Card, CardBody, CardHeader, Col, Row, TabContent, Container } from 'reactstrap';
 import SoalTab from './SoalTab';
-import { initDataSoal } from '../../models/SoalData';
-import DataSoal from '../../models/item_model';
+import DataSoal from '../../models';
+import { SoalViewModel } from '../../viewmodels/ujianesai';
 
 interface LihatSoalState { soalTab: number; listsoal: Array<DataSoal>; }
 
@@ -22,6 +22,8 @@ class LihatSoal extends Component<LihatSoalAttribute & RouteComponentProps<Route
    */
   private idujian: string;
 
+  readonly vm: SoalViewModel;
+
   /**
    * Konstruktor
    */
@@ -33,11 +35,13 @@ class LihatSoal extends Component<LihatSoalAttribute & RouteComponentProps<Route
 
     this.state = { listsoal: [], soalTab: 0 };
     this.toggleSoal = this.toggleSoal.bind(this);
+
+    this.vm = SoalViewModel.getInstance();
   }
 
   componentDidMount()
   {
-    initDataSoal(this.idujian).then(list => {
+    this.vm.initDataSoal(this.idujian).then(list => {
       this.setState({ listsoal: list });
     });
   }

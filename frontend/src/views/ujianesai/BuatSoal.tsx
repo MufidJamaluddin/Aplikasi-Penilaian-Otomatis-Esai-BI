@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react';
 import { Modal, ModalBody, ModalFooter, ModalHeader, Button, Card, CardBody, CardHeader, Col, Row, TabContent, Container } from 'reactstrap';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import SoalTab from './SoalTab';
-import { initDataSoal } from '../../models/SoalData';
-import DataSoal from '../../models/item_model';
+import DataSoal from '../../models';
+import { SoalViewModel } from '../../viewmodels/ujianesai';
 
 /**
  *  Modal
@@ -31,6 +31,8 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
    */
   private idujian: string;
 
+  readonly vm: SoalViewModel;
+
   constructor(props: any) 
   {
     super(props);
@@ -50,11 +52,13 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
     this.toggleSoal = this.toggleSoal.bind(this);
 
     this.getColorButton = this.getColorButton.bind(this);
+
+    this.vm = SoalViewModel.getInstance();
   }
 
   componentDidMount()
   {
-    initDataSoal(this.idujian).then(list => {
+    this.vm.initDataSoal(this.idujian).then(list => {
       this.setState({ listsoal: list });
     });
   }

@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Modal, Table, Progress, ModalBody, ModalFooter, ModalHeader, Button, Card, CardBody, CardHeader, Col, Row, TabContent, TabPane, Container } from 'reactstrap';
 import FormGroup from 'reactstrap/lib/FormGroup';
-import { initDataPelaksanaan } from '../../models/PelaksanaanData';
-import DataUjian from '../../models/item_model';
-import DataPelaksanaanUjian from '../../models/item_model';
-import { nilaiOtomatis } from '../../models/PenilaianData';
+import DataUjian from '../../models';
+import DataPelaksanaanUjian from '../../models';
+import { PelaksanaanViewModel } from '../../viewmodels/ujianesai';
+import { PenilaianViewModel } from '../../viewmodels/penilaian';
 
 interface NilaiUjianStateModel { 
   activeTab: number; 
@@ -33,6 +33,9 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
   private idujian: string;
   private task_interval?: any;
 
+  readonly pelaksanaan_vm: PelaksanaanViewModel;
+  readonly penilaian_vm: PenilaianViewModel;
+
   constructor(props:any) 
 	{
     super(props);
@@ -46,11 +49,14 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
 
     this.toggleSubmitNilaiManual = this.toggleSubmitNilaiManual.bind(this);
     this.loadData = this.loadData.bind(this);
+
+    this.pelaksanaan_vm = PelaksanaanViewModel.getInstance();
+    this.penilaian_vm = PenilaianViewModel.getInstance();
   }
 
   loadData()
   {
-    initDataPelaksanaan(this.idujian).then(value => {
+    this.pelaksanaan_vm.initDataPelaksanaan(this.idujian).then(value => {
       if(value.status_ujian == '2')
       {
         this.setState({ dataujian: value, activeTab: 1 });
@@ -86,7 +92,7 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
   {
     if (this.state.activeTab !== tab) 
     {
-      nilaiOtomatis(this.idujian);
+      this.penilaian_vm.nilaiOtomatis(this.idujian);
 
       this.loadData();
 

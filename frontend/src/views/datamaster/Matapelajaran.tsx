@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import { CardBody, Col, Table, Button,Form, FormGroup, Input } from 'reactstrap';
-import DataMatapelajaran from '../../models/item_model';
-import { initDatamatapelajaran, inputDatamatapelajaran, updateMatapelajaran, hapusMatapelajaran } from '../../models/MatapelajaranData';
+import DataMatapelajaran from '../../models';
+import { MatapelajaranViewModel } from '../../viewmodels/datamaster';
 import { ModalForm, LayoutCard, Loading } from '../../layout';
+import { isNullOrUndefined } from 'util';
 
 
 /**
@@ -29,6 +30,8 @@ interface MatapelajaranViewAttribute { className: string; }
 
 class Matapelajaran extends PureComponent<MatapelajaranViewAttribute, MatapelajaranViewStateData>
 {
+  readonly vm: MatapelajaranViewModel;
+
   constructor(props:Readonly<MatapelajaranViewAttribute>) 
   {
     super(props);
@@ -45,14 +48,16 @@ class Matapelajaran extends PureComponent<MatapelajaranViewAttribute, Matapelaja
     this.tambahMatapelajaran = this.tambahMatapelajaran.bind(this);
     this.editMatapelajaran = this.editMatapelajaran.bind(this);
     this.deleteMatapelajaran = this.deleteMatapelajaran.bind(this);
+
+    this.vm = MatapelajaranViewModel.getInstance();
   }
 
-    componentDidMount()
-    {
-      initDatamatapelajaran().then(list => {
-        this.setState({ list_matapelajaran: list, isLoading: false});
-      });
-    }
+  componentDidMount()
+  {
+    this.vm.initDatamatapelajaran().then(list => {
+      this.setState({ list_matapelajaran: list, isLoading: false});
+    });
+  }
   
   //---------------------------TOGGLE-----------------------------//
 
@@ -63,7 +68,7 @@ class Matapelajaran extends PureComponent<MatapelajaranViewAttribute, Matapelaja
   toggleUpdateMatapelajaran(datamatapelajaran?:Partial<DataMatapelajaran>) 
   {
     var state_edit = this.state.modal.edit || false;
-    if(datamatapelajaran === undefined)
+    if(isNullOrUndefined(datamatapelajaran))
       this.setState({
         modal: { edit: !state_edit }
       });
@@ -77,7 +82,7 @@ class Matapelajaran extends PureComponent<MatapelajaranViewAttribute, Matapelaja
   toggleDeleteMatapelajaran(datamatapelajaran?:Partial<DataMatapelajaran>) 
   {
     var state_delete = this.state.modal.delete || false;
-    if(datamatapelajaran === undefined)
+    if(isNullOrUndefined(datamatapelajaran))
       this.setState({
         modal: { delete: !state_delete }
       });
@@ -99,7 +104,7 @@ class Matapelajaran extends PureComponent<MatapelajaranViewAttribute, Matapelaja
       namaMapel: fdata.get('namaMapel'),
       KKM: fdata.get('KKM')
     };
-    inputDatamatapelajaran(data).then(list => {
+    this.vm.inputDatamatapelajaran(data).then(list => {
       this.setState({ list_matapelajaran: list });
     });
   }
@@ -116,7 +121,7 @@ class Matapelajaran extends PureComponent<MatapelajaranViewAttribute, Matapelaja
         KKM: fdata.get('KKM')
       };
       var idmapel = this.state.selected_data.idmapel;
-      if(idmapel !== undefined) updateMatapelajaran(idmapel, data).then(list => {
+      if(!isNullOrUndefined(idmapel)) this.vm.updateMatapelajaran(idmapel, data).then(list => {
         this.setState({ list_matapelajaran: list, modal: { edit: false } });
       });
     }
@@ -129,7 +134,7 @@ class Matapelajaran extends PureComponent<MatapelajaranViewAttribute, Matapelaja
     {
       event.preventDefault();
       var idmapel= this.state.selected_data.idmapel;
-      if(idmapel !== undefined) hapusMatapelajaran(idmapel).then(list => {
+      if(!isNullOrUndefined(idmapel)) this.vm.hapusMatapelajaran(idmapel).then(list => {
         this.setState({list_matapelajaran: list, modal: { delete: !this.state.modal.delete }});
       });
     }

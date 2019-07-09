@@ -1,24 +1,28 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, CardHeader, CardBody, CardGroup, Col, Container, Form, Row } from 'reactstrap';
-import DataSiswa from '../../models/item_model';
-import { initPanelSiswa } from '../../models/PanelSiswaData';
+import DataSiswa from '../../models';
+import { PanelSiswaViewModel } from '../../viewmodels/ujianesai';
+import { isNullOrUndefined } from 'util';
 
 interface PersiapanUjianAttribute { className: string; }
 interface PersiapanUjianState { datasiswa?: DataSiswa; isloading: boolean; }
 
 class PersiapanUjian extends Component<PersiapanUjianAttribute, PersiapanUjianState>
 {
+  readonly vm: PanelSiswaViewModel;
+
   constructor(props: PersiapanUjianAttribute)
   {
     super(props);
     this.state = { isloading: true }
+    this.vm = PanelSiswaViewModel.getInstance();
   }
 
 
   public componentDidMount(): void
   {
-    initPanelSiswa().then(value => {
+    this.vm.initPanelSiswa().then(value => {
       this.setState({ datasiswa: value, isloading:false });
     });
   }
@@ -34,7 +38,7 @@ class PersiapanUjian extends Component<PersiapanUjianAttribute, PersiapanUjianSt
         </div>
     );
     
-    if(this.state.datasiswa === undefined) return;
+    if(isNullOrUndefined(this.state.datasiswa)) return;
 
     return (
 

@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
-import DataGuru from '../../models/item_model';
+import DataGuru from '../../models';
 import { Modal, Form, ModalHeader, ModalBody, ModalFooter, Button, FormGroup, Col, Input, Table } from 'reactstrap';
-import DataKelas from '../../models/item_model';
-import DataMatapelajaran from '../../models/item_model';
-import DataPengampu from '../../models/item_model';
-import { initDataPengampu } from '../../models/GuruData';
+import DataKelas from '../../models';
+import DataMatapelajaran from '../../models';
+import DataPengampu from '../../models';
+import { GuruViewModel } from '../../viewmodels/datamaster';
+import { isNullOrUndefined } from 'util';
 
 /**
  * Modal Guru Form
@@ -38,6 +39,8 @@ interface ModalGuruState
 
 class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState>
 {
+	readonly vm: GuruViewModel;
+
 	constructor(props: ModalGuruFormAttribute)
 	{
 		super(props);
@@ -52,6 +55,8 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 		this.onTambahPengampu = this.onTambahPengampu.bind(this);
 		this.onKelasChange = this.onKelasChange.bind(this);
 		this.onMapelChange = this.onMapelChange.bind(this);
+
+		this.vm = GuruViewModel.getInstance();
 	}
 
 	/**
@@ -62,12 +67,12 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 		if(this.props.dataguru !== undefined)
 		{
 			var dataguru = this.props.dataguru;
-			if(dataguru === undefined) return;
+			if(isNullOrUndefined(dataguru)) return;
 
 			var idguru = dataguru.idguru;
-			if(idguru === undefined) return;
+			if(isNullOrUndefined(idguru)) return;
 
-			initDataPengampu(idguru).then(listpengampu=>{
+			this.vm.initDataPengampu(idguru).then(listpengampu=>{
 				this.setState({
 					listpengampu: listpengampu, 
 					inputlistpengampu: JSON.stringify(listpengampu)
@@ -89,9 +94,9 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 			if(this.props.dataguru.idguru !== lastIDGuru)
 			{
 				var idguru = this.props.dataguru.idguru;
-				if(idguru === undefined) return;
+				if(isNullOrUndefined(idguru)) return;
 
-				initDataPengampu(idguru).then(listpengampu=>{
+				this.vm.initDataPengampu(idguru).then(listpengampu=>{
 					this.setState({
 						listpengampu: listpengampu, 
 						inputlistpengampu: JSON.stringify(listpengampu)

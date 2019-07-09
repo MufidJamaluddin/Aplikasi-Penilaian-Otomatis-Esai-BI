@@ -3,15 +3,13 @@ import { Table, Button, ButtonGroup,  Card, CardBody, CardHeader, Col, Input,Row
 import { Link, RouteComponentProps } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { initDataPelaksanaan } from '../../models/PelaksanaanData';
-import DataUjian from '../../models/item_model';
+import DataUjian from '../../models';
+import DataSoal from '../../models';
 
-import { initDataSoal } from '../../models/SoalData';
-import DataSoal from '../../models/item_model';
-
-import DataJawabanSoal from '../../models/item_model';
-import { initDataJawaban, nilaiManual, akhiriPenilaianManual } from '../../models/PenilaianData';
-
+import DataJawabanSoal from '../../models';
+import { PelaksanaanViewModel } from '../../viewmodels/ujianesai/PelaksanaanViewModel';
+import { SoalViewModel } from '../../viewmodels/ujianesai/SoalViewModel';
+import { PenilaianViewModel } from '../../viewmodels/penilaian';
 // --------------------------- Component Tab -----------------------------------//
 
 interface NilaiJawabanTabProps 
@@ -29,17 +27,21 @@ interface NilaiJawabanTabState
 
 class NilaiJawabanTab extends Component<NilaiJawabanTabProps, NilaiJawabanTabState>
 {
+  readonly penilaian_vm: PenilaianViewModel;
+
   constructor(props: any)
   {
     super(props);
     this.state = {
       listjawaban: []
     }
+
+    this.penilaian_vm = PenilaianViewModel.getInstance();
   }
 
   componentDidMount()
   {
-    initDataJawaban(this.props.idujian, this.props.idkelas, this.props.datasoal.idsoal)
+    this.penilaian_vm.initDataJawaban(this.props.idujian, this.props.idkelas, this.props.datasoal.idsoal)
     .then(data => {
       this.setState({ listjawaban: data });
     });
@@ -49,7 +51,7 @@ class NilaiJawabanTab extends Component<NilaiJawabanTabProps, NilaiJawabanTabSta
   {
     if(this.props.datasoal.idsoal !== prevProps.datasoal.idsoal)
     {
-      initDataJawaban(this.props.idujian, this.props.idkelas, this.props.datasoal.idsoal)
+      this.penilaian_vm.initDataJawaban(this.props.idujian, this.props.idkelas, this.props.datasoal.idsoal)
       .then(data => {
         this.setState({ listjawaban: data });
       });
@@ -114,7 +116,7 @@ class NilaiJawabanTab extends Component<NilaiJawabanTabProps, NilaiJawabanTabSta
                           else if (skorAngka > this.props.datasoal.skorMax)
                             e.target.value = this.props.datasoal.skorMax;
                         
-                          nilaiManual(jawaban.idjawaban, skorAngka);
+                          this.penilaian_vm.nilaiManual(jawaban.idjawaban, skorAngka);
                         }}
                         type="number" 
                         className="sm-7" 
@@ -153,6 +155,10 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
   private idujian: string;
   private idkelas: string;
 
+  readonly pelaksanaan_vm: PelaksanaanViewModel;
+  readonly soal_vm: SoalViewModel;
+  readonly penilaian_vm: PenilaianViewModel;
+
   static contextTypes = {
     router: PropTypes.object
   }
@@ -173,11 +179,17 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
       listjawaban: [],
       listsoal: []
     };
+
+    this.pelaksanaan_vm = PelaksanaanViewModel.getInstance();
+    this.soal_vm = SoalViewModel.getInstance();
+    this.penilaian_vm = PenilaianViewModel.getInstance();
+
+    this.akhiri_penilaian_manual = this.akhiri_penilaian_manual.bind(this);
   }
 
   componentDidMount()
   {
-    initDataPelaksanaan(this.idujian).then(data => {
+    this.pelaksanaan_vm.initDataPelaksanaan(this.idujian).then(data => {
       data.namaKelas = data.pelaksanaan_ujian.filter(pel => {
         return pel.idkelas == this.idkelas
       })[0].namaKelas;
@@ -185,7 +197,7 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
       this.setState({ ujian: data });
     });
 
-    initDataSoal(this.idujian).then(data => {
+    this.soal_vm.initDataSoal(this.idujian).then(data => {
       this.setState({ listsoal: data });
     });
   }
@@ -203,6 +215,13 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
     this.setState({ showModal: !this.state.showModal })
   }
 
+  akhiri_penilaian_manual()
+  {
+    this.penilaian_vm.akhiriPenilaianManual(this.idujian, this.idkelas).then(dt => {
+      this.context.router.history.push(`/penilaian/${this.idujian}`)
+    });
+  }
+
   render_modal()
   {
     return (
@@ -218,11 +237,7 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
           <Button color="primary" onClick={this.toggle_modal}>Kembali</Button>
           <Button 
             color="warning" 
-            onClick={() => {
-              akhiriPenilaianManual(this.idujian, this.idkelas).then(dt => {
-                this.context.router.history.push(`/penilaian/${this.idujian}`)
-              })
-            } }>
+            onClick={() => this.akhiri_penilaian_manual}>
               Akhiri Penilaian Manual {this.state.ujian.namaKelas}
           </Button>
         </ModalFooter>
