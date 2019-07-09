@@ -5,10 +5,10 @@ import FormGroup from 'reactstrap/lib/FormGroup';
 import { RouteComponentProps } from 'react-router-dom';
 import Countdown from "react-countdown-now";
 import JawabanTab from "./JawabanTab";
-import { initDataPengerjaan } from '../../models/PengerjaanUjianData';
-import DataSoal from "../../models/item_model";
-import DataUjian from "../../models/item_model";
-import DataPelaksanaanUjian from "../../models/item_model";
+import DataSoal from "../../models";
+import DataUjian from "../../models";
+import DataPelaksanaanUjian from "../../models";
+import { PengerjaanUjianViewModel } from '../../viewmodels/ujianesai';
 
 interface UjianEsaiState 
 { 
@@ -29,6 +29,8 @@ class UjianEsai extends Component<UjianEsaiAttribute & RouteComponentProps<Route
 {
   private idujian:string;
 
+  readonly vm: PengerjaanUjianViewModel;
+
 	constructor(props:any) 
 	{
 		super(props);
@@ -46,11 +48,13 @@ class UjianEsai extends Component<UjianEsaiAttribute & RouteComponentProps<Route
     this.modal= this.modal.bind(this);
     this.toggle = this.toggle.bind(this);
     this.toggleSubmitUjian = this.toggleSubmitUjian.bind(this);
+
+    this.vm = PengerjaanUjianViewModel.getInstance();
   }
 
   componentDidMount()
   {
-    initDataPengerjaan().then(value=>{
+    this.vm.initDataPengerjaan().then(value=>{
       this.setState({
         ujian: value.data_ujian,
         listsoal: value.list_soal,

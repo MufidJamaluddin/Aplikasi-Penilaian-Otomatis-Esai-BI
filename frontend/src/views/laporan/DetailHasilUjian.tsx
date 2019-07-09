@@ -2,17 +2,14 @@ import React, { Component, PureComponent } from 'react';
 import { Form, Card, CardBody, CardHeader, Col, Row, Table, Button, FormGroup, Input } from 'reactstrap';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
-import DataUjian from '../../models/item_model';
-import { getDataUjian } from '../../models/UjianData';
-
-import { initNilaiujian } from './../../models/NilaiData';
-import DaftarSkorUjian from './../../models/item_model';
-
-import DataPengampu from '../../models/item_model';
-import { initDataPengampu } from '../../models/UjianData';
+import DataUjian from '../../models';
+import DaftarSkorUjian from '../../models';
+import DataPengampu from '../../models';
 
 import { Loading } from '../../layout';
 import ChartComponent from 'react-chartjs-2';
+import { UjianViewModel } from '../../viewmodels/ujianesai';
+import { NilaiViewModel } from '../../viewmodels/laporan';
 
 require('chart.js');
 require('chartjs-chart-box-and-violin-plot');
@@ -73,6 +70,8 @@ interface RouteParam { idujian:string; }
 
 class DetailHasilUjian extends PureComponent<DetailHasilUjianPropsModel & RouteComponentProps<RouteParam>, DetailHasilUjianStateModel>
 {
+  readonly ujian_vm: UjianViewModel;
+  readonly nilai_vm: NilaiViewModel;
   /**
    * ID UJIAN
    * Keterangan Ujian
@@ -92,6 +91,9 @@ class DetailHasilUjian extends PureComponent<DetailHasilUjianPropsModel & RouteC
     };
 
     this.onKelasChange = this.onKelasChange.bind(this);
+
+    this.ujian_vm = UjianViewModel.getInstance();
+    this.nilai_vm = NilaiViewModel.getInstance();
   }
 
   onKelasChange(e: any)
@@ -107,7 +109,7 @@ class DetailHasilUjian extends PureComponent<DetailHasilUjianPropsModel & RouteC
     }
     else
     {      
-      initNilaiujian(this.idujian, e.target.value).then(data => {
+      this.nilai_vm.initNilaiujian(this.idujian, e.target.value).then(data => {
         /**
          * State Berubah -> Render Ulang
          */
@@ -122,12 +124,12 @@ class DetailHasilUjian extends PureComponent<DetailHasilUjianPropsModel & RouteC
 
   componentDidMount()
   {
-    getDataUjian(this.idujian).then(data => {
+    this.ujian_vm.getDataUjian(this.idujian).then(data => {
       this.setState({ ujian: data });
     });
 
     let lidkelas = {};
-    initDataPengampu().then(list => {
+    this.ujian_vm.initDataPengampu().then(list => {
       let list_kelas = list.filter((val, i, arr) => {
         if(lidkelas[val.idkelas] === undefined)
         {

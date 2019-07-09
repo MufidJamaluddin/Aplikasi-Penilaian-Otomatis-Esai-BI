@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import { CardBody, Col, Table, Button,Form, FormGroup, Input } from 'reactstrap';
-import DataKelas from '../../models/item_model';
-import { initDatakelas, inputDatakelas, updateKelas, hapusKelas } from '../../models/KelasData';
+import DataKelas from '../../models';
+import { KelasViewModel } from '../../viewmodels/datamaster/KelasViewModel';
 import { ModalForm, LayoutCard, Loading } from '../../layout';
+import { isNullOrUndefined } from 'util';
 
 /**
  * Kelas View
@@ -27,6 +28,8 @@ interface KelasViewAttribute { className:string; }
  */
 class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
 {
+  readonly vm: KelasViewModel;
+
   constructor(props: Readonly<KelasViewAttribute>) 
   {
     super(props);
@@ -43,11 +46,13 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
     this.tambahKelas = this.tambahKelas.bind(this);
     this.editKelas = this.editKelas.bind(this);
     this.deleteKelas = this.deleteKelas.bind(this);
+
+    this.vm = KelasViewModel.getInstance();
   }
 
   componentDidMount()
   {
-    initDatakelas().then(list => {
+    this.vm.initDatakelas().then(list => {
       this.setState({ list_kelas: list, isLoading: false });
     });
   }
@@ -61,7 +66,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
   toggleUpdateKelas(datakelas?:Partial<DataKelas>) 
   {
     var state_edit = this.state.modal.edit || false;
-    if(datakelas === undefined)
+    if(isNullOrUndefined(datakelas))
       this.setState({
         modal: { edit: !state_edit }
       });
@@ -75,7 +80,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
   toggleDeleteKelas(datakelas?:Partial<DataKelas>) 
   {
     var state_delete = this.state.modal.delete || false;
-    if(datakelas === undefined)
+    if(isNullOrUndefined(datakelas))
       this.setState({
         modal: { delete: !state_delete }
       });
@@ -96,7 +101,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
     var data = {
       namaKelas: fdata.get('namaKelas')
     };
-    inputDatakelas(data).then(list => {
+    this.vm.inputDatakelas(data).then(list => {
       this.setState({ list_kelas: list });
     });
   }
@@ -112,7 +117,8 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
         namaKelas: fdata.get('namaKelas')
       };
       var idkelas = this.state.selected_data.idkelas;
-      if(idkelas !== undefined) updateKelas(idkelas, data).then(list => {
+      
+      if(!isNullOrUndefined(idkelas)) this.vm.updateKelas(idkelas, data).then(list => {
         this.setState({ list_kelas: list, modal: { edit: false } });
       });
     }
@@ -125,7 +131,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
     {
       event.preventDefault();
       var idkelas = this.state.selected_data.idkelas;
-      if(idkelas !== undefined) hapusKelas(idkelas).then(list => {
+      if(!isNullOrUndefined(idkelas)) this.vm.hapusKelas(idkelas).then(list => {
         this.setState({list_kelas: list, modal: { delete: !this.state.modal.delete }});
       });
     }
@@ -158,7 +164,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
 
   renderModalDelete()
   {
-    if(this.state.selected_data === undefined) return;
+    if(isNullOrUndefined(this.state.selected_data)) return;
 
     var namaKelas = this.state.selected_data.namaKelas;
 

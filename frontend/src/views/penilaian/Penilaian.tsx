@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input, InputGroup } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import DataUjian from '../../models/item_model';
-import { initDataUjian } from '../../models/UjianData';
+import DataUjian from '../../models';
+import { UjianViewModel } from '../../viewmodels/ujianesai';
 
 interface PenilaianStateModel { 
   state:boolean; 
@@ -17,6 +17,8 @@ interface PenilaianModel { className?: string; }
 
 class Penilaian extends Component<PenilaianModel, PenilaianStateModel>
 {
+  readonly ujian_vm: UjianViewModel;
+
   constructor(props: Readonly<PenilaianModel>) 
   {
     super(props);
@@ -27,13 +29,13 @@ class Penilaian extends Component<PenilaianModel, PenilaianStateModel>
       isLoading: true,
     };
 
-
+    this.ujian_vm = UjianViewModel.getInstance();
   }
 
   // --------------------------- INIT DATA ------------------------------------------//
   public componentDidMount()
   {
-    initDataUjian().then(list => {
+    this.ujian_vm.initDataUjian().then(list => {
       this.setState({ listujian: list });
     });
   }

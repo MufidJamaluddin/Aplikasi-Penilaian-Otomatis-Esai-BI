@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FormGroup, Input, Col, TabPane } from 'reactstrap';
-import { updateDataSoal } from '../../models/SoalData';
+import { SoalViewModel } from '../../viewmodels/ujianesai';
 
 interface SoalTabAttribute 
 { 
@@ -26,6 +26,8 @@ interface SoalTabState
 
 class SoalTab extends Component<SoalTabAttribute, SoalTabState>
 {
+  readonly vm: SoalViewModel;
+
   constructor(props: any)
   {
     super(props);
@@ -43,6 +45,8 @@ class SoalTab extends Component<SoalTabAttribute, SoalTabState>
     this.onMateriPokokInput = this.onMateriPokokInput.bind(this);
     this.onKompetensiDasarInput = this.onKompetensiDasarInput.bind(this);
     this.onSoalEsaiInput = this.onSoalEsaiInput.bind(this);
+
+    this.vm = SoalViewModel.getInstance();
   }
 
   /**
@@ -63,7 +67,7 @@ class SoalTab extends Component<SoalTabAttribute, SoalTabState>
      */
     if(update)
     {
-      updateDataSoal(this.props.idsoal, this.state).then(state => {
+      this.vm.updateDataSoal(this.props.idsoal, this.state).then(state => {
         this.setState(state);
       });
     }

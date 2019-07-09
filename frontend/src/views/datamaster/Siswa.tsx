@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { Card, CardBody, CardHeader, Col, Row, Table, Button,Form, FormGroup, Input, InputGroup,Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import DataSiswa from '../../models/item_model';
-import { initDatasiswa, inputDatasiswa, updateSiswa, hapusSiswa } from '../../models/SiswaData';
-import { initDatakelas } from '../../models/KelasData';
-import DataKelas from '../../models/item_model';
+import DataSiswa from '../../models';
+import DataKelas from '../../models';
+import { isNullOrUndefined } from 'util';
+import { SiswaViewModel, KelasViewModel } from '../../viewmodels/datamaster';
 
 
 interface SiswaViewStateData {
@@ -25,6 +25,9 @@ interface SiswaViewAttribute { className:string; }
 
 class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
 {
+  readonly siswa_vm: SiswaViewModel;
+  readonly kelas_vm: KelasViewModel;
+  
   constructor(props: Readonly<SiswaViewAttribute>) 
   {
     super(props);
@@ -56,15 +59,18 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
     this.tambahSiswa = this.tambahSiswa.bind(this);
     this.editSiswa = this.editSiswa.bind(this);
     this.deleteSiswa = this.deleteSiswa.bind(this);
+
+    this.siswa_vm = SiswaViewModel.getInstance();
+    this.kelas_vm = KelasViewModel.getInstance();
   }
 
   componentWillMount()
   {
-    initDatasiswa().then(list => {
+    this.siswa_vm.initDatasiswa().then(list => {
       this.setState({ list_siswa: list });
     });
 
-    initDatakelas().then(list => {
+    this.kelas_vm.initDatakelas().then(list => {
       this.setState({ list_kelas: list });
     });
   }
@@ -79,7 +85,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
 
   toggleUpdateSiswa(datasiswa?:Partial<DataSiswa>) 
   {
-    if(datasiswa === undefined)
+    if(isNullOrUndefined(datasiswa))
       this.setState({
         edit: !this.state.edit,
       });
@@ -93,7 +99,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
   
  toggleDeleteSiswa(datasiswa?:Partial<DataSiswa>) 
  {
-    if(datasiswa === undefined)
+    if(isNullOrUndefined(datasiswa))
       this.setState({
         delete: !this.state.delete,
       });
@@ -139,7 +145,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
       angkatan: fdata.get('angkatan'),
     };
 
-    inputDatasiswa(data).then(list => {
+    this.siswa_vm.inputDatasiswa(data).then(list => {
       this.setState({ list_siswa: list, tambah:false });
     });
 
@@ -164,7 +170,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
       };
 
       var nis = this.state.selected_data.nis;
-      if(nis !== undefined) updateSiswa(nis, data).then(list => {
+      if(!isNullOrUndefined(nis)) this.siswa_vm.updateSiswa(nis, data).then(list => {
         this.setState({ list_siswa: list, edit: false });
       });
     }
@@ -182,7 +188,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
 
       var nis = this.state.selected_data.nis;
 
-      if(nis !== undefined) hapusSiswa(nis).then(list => {
+      if(!isNullOrUndefined(nis)) this.siswa_vm.hapusSiswa(nis).then(list => {
         this.setState({ list_siswa: list, delete: false });
       });
 

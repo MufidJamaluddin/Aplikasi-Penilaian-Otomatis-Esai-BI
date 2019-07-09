@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input, InputGroup } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import DataUjian from '../../models/item_model';
-import { initDataUjian } from '../../models/UjianData';
+import DataUjian from '../../models';
+import { UjianViewModel } from '../../viewmodels/ujianesai';
 
 interface HasilUjianStateModel {
   state:boolean; 
@@ -16,6 +16,8 @@ interface HasilUjianModel { className?: string; }
 
 class HasilUjian extends Component<HasilUjianModel, HasilUjianStateModel>
 {
+  readonly vm: UjianViewModel;
+
   constructor(props: Readonly<HasilUjianModel>) 
   {
     super(props);
@@ -25,15 +27,17 @@ class HasilUjian extends Component<HasilUjianModel, HasilUjianStateModel>
       listujian: [],
       isLoading: true,
     };
+
+    this.vm = UjianViewModel.getInstance();
   }
-    // --------------------------- INIT DATA ------------------------------------------//
-    public componentDidMount()
-    {
-      initDataUjian().then(list => {
-        this.setState({ listujian: list });
-      });
-    }
   
+  // --------------------------- INIT DATA ------------------------------------------//
+  public componentDidMount()
+  {
+    this.vm.initDataUjian().then(list => {
+      this.setState({ listujian: list });
+    });
+  }
 
   public render() : JSX.Element 
   {

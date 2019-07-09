@@ -1,14 +1,12 @@
 import React, { PureComponent } from 'react';
 import { Card, CardBody, CardHeader,Form, Col, Collapse,  Row, Table, Button, Input } from 'reactstrap';
 import ChartComponent, { Line } from 'react-chartjs-2';
-import DaftarNilaiUjian from '../../models/item_model';
-
-import DataPengampu from '../../models/item_model';
-import { initDataPengampu} from '../../models/UjianData';
-
-import { initDaftarnilaiujian, downloadDaftarnilaiujian } from '../../models/DaftarNilaiData';
+import DaftarNilaiUjian from '../../models';
+import DataPengampu from '../../models';
 import FormGroup from 'reactstrap/lib/FormGroup';
 import CardFooter from 'reactstrap/lib/CardFooter';
+import { UjianViewModel } from '../../viewmodels/ujianesai';
+import { DaftarNilaiViewModel } from '../../viewmodels/laporan';
 
 require('chart.js');
 require('chartjs-chart-box-and-violin-plot');
@@ -103,6 +101,9 @@ interface LaporanUjianModel { className?: string; }
 
 class LaporanUjian extends PureComponent<LaporanUjianModel, LaporanUjianStateModel>
 {
+  readonly ujian_vm: UjianViewModel;
+  readonly daftarnilai_vm: DaftarNilaiViewModel;
+  
   constructor(props: any) 
   {
     super(props);
@@ -124,7 +125,7 @@ class LaporanUjian extends PureComponent<LaporanUjianModel, LaporanUjianStateMod
     let lidmapel:any = {};
     let lidkelas:any = {};
 
-    initDataPengampu().then(list => {
+    this.ujian_vm.initDataPengampu().then(list => {
       let listmapel = list.filter((val, i, arr) => {
         if(lidmapel[val.idmapel] === undefined)
         {
@@ -159,7 +160,7 @@ class LaporanUjian extends PureComponent<LaporanUjianModel, LaporanUjianStateMod
       )
     )
     {
-      initDaftarnilaiujian(nextState.idmapel_selected, nextState.idkelas_selected).then(data => {
+      this.daftarnilai_vm.initDaftarnilaiujian(nextState.idmapel_selected, nextState.idkelas_selected).then(data => {
         this.setState({ 
           list_nilai: data.list_nilai,
           list_ujian: data.list_ujian,
@@ -176,7 +177,7 @@ class LaporanUjian extends PureComponent<LaporanUjianModel, LaporanUjianStateMod
       return(
         <Button 
           className="btn-vine btn-brand mr-1 mb-1" 
-          onClick={e=>downloadDaftarnilaiujian(this.state.idmapel_selected, this.state.idkelas_selected)}
+          onClick={e=>this.daftarnilai_vm.downloadDaftarnilaiujian(this.state.idmapel_selected, this.state.idkelas_selected)}
           >
           <i className="fa fa-download"></i><span>Export as Excel</span>
         </Button>
