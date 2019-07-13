@@ -56,12 +56,19 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
 
   loadData()
   {
-    this.pelaksanaan_vm.initDataPelaksanaan(this.idujian).then(value => {
-      if(value.status_ujian == '2' || value.status_ujian == '3')
+    this.pelaksanaan_vm.initDataPelaksanaan(this.idujian).then((value: DataUjian) => {
+      if (value.status_ujian == '1')
+      {
+        this.setState({ dataujian: value, activeTab: 0 });
+      }      
+      else if(value.status_ujian == '2')
       {
         this.setState({ dataujian: value, activeTab: 1 });
       }
-      else this.setState({ dataujian: value, activeTab: 0 });
+      else if (value.status_ujian == '3')
+      {
+        this.setState({ dataujian: value, activeTab: 1 });
+      }
     }).catch((e:any) => {
       console.log(e)
     });
@@ -107,8 +114,10 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
   {
     switch(status)
     {
-      case "2":
+      case "3":
         return (<span className="badge badge-success">Sudah dinilai manual</span>);
+      case "2":
+        return (<span className="badge badge-info">Sedang diproses</span>);
       case "1":
         return (
           <Link to={`/penilaian/${datapel.idujian}/${datapel.idkelas}`}>
@@ -120,44 +129,9 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
     }
   }
 
-  /*
-  renderModalPenilaianManual()
-  {
-    if(this.state.datapel_selected === undefined) return;
-
-    let datapel_selected = this.state.datapel_selected;
-
-    return (
-      <Modal isOpen={this.state.nilaimanual} toggle={this.toggleNilaiManual} className={'modal-info ' + this.props.className}>
-        <Form 
-          method="post" 
-          action={'/penilaianmanual/'+this.idujian+'/'+datapel_selected.idkelas}
-          enctype="multipart/form-data"
-          >
-          <ModalHeader toggle={this.toggleNilaiManual}>Nilai Manual</ModalHeader>
-          <ModalBody>
-            <p>1. Download jawaban esai siswa di kelas {datapel_selected.namaKelas}</p>
-            <Link to={'/penilaianmanual/'+this.idujian+'/'+datapel_selected.idkelas}>
-              <Button>Download Jawaban </Button>
-            </Link>
-            <p>2. Lakukan penilaian secara manual untuk dijadikan data latih dengan mengisi kolom nilai yang tersedia</p>
-            <p>3. Upload File Jawaban SIswa di kelas {datapel_selected.namaKelas} yang telah dinilai sebagian secara manual</p>
-            <Input type="file" name="file" required></Input>
-      
-            </ModalBody>
-          <ModalFooter>
-            <Button color="danger" onClick={(e:any)=>this.toggleNilaiManual()}>Tidak</Button>
-            <Button color="success" type="submit">Upload</Button>
-          </ModalFooter>
-        </Form>
-      </Modal> 
-    )
-  }
-  */
-
   render_btn_hasil(dataujian: DataPelaksanaanUjian)
   {
-    if(dataujian.progress_penilaian == 100)
+    if(dataujian.status_ujian == '3')
     {
       return (
         <Col col="6" sm="4" md="2" xl className="mb-3 mb-xl-0">

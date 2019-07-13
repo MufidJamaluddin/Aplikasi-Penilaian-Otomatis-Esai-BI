@@ -35,7 +35,7 @@ class PenilaianManualAPI(MethodView):
             ).first()
         if pel:
 
-            penilaian_manual.apply_async(args=[idujian, idkelas], retry=False)
+            penilaian_manual.apply_async(args=[idujian, idkelas])
 
             pel.status_penilaian = '2'
             db.session.add(pel)

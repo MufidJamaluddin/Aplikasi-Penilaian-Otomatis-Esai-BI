@@ -2,6 +2,7 @@ from ujian_app.penilaian.pemrosesan_jawaban import (
     PemrosesanDataLatih
 )
 from ujian_app.models import Soal, Kelas, db
+from ujian_app.repository import PelaksanaanUjianRepository
 from sqlalchemy import func
 
 class PenilaianManual(object):
@@ -44,3 +45,9 @@ class PenilaianManual(object):
             self.pemroses.proses_dan_simpan(soal.idsoal, idkelas)
         
         self.__hitung_nilai_ujian(idujian, idkelas)
+
+        repo = PelaksanaanUjianRepository()
+        pel = repo.findByKeys(idujian=idujian, idkelas=idkelas).first()
+        pel.status_penilaian = '3'
+        db.session.add(pel)
+        db.session.commit()
