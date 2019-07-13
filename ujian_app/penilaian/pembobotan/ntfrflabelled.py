@@ -60,10 +60,10 @@ class NtfRfLabeledWeighter(object):
     
     def calculate_and_save(self, idsoal):
         list_fitur = FiturReferensiPenilaian.query.join(Jawaban).filter(
-#            and_(
+            and_(
                 Jawaban.idsoal == idsoal,
-#              Jawaban.kode_proses == '1'
-#            )
+                Jawaban.kode_proses == '1'
+            )
         )
 
         last_idjawaban = None
