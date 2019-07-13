@@ -25,8 +25,8 @@ class KNearestNeighbor(object):
         '''
         listidjawaban = db.session.query(Jawaban.idjawaban).filter_by(
             idsoal=idsoal,
-            nilaiOtomatis=1#,
-#            kode_proses='3'
+            nilaiOtomatis=1,
+            kode_proses='3'
         )
         return listidjawaban
     

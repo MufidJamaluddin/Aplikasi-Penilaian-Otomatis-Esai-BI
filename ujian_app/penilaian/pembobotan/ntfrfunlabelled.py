@@ -55,10 +55,10 @@ class NtfRfUnlabeledWeighter(object):
     
     def calculate_and_save(self, idsoal):
         list_fitur = FiturObjekPenilaian.query.join(Jawaban).filter(
-#            and_(
-                Jawaban.idsoal == idsoal#,
-#                Jawaban.kode_proses == '2'
-#            )
+            and_(
+                Jawaban.idsoal == idsoal,
+                Jawaban.kode_proses == '2'
+            )
         )
 
         last_idjawaban = None
