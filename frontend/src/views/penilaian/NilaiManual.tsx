@@ -217,8 +217,9 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
 
   akhiri_penilaian_manual()
   {
+   var a = this;
     this.penilaian_vm.akhiriPenilaianManual(this.idujian, this.idkelas).then(dt => {
-      this.context.router.history.push(`/penilaian/${this.idujian}`)
+      a.context.router.history.push(`/penilaian/${this.idujian}`)
     });
   }
 
@@ -237,7 +238,7 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
           <Button color="primary" onClick={this.toggle_modal}>Kembali</Button>
           <Button 
             color="warning" 
-            onClick={() => this.akhiri_penilaian_manual}>
+            onClick={this.akhiri_penilaian_manual}>
               Akhiri Penilaian Manual {this.state.ujian.namaKelas}
           </Button>
         </ModalFooter>

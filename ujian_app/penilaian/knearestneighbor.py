@@ -11,12 +11,11 @@ class KNearestNeighbor(object):
     Kelas untuk klasifikasi KNN
     '''
 
-    def __init__(self, k_knn:int, progress_state: ProgressRepository):
+    def __init__(self, k_knn:int):
         '''
         k_knn : Nilai K tetangga terdekaat pada KNN
         '''
         self.__k = k_knn
-        self.__progress = progress_state
 
     def __get_list_idjawaban(self, idsoal):
         ''' 
@@ -26,7 +25,8 @@ class KNearestNeighbor(object):
         '''
         listidjawaban = db.session.query(Jawaban.idjawaban).filter_by(
             idsoal=idsoal,
-            nilaiOtomatis=1
+            nilaiOtomatis=1#,
+#            kode_proses='3'
         )
         return listidjawaban
     
@@ -63,7 +63,8 @@ class KNearestNeighbor(object):
             Jawaban.idjawaban == idjawaban_uji
         ).update({
             'skorHuruf': skor_huruf,
-            'skorAngka': skor_angka
+            'skorAngka': skor_angka,
+            'kode_proses': '4'
         })
 
         db.session.commit()
@@ -78,13 +79,6 @@ class KNearestNeighbor(object):
                     klasifikasi
         '''
         for jawaban in self.__get_list_idjawaban(idsoal):
-
-            if self.__progress.idjawaban is None:
-                self.__progress.set_jawaban(jawaban.idjawaban)
-            
-            # Lanjutkan Progress Terakhir
-            if self.__progress.idjawaban != jawaban.idjawaban:
-                continue
 
             list_sim = self.__get_cosine_similarity(jawaban.idjawaban)
 
@@ -115,5 +109,3 @@ class KNearestNeighbor(object):
                 skor_huruf,
                 sm['skorAngka']
             )
-
-            self.__progress.clear_jawaban()

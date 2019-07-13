@@ -1,3 +1,4 @@
+from __future__ import print_function
 from ujian_app.models import Soal, Jawaban, DaftarNilaiUjian, db
 from ujian_app.repository import ProgressRepository
 from .penskoranotomatis import PenskoranOtomatis
@@ -46,24 +47,19 @@ class PenilaianOtomatis(object):
         '''
         Melakukan Penilaian Otomatis
         '''
-        listsoal = self.__get_list_id_soal()
-        jumlah_soal = len(listsoal)
-
-        self.__progress.load(self.__idujian, jumlah_soal)
-
-        if self.__progress.selesai:
+        if not self.__progress.mulai_state_ptotomatis(self.__idujian):
             return
         
-        if self.__progress.selesai_potomatis:
-            self.__hitung_nilai_ujian()
-            return
+        listsoal = self.__get_list_id_soal()
+        jumlah_soal = len(listsoal)
         
         i = 0
         for soal in listsoal:
-            if self.__progress.idsoal == None:
-                self.__progress.set_soal(soal.idsoal, 'Soal 1')
+            if self.__progress.get_state_idsoal() == None:
+                self.__progress.set_state_soal(soal.idsoal, 'Soal 1')
             # Lanjut Progress Terakhir ...
-            if self.__progress.idsoal == soal.idsoal:
+            if self.__progress.get_state_idsoal() == soal.idsoal:
+
                 self.__penskor.set_id_soal(soal.idsoal)
                 self.__penskor.skor_otomatis()
                 
@@ -71,11 +67,12 @@ class PenilaianOtomatis(object):
                 if next_soal < jumlah_soal:
                     next_idsoal = listsoal[next_soal].idsoal
                     next_namasoal = 'Soal {}'.format(next_soal + 1)
-                    self.__progress.set_soal(next_idsoal, next_namasoal)
+                    self.__progress.set_state_soal(next_idsoal, next_namasoal)
             i = i + 1
-        
-        self.__progress.akhiri_potomatis()
+
         try:
             self.__hitung_nilai_ujian()
+        except:
+            print("Nilai Ujian Duplikat. Hitung Nilai Ujian Batal!")
         finally:
-            self.__progress.akhiri()
+            self.__progress.akhiri_state_potomatis()

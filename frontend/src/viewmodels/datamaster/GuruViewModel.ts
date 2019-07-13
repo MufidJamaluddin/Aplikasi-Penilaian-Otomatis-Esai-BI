@@ -88,16 +88,18 @@ export class GuruViewModel
      * Menghapus Data Guru
      * @param data Data Guru Sekolah
      */
-    async hapusDataGuru(idguru:string)
+    hapusDataGuru(idguru:string)
     {
-        const value = await API<JsonAPIGuru>('/api/guru/' + idguru, {
+        return API<JsonAPIGuru>('/api/guru/' + idguru, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: "{}"
-        });
-        // Ambil list 
-        console.log(value.list);
-        return value.list;
+        })
+        .then(value => {
+                   // Ambil list 
+            console.log(value.list);
+            return value.list; 
+        })
     }
 
 }

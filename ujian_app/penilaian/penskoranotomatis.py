@@ -10,6 +10,7 @@ from ujian_app.penilaian.pemrosesan_jawaban import (
     PemrosesanDataUji
 )
 from ujian_app.repository import ProgressRepository
+import time
 
 class PenskoranOtomatis(object):
     '''
@@ -22,9 +23,9 @@ class PenskoranOtomatis(object):
         Konstruktor
         '''
         self.__idsoal = None
-        self.__knn = KNearestNeighbor(3, progress_state)
-        self.__pemroses_data_uji = PemrosesanDataUji(progress_state)
-        self.__ntfrffactory = NtfRfFactory(progress_state)
+        self.__knn = KNearestNeighbor(3)
+        self.__pemroses_data_uji = PemrosesanDataUji()
+        self.__ntfrffactory = NtfRfFactory()
         self.__progress = progress_state
     
 
@@ -58,7 +59,7 @@ class PenskoranOtomatis(object):
         ( Esai Siswa yang Belum Dinilai )
         '''
         self.__pemroses_data_uji.proses_dan_simpan(self.__idsoal)
-
+    
 
     def __pembobotan_term_datalatih(self):
         '''
@@ -66,6 +67,7 @@ class PenskoranOtomatis(object):
         '''
         ntf_rf = self.__ntfrffactory.create(True)
         ntf_rf.calculate_and_save(self.__idsoal)
+        
     
     def __pembobotan_term_datauji(self):
         '''
@@ -73,6 +75,7 @@ class PenskoranOtomatis(object):
         '''
         ntf_rf = self.__ntfrffactory.create(False)
         ntf_rf.calculate_and_save(self.__idsoal)
+        
 
     
     def __klasifikasi_knn(self):
@@ -93,24 +96,30 @@ class PenskoranOtomatis(object):
         #self.seleksi_data()
 
         # Persiapan
-        if self.__progress.kode_proses == None:
-            self.__progress.set_proses(1)
+        if self.__progress.get_state_kode_proses() == None:
+            self.__progress.set_state_proses('1')
+
 
         # Tahap 1
-        if self.__progress.kode_proses == 1:
+        if self.__progress.get_state_kode_proses() == '1':
             self.__pemrosesan_teks_datauji()
-            self.__progress.set_proses(2)
+            self.__progress.set_state_proses('2')
+            time.sleep(1.5)
+
 
         # Tahap 2
-        if self.__progress.kode_proses == 2:
+        if self.__progress.get_state_kode_proses() == '2':
             self.__pembobotan_term_datalatih()
-            self.__progress.set_proses(3)
+            self.__progress.set_state_proses('3')
+            time.sleep(1.5)
 
         # Tahap 3
-        if self.__progress.kode_proses == 3:
+        if self.__progress.get_state_kode_proses() == '3':
             self.__pembobotan_term_datauji()
-            self.__progress.set_proses(4)
+            self.__progress.set_state_proses('4')
+            time.sleep(1.5)
 
         # Tahap 4
-        if self.__progress.kode_proses == 4:
+        if self.__progress.get_state_kode_proses() == '4':
             self.__klasifikasi_knn()
+            time.sleep(1.5)

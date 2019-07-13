@@ -57,7 +57,7 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
   loadData()
   {
     this.pelaksanaan_vm.initDataPelaksanaan(this.idujian).then(value => {
-      if(value.status_ujian == '2')
+      if(value.status_ujian == '2' || value.status_ujian == '3')
       {
         this.setState({ dataujian: value, activeTab: 1 });
       }

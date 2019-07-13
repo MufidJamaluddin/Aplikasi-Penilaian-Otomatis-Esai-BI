@@ -1,6 +1,9 @@
 from flask.views import MethodView
 from flask import json, request
-from ujian_app.repository import UjianRepository, PelaksanaanUjianRepository
+from ujian_app.repository import ( 
+    UjianRepository, PelaksanaanUjianRepository,
+    ProgressRepository
+)
 from datetime import timedelta
 
 class PelaksanaanUjianAPI(MethodView):
@@ -11,17 +14,21 @@ class PelaksanaanUjianAPI(MethodView):
         '''
         repository = UjianRepository()
         pel_repo = PelaksanaanUjianRepository()
+        prog_repo = ProgressRepository()
+
         ujian = repository.findById(idujian)
 
         ujiand = {}
+        pesan_progress, progress = prog_repo.get_progress(idujian)
+
         ujiand['idujian'] = ujian.idujian
         ujiand['jumlahSoal'] = ujian.jumlahSoal
         ujiand['namaUjian'] = ujian.namaUjian
         ujiand['namaMapel'] = ujian.matapelajaran.namaMapel
         ujiand['durasi'] = str(ujian.durasi)
         ujiand['status_ujian'] = ujian.status_ujian
-        ujiand['progress_penilaian'] = ujian.progress_penilaian
-        ujiand['pesan_progress_penilaian'] = ujian.pesan_progress_penilaian
+        ujiand['progress_penilaian'] = progress
+        ujiand['pesan_progress_penilaian'] = pesan_progress
 
         pelaksanaan_ujian = pel_repo.findByKeys(
             idujian=ujian.idujian,

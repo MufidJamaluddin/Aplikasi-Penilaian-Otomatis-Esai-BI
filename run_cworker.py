@@ -12,6 +12,7 @@ if __name__ == "__main__":
     options = {
         'loglevel':'INFO',
         'traceback': True,
+        'task_always_eager': True,
         'pool': 'solo'
     }
     worker.run(**options)

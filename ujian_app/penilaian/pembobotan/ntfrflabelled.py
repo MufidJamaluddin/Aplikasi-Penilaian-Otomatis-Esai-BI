@@ -8,10 +8,9 @@ class NtfRfLabeledWeighter(object):
     Data Berlabel (Training)
     """
 
-    def __init__(self, docnum_repository, ntfrf_repository, progress_state):
+    def __init__(self, docnum_repository, ntfrf_repository):
         self.__docnum_repository = docnum_repository
         self.__ntfrf_repository = ntfrf_repository
-        self.__progress = progress_state
 
     def __calculate_ntf(self, idsoal, tf:int, term:str):
         """
@@ -21,10 +20,10 @@ class NtfRfLabeledWeighter(object):
         """
         max_tf = self.__ntfrf_repository.get_max_tf(idsoal, term)
         
-        if max_tf == 0:
-            max_tf = 1
+        #if max_tf == 0: Tidak Mungkin MAX_TF 0 Jika ada TF
+        #    max_tf = 1
 
-        ntf = tf / max_tf
+        ntf = tf / max(1, max_tf)
         return ntf
 
     def __calculate_rf(self, idsoal, tf:int, term:str, skor_huruf:str):
@@ -61,25 +60,27 @@ class NtfRfLabeledWeighter(object):
     
     def calculate_and_save(self, idsoal):
         list_fitur = FiturReferensiPenilaian.query.join(Jawaban).filter(
-            Jawaban.idsoal == idsoal
+#            and_(
+                Jawaban.idsoal == idsoal,
+#              Jawaban.kode_proses == '1'
+#            )
         )
 
+        last_idjawaban = None
         for fitur in list_fitur:
-            
-            if self.__progress.idjawaban is None:
-                self.__progress.set_jawaban(fitur.idjawaban)
-            
-            # Lanjutkan Progress Terakhir
-            if self.__progress.idjawaban == fitur.idjawaban:
                 
-                rf, ntf_rf = self.__calculate(idsoal, fitur.tf,\
-                    fitur.term, fitur.skorHuruf)
+            rf, ntf_rf = self.__calculate(idsoal, fitur.tf,\
+                fitur.term, fitur.skorHuruf)
 
-                fitur.rf = rf
-                fitur.ntf_rf = ntf_rf
+            fitur.rf = rf
+            fitur.ntf_rf = ntf_rf
+            
+            db.session.add(fitur)
 
-                db.session.add(fitur)
-                db.session.commit()
-
-                # Lanjut
-                self.__progress.clear_jawaban()
+            jawaban = fitur.jawaban
+            if last_idjawaban != jawaban.idjawaban:
+                jawaban.kode_proses = '2'
+                last_idjawaban = jawaban.idjawaban
+                db.session.add(jawaban)       
+            
+            db.session.commit()
