@@ -1,7 +1,7 @@
-import json
-import os
-from ujian_app.models import Ujian, db
-from flask import current_app
+from sqlalchemy import func
+from sqlalchemy.sql.expression import and_
+from ujian_app.models import Ujian, Jawaban, Soal, StatePOtomatis, db
+from functools import lru_cache
 
 
 class ProgressRepository:
@@ -17,179 +17,125 @@ class ProgressRepository:
             '4': 'Klasifikasi Jawaban Esai Siswa'
         }
         self.__ujian = None
-        self.__file = None
     
+
     def __del__(self):
-        if self.__file:
-            self.__file.close()
-            del self.__file
         del self.__ujian
         del self.__kprogress
 
 
-    def register_state(self, idujian, jumlah_soal):
-        '''
-        Register State
-        '''
-        self.idujian = idujian
-        self.jumlah_soal = jumlah_soal
-        self.total_proses = 5 * int(jumlah_soal)
-        self.total_proses_selesai = 0
-        self.idsoal = None
-        self.kode_proses = None
-        self.idjawaban = None
-        self.selesai = False
-        self.selesai_potomatis = False
-        self.nama_soal = ''
-        self.jumlah_jawaban = 0
-        self.jawaban_ke = 0
-        self.hitung_jawaban = True
+    def mulai_state_ptotomatis(self, idujian):
+        self.__ujian = Ujian.query.get(idujian)
+        if self.__ujian.status_ujian == "3":
+            return False
+        self.__state = StatePOtomatis.query.get(idujian)
+        if self.__state is None:
+            self.__state = StatePOtomatis()
+            self.__state.idujian = idujian
+            db.session.add(self.__state)
+            db.session.commit()
+            self.get_jml_jawaban.cache_clear()
+        return True
 
-        self.__file = None
-        self.__ujian = None
     
-
-    def __toJson(self):
-        return json.dumps({
-            'idujian': self.idujian,
-            'total_proses': self.total_proses,
-            'total_proses_selesai': self.total_proses_selesai,
-            'nama_soal': self.nama_soal,
-            'idsoal' : self.idsoal,
-            'kode_proses' : self.kode_proses,
-            'idjawaban' : self.idjawaban,
-            'selesai': self.selesai,
-            'selesai_potomatis': self.selesai_potomatis,
-            'jumlah_jawaban': self.jumlah_jawaban,
-            'hitung_jawaban': self.hitung_jawaban,
-            'jawaban_ke': self.jawaban_ke
-        })
-
-    def load(self, idujian, jumlah_soal):
-        '''
-        Load State Data
-        '''
-        filename = "state/ujian_{}.json".format(idujian)
-
-        if os.path.exists(filename):
-            with open(filename, "r") as read_file:
-                read_file.seek(0)
-                json_string = read_file.read()
-
-                data = json.loads(json_string.strip())
-
-                self.idujian = idujian
-                self.jumlah_soal = jumlah_soal
-                self.total_proses = data.get('total_proses')
-                self.total_proses_selesai = data.get('total_proses_selesai')
-                self.idsoal = data.get('idsoal')
-                self.nama_soal = data.get('nama_soal')
-                self.kode_proses = data.get('kode_proses')
-                self.idjawaban = data.get('idjawaban')
-                self.selesai = data.get('selesai')
-                self.selesai_potomatis = data.get('selesai_potomatis')
-                self.hitung_jawaban = data.get('hitung_jawaban')
-                self.jumlah_jawaban = data.get('jumlah_jawaban')
-                self.jawaban_ke = data.get('jawaban_ke')
+    def akhiri_state_potomatis(self):
+        if self.__ujian:
+            self.__ujian.status_ujian = "3"
+            db.session.add(self.__ujian)
+            db.session.delete(self.__state)
+            db.session.commit()
+            self.get_jml_jawaban.cache_clear()
         else:
-            self.register_state(idujian, jumlah_soal)
+            raise Exception("Penilaian Otomatis Belum Dimulai")
 
 
-    def simpan(self):
-        '''
-        Simpan State
-        '''
-        if self.__file is None:
-            self.__file = open("state/ujian_{}.json".format(self.idujian), "w")
+    def get_totaljawaban_kode_proses(self, idujian, kode_proses):
+        return db.session.query(
+            func.count(Jawaban.idjawaban)
+        ).join(
+            Soal
+        ).filter(
+            and_(
+                Soal.idujian == idujian,
+                Soal.idsoal == Jawaban.idsoal,
+                Jawaban.kode_proses == kode_proses,
+                Jawaban.nilaiOtomatis == 1
+            )
+        ).scalar()
+
+
+    @lru_cache(1)
+    def get_jml_jawaban(self, idujian):
+        return db.session.query(
+            func.count(Jawaban.idjawaban)
+        ).join(
+            Soal
+        ).filter(
+            and_(
+                Soal.idujian == idujian,
+                Soal.idsoal == Jawaban.idsoal,
+                Jawaban.nilaiOtomatis == 1
+            )
+        ).scalar()
+
+
+    def get_state_selesai(self):
+        return self.__ujian == "3"
+
+
+    def set_state_soal(self, idsoal, namaSoal):
+        if self.__state:
+            psn = self.__kprogress.get(str(self.__state.kode_proses), "")
+            self.__state.pesan_progress_penilaian = \
+                "{} {}".format(psn, namaSoal)
+            self.__state.idsoal = idsoal
+            self.__state.kode_proses = '1'
+            db.session.add(self.__state)
+            db.session.commit()
+        else:
+            raise Exception("Penilaian Otomatis Belum Dimulai")
         
-        # 'w' nya ga jalan
-        self.__file.seek(0)
-        self.__file.write('                                        ' * 20)
-        self.__file.truncate()
-        self.__file.flush()
 
-        self.__file.seek(0)
-        # simpan state terbaru
-        self.__file.write(self.__toJson())
-        self.__file.flush()
-    
-    def set_soal(self, idsoal, nama_soal):
-        '''
-        Set State Soal
-        '''
-        self.idsoal = idsoal
-        self.kode_proses = None
-        self.idjawaban = None
-        self.nama_soal = nama_soal
-        self.simpan()
-    
-    def set_proses(self, kode_proses):
-        '''
-        Set State Proses
-        '''
-        self.kode_proses = kode_proses
-        self.idjawaban = None
-        if kode_proses is not None:
-            self.total_proses_selesai += 1
-            self.simpan_progress()
-        self.simpan()
-    
-    def clear_jawaban(self):
-        self.idjawaban = None
-    
-    def set_jawaban(self, idjawaban):
-        '''
-        Set State idjawaban
-        '''
-        self.idjawaban = idjawaban
-        if idjawaban:
-            self.jawaban_ke += 1
-            if self.hitung_jawaban:
-                self.jumlah_jawaban += 1
-            else:
-                self.total_proses_selesai += 1
-            if self.jawaban_ke % 10 == 1:
-                self.simpan_progress()
+    def set_state_proses(self, kode_proses):
+        if self.__state:
+            self.__state.kode_proses = kode_proses
+            db.session.add(self.__state)
+            db.session.commit()
         else:
-            self.hitung_jawaban = False
-            self.total_proses = (self.total_proses * self.jumlah_jawaban) + 2
-            self.total_proses_selesai = self.total_proses_selesai * self.jumlah_jawaban
+            raise Exception("Penilaian Otomatis Belum Dimulai")
 
-        self.simpan()
-    
-    def akhiri(self):
-        self.selesai = True
-        self.total_proses_selesai = self.total_proses
-        self.simpan_progress()
-    
-    def akhiri_potomatis(self):
-        self.selesai_potomatis = True
-        self.total_proses_selesai += 1
-    
-    def get_progress(self):
+
+    def get_state_idsoal(self):
+        if self.__state:
+            return self.__state.idsoal
+        else:
+            raise Exception("Penilaian Otomatis Belum Dimulai")
+
+
+    def get_state_kode_proses(self):
+        if self.__state:
+            return self.__state.kode_proses
+        else:
+            raise Exception("Penilaian Otomatis Belum Dimulai")
+
+
+    def get_progress(self, idujian):
         '''
         Mendapatkan progress dalam persentase
         '''
-        progress = int((self.total_proses_selesai * 100) / self.total_proses)
-        return progress
-    
-    def simpan_progress(self):
-        
-        if self.__ujian is None:
-            self.__ujian = Ujian.query.get(self.idujian)
-        
-        prog = self.get_progress()
-
-        if prog < 100:
-            self.__ujian.progress_penilaian = prog
-            pesan_prog = self.__kprogress.get(
-                str(self.kode_proses),
-                'Menunggu Eksekusi '
-            )
-            self.__ujian.pesan_progress_penilaian = '{} {}'.format(pesan_prog, self.nama_soal)
+        ujian = Ujian.query.get(idujian)
+        if ujian.status_ujian == "3":
+            return 'Penilaian Otomatis Telah Selesai', 100
         else:
-            self.__ujian.progress_penilaian = '100'
-            self.__ujian.pesan_progress_penilaian = 'Penilaian Otomatis Telah Selesai'
-
-        db.session.add(self.__ujian)
-        db.session.commit()
+            state = StatePOtomatis.query.get(idujian)
+            if state is None:
+                return 'Menunggu Antrian', 0
+            
+            total_proses_sudah = 0
+            for kode_proses in [1, 2, 3, 4]:
+                total_proses_sudah += int(
+                    self.get_totaljawaban_kode_proses(idujian, kode_proses)
+                    ) * kode_proses
+            total_proses_seluruh = (self.get_jml_jawaban(idujian) * 4) + 2
+            progress = int((total_proses_sudah * 100) / total_proses_seluruh)
+            return state.pesan_progress_penilaian or '', progress

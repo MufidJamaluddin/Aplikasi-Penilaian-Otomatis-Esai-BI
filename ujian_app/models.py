@@ -121,13 +121,20 @@ class Ujian(Base):
     jumlahSoal = Column(SmallInteger, nullable=False)
     durasi = Column(SmallInteger)
     status_ujian = Column(String(1), server_default=text("'0'"))
-    progress_penilaian = Column(String(3))
-    pesan_progress_penilaian = Column(String(50))
     flag = Column(String(1), server_default=text("'0'"))
 
     guru = relationship('Guru')
     matapelajaran = relationship('Matapelajaran')
     listsoal = relationship('Soal')
+
+
+class StatePOtomatis(Base):
+    __tablename__ = 'statepotomatis'
+
+    idujian = Column(Integer, primary_key=True)
+    idsoal = Column(BigInteger)
+    kode_proses = Column(String(1))
+    pesan_progress_penilaian = Column(String(100))
 
 
 class NilaiUjian(Base):
@@ -149,7 +156,6 @@ class DaftarNilaiUjian(Base):
     nis = Column(ForeignKey('siswa.nis'), nullable=False, index=True)
     idujian = Column(ForeignKey('ujian.idujian'), nullable=False, index=True)
     nilai = Column(String(3))
-    #nilai = Column(SmallInteger)
     namaKelas = Column(String(12))
     flag = Column(String(1), server_default=text("'0'"))
 
@@ -200,6 +206,7 @@ class Jawaban(Base):
     nilaiOtomatis = Column(SmallInteger)
     namaKelas = Column(String(12))
     panjangVektor = Column(Float)
+    kode_proses = Column(String(1))
     sample = Column(String(1), server_default=text("'0'"))
 
     skorHurufS = Column(String(1))

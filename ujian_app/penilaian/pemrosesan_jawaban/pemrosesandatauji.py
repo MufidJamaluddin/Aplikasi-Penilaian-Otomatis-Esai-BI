@@ -2,15 +2,13 @@ from ujian_app.models import (
     FiturObjekPenilaian, db
 )
 from . import PemrosesanJawaban
-from ujian_app.repository import ProgressRepository
 
 class PemrosesanDataUji(PemrosesanJawaban):
     '''
     Kelas untuk pemrosesan teks data uji
     '''
-    def __init__(self, progress_state: ProgressRepository):
+    def __init__(self):
         super().__init__()
-        self.__progress = progress_state
     
     def proses_dan_simpan(self, idsoal):
         '''
@@ -21,16 +19,7 @@ class PemrosesanDataUji(PemrosesanJawaban):
         
         for jawaban in listjawaban:
 
-            if self.__progress.idjawaban is None:
-                self.__progress.set_jawaban(jawaban.idjawaban)
-            
-            # Lanjutkan Progress Terakhir
-            if self.__progress.idjawaban != jawaban.idjawaban:
-                continue
-
-            # Jika Jawabannya NULL
             if jawaban.jawabanEsai is None:
-                self.__progress.set_jawaban(None)
                 continue
 
             # Jika Jawabannya Bukan String Blank
@@ -40,6 +29,7 @@ class PemrosesanDataUji(PemrosesanJawaban):
                     fitur_vspace = self._premrosesan_teks(jawaban.jawabanEsai)
                     jawaban.panjangVektor = self._kalkulasi_panjang_vektor(**fitur_vspace)
                     jawaban.nilaiOtomatis = 1
+                    jawaban.kode_proses = '1'
                     db.session.add(jawaban)
 
                     for key, value in fitur_vspace.items():
@@ -51,7 +41,7 @@ class PemrosesanDataUji(PemrosesanJawaban):
                         db.session.add(jawaban)
                 
                     db.session.commit()
+                
+                # Error Duplikat, continue aja
                 except:
-                    pass
-
-            self.__progress.clear_jawaban()
+                    continue

@@ -8,10 +8,9 @@ class NtfRfUnlabeledWeighter(object):
     Pada Dataset yang Tidak Berlabel (Fase Pengujian)
     """
 
-    def __init__(self, docnum_repository, ntfrf_repository, progress_state):
+    def __init__(self, docnum_repository, ntfrf_repository):
         self.__docnum_repository = docnum_repository
         self.__ntfrf_repository = ntfrf_repository
-        self.__progress = progress_state
     
 
     def __calculate_ntf(self, idsoal, tf:int, term:str):
@@ -22,10 +21,10 @@ class NtfRfUnlabeledWeighter(object):
         """
         max_tf = self.__ntfrf_repository.get_max_tf(idsoal, term)
         
-        if max_tf == 0:
-            max_tf = 1
+        #if max_tf == 0: GAK MUNGKIN MAX TF = 0 JIKA ADA TF
+        #    max_tf = 1
 
-        ntf = tf / max_tf
+        ntf = tf / max(1, max_tf)
         return ntf
 
 
@@ -56,22 +55,25 @@ class NtfRfUnlabeledWeighter(object):
     
     def calculate_and_save(self, idsoal):
         list_fitur = FiturObjekPenilaian.query.join(Jawaban).filter(
-            Jawaban.idsoal == idsoal
+#            and_(
+                Jawaban.idsoal == idsoal#,
+#                Jawaban.kode_proses == '2'
+#            )
         )
 
+        last_idjawaban = None
         for fitur in list_fitur:
 
-            if self.__progress.idjawaban is None:
-                self.__progress.set_jawaban(fitur.idjawaban)
-            
-            # Lanjutkan Progress Terakhir
-            if self.__progress.idjawaban != fitur.idjawaban:
+            ntf_rf = self.__calculate(idsoal, fitur.tf, fitur.term)
 
-                ntf_rf = self.__calculate(idsoal, fitur.tf, fitur.term)
+            fitur.ntf_rf = ntf_rf
 
-                fitur.ntf_rf = ntf_rf
+            db.session.add(fitur)
 
-                db.session.add(fitur)
-                db.session.commit()
-                # Lanjut
-                self.__progress.clear_jawaban()
+            jawaban = fitur.jawaban
+            if last_idjawaban != jawaban.idjawaban:
+                jawaban.kode_proses = '3'
+                last_idjawaban = jawaban.idjawaban
+                db.session.add(jawaban) 
+
+            db.session.commit()

@@ -19,11 +19,13 @@ export class PenilaianViewModel
         return this.__instance
     }
 
-    async initDataJawaban(idujian: string, idkelas: string, idsoal: string)
+    initDataJawaban(idujian: string, idkelas: string, idsoal: string)
     {
-        const value = await API<JawabanResult>('/api/penilaianmanual/' + idujian + '/' + idkelas + '/' + idsoal);
-        // Ambil list 
-        return value.list;
+        return API<JawabanResult>('/api/penilaianmanual/' + idujian + '/' + idkelas + '/' + idsoal)
+        .then(value => {
+            // Ambil list 
+            return value.list;      
+        })
     }
 
     nilaiManual(idjawaban: string, skorAngka: string)
