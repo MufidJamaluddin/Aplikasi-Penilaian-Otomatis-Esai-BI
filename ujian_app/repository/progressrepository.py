@@ -27,7 +27,7 @@ class ProgressRepository:
             self.__state.idujian = idujian
             db.session.add(self.__state)
             db.session.commit()
-            self.get_jml_jawaban.cache_clear()
+            self.__get_total_proses.cache_clear()
         return True
 
     
@@ -37,13 +37,18 @@ class ProgressRepository:
             db.session.add(self.__ujian)
             db.session.delete(self.__state)
             db.session.commit()
-            self.get_jml_jawaban.cache_clear()
+            self.__get_total_proses.cache_clear()
         else:
             raise Exception("Penilaian Otomatis Belum Dimulai")
 
 
-    def get_totaljawaban_kode_proses(self, idujian, kode_proses):
-        return db.session.query(
+    def __get_total_kdproses_jawaban(self, idujian, kode_proses):
+        if kode_proses == 2:
+            nilaiOtomatis = 0
+        else:
+            nilaiOtomatis = 1
+        
+        total = db.session.query(
             func.count(Jawaban.idjawaban)
         ).join(
             Soal
@@ -52,14 +57,14 @@ class ProgressRepository:
                 Soal.idujian == idujian,
                 Soal.idsoal == Jawaban.idsoal,
                 Jawaban.kode_proses == kode_proses,
-                Jawaban.nilaiOtomatis == 1
+                Jawaban.nilaiOtomatis == nilaiOtomatis
             )
         ).scalar()
+        return int(total)
 
 
-    @lru_cache(1)
-    def get_jml_jawaban(self, idujian):
-        return db.session.query(
+    def __get_jml_jawaban_uji(self, idujian):
+        total = db.session.query(
             func.count(Jawaban.idjawaban)
         ).join(
             Soal
@@ -70,7 +75,31 @@ class ProgressRepository:
                 Jawaban.nilaiOtomatis == 1
             )
         ).scalar()
+        return int(total)
 
+
+    def __get_jml_jawaban_latih(self, idujian):
+        total = db.session.query(
+            func.count(Jawaban.idjawaban)
+        ).join(
+            Soal
+        ).filter(
+            and_(
+                Soal.idujian == idujian,
+                Soal.idsoal == Jawaban.idsoal,
+                Jawaban.nilaiOtomatis == 0
+            )
+        ).scalar()
+        return int(total)
+
+
+    @lru_cache(10)
+    def __get_total_proses(self, idujian):
+        a = self.__get_jml_jawaban_uji(idujian)
+        b = self.__get_jml_jawaban_latih(idujian)
+        total_proses = (3*a)+b+2
+        return total_proses
+        
 
     def get_state_selesai(self):
         return self.__ujian == "3"
@@ -125,9 +154,13 @@ class ProgressRepository:
             
             total_proses_sudah = 0
             for kode_proses in [1, 2, 3, 4]:
-                total_proses_sudah += int(
-                    self.get_totaljawaban_kode_proses(idujian, kode_proses)
+                total_proses_sudah += self.\
+                    __get_total_kdproses_jawaban(
+                        idujian, 
+                        kode_proses
                     ) * kode_proses
-            total_proses_seluruh = (self.get_jml_jawaban(idujian) * 4) + 2
+
+            total_proses_seluruh = self.__get_total_proses(idujian)
             progress = int((total_proses_sudah * 100) / total_proses_seluruh)
+            
             return state.pesan_progress_penilaian or '', progress
