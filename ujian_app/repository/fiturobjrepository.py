@@ -8,7 +8,9 @@ class FiturObjekRepository(object):
 
     def get_list_fitur(self, idsoal):
         list_fitur = FiturObjekPenilaian.query.join(Jawaban).filter(
-            Jawaban.idsoal == idsoal
+            Jawaban.idsoal == idsoal,
+            Jawaban.nilaiOtomatis == 1,
+            Jawaban.kode_proses == '1'
         )
         return list_fitur
     

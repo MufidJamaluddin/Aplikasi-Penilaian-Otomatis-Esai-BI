@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Nav , NavItem , Button} from 'reactstrap';
 
-var Template = require('@coreui/react/lib');
+import logo from './../../static/img/brand/logo.svg';
+import sygnet from './../../static/img/brand/sygnet.svg';
 
-const logo = "static/img/brand/logo.svg";
-const sygnet = "static/img/brand/sygnet.svg";
+const Template = require('@coreui/react/lib');
 const alt_logo = "Logo Aplikasi KoPL9";
 
 interface DefaultHeaderPropsModel { nama: string; onLogout:any; }

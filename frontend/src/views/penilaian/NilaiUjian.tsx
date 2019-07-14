@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Modal, Table, Progress, ModalBody, ModalFooter, ModalHeader, Button, Card, CardBody, CardHeader, Col, Row, TabContent, TabPane, Container } from 'reactstrap';
 import FormGroup from 'reactstrap/lib/FormGroup';
+import { Loading } from './../../layout';
 import DataUjian from '../../models';
 import DataPelaksanaanUjian from '../../models';
 import { PelaksanaanViewModel } from '../../viewmodels/ujianesai';
@@ -145,7 +146,7 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
 
 	public render() : JSX.Element
 	{
-    if(this.state.dataujian === undefined) return (<h3>Loading...</h3>);
+    if(this.state.dataujian === undefined) return (Loading);
     
     var dataujian = this.state.dataujian;
 
@@ -162,19 +163,24 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
                     <CardHeader>
                       <FormGroup row>
                         <Col className="sm-6">
-                        <dt className="col-sm-6 text-truncate"><h4>PENILAIAN UJIAN<br/>MANUAL</h4></dt>
+                        <dt className="text-truncate"><h4>PENILAIAN UJIAN<br/>MANUAL</h4></dt>
                         </Col>  
 
                         <Col className="sm-6">
-                          <dt className="col-sm-12 text-left">ID Ujian : {this.idujian}</dt>
-                          <dt className="col-sm-12 text-left">Nama Ujian : {dataujian.namaUjian}</dt>
-                          <dt className="col-sm-12 text-left">Mata Pelajaran : {dataujian.namaMapel}</dt>
+                          <dt className="col-sm-12 text-left">ID Ujian &emsp; &emsp; &emsp; : {this.idujian}</dt>
+                          <dt className="col-sm-12 text-left">Nama Ujian &emsp; &ensp; : {dataujian.namaUjian}</dt>
+                          <dt className="col-sm-12 text-left">Mata Pelajaran &nbsp; : {dataujian.namaMapel}</dt>
                         </Col>
                     </FormGroup>     
                   </CardHeader>
 
                   <Col className="col-sm-12">
-                      <p color="danger"><b>Rekomendasi: </b>Lakukan penilaian secara manual <b>minimal 50% jawaban</b> dari seluruh jawaban siswa agar akurasi penilaian otomatis lebih akurat</p>
+                      <p className="lead text-justify">
+                      <b>Rekomendasi: </b>
+                      Lakukan penilaian secara manual <b>minimal 50% jawaban </b>
+                      dari seluruh jawaban siswa supaya akurasi penilaian otomatis lebih akurat
+                      dan mewakili semua kategori strata nilai.
+                      </p>
                   </Col>     
                       
                   <Col sm="12">
@@ -207,18 +213,20 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
                     <Link to="/penilaian">
                       <Button color="primary">Kembali</Button>
                     </Link>
-                    {' '}
+                    &nbsp;
                     <Button color="success" onClick={this.toggleSubmitNilaiManual}>Selanjutnya</Button>
                     <Modal 
                       isOpen={this.state.submitnilaimanual} 
                       toggle={this.toggleSubmitNilaiManual} 
-                      className={'modal-primary ' + this.props.className}>
+                      className={'modal-dialog modal-dialog-centered modal-primary ' + this.props.className}>
                       <ModalHeader toggle={this.toggleSubmitNilaiManual}>Akhiri Penilaian Manual</ModalHeader>
                         <ModalBody>
-                          <p className="text-center">
-                            Apakah anda yakin ingin mengakhiri penilaian ujian secara manual?<br/>Untuk memastikan akurasi yang lebih baik, <b>pastikan jawaban siswa sudah dinilai secara manula minimal 50 % dari seluruh jawaban siswa yang mengikuti ujian dan mewakili semua strata nilai.</b>
+                          <h4>Apakah anda yakin ingin mengakhiri penilaian ujian secara manual?</h4>
+                          <p className="text-justify lead">
+                            Untuk memastikan akurasi yang lebih baik, 
+                             pastikan jawaban siswa telah dinilai secara manual <mark>minimal 50%</mark> dari seluruh jawaban siswa yang mengikuti ujian dan <mark>mewakili semua kategori</mark> strata nilai.
                           </p>
-                          <p className="text-center"> Jika sudah yakin, Tekan <b>"Lakukan Penilaian Otomatis"</b> untuk menilai jawaban esai siswa secara otomatis</p>
+                          <p className="text-justify lead"> Jika anda telah yakin, tekan <mark>"Lakukan Penilaian Otomatis"</mark> untuk menilai jawaban esai siswa secara otomatis</p>
                         </ModalBody>
                         <ModalFooter>
                           <Button color="primary" onClick={this.toggleSubmitNilaiManual}>Kembali</Button>
@@ -240,9 +248,9 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
                           </Col>  
 
                           <Col className="sm-6">
-                          <dt className="col-sm-12 text-left">ID Ujian : {this.idujian}</dt>
-                          <dt className="col-sm-12 text-left">Nama Ujian : {dataujian.namaUjian}</dt>
-                          <dt className="col-sm-12 text-left">Mata Pelajaran : {dataujian.namaMapel}</dt>
+                          <dt className="col-sm-12 text-left">ID Ujian &emsp; &emsp; &emsp; : {this.idujian}</dt>
+                          <dt className="col-sm-12 text-left">Nama Ujian &emsp; &ensp; : {dataujian.namaUjian}</dt>
+                          <dt className="col-sm-12 text-left">Mata Pelajaran &nbsp; : {dataujian.namaMapel}</dt>
                           </Col>
                       </FormGroup>     
                     </CardHeader>
