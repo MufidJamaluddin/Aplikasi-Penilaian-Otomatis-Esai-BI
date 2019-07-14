@@ -38,6 +38,7 @@ class NilaiJawabanTab extends Component<NilaiJawabanTabProps, NilaiJawabanTabSta
     }
 
     this.penilaian_vm = PenilaianViewModel.getInstance();
+    this.render_listjawaban = this.render_listjawaban.bind(this);
   }
 
   componentDidMount()
@@ -57,6 +58,42 @@ class NilaiJawabanTab extends Component<NilaiJawabanTabProps, NilaiJawabanTabSta
         this.setState({ listjawaban: data });
       });
     }
+  }
+
+  render_listjawaban()
+  {
+    if(this.state.listjawaban.length === 0)
+      return (Loading);
+
+    return this.state.listjawaban.map((jawaban, i) => {
+        return (
+          <tr key={jawaban.idjawaban}>
+            <td>{i+1}</td>
+            <td>
+              <p className="text-justify">{jawaban.jawabanEsai}</p>
+            </td>
+            <td colSpan={4} >
+              <Input 
+                defaultValue={jawaban.skorAngka}
+                onChange={e => { 
+                  var skorAngka = e.target.value;
+                  if (this.props.datasoal.skorMin > skorAngka)
+                    e.target.value = this.props.datasoal.skorMin;
+                  else if (skorAngka > this.props.datasoal.skorMax)
+                    e.target.value = this.props.datasoal.skorMax;
+                
+                  this.penilaian_vm.nilaiManual(jawaban.idjawaban, skorAngka);
+                }}
+                type="number" 
+                className="sm-7" 
+                min={this.props.datasoal.skorMin}  
+                max={this.props.datasoal.skorMax} 
+                />
+            </td>
+          </tr>
+        )
+      }
+    );
   }
 
   render()
@@ -102,34 +139,7 @@ class NilaiJawabanTab extends Component<NilaiJawabanTabProps, NilaiJawabanTabSta
             
           <tbody>
             {
-              this.state.listjawaban.map((jawaban, i) => {
-                return (
-                  <tr key={jawaban.idjawaban}>
-                    <td>{i+1}</td>
-                    <td>
-                      <p className="text-justify">{jawaban.jawabanEsai}</p>
-                    </td>
-                    <td colSpan={4} >
-                      <Input 
-                        defaultValue={jawaban.skorAngka}
-                        onChange={e => { 
-                          var skorAngka = e.target.value;
-                          if (this.props.datasoal.skorMin > skorAngka)
-                            e.target.value = this.props.datasoal.skorMin;
-                          else if (skorAngka > this.props.datasoal.skorMax)
-                            e.target.value = this.props.datasoal.skorMax;
-                        
-                          this.penilaian_vm.nilaiManual(jawaban.idjawaban, skorAngka);
-                        }}
-                        type="number" 
-                        className="sm-7" 
-                        min={this.props.datasoal.skorMin}  
-                        max={this.props.datasoal.skorMax} 
-                        />
-                    </td>
-                  </tr>
-                )
-              })
+              this.render_listjawaban()
             }
           </tbody>
         </Table>
@@ -230,12 +240,12 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
   {
     return (
       <Modal isOpen={this.state.showModal} toggle={this.toggle_modal} 
-      className='modal-dialog modal-diaog-centered modal-primary'>
+      className='modal-dialog modal-dialog-centered modal-primary'>
         <ModalHeader toggle={this.toggle_modal}>Akhiri Penilaian Manual</ModalHeader>
         <ModalBody>
-          <p className="text-center">
-            Apakah anda yakin ingin mengakhiri penilaian manual kelas {this.state.ujian.namaKelas}
-            <b>Pastikan anda telah menilai ujian esai siswa sesuai dengan standar penilaian</b>
+          <p className="text-justify lead">
+            Apakah anda yakin ingin mengakhiri penilaian manual kelas {this.state.ujian.namaKelas}?
+            <b> Pastikan anda telah menilai ujian esai siswa sesuai dengan standar penilaian</b>
           </p>
         </ModalBody>
         <ModalFooter>

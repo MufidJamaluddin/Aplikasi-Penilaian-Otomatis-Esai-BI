@@ -14,7 +14,7 @@ class KNearestNeighbor(object):
         '''
         self.__k = k_knn
         self.__cosim_repo = CosineSimRepository()
-        self.__jawaban_repo = JawabanRepository
+        self.__jawaban_repo = JawabanRepository()
     
     def __del__(self):
         del self.__jawaban_repo
