@@ -1,10 +1,7 @@
-from ujian_app.models import ( 
-    Soal, Jawaban, FiturObjekPenilaian, 
-    FiturReferensiPenilaian, FiturObjekPenilaian, 
-    Similarity, db
+from ujian_app.repository import (
+    ProgressRepository, CosineSimRepository,
+    JawabanRepository
 )
-
-from ujian_app.repository import ProgressRepository
 
 class KNearestNeighbor(object):
     '''
@@ -16,59 +13,27 @@ class KNearestNeighbor(object):
         k_knn : Nilai K tetangga terdekaat pada KNN
         '''
         self.__k = k_knn
+        self.__cosim_repo = CosineSimRepository()
+        self.__jawaban_repo = JawabanRepository
+    
+    def __del__(self):
+        del self.__jawaban_repo
+        del self.__cosim_repo
+        del self.__k
 
-    def __get_list_idjawaban(self, idsoal):
+    def __get_listidjawaban_uji(self, idsoal):
         ''' 
         Ambil list idjawaban yang akan 
         dinilai otomatis
         berdasarkan idsoal
         '''
-        listidjawaban = db.session.query(Jawaban.idjawaban).filter_by(
+        listidjawaban = self.__jawaban_repo.get_listidjawaban(
             idsoal=idsoal,
-            nilaiOtomatis=1,
-            kode_proses='3'
+            nilaiOtomatis=1
         )
         return listidjawaban
     
-    def __get_cosine_similarity(self, idjawaban_uji):
-        '''
-        Mendapatkan list cosine similarity
-        antara jawaban data uji (jawaban yang akan 
-        diberikan skor secara otomatis) terhadap
-        jawaban data latih (jawaban yang dinilai manual
-        oleh guru sebagai ref klasifikasi)
 
-        Parameter:
-            idjawaban_uji: idjawaban data uji
-        '''
-        list_sim = db.session.query(
-            Similarity.skorAngka, 
-            Similarity.skorHuruf
-        ).filter_by(
-            idjawaban_uji=idjawaban_uji
-        ).limit(self.__k)
-        return list_sim
-    
-    def __simpan_skor(self, idjawaban_uji, skor_huruf, skor_angka):
-        '''
-        Simpan Skor Hasil Klasifikasi
-
-        Parameter:
-        skorHuruf : skorHuruf hasil klasifikasi
-        skorAngka : skorAngka pada jawaban data latih 
-                    yang memiliki skorHuruf hasil klasifikasi
-                    dan paling dekat dengan jawaban 
-        '''
-        db.session.query(Jawaban).filter(
-            Jawaban.idjawaban == idjawaban_uji
-        ).update({
-            'skorHuruf': skor_huruf,
-            'skorAngka': skor_angka,
-            'kode_proses': '4'
-        })
-
-        db.session.commit()
-    
     def klasifikasi(self, idsoal):
         '''
         Melakukan klasifikasi jawaban siswa
@@ -78,9 +43,10 @@ class KNearestNeighbor(object):
             idsoal: soal yg jawabannya akan dilakukan
                     klasifikasi
         '''
-        for jawaban in self.__get_list_idjawaban(idsoal):
+        for jawaban in self.__get_listidjawaban_uji(idsoal):
 
-            list_sim = self.__get_cosine_similarity(jawaban.idjawaban)
+            list_sim = self.__cosim_repo.\
+                get_cosine_similarity(jawaban.idjawaban)
 
             # DICTIONARY KEMUNCULAN SKOR HURUF
             count_class = {}
@@ -104,7 +70,7 @@ class KNearestNeighbor(object):
             # AMBIL SKOR KEMUNCULAN YG TERBESAR
             skor_huruf, sm = sorted_cc.pop()
 
-            self.__simpan_skor(
+            self.__jawaban_repo.simpan_skor(
                 jawaban.idjawaban,
                 skor_huruf,
                 sm['skorAngka']

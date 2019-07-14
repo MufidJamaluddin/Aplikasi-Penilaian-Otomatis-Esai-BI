@@ -19,3 +19,6 @@ from .daftarnilairepository import DaftarNilaiRepository
 from .ntfrfrepository import NtfRfRepository
 from .docnumrepository import DocNumRepository
 from .progressrepository import ProgressRepository
+from .fiturrefrepository import FiturReferensiRepository
+from .fiturobjrepository import FiturObjekRepository
+from .cosinesimrepository import CosineSimRepository
