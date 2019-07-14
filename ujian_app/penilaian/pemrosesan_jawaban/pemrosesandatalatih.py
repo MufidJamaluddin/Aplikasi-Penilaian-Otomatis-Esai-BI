@@ -50,14 +50,18 @@ class PemrosesanDataLatih(PemrosesanJawaban):
                 jawaban.skorHuruf = skor_huruf
                 jawaban.nilaiOtomatis = 0
 
-                db.session.add(jawaban)
+                jml_term = len(jawaban.fitur_ref)
+                if jml_term == 0:
+                    jawaban.fitur_ref = []
 
                 for key, value in fitur_vspace.items():
                     fitur_ref = FiturReferensiPenilaian()
-                    fitur_ref.idjawaban = jawaban.idjawaban
                     fitur_ref.skorHuruf = skor_huruf
                     fitur_ref.term = key
                     fitur_ref.tf = value
-                    db.session.add(fitur_ref)
+                    jawaban.fitur_ref.append(fitur_ref)
+
+                db.session.add(jawaban)
+                db.session.flush()
                 
         db.session.commit()

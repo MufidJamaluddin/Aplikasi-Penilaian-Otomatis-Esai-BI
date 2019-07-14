@@ -1,4 +1,4 @@
-from ujian_app.models import FiturReferensiPenilaian, Jawaban,db
+from ujian_app.repository import FiturReferensiRepository
 from sqlalchemy.sql.expression import and_
 from math import log
 
@@ -11,6 +11,10 @@ class NtfRfLabeledWeighter(object):
     def __init__(self, docnum_repository, ntfrf_repository):
         self.__docnum_repository = docnum_repository
         self.__ntfrf_repository = ntfrf_repository
+        self.__fitur_repository = FiturReferensiRepository()
+    
+    def __del__(self):
+        del self.__fitur_repository
 
     def __calculate_ntf(self, idsoal, tf:int, term:str):
         """
@@ -59,12 +63,8 @@ class NtfRfLabeledWeighter(object):
     
     
     def calculate_and_save(self, idsoal):
-        list_fitur = FiturReferensiPenilaian.query.join(Jawaban).filter(
-            and_(
-                Jawaban.idsoal == idsoal,
-                Jawaban.kode_proses == '1'
-            )
-        )
+        list_fitur = self.__fitur_repository.\
+            get_list_fitur(idsoal)
 
         last_idjawaban = None
         for fitur in list_fitur:
@@ -74,13 +74,11 @@ class NtfRfLabeledWeighter(object):
 
             fitur.rf = rf
             fitur.ntf_rf = ntf_rf
-            
-            db.session.add(fitur)
 
-            jawaban = fitur.jawaban
-            if last_idjawaban != jawaban.idjawaban:
-                jawaban.kode_proses = '2'
-                last_idjawaban = jawaban.idjawaban
-                db.session.add(jawaban)       
+            cur_idjawaban = fitur.jawaban.idjawaban
+            if last_idjawaban != cur_idjawaban:
+                fitur.jawaban.kode_proses = '2'
+                last_idjawaban = cur_idjawaban       
             
-            db.session.commit()
+            self.__fitur_repository.add_fitur(fitur)
+        self.__fitur_repository.commit()

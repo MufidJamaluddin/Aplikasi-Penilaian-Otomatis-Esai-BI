@@ -215,6 +215,9 @@ class Jawaban(Base):
     soal = relationship('Soal')
     siswa = relationship('Siswa')
 
+    fitur_obj = relationship('FiturObjekPenilaian')
+    fitur_ref = relationship('FiturReferensiPenilaian')
+
 
 class FiturObjekPenilaian(Base):
     __tablename__ = 'fiturobjekpenilaian'

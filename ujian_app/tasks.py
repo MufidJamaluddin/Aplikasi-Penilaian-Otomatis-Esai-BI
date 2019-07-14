@@ -16,10 +16,6 @@ def init_worker(**kwargs):
     """
     db.session.remove()
 
-@worker_process_shutdown.connect
-def shutdown_worker(**kwargs):
-    if db:
-        db.session.close()
 
 @task
 def penilaian_manual(idujian, idkelas):

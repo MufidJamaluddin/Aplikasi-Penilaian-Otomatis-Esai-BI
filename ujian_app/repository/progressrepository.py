@@ -10,18 +10,11 @@ class ProgressRepository:
     '''
      
     def __init__(self):
-        self.__kprogress = {
-            '1': 'Pemrosesan Jawaban Esai Siswa',
-            '2': 'Pembobotan Kata dan Frasa Kunci',
-            '3': 'Pembobotan Kata dan Frasa Jawaban Esai Siswa',
-            '4': 'Klasifikasi Jawaban Esai Siswa'
-        }
         self.__ujian = None
     
 
     def __del__(self):
         del self.__ujian
-        del self.__kprogress
 
 
     def mulai_state_ptotomatis(self, idujian):
@@ -85,9 +78,8 @@ class ProgressRepository:
 
     def set_state_soal(self, idsoal, namaSoal):
         if self.__state:
-            psn = self.__kprogress.get(str(self.__state.kode_proses), "")
             self.__state.pesan_progress_penilaian = \
-                "{} {}".format(psn, namaSoal)
+                "{} {}".format("Sedang Menilai", namaSoal)
             self.__state.idsoal = idsoal
             self.__state.kode_proses = '1'
             db.session.add(self.__state)
