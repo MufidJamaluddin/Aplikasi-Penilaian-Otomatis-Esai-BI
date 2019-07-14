@@ -8,7 +8,8 @@ class FiturReferensiRepository(object):
 
     def get_list_fitur(self, idsoal):
         list_fitur = FiturReferensiPenilaian.query.join(Jawaban).filter(
-            Jawaban.idsoal == idsoal
+            Jawaban.idsoal == idsoal,
+            Jawaban.nilaiOtomatis == 0
         )
         return list_fitur
     

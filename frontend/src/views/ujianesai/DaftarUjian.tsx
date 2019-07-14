@@ -78,7 +78,6 @@ class Ujian extends Component<UjianModel, UjianStateModel>
     switch(status_ujian)
     {
       case "3":
-        return (<span className="badge badge-success">Telah Dinilai Otomatis</span>);
       case "2":
         return (<span className="badge badge-success">Terlaksana</span>);
       case "1":

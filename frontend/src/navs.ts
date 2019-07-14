@@ -3,28 +3,35 @@ const GURU_NAV = {
             {
                   name: 'Ujian',
                   url: '/ujian',
-                  icon: 'icon-note',
+                  icon: 'icon-book-open',
             },            
             {
                   name: 'Penilaian Ujian',
                   url: '/penilaian',
-                  icon: 'icon-note',
+                  icon: 'icon-calculator',
             },
             {
-                  name: 'Laporan Nilai Ujian',
-                  url: '/laporanujian',
-                  icon: 'icon-note',
-            },
-            {
-                  name: 'Laporan Nilai Siswa',
-                  url: '/hasilujian',
-                  icon: 'icon-note',
+                  name: 'Laporan Ujian',
+                  url: '/#',
+                  icon: 'icon-notebook',
+                  children: [
+                        {
+                              name: 'Laporan Nilai Siswa',
+                              url: '/hasilujian',
+                              icon: 'icon-chart',
+                        },
+                        {
+                              name: 'Laporan Nilai Ujian',
+                              url: '/laporanujian',
+                              icon: 'icon-graph',
+                        },
+                  ]
             },
             {
                   name: 'Ganti Password',
                   url: '/gantipassword',
                   icon: 'icon-key',
-            }
+            },
       ]
 }
 

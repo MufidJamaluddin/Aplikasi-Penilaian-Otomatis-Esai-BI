@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Table, Button, ButtonGroup,  Card, CardBody, CardHeader, Col, Input,Row, TabContent, TabPane, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Loading } from './../../layout';
 
 import DataUjian from '../../models';
 import DataSoal from '../../models';
@@ -105,7 +106,9 @@ class NilaiJawabanTab extends Component<NilaiJawabanTabProps, NilaiJawabanTabSta
                 return (
                   <tr key={jawaban.idjawaban}>
                     <td>{i+1}</td>
-                    <td>{jawaban.jawabanEsai}</td>
+                    <td>
+                      <p className="text-justify">{jawaban.jawabanEsai}</p>
+                    </td>
                     <td colSpan={4} >
                       <Input 
                         defaultValue={jawaban.skorAngka}
@@ -226,12 +229,13 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
   render_modal()
   {
     return (
-      <Modal isOpen={this.state.showModal} toggle={this.toggle_modal} className='modal-primary'>
+      <Modal isOpen={this.state.showModal} toggle={this.toggle_modal} 
+      className='modal-dialog modal-diaog-centered modal-primary'>
         <ModalHeader toggle={this.toggle_modal}>Akhiri Penilaian Manual</ModalHeader>
         <ModalBody>
           <p className="text-center">
             Apakah anda yakin ingin mengakhiri penilaian manual kelas {this.state.ujian.namaKelas}
-            <b>Pastikan anda telah menilai ujian esai siswa sesuai rubrik yang telah anda buat</b>
+            <b>Pastikan anda telah menilai ujian esai siswa sesuai dengan standar penilaian</b>
           </p>
         </ModalBody>
         <ModalFooter>
@@ -248,7 +252,7 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
 
   render()
   {
-    if(this.state.ujian === undefined) return (<div>Loading...</div>);
+    if(this.state.ujian === undefined) return (Loading);
 
     return (
       <div className="animated fadeIn">
@@ -319,6 +323,7 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
                     <Link to={`/penilaian/${this.idujian}`}>
                       <Button color="primary">Kembali</Button>
                     </Link>
+                    &nbsp;
                     <Button color="warning" onClick={this.toggle_modal}>Akhiri Penilaian Manual</Button>
                   </ButtonGroup>
                 </Col>

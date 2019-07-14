@@ -116,6 +116,9 @@ class LaporanUjian extends PureComponent<LaporanUjianModel, LaporanUjianStateMod
       list_ujian: {"": ""},
       tampilan: '0'
     };
+
+    this.ujian_vm = UjianViewModel.getInstance();
+    this.daftarnilai_vm = DaftarNilaiViewModel.getInstance();
   }
 
     // --------------------------- INIT DATA ------------------------------------------//

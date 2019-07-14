@@ -29,7 +29,8 @@ class KNearestNeighbor(object):
         '''
         listidjawaban = self.__jawaban_repo.get_listidjawaban(
             idsoal=idsoal,
-            nilaiOtomatis=1
+            nilaiOtomatis=1,
+            kode_proses='3'
         )
         return listidjawaban
     
