@@ -97,7 +97,7 @@ class ProgressRepository:
     def __get_total_proses(self, idujian):
         a = self.__get_jml_jawaban_uji(idujian)
         b = self.__get_jml_jawaban_latih(idujian)
-        total_proses = (3*a)+(2*b)+2
+        total_proses = (3*a)+b+2
         return total_proses
         
 
