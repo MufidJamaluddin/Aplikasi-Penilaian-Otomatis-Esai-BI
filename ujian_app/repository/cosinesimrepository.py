@@ -4,7 +4,7 @@ from ujian_app.models import (
 
 class CosineSimRepository(object):
 
-    def get_cosine_similarity(self, idjawaban_uji):
+    def get_cosine_similarity(self, k, idjawaban_uji):
         '''
         Mendapatkan list cosine similarity
         antara jawaban data uji (jawaban yang akan 
@@ -20,5 +20,5 @@ class CosineSimRepository(object):
             Similarity.skorHuruf
         ).filter_by(
             idjawaban_uji=idjawaban_uji
-        ).limit(self.__k)
+        ).limit(k)
         return list_sim

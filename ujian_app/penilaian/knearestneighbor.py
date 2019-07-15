@@ -47,7 +47,7 @@ class KNearestNeighbor(object):
         for jawaban in self.__get_listidjawaban_uji(idsoal):
 
             list_sim = self.__cosim_repo.\
-                get_cosine_similarity(jawaban.idjawaban)
+                get_cosine_similarity(self.__k, jawaban.idjawaban)
 
             # DICTIONARY KEMUNCULAN SKOR HURUF
             count_class = {}
