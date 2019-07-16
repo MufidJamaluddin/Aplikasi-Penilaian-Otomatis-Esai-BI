@@ -39,6 +39,7 @@ class TfBigram(object):
         vektor_tf_bigram = {}
         sz = len(tokens) - 1
 
+        # range(0) adalah empty list di Python
         for i in range(sz):
             bigram_token = self.__get_term_bigram(i, tokens)
 

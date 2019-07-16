@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from math import sqrt
 from ujian_app.penilaian.pemrosesan_teks import Preprocesser
-from ujian_app.models import Jawaban, Siswa
+from ujian_app.repository import JawabanRepository
 from sqlalchemy.sql.expression import and_
 
 class PemrosesanJawaban(ABC):
@@ -12,9 +12,19 @@ class PemrosesanJawaban(ABC):
 
     def __init__(self):
         self.__preprocesser = Preprocesser()
+        self.__repo = JawabanRepository()
     
     def __del__(self):
         del self.__preprocesser
+        del self.__repo
+
+
+    def _get_repo(self):
+        '''
+        Mendapatkan Jawaban Repository
+        '''
+        return self.__repo
+
 
     def _kalkulasi_panjang_vektor(self, **vector_space):
         '''
@@ -23,8 +33,8 @@ class PemrosesanJawaban(ABC):
         '''
         vspace_items = vector_space.items()
         kuadrat_vspace = [(tf**2) for term, tf in vspace_items]
-        hasil = sum(kuadrat_vspace)
-        return sqrt(hasil)
+        hasil = sqrt(sum(kuadrat_vspace))
+        return hasil
     
 
     def _premrosesan_teks(self, jawabanEsai):
@@ -32,30 +42,6 @@ class PemrosesanJawaban(ABC):
         Melakukan pemrosesan teks
         '''
         return self.__preprocesser.preprocess_text(jawabanEsai)
-
-
-    def _get_list_jawaban(self, idsoal, idkelas = None):
-        '''
-        Mendapatkan list data uji
-        (jawaban yang akan belum dinilai guru)
-        berdasarkan idsoal
-        '''
-        if idkelas is None:
-            # Data Uji
-            listjawaban = Jawaban.query.filter_by(
-                skorHuruf = None,
-                idsoal = idsoal
-            )
-            return listjawaban
-        else:
-            # Data Latih
-            listjawaban = Jawaban.query.join(Siswa).filter(
-                and_(
-                    Jawaban.idsoal == idsoal,
-                    Siswa.idkelas == idkelas
-                )
-            )
-            return listjawaban
     
 
     @abstractmethod

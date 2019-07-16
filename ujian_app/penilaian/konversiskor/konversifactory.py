@@ -1,4 +1,4 @@
-from ujian_app.models import Soal
+from ujian_app.repository import SoalRepository
 from .angkakehuruf import SkorAngkaKeHuruf
 
 class KonversiFactory(object):
@@ -8,16 +8,13 @@ class KonversiFactory(object):
     Berdasarkan Data Soal
     """
 
-    def __get_data_soal(self, idsoal):
-        '''
-        Mendapatkan Data Soal
-        '''
-        return Soal.query.filter_by(idsoal=idsoal).first()
+    def __init__(self):
+        self.__repo = SoalRepository()
 
     def create(self, idsoal):
         '''
         Membuat Konversi Angka ke Huruf
         '''
-        soal = self.__get_data_soal(idsoal)
+        soal = self.__repo.findById(idsoal)
         konverter = SkorAngkaKeHuruf(int(soal.skorMax), int(soal.skorMin))
         return konverter

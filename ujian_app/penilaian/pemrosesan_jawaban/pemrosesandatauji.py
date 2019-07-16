@@ -15,7 +15,7 @@ class PemrosesanDataUji(PemrosesanJawaban):
         Melakukan Pemrosesan Teks Data Uji
         (Jawaban) Berdasarkan ID Soal
         '''
-        listjawaban = self._get_list_jawaban(idsoal)
+        listjawaban = self._get_repo().get_data_uji(idsoal)
         
         for jawaban in listjawaban:
 
@@ -26,13 +26,15 @@ class PemrosesanDataUji(PemrosesanJawaban):
             if jawaban.jawabanEsai.strip():
                 
                 fitur_vspace = self._premrosesan_teks(jawaban.jawabanEsai)
-                jawaban.panjangVektor = self._kalkulasi_panjang_vektor(**fitur_vspace)
+                jawaban.panjangVektor = self.\
+                    _kalkulasi_panjang_vektor(**fitur_vspace)
+
                 jawaban.nilaiOtomatis = 1
                 jawaban.kode_proses = '1'
 
-                jml_term = len(jawaban.fitur_obj)
-                if jml_term == 0:
-                    jawaban.fitur_obj = []
+                #jml_term = len(jawaban.fitur_obj)
+                #if jml_term == 0:
+                jawaban.fitur_obj = []
 
                 for key, value in fitur_vspace.items():
                     fitur_obj = FiturObjekPenilaian()

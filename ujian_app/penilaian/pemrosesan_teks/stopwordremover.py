@@ -8,6 +8,9 @@ class StopwordRemover(object):
     def __init__(self, stoplist: set):
         self.__stoplist = stoplist
 
+    def __del__(self):
+        del self.__stoplist
+
     def filter(self, tokens:list):
         """
         Menghilangkan Stopword dari List Tokens
