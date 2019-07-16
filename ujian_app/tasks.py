@@ -4,8 +4,7 @@ from ujian_app.penilaian import (
 from ujian_app.models import db
 from celery import task
 from celery.signals import (
-    worker_process_init,
-    worker_process_shutdown
+    worker_process_init
 )
 
 @worker_process_init.connect
@@ -15,7 +14,6 @@ def init_worker(**kwargs):
     Buat Session yg 'Fresh'
     """
     db.session.remove()
-
 
 @task
 def penilaian_manual(idujian, idkelas):

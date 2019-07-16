@@ -1,6 +1,8 @@
 from flask.views import MethodView
-from ujian_app.models import db
-from ujian_app.repository import JawabanRepository, PelaksanaanUjianRepository
+from ujian_app.repository import (
+    JawabanRepository, 
+    PelaksanaanUjianRepository
+)
 from ujian_app.utils import AlchemyEncoder
 from ujian_app.tasks import penilaian_manual
 from flask import json, request
@@ -11,7 +13,8 @@ class PenilaianManualAPI(MethodView):
         repo = JawabanRepository()
 
         list_jawaban = repo.find_by_soal(idujian, idkelas, idsoal)
-        return json.dumps({'list': list_jawaban}, cls=AlchemyEncoder), 200,  {'Content-Type': 'application/json'}
+        return json.dumps({'list': list_jawaban}, cls=AlchemyEncoder), \
+            200,  {'Content-Type': 'application/json'}
     
     def put(self):
         repo = JawabanRepository()
@@ -34,13 +37,8 @@ class PenilaianManualAPI(MethodView):
               #  status_penilaian='0'
             ).first()
         if pel:
-
             penilaian_manual.apply_async(args=[idujian, idkelas])
-
-            pel.status_penilaian = '2'
-            db.session.add(pel)
-            db.session.commit()
-
+            repo.mulai_pmanual(idujian, idkelas)
             return json.dumps({'status': 'OK'})
 
         return json.dumps({'status': 'NG', 'pesan': 'Telah dinilai sebelumnya!'})

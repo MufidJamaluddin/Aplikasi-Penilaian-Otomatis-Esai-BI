@@ -1,5 +1,5 @@
 from . import GenericRepository
-from ujian_app.models import Jawaban, Soal, Kelas, db
+from ujian_app.models import Jawaban, Soal, Kelas, Siswa, db
 from sqlalchemy.sql.expression import and_
 from sqlalchemy.orm import aliased
 
@@ -16,6 +16,31 @@ class JawabanRepository(GenericRepository):
         listidjawaban = db.session.query(Jawaban.idjawaban)\
             .filter_by(**kwargs)
         return listidjawaban
+    
+
+    def get_data_latih(self, idkelas, idsoal):
+        '''
+        Mendapatkan Jawaban Data Latih
+        '''
+        listjawaban = Jawaban.query.join(Siswa).filter(
+            and_(
+                Jawaban.idsoal == idsoal,
+                Jawaban.skorHuruf != None,
+                Siswa.idkelas == idkelas
+            )
+        )
+        return listjawaban
+
+
+    def get_data_uji(self, idsoal):
+        '''
+        Mendapatkan Jawaban Data Uji (skorHuruf = None)
+        '''
+        listjawaban = Jawaban.query.filter_by(
+            skorHuruf = None,
+            idsoal = idsoal
+        )
+        return listjawaban
 
 
     def simpan_skor(self, idjawaban, skor_huruf, skor_angka):

@@ -1,11 +1,6 @@
 from .seleksidata import SeleksiData
 from .pembobotan import NtfRfFactory
 from .knearestneighbor import KNearestNeighbor
-from ujian_app.models import ( 
-    Soal, Jawaban, FiturObjekPenilaian, 
-    FiturReferensiPenilaian, FiturObjekPenilaian, 
-    Similarity, db
-)
 from ujian_app.penilaian.pemrosesan_jawaban import (
     PemrosesanDataUji
 )

@@ -31,7 +31,7 @@ class PemrosesanDataLatih(PemrosesanJawaban):
         '''
         konverter = self.__get_konverter(idsoal)
 
-        listjawaban = self._get_list_jawaban(idsoal, idkelas)
+        listjawaban = self._get_repo().get_data_latih(idkelas, idsoal)
 
         for jawaban in listjawaban:
 
@@ -50,9 +50,9 @@ class PemrosesanDataLatih(PemrosesanJawaban):
                 jawaban.skorHuruf = skor_huruf
                 jawaban.nilaiOtomatis = 0
 
-                jml_term = len(jawaban.fitur_ref)
-                if jml_term == 0:
-                    jawaban.fitur_ref = []
+                #jml_term = len(jawaban.fitur_ref)
+                #if jml_term == 0:
+                jawaban.fitur_ref = []
 
                 for key, value in fitur_vspace.items():
                     fitur_ref = FiturReferensiPenilaian()

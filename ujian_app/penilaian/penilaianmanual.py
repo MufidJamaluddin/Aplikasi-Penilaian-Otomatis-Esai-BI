@@ -1,8 +1,11 @@
 from ujian_app.penilaian.pemrosesan_jawaban import (
     PemrosesanDataLatih
 )
-from ujian_app.models import Soal, Kelas, db
-from ujian_app.repository import PelaksanaanUjianRepository
+from ujian_app.repository import (
+    PelaksanaanUjianRepository,
+    SoalRepository,
+    DaftarNilaiRepository
+)
 from sqlalchemy import func
 
 class PenilaianManual(object):
@@ -12,42 +15,25 @@ class PenilaianManual(object):
     '''
 
     def __init__(self):
-        self.pemroses = PemrosesanDataLatih()
+        self.__pel_repo = PelaksanaanUjianRepository()
+        self.__pemroses = PemrosesanDataLatih()
+        self.__soal_repo = SoalRepository()
+        self.__dtnilai_repo = DaftarNilaiRepository()
     
-    def __get_list_id_soal(self, idujian):
-        '''
-        Mendapatkan list id soal
-        pada ujian ini
-        '''
-        listsoal = db.session.query(Soal.idsoal).filter_by(
-            idujian = idujian, flag = '1'
-        )
-        return listsoal
-    
-    def __hitung_nilai_ujian(self, idujian, idkelas):
-
-        kelas = Kelas.query.get(idkelas)
-
-        connection = db.engine.engine.raw_connection()
-
-        cursor = connection.cursor()
-        cursor.callproc("hitung_nilai_ujian_latih", [idujian, kelas.namaKelas])
-        cursor.close()
-        connection.commit()
+    def __del__(self):
+        del self.__pemroses
+        del self.__soal_repo
+        del self.__dtnilai_repo
+        del self.__pel_repo
 
     def nilai_manual(self, idujian, idkelas):
         '''
         Menghandle skor manual
         '''
-        listsoal = self.__get_list_id_soal(idujian)
+        listsoal = self.__soal_repo.get_listidsoal(idujian)
 
         for soal in listsoal:
-            self.pemroses.proses_dan_simpan(soal.idsoal, idkelas)
+            self.__pemroses.proses_dan_simpan(soal.idsoal, idkelas)
         
-        self.__hitung_nilai_ujian(idujian, idkelas)
-
-        repo = PelaksanaanUjianRepository()
-        pel = repo.findByKeys(idujian=idujian, idkelas=idkelas).first()
-        pel.status_penilaian = '3'
-        db.session.add(pel)
-        db.session.commit()
+        self.__dtnilai_repo.hitung_nilai_ujian_latih(idujian, idkelas)
+        self.__pel_repo.akhiri_pmanual(idujian, idkelas)

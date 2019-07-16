@@ -62,3 +62,15 @@ class PelaksanaanUjianRepository(GenericRepository):
 
             db.session.add(pel)
             db.session.commit()
+    
+    def mulai_pmanual(self, idujian, idkelas):
+        pel = self.findByKeys(idujian=idujian, idkelas=idkelas).first()
+        pel.status_penilaian = '2'
+        db.session.add(pel)
+        db.session.commit()
+    
+    def akhiri_pmanual(self, idujian, idkelas):
+        pel = self.findByKeys(idujian=idujian, idkelas=idkelas).first()
+        pel.status_penilaian = '3'
+        db.session.add(pel)
+        db.session.commit()

@@ -18,6 +18,10 @@ class Stemmer(StemmerSastrawi):
         stemmed_tokens = [self.stem_word(token) for token in tokens]
         return stemmed_tokens
 
+    @lru_cache()
+    def stem_word(self, word):
+        return super().stem_word(word)
+
 
 #   StemmerFactory dilakukan override karena :
 #       1. menambahkan LRUCache 

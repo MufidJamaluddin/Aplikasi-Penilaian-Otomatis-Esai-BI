@@ -1,6 +1,7 @@
-from __future__ import print_function
-from ujian_app.models import Soal, Jawaban, DaftarNilaiUjian, db
-from ujian_app.repository import ProgressRepository
+from ujian_app.repository import (
+    ProgressRepository, DaftarNilaiRepository,
+    SoalRepository
+)
 from .penskoranotomatis import PenskoranOtomatis
 
 class PenilaianOtomatis(object):
@@ -15,6 +16,8 @@ class PenilaianOtomatis(object):
         self.__idujian = idujian
         self.__progress = ProgressRepository()
         self.__penskor = PenskoranOtomatis(self.__progress)
+        self.__dtnilai_repo = DaftarNilaiRepository()
+        self.__soal_repo = SoalRepository()
     
     def __del__(self):
         '''
@@ -23,25 +26,8 @@ class PenilaianOtomatis(object):
         del self.__idujian
         del self.__penskor
         del self.__progress
-    
-    def __get_list_id_soal(self):
-        '''
-        Mendapatkan list id soal
-        pada ujian ini
-        '''
-        listsoal = db.session.query(Soal.idsoal).filter_by(
-            idujian=self.__idujian, flag='1'
-        ).all()
-        return listsoal
-
-    def __hitung_nilai_ujian(self):
-
-        connection = db.engine.engine.raw_connection()
-        
-        cursor = connection.cursor()
-        cursor.callproc("hitung_nilai_ujian_uji", [self.__idujian])
-        cursor.close()
-        connection.commit()
+        del self.__dtnilai_repo
+        del self.__soal_repo
 
     def nilai_otomatis(self):
         '''
@@ -50,7 +36,7 @@ class PenilaianOtomatis(object):
         if not self.__progress.mulai_state_ptotomatis(self.__idujian):
             return
         
-        listsoal = self.__get_list_id_soal()
+        listsoal = self.__soal_repo.get_listidsoal(self.__idujian)
         jumlah_soal = len(listsoal)
         
         i = 0
@@ -70,9 +56,5 @@ class PenilaianOtomatis(object):
                     self.__progress.set_state_soal(next_idsoal, next_namasoal)
             i = i + 1
 
-        try:
-            self.__hitung_nilai_ujian()
-        except:
-            print("Nilai Ujian Duplikat. Hitung Nilai Ujian Batal!")
-        finally:
-            self.__progress.akhiri_state_potomatis()
+        self.__dtnilai_repo.hitung_nilai_ujian_uji(self.__idujian)
+        self.__progress.akhiri_state_potomatis()
