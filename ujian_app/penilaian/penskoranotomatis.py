@@ -21,7 +21,7 @@ class PenskoranOtomatis(object):
         self.__knn = KNearestNeighbor(3)
         self.__pemroses_data_uji = PemrosesanDataUji()
         self.__ntfrffactory = NtfRfFactory()
-        self.__progress = progress_state
+        self.__progress_state = progress_state
     
 
     def __del__(self):
@@ -91,30 +91,30 @@ class PenskoranOtomatis(object):
         #self.seleksi_data()
 
         # Persiapan
-        if self.__progress.get_state_kode_proses() == None:
-            self.__progress.set_state_proses('1')
+        if self.__progress_state.get_state_kode_proses() == None:
+            self.__progress_state.set_state_proses('1')
 
 
         # Tahap 1
-        if self.__progress.get_state_kode_proses() == '1':
+        if self.__progress_state.get_state_kode_proses() == '1':
             self.__pemrosesan_teks_datauji()
-            self.__progress.set_state_proses('2')
+            self.__progress_state.set_state_proses('2')
             time.sleep(1.5)
 
 
         # Tahap 2
-        if self.__progress.get_state_kode_proses() == '2':
+        if self.__progress_state.get_state_kode_proses() == '2':
             self.__pembobotan_term_datalatih()
-            self.__progress.set_state_proses('3')
+            self.__progress_state.set_state_proses('3')
             time.sleep(1.5)
 
         # Tahap 3
-        if self.__progress.get_state_kode_proses() == '3':
+        if self.__progress_state.get_state_kode_proses() == '3':
             self.__pembobotan_term_datauji()
-            self.__progress.set_state_proses('4')
+            self.__progress_state.set_state_proses('4')
             time.sleep(1.5)
 
         # Tahap 4
-        if self.__progress.get_state_kode_proses() == '4':
+        if self.__progress_state.get_state_kode_proses() == '4':
             self.__klasifikasi_knn()
             time.sleep(1.5)

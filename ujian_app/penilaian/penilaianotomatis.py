@@ -14,8 +14,8 @@ class PenilaianOtomatis(object):
         Konstruktor
         '''
         self.__idujian = idujian
-        self.__progress = ProgressRepository()
-        self.__penskor = PenskoranOtomatis(self.__progress)
+        self.__progress_state = ProgressRepository()
+        self.__penskor = PenskoranOtomatis(self.__progress_state)
         self.__dtnilai_repo = DaftarNilaiRepository()
         self.__soal_repo = SoalRepository()
     
@@ -25,7 +25,7 @@ class PenilaianOtomatis(object):
         '''
         del self.__idujian
         del self.__penskor
-        del self.__progress
+        del self.__progress_state
         del self.__dtnilai_repo
         del self.__soal_repo
 
@@ -33,7 +33,7 @@ class PenilaianOtomatis(object):
         '''
         Melakukan Penilaian Otomatis
         '''
-        if not self.__progress.mulai_state_ptotomatis(self.__idujian):
+        if not self.__progress_state.mulai_state_ptotomatis(self.__idujian):
             return
         
         listsoal = self.__soal_repo.get_listidsoal(self.__idujian)
@@ -41,10 +41,10 @@ class PenilaianOtomatis(object):
         
         i = 0
         for soal in listsoal:
-            if self.__progress.get_state_idsoal() == None:
-                self.__progress.set_state_soal(soal.idsoal, 'Soal 1')
+            if self.__progress_state.get_state_idsoal() == None:
+                self.__progress_state.set_state_soal(soal.idsoal, 'Soal 1')
             # Lanjut Progress Terakhir ...
-            if self.__progress.get_state_idsoal() == soal.idsoal:
+            if self.__progress_state.get_state_idsoal() == soal.idsoal:
 
                 self.__penskor.set_id_soal(soal.idsoal)
                 self.__penskor.skor_otomatis()
@@ -53,8 +53,8 @@ class PenilaianOtomatis(object):
                 if next_soal < jumlah_soal:
                     next_idsoal = listsoal[next_soal].idsoal
                     next_namasoal = 'Soal {}'.format(next_soal + 1)
-                    self.__progress.set_state_soal(next_idsoal, next_namasoal)
+                    self.__progress_state.set_state_soal(next_idsoal, next_namasoal)
             i = i + 1
 
         self.__dtnilai_repo.hitung_nilai_ujian_uji(self.__idujian)
-        self.__progress.akhiri_state_potomatis()
+        self.__progress_state.akhiri_state_potomatis()

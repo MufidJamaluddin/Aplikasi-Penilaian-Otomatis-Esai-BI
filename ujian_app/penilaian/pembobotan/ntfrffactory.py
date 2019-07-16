@@ -40,7 +40,6 @@ class NtfRfFactory(object):
         else:
             if self.__ntfrfunlabelled is None:
                 self.__ntfrfunlabelled = NtfRfUnlabeledWeighter(
-                    self.__docnum_repository, 
                     self.__ntfrf_repository
                 )
             return self.__ntfrfunlabelled
