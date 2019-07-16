@@ -8,8 +8,7 @@ class NtfRfUnlabeledWeighter(object):
     Pada Dataset yang Tidak Berlabel (Fase Pengujian)
     """
 
-    def __init__(self, docnum_repository, ntfrf_repository):
-        self.__docnum_repository = docnum_repository
+    def __init__(self, ntfrf_repository):
         self.__ntfrf_repository = ntfrf_repository
         self.__fitur_repository = FiturObjekRepository()
     
