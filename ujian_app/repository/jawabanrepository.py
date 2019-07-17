@@ -25,7 +25,7 @@ class JawabanRepository(GenericRepository):
         listjawaban = Jawaban.query.join(Siswa).filter(
             and_(
                 Jawaban.idsoal == idsoal,
-                Jawaban.skorHuruf != None,
+                Jawaban.skorAngka != None,
                 Siswa.idkelas == idkelas
             )
         )
