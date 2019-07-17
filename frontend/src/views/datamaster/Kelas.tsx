@@ -47,7 +47,7 @@ class Kelas extends PureComponent<KelasViewAttribute, KelasViewStateData>
     this.editKelas = this.editKelas.bind(this);
     this.deleteKelas = this.deleteKelas.bind(this);
 
-    this.vm = KelasViewModel.getInstance();
+    this.vm = new KelasViewModel();
   }
 
   componentDidMount()

@@ -29,7 +29,7 @@ class Penilaian extends Component<PenilaianModel, PenilaianStateModel>
       isLoading: true,
     };
 
-    this.ujian_vm = UjianViewModel.getInstance();
+    this.ujian_vm = new UjianViewModel();
   }
 
   // --------------------------- INIT DATA ------------------------------------------//

@@ -37,7 +37,7 @@ class NilaiJawabanTab extends Component<NilaiJawabanTabProps, NilaiJawabanTabSta
       listjawaban: []
     }
 
-    this.penilaian_vm = PenilaianViewModel.getInstance();
+    this.penilaian_vm = new PenilaianViewModel();
     this.render_listjawaban = this.render_listjawaban.bind(this);
   }
 
@@ -193,9 +193,9 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
       listsoal: []
     };
 
-    this.pelaksanaan_vm = PelaksanaanViewModel.getInstance();
-    this.soal_vm = SoalViewModel.getInstance();
-    this.penilaian_vm = PenilaianViewModel.getInstance();
+    this.pelaksanaan_vm = new PelaksanaanViewModel();
+    this.soal_vm = new SoalViewModel();
+    this.penilaian_vm = new PenilaianViewModel();
 
     this.akhiri_penilaian_manual = this.akhiri_penilaian_manual.bind(this);
   }

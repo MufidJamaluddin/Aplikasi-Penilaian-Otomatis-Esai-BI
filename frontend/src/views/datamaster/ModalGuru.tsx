@@ -56,7 +56,7 @@ class ModalGuruForm extends PureComponent<ModalGuruFormAttribute, ModalGuruState
 		this.onKelasChange = this.onKelasChange.bind(this);
 		this.onMapelChange = this.onMapelChange.bind(this);
 
-		this.vm = GuruViewModel.getInstance();
+		this.vm = new GuruViewModel();
 	}
 
 	/**

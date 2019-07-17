@@ -49,7 +49,7 @@ class Matapelajaran extends PureComponent<MatapelajaranViewAttribute, Matapelaja
     this.editMatapelajaran = this.editMatapelajaran.bind(this);
     this.deleteMatapelajaran = this.deleteMatapelajaran.bind(this);
 
-    this.vm = MatapelajaranViewModel.getInstance();
+    this.vm = new MatapelajaranViewModel();
   }
 
   componentDidMount()

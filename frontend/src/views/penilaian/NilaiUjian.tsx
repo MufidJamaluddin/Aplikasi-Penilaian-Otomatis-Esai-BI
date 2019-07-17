@@ -51,8 +51,8 @@ class NilaiUjian extends Component<NilaiUjianPropsModel & RouteComponentProps<Ro
     this.toggleSubmitNilaiManual = this.toggleSubmitNilaiManual.bind(this);
     this.loadData = this.loadData.bind(this);
 
-    this.pelaksanaan_vm = PelaksanaanViewModel.getInstance();
-    this.penilaian_vm = PenilaianViewModel.getInstance();
+    this.pelaksanaan_vm = new PelaksanaanViewModel();
+    this.penilaian_vm = new PenilaianViewModel();
   }
 
   loadData()

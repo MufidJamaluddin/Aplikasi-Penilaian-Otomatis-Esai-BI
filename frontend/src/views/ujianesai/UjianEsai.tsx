@@ -49,7 +49,7 @@ class UjianEsai extends Component<UjianEsaiAttribute & RouteComponentProps<Route
     this.toggle = this.toggle.bind(this);
     this.toggleSubmitUjian = this.toggleSubmitUjian.bind(this);
 
-    this.vm = PengerjaanUjianViewModel.getInstance();
+    this.vm = new PengerjaanUjianViewModel();
   }
 
   componentDidMount()

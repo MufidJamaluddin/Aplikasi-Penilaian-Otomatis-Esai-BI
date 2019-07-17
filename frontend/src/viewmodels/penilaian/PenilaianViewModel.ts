@@ -9,15 +9,6 @@ interface JawabanResult { list: Array<DataJawabanSoal> }
  */
 export class PenilaianViewModel
 {
-    static __instance?: PenilaianViewModel;
-
-    static getInstance() : PenilaianViewModel
-    {
-        if(isNullOrUndefined(this.__instance))
-            this.__instance = new PenilaianViewModel();
-
-        return this.__instance
-    }
 
     initDataJawaban(idujian: string, idkelas: string, idsoal: string)
     {

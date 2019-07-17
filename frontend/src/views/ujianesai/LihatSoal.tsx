@@ -36,7 +36,7 @@ class LihatSoal extends Component<LihatSoalAttribute & RouteComponentProps<Route
     this.state = { listsoal: [], soalTab: 0 };
     this.toggleSoal = this.toggleSoal.bind(this);
 
-    this.vm = SoalViewModel.getInstance();
+    this.vm = new SoalViewModel();
   }
 
   componentDidMount()

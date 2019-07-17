@@ -14,74 +14,60 @@ interface JsonAPIPengampu { list: Array<DataPengampu>; }
  */
 export class GuruViewModel
 {
-    static __instance?: GuruViewModel;
-
-    static getInstance() : GuruViewModel
-    {
-        if(isNullOrUndefined(this.__instance))
-            this.__instance = new GuruViewModel();
-
-        return this.__instance
-    }
-
     /**
      * Mendapatkan Data Guru
      * dan Menampilkannya di View
      */
-    async initDataGuru()
+    initDataGuru()
     {
-        const value = await API<JsonAPIGuru>('/api/guru');
-        // Ambil list 
-        console.log(value.list);
-        return value.list;
+        return API<JsonAPIGuru>('/api/guru')
+        .then(value => {
+            return value.list;
+        })
     }
 
     /**
      * Mendapatkan Detail Data Guru (Pengampu)
      * dan Menampilkannya di View
      */
-    async initDataPengampu(idguru: string)
+    initDataPengampu(idguru: string)
     {
-        const value = await API<JsonAPIPengampu>('/api/pengampu/' + idguru);
-        // Ambil list 
-        console.log(value.list);
-        return value.list;
+        return API<JsonAPIPengampu>('/api/pengampu/' + idguru)
+        .then(value => {
+            return value.list;
+        })
     }
 
     /**
      * Menginputkan Data Guru
      * @param data Data Guru Sekolah
      */
-    async inputDataGuru(data:Partial<DataGuru>)
+    inputDataGuru(data:Partial<DataGuru>)
     {
-        console.log(JSON.stringify(data));
-
-        const value = await API<JsonAPIGuru>('/api/guru', {
+        return API<JsonAPIGuru>('/api/guru', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
+        })
+        .then(value => {
+            return value.list;
         });
-        // Ambil list 
-        console.log(value.list);
-        return value.list;
     }
 
     /**
      * Mengubah Data Guru
      * @param data Data Guru Sekolah
      */
-    async updateDataGuru(idguru:string, data:Partial<DataGuru>)
+    updateDataGuru(idguru:string, data:Partial<DataGuru>)
     {
-        console.log(JSON.stringify(data));
-
-        const value = await API<JsonAPIGuru>('/api/guru/' + idguru, {
+        return API<JsonAPIGuru>('/api/guru/' + idguru, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
+        })
+        .then(value => {
+            return value.list;
         });
-        // Ambil list 
-        console.log(value.list);
-        return value.list;
     }
 
     /**
@@ -96,8 +82,6 @@ export class GuruViewModel
             body: "{}"
         })
         .then(value => {
-                   // Ambil list 
-            console.log(value.list);
             return value.list; 
         })
     }

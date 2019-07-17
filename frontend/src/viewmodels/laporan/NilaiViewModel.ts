@@ -7,16 +7,6 @@ import { isNullOrUndefined } from "util";
  */
 export class NilaiViewModel
 {
-    static __instance?: NilaiViewModel;
-
-    static getInstance() : NilaiViewModel
-    {
-        if(isNullOrUndefined(this.__instance))
-            this.__instance = new NilaiViewModel();
-
-        return this.__instance
-    }
-
     /**
      * Mendapatkan NilaiUjian
      * dan Menampilkannya di View

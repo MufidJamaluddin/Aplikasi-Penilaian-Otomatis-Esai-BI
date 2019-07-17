@@ -16,7 +16,7 @@ class PersiapanUjian extends Component<PersiapanUjianAttribute, PersiapanUjianSt
   {
     super(props);
     this.state = { isloading: true }
-    this.vm = PanelSiswaViewModel.getInstance();
+    this.vm = new PanelSiswaViewModel();
   }
 
 

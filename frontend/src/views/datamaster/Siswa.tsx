@@ -60,8 +60,8 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
     this.editSiswa = this.editSiswa.bind(this);
     this.deleteSiswa = this.deleteSiswa.bind(this);
 
-    this.siswa_vm = SiswaViewModel.getInstance();
-    this.kelas_vm = KelasViewModel.getInstance();
+    this.siswa_vm = new SiswaViewModel();
+    this.kelas_vm = new KelasViewModel();
   }
 
   componentWillMount()

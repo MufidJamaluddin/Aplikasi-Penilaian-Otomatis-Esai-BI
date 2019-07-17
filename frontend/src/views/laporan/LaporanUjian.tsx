@@ -117,8 +117,8 @@ class LaporanUjian extends PureComponent<LaporanUjianModel, LaporanUjianStateMod
       tampilan: '0'
     };
 
-    this.ujian_vm = UjianViewModel.getInstance();
-    this.daftarnilai_vm = DaftarNilaiViewModel.getInstance();
+    this.ujian_vm = new UjianViewModel();
+    this.daftarnilai_vm = new DaftarNilaiViewModel();
   }
 
     // --------------------------- INIT DATA ------------------------------------------//
@@ -197,7 +197,7 @@ class LaporanUjian extends PureComponent<LaporanUjianModel, LaporanUjianStateMod
           <th className="text-center align-middle" rowSpan={2}>NIS</th>
           <th className="text-center align-middle" rowSpan={2}>Nama Siswa</th>
           <th className="text-center align-middle" colSpan={Object.keys(this.state.list_ujian).length}>
-              Nilai Ujian
+              Nilai Setiap Ujian
           </th>
           <th className="text-center align-middle" rowSpan={2}>Nilai Akhir</th>
         </tr>

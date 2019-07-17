@@ -12,79 +12,65 @@ interface JsonAPISiswa { list: Array<DataSiswa>; }
  */
 export class SiswaViewModel
 {
-    static __instance?: SiswaViewModel;
-
-    static getInstance() : SiswaViewModel
-    {
-        if(isNullOrUndefined(this.__instance))
-            this.__instance = new SiswaViewModel();
-
-        return this.__instance
-    }
 
     /**
      * Mendapatkan Data Siswq
      * dan Menampilkannya di View
      */
-    async initDatasiswa()
+    initDatasiswa()
     {
-        const value = await API<JsonAPISiswa>('/api/siswa');
-        // Ambil list 
-        console.log(value.list);
-        return value.list;
+        return API<JsonAPISiswa>('/api/siswa')
+        .then(value => {
+            return value.list;
+        });
     }
 
     /**
      * Menginputkan Data Siswa
      * @param data Data Siswa
      */
-    async inputDatasiswa(data:any)
+    inputDatasiswa(data:any)
     {
-        console.log(JSON.stringify(data));
-
-        const value = await API<JsonAPISiswa>('/api/siswa', {
+        return API<JsonAPISiswa>('/api/siswa', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
+        })
+        .then(value => {
+            return value.list;
         });
-        // Ambil list 
-        console.log(value.list);
-        return value.list;
     }
 
     /**
      * Mengubah Data Siswa
      * @param data Data Siswa
      */
-    async updateSiswa(nis:string, data:any)
+    updateSiswa(nis:string, data:any)
     {
-        console.log(JSON.stringify(data));
-        console.log(JSON.stringify(nis));
-
-        const value = await API<JsonAPISiswa>('/api/siswa/' + nis, {
+        return API<JsonAPISiswa>('/api/siswa/' + nis, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
+        })
+        .then((value:any) => {
+            return value.list;
         });
-        // Ambil list 
-        console.log(value.list);
-        return value.list;
     }
 
     /**
      * Menghapus Data Kelas
      * @param data Data Kelas Sekolah
      */
-    async hapusSiswa(nis:string)
+    hapusSiswa(nis:string)
     {
-        const value = await API<JsonAPISiswa>('/api/siswa/' + nis, {
+        return API<JsonAPISiswa>('/api/siswa/' + nis, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: "{}"
+        })
+        .then(value => {
+            return value.list;
         });
-        // Ambil list 
-        console.log(value.list);
-        return value.list;
     }
 
 }

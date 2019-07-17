@@ -48,7 +48,7 @@ class Ujian extends Component<UjianModel, UjianStateModel>
     this.onDeleteDataUjian = this.onDeleteDataUjian.bind(this);
     this.getElementStatus = this.getElementStatus.bind(this);
 
-    this.vm = UjianViewModel.getInstance();
+    this.vm = new UjianViewModel();
   }
 
   // --------------------------- INIT DATA ------------------------------------------//

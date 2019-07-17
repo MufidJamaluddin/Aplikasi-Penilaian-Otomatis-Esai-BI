@@ -16,16 +16,6 @@ interface JsonAPIPengampu { list: Array<DataPengampu>; }
  */
 export class UjianViewModel
 {
-    static __instance?: UjianViewModel;
-
-    static getInstance() : UjianViewModel
-    {
-        if(isNullOrUndefined(this.__instance))
-            this.__instance = new UjianViewModel();
-
-        return this.__instance
-    }
-
     /**
      * Mendapatkan Data Ujian Ujian
      * dan Menampilkannya di View

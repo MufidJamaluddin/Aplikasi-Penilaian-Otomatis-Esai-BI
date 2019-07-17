@@ -18,15 +18,6 @@ interface JsonAPIPengerjaan {
  */
 export class PengerjaanUjianViewModel
 {
-    static __instance?: PengerjaanUjianViewModel;
-
-    static getInstance() : PengerjaanUjianViewModel
-    {
-        if(isNullOrUndefined(this.__instance))
-            this.__instance = new PengerjaanUjianViewModel();
-
-        return this.__instance
-    }
 
     /**
      * Mendapatkan Data Ujian Ujian

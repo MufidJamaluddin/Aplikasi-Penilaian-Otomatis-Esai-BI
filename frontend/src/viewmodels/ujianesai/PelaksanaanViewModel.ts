@@ -12,44 +12,32 @@ interface JsonAPIPelaksanaan { data: DataUjian; }
  */
 export class PelaksanaanViewModel
 {
-    static __instance?: PelaksanaanViewModel;
-
-    static getInstance() : PelaksanaanViewModel
-    {
-        if(isNullOrUndefined(this.__instance))
-            this.__instance = new PelaksanaanViewModel();
-
-        return this.__instance
-    }
-
     /**
      * Mendapatkan Data Ujian Ujian
      * dan Menampilkannya di View
      */
-    async initDataPelaksanaan(idujian: string)
+    initDataPelaksanaan(idujian: string)
     {
-        const value = await API<JsonAPIPelaksanaan>('/api/pelaksanaan/' + idujian);
-        // Ambil list 
-        console.log(value.data);
-        return value.data;
+        return API<JsonAPIPelaksanaan>('/api/pelaksanaan/' + idujian)
+        .then(value => {
+            return value.data;
+        });
     }
 
     /**
      * Menginputkan Data Ujian
      * @param data Data Ujian Sekolah
      */
-    async mulaiUjian(idujian: string, idkelas:string)
+    mulaiUjian(idujian: string, idkelas:string)
     {
-        console.log(idkelas);
-
-        const value = await API<JsonAPIPelaksanaan>('/api/pelaksanaan/' + idujian + '/' + idkelas, {
+        return API<JsonAPIPelaksanaan>('/api/pelaksanaan/' + idujian + '/' + idkelas, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: '{}'
-        });
-        // Ambil ID Ujian
-        console.log(value.data);
-        return value.data;
+        })
+        .then(value => {
+            return value.data;
+        })
     }
 
 }

@@ -46,7 +46,7 @@ class SoalTab extends Component<SoalTabAttribute, SoalTabState>
     this.onKompetensiDasarInput = this.onKompetensiDasarInput.bind(this);
     this.onSoalEsaiInput = this.onSoalEsaiInput.bind(this);
 
-    this.vm = SoalViewModel.getInstance();
+    this.vm = new SoalViewModel();
   }
 
   /**
