@@ -39,7 +39,7 @@ class JawabanTab extends Component<SoalTabAttribute, JawabanState>
         this._interval_typing = setInterval(()=>{this._waktunya_ngirim = true}, INTERVAL);
         this.onJawabanEsaiChange = this.onJawabanEsaiChange.bind(this);
 
-        this.vm = JawabanViewModel.getInstance();
+        this.vm = new JawabanViewModel();
     }
 
     onJawabanEsaiChange(event:any)

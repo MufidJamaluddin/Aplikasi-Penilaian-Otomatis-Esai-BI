@@ -53,7 +53,7 @@ class BuatSoal extends PureComponent<BuatSoalAttribute & RouteComponentProps<Rou
 
     this.getColorButton = this.getColorButton.bind(this);
 
-    this.vm = SoalViewModel.getInstance();
+    this.vm = new SoalViewModel();
   }
 
   componentDidMount()

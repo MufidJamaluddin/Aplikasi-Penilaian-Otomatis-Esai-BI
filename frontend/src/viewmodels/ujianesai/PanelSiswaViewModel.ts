@@ -12,17 +12,6 @@ interface JsonAPIPanelSiswa { data:DataSiswa; }
  */
 export class PanelSiswaViewModel
 {
-    static __instance?: PanelSiswaViewModel;
-
-    static getInstance() : PanelSiswaViewModel
-    {
-        if(isNullOrUndefined(this.__instance))
-            this.__instance = new PanelSiswaViewModel();
-
-        return this.__instance
-    }
-
-
     /**
      * Mendapatkan Data Siswa Saat Ini
      * dan Menampilkannya di View

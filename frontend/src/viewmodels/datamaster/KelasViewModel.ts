@@ -12,78 +12,64 @@ interface JsonAPIKelas { list: Array<DataKelas>; }
  */
 export class KelasViewModel
 {
-    static __instance?: KelasViewModel;
-
-    static getInstance() : KelasViewModel
-    {
-        if(isNullOrUndefined(this.__instance))
-            this.__instance = new KelasViewModel();
-
-        return this.__instance
-    }
-
     /**
      * Mendapatkan Data Kelas
      * dan Menampilkannya di View
      */
-    async initDatakelas()
+    initDatakelas()
     {
-        const value = await API<JsonAPIKelas>('/api/kelas');
-        // Ambil list 
-        console.log(value.list);
-        return value.list;
+        return API<JsonAPIKelas>('/api/kelas')
+        .then(value => {
+            return value.list;
+        });
     }
 
     /**
      * Menginputkan Data Kelas
      * @param data Data Kelas Sekolah
      */
-    async inputDatakelas(data:any)
+    inputDatakelas(data:any)
     {
-        console.log(JSON.stringify(data));
-
-        const value = await API<JsonAPIKelas>('/api/kelas', {
+        return API<JsonAPIKelas>('/api/kelas', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
-        });
-        // Ambil list 
-        console.log(value.list);
-        return value.list;
+        })
+        .then(value => {
+            return value.list;
+        })
     }
 
     /**
      * Mengubah Data Kelas
      * @param data Data Kelas Sekolah
      */
-    async updateKelas(idkelas:string, data:any)
+    updateKelas(idkelas:string, data:any)
     {
-        console.log(JSON.stringify(data));
-
-        const value = await API<JsonAPIKelas>('/api/kelas/' + idkelas, {
+        return API<JsonAPIKelas>('/api/kelas/' + idkelas, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
+        })
+        .then(value => {
+            return value.list;
         });
-        // Ambil list 
-        console.log(value.list);
-        return value.list;
     }
 
     /**
      * Menghapus Data Kelas
      * @param data Data Kelas Sekolah
      */
-    async hapusKelas(idkelas:string)
+    hapusKelas(idkelas:string)
     {
-        const value = await API<JsonAPIKelas>('/api/kelas/' + idkelas, {
+        return API<JsonAPIKelas>('/api/kelas/' + idkelas, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: "{}"
+        })
+        .then(value => {
+            return value.list;
         });
-        // Ambil list 
-        console.log(value.list);
-        return value.list;
     }
 
 }

@@ -28,7 +28,7 @@ class HasilUjian extends Component<HasilUjianModel, HasilUjianStateModel>
       isLoading: true,
     };
 
-    this.vm = UjianViewModel.getInstance();
+    this.vm = new UjianViewModel();
   }
   
   // --------------------------- INIT DATA ------------------------------------------//

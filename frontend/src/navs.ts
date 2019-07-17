@@ -16,12 +16,12 @@ const GURU_NAV = {
                   icon: 'icon-notebook',
                   children: [
                         {
-                              name: 'Laporan Nilai Siswa',
+                              name: 'Laporan Skor Setiap Soal',
                               url: '/hasilujian',
                               icon: 'icon-chart',
                         },
                         {
-                              name: 'Laporan Nilai Ujian',
+                              name: 'Laporan Nilai Setiap Ujian',
                               url: '/laporanujian',
                               icon: 'icon-graph',
                         },

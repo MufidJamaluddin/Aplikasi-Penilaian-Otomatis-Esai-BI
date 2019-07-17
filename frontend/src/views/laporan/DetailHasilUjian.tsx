@@ -92,8 +92,8 @@ class DetailHasilUjian extends PureComponent<DetailHasilUjianPropsModel & RouteC
 
     this.onKelasChange = this.onKelasChange.bind(this);
 
-    this.ujian_vm = UjianViewModel.getInstance();
-    this.nilai_vm = NilaiViewModel.getInstance();
+    this.ujian_vm = new UjianViewModel();
+    this.nilai_vm = new NilaiViewModel();
   }
 
   onKelasChange(e: any)
@@ -154,9 +154,9 @@ class DetailHasilUjian extends PureComponent<DetailHasilUjianPropsModel & RouteC
           <th className="text-center align-middle" rowSpan={2}>NIS</th>
           <th className="text-center align-middle" rowSpan={2}>Nama Siswa</th>
           <th className="text-center align-middle" colSpan={Object.keys(this.state.list_soal).length}>
-            Nilai Ujian
+            Skor Setiap Soal
           </th>
-          <th className="text-center align-middle" rowSpan={2}>Nilai Ujian</th>
+          <th className="text-center align-middle" rowSpan={2}>Nilai</th>
           <th className="text-center align-middle" rowSpan={2}>Keterangan</th>
         </tr>
         <tr>

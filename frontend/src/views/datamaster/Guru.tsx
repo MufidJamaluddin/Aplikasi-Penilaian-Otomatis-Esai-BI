@@ -50,9 +50,9 @@ class Guru extends Component<GuruModel, GuruStateModel>
 			isLoading: true
 		};
 		
-		this.guru_vm = GuruViewModel.getInstance();
-		this.kelas_vm = KelasViewModel.getInstance();
-		this.mapel_vm = MatapelajaranViewModel.getInstance();
+		this.guru_vm = new GuruViewModel();
+		this.kelas_vm = new KelasViewModel();
+		this.mapel_vm = new MatapelajaranViewModel();
 
 		this.toggleImportGuru = this.toggleImportGuru.bind(this);
 		this.toggleTambahGuru = this.toggleTambahGuru.bind(this);

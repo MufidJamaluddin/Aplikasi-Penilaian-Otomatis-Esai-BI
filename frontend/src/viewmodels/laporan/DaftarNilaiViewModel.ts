@@ -9,16 +9,6 @@ import { isNullOrUndefined } from "util";
  */
 export class DaftarNilaiViewModel
 {
-    static __instance?: DaftarNilaiViewModel;
-
-    static getInstance() : DaftarNilaiViewModel
-    {
-        if(isNullOrUndefined(this.__instance))
-            this.__instance = new DaftarNilaiViewModel();
-
-        return this.__instance
-    }
-
     /**
      * Mendapatkan DaftarNilaiUjian
      * dan Menampilkannya di View
@@ -40,5 +30,4 @@ export class DaftarNilaiViewModel
             console.log(err);
         });
     }
-
 }

@@ -46,7 +46,7 @@ class TambahUjian extends Component<TambahUjianAttribute, TambahUjianState>
     this.onTambahKelas = this.onTambahKelas.bind(this);
     this.onSubmitTambahUjian = this.onSubmitTambahUjian.bind(this);
 
-    this.vm = UjianViewModel.getInstance();
+    this.vm = new UjianViewModel();
   }
 
   /**

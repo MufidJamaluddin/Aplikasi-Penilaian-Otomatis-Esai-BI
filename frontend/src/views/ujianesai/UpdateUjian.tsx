@@ -51,7 +51,7 @@ class UpdateUjian extends Component<UpdateUjianAttribute & RouteComponentProps, 
     this.onTambahKelas = this.onTambahKelas.bind(this);
     this.onSubmitUpdateDataUjian = this.onSubmitUpdateDataUjian.bind(this);
 
-    this.vm = UjianViewModel.getInstance();
+    this.vm = new UjianViewModel();
   }
 
   /**

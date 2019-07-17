@@ -56,7 +56,7 @@ class DetailUjian extends Component<DetailUjianAttribute & RouteComponentProps<R
 
     this.laksanakanUjian = this.laksanakanUjian.bind(this);
 
-    this.vm = PelaksanaanViewModel.getInstance();
+    this.vm = new PelaksanaanViewModel();
   }
 
   componentDidMount()
