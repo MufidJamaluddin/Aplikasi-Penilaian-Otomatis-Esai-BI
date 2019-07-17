@@ -35,9 +35,8 @@ class PemrosesanDataLatih(PemrosesanJawaban):
 
         for jawaban in listjawaban:
 
-            if jawaban.skorAngka is None:
-                continue
-
+#            if jawaban.skorAngka is None:
+#                continue
             # Jika Jawabannya Bukan String Blank
             if jawaban.jawabanEsai.strip():
 
