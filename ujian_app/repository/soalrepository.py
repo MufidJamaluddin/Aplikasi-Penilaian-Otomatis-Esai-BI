@@ -11,6 +11,6 @@ class SoalRepository(GenericRepository):
     
     def get_listidsoal(self, idujian):
         listidsoal = db.session.query(Soal.idsoal).filter_by(
-            idujian=self.__idujian, flag='1'
+            idujian=idujian, flag='1'
         )
         return listidsoal

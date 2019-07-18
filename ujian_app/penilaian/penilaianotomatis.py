@@ -36,7 +36,7 @@ class PenilaianOtomatis(object):
         if not self.__progress_state.mulai_state_ptotomatis(self.__idujian):
             return
         
-        listsoal = self.__soal_repo.get_listidsoal(self.__idujian)
+        listsoal = self.__soal_repo.get_listidsoal(self.__idujian).all()
         jumlah_soal = len(listsoal)
         
         i = 0
