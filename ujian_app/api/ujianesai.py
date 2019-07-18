@@ -17,8 +17,7 @@ class UjianEsaiAPI(MethodView):
         Mendapatkan semua Ujian / berasarkan page
         '''
         if idujian:
-            ujian =self.repository.findById(idujian)
-            
+            ujian = self.repository.find_by_id(idujian)
             dtujian = {}
             dtujian['namaUjian'] = ujian.namaUjian
             dtujian['namaMapel'] = ujian.matapelajaran.namaMapel
@@ -126,7 +125,7 @@ class UjianEsaiAPI(MethodView):
             pelaksanaan_ujian=pelaksanaan_ujian
         )
 
-        list_Ujian = self.repository.findAll()
+        list_Ujian = self.repository.find_all()
         return json.dumps({'list': list_Ujian }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
 
     

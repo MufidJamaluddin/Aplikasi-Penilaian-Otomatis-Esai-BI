@@ -20,25 +20,25 @@ class GenericRepository(object):
         '''
         return select([func.count()]).select_from(self.model_class)
 
-    def findAll(self):
+    def find_all(self):
         '''
         Mendapatkan semua data
         '''
         return self.model_class.query.all()
     
-    def findById(self, primarykey):
+    def find_by_id(self, primarykey):
         '''
         Mendapatkan data berdasarkan primary key
         '''
         return self.model_class.query.get(primarykey)
     
-    def findByKeys(self, **kwargs):
+    def find_by_keys(self, **kwargs):
         '''
         Mendapatkan data berdasarkan key 
         '''
         return self.model_class.query.filter_by(**kwargs)
 
-    def findByPage(self, halaman, per_halaman, eksepsi = False):
+    def find_by_page(self, halaman, per_halaman, eksepsi = False):
         '''
         Mendapatkan data per halaman.
         halaman : Halaman mengakses situs
@@ -71,7 +71,7 @@ class GenericRepository(object):
         for key, value in kwargs.items():
             setattr(dt, key, value)
 
-        db.session.add(dt)
+        db.session.merge(dt)
         db.session.commit()
     
     def delete(self, primarykey):

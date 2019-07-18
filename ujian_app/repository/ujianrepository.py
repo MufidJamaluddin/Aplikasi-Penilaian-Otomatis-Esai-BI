@@ -14,7 +14,7 @@ class UjianRepository(GenericRepository):
             return []
    
     def deleteUjian(self, idujian):
-        ujian = self.findById(idujian)
+        ujian = self.find_by_id(idujian)
 
         pelaksanaan_ujian = PelaksanaanUjian.query.filter_by(
             idujian=idujian, 

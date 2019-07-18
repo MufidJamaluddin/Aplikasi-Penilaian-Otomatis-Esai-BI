@@ -11,7 +11,7 @@ class GuruRepository(GenericRepository):
         db.session.commit()
     
     def deleteGuru(self, idguru):
-        guru = self.findById(idguru)
+        guru = self.find_by_id(idguru)
         
         for i in guru.listpengampu:
             db.session.delete(i)

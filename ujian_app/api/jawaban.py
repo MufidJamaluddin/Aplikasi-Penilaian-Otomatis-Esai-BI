@@ -16,7 +16,7 @@ class JawabanAPI(MethodView):
         cur_user = session.get('user')
         nis = cur_user['username']
 
-        jawaban = self.repository.findByKeys(idsoal=idsoal, nis=nis).first()  
+        jawaban = self.repository.find_by_keys(idsoal=idsoal, nis=nis).first()  
 
         if jawaban:
             dtjawaban = {}
@@ -44,7 +44,7 @@ class JawabanAPI(MethodView):
         if not jawabanEsai.strip():
             return json.dumps({'idjawaban': ''}), 200, {'Content-Type': 'application/json'}    
 
-        jawaban = self.repository.findByKeys(idsoal=idsoal, nis=nis).first()
+        jawaban = self.repository.find_by_keys(idsoal=idsoal, nis=nis).first()
         
         if jawaban:
             self.repository.updateJawaban(jawaban.idjawaban, jawabanEsai)

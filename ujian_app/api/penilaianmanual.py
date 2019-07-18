@@ -30,7 +30,7 @@ class PenilaianManualAPI(MethodView):
 
     def post(self, idujian, idkelas):    
         repo = PelaksanaanUjianRepository()
-        pel = repo.findByKeys(
+        pel = repo.find_by_keys(
                 idujian=idujian, 
                 idkelas=idkelas,
               #  status_pelaksanaan='1',

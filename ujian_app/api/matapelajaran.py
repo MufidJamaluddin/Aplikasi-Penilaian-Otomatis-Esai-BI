@@ -15,7 +15,7 @@ class MatapelajaranAPI(MethodView):
         '''
         Mendapatkan semua mapel / berdasarkan page
         '''
-        list_matapelajaran = self.repository.findAll()
+        list_matapelajaran = self.repository.find_all()
         return json.dumps({'list': list_matapelajaran }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
 
     def post(self):
@@ -29,7 +29,7 @@ class MatapelajaranAPI(MethodView):
         if namaMapel is not None and kkm is not None:
             self.repository.save(namaMapel=namaMapel, KKM=kkm)
 
-            list_matapelajaran = self.repository.findAll()
+            list_matapelajaran = self.repository.find_all()
             return json.dumps({'list': list_matapelajaran }, cls=AlchemyEncoder), 201, {'Content-Type': 'application/json'}
    
     def put(self, idmapel):
@@ -41,7 +41,7 @@ class MatapelajaranAPI(MethodView):
         kkm = data_matapelajaran['KKM']
         self.repository.update(idmapel, namaMapel=namaMapel, KKM=kkm)
 
-        list_matapelajaran = self.repository.findAll()
+        list_matapelajaran = self.repository.find_all()
         return json.dumps({'list': list_matapelajaran }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
     
     def delete(self, idmapel):
@@ -50,5 +50,5 @@ class MatapelajaranAPI(MethodView):
         '''
         self.repository.delete(idmapel)
 
-        list_matapelajaran = self.repository.findAll()
+        list_matapelajaran = self.repository.find_all()
         return json.dumps({'list': list_matapelajaran }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
