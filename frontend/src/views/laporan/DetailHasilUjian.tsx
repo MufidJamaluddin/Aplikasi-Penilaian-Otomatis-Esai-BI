@@ -275,7 +275,7 @@ class DetailHasilUjian extends PureComponent<DetailHasilUjianPropsModel & RouteC
                           this.nilai_vm.downloadNilaiujian(this.idujian,this.state.idkelas)
                         }}
                         >
-                        <i className="fa fa-download"></i><span>Export as CSV</span>
+                        <i className="fa fa-download"></i><span>Export as Excel</span>
                       </Button>
                     </Col>
                   </FormGroup>
