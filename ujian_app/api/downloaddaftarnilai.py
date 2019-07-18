@@ -1,5 +1,5 @@
 from flask.views import MethodView
-from flask import json, request, send_file, make_response
+from flask import json, request, send_file
 from ujian_app.repository import DaftarNilaiRepository
 from pyexcel_xlsx import save_data
 from io import BytesIO
@@ -72,12 +72,10 @@ class DownloadDaftarNilaiAPI(MethodView):
 
         bytio = BytesIO()
         save_data(bytio, data)
+
         bytio.seek(0)
-
-        output = make_response(bytio)
-        output.headers['Content-Disposition'] = "attachment;"+\
-            " filename='DaftarNilai_{}_{}.xlsx'".format(idmapel, idkelas)
-        output.headers['Content-Type'] = 'application/vnd.openxmlformats-'+\
-            'officedocument.spreadsheetml.sheet'
-
-        return output
+        return send_file(
+            bytio,
+            attachment_filename="'DaftarNilai_%s_%s.xlsx'" % (idmapel, idkelas),
+            as_attachment=True
+        )
