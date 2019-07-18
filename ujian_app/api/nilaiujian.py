@@ -14,8 +14,8 @@ class NilaiUjianAPI(MethodView):
 
         list_data_skor = []
         list_soal = {}
-        list_skorsoal = {}
-        list_skorsoalc = {}
+        #list_skorsoal = {}
+        #list_skorsoalc = {}
 
         for dt_skor_siswa in dskor_siswa:
             data_skor = {}
@@ -37,11 +37,11 @@ class NilaiUjianAPI(MethodView):
                 else:
                     data_skor['status'][id_soal] = ''
                 list_soal[id_soal] = True
-
+                '''
                 if list_skorsoal.get(id_soal, None) == None:
                     list_skorsoal[id_soal] = []
                 list_skorsoal[id_soal].append(skor_angka)
-
+                '''
             data_skor['nilai'] = nilai
             if int(dt_skor.soal.ujian.matapelajaran.KKM) > nilai:
                 data_skor['keterangan'] = 'Remedial'
@@ -55,10 +55,10 @@ class NilaiUjianAPI(MethodView):
             i += 1
             nama_soal = "Soal %d" % i
             list_soal[id_soal] = nama_soal
-            list_skorsoalc[nama_soal] = list_skorsoal[id_soal]
+        #    list_skorsoalc[nama_soal] = list_skorsoal[id_soal]
 
         return json.jsonify({
             'list_soal': list_soal,
             'list_skor': list_data_skor,
-            'list_skorsoal': list_skorsoalc
+        #    'list_skorsoal': list_skorsoalc
         })

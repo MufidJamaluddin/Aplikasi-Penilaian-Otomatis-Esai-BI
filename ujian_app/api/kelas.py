@@ -15,7 +15,7 @@ class KelasAPI(MethodView):
         '''
         Mendapatkan semua kelas / berasarkan page
         '''
-        list_kelas = self.repository.findAll()
+        list_kelas = self.repository.find_all()
         return json.dumps({'list': list_kelas }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
 
     def post(self):
@@ -28,7 +28,7 @@ class KelasAPI(MethodView):
         if namaKelas is not None:
             self.repository.save(namaKelas=namaKelas)
 
-            list_kelas = self.repository.findAll()
+            list_kelas = self.repository.find_all()
             return json.dumps({'list': list_kelas }, cls=AlchemyEncoder), 201, {'Content-Type': 'application/json'}
    
     def put(self, idkelas):
@@ -39,7 +39,7 @@ class KelasAPI(MethodView):
         namaKelas = data_kelas['namaKelas']
         self.repository.update(idkelas, namaKelas=namaKelas)
 
-        list_kelas = self.repository.findAll()
+        list_kelas = self.repository.find_all()
         return json.dumps({'list': list_kelas }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
     
     def delete(self, idkelas):
@@ -48,5 +48,5 @@ class KelasAPI(MethodView):
         '''
         self.repository.delete(idkelas)
 
-        list_kelas = self.repository.findAll()
+        list_kelas = self.repository.find_all()
         return json.dumps({'list': list_kelas }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}

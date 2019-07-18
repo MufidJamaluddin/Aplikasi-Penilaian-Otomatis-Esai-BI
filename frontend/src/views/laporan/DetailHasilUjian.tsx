@@ -10,7 +10,7 @@ import { Loading } from '../../layout';
 import ChartComponent from 'react-chartjs-2';
 import { UjianViewModel } from '../../viewmodels/ujianesai';
 import { NilaiViewModel } from '../../viewmodels/laporan';
-
+/*
 require('chart.js');
 require('chartjs-chart-box-and-violin-plot');
 
@@ -54,7 +54,7 @@ class GrafikBoxplot extends PureComponent<GrafikBoxplotProps>
     );
   }
 }
-
+*/
 //---------------------------------------------------------------------//
 
 interface DetailHasilUjianStateModel extends Partial<DaftarSkorUjian>
@@ -62,6 +62,7 @@ interface DetailHasilUjianStateModel extends Partial<DaftarSkorUjian>
   ujian?: DataUjian;
   list_kelas: Array<DataPengampu>;
   tampilan: number;
+  idkelas?: string;
 }
 
 interface DetailHasilUjianPropsModel { className?: string; }
@@ -99,8 +100,9 @@ class DetailHasilUjian extends PureComponent<DetailHasilUjianPropsModel & RouteC
   onKelasChange(e: any)
   {
     e.preventDefault();
-    
-    if (e.target.value === undefined)
+    const idkelas = e.target.value;
+
+    if (idkelas === undefined)
     {
       this.setState({ 
         list_skor: [],
@@ -109,14 +111,15 @@ class DetailHasilUjian extends PureComponent<DetailHasilUjianPropsModel & RouteC
     }
     else
     {      
-      this.nilai_vm.initNilaiujian(this.idujian, e.target.value).then(data => {
+      this.nilai_vm.initNilaiujian(this.idujian, idkelas).then(data => {
         /**
          * State Berubah -> Render Ulang
          */
         this.setState({ 
           list_skor: data.list_skor,
           list_soal: data.list_soal,
-          list_skorsoal: data.list_skorsoal
+          idkelas: idkelas
+        //  list_skorsoal: data.list_skorsoal
         });
       });
     }
@@ -196,7 +199,7 @@ class DetailHasilUjian extends PureComponent<DetailHasilUjianPropsModel & RouteC
     </Table>
     )
   }
-
+/*
   render_boxplot()
   {
     if (this.state.list_skorsoal == undefined)
@@ -208,16 +211,18 @@ class DetailHasilUjian extends PureComponent<DetailHasilUjianPropsModel & RouteC
       />
     )
   }
-
+*/
   render_body()
   {
+    /*
     switch(this.state.tampilan)
     {
       case 0:
         return this.render_boxplot();
       case 1:
+      */
         return this.render_table();
-    }
+    //}
   }
 
   public render() : JSX.Element 
@@ -252,6 +257,7 @@ class DetailHasilUjian extends PureComponent<DetailHasilUjianPropsModel & RouteC
                         }
                       </Input>
                     </Col>
+                    {/*
                     <Col sm="3">
                       <Input type="select" 
                         onChange={e=>{this.setState({tampilan: parseInt(e.target.value) })}} 
@@ -260,9 +266,15 @@ class DetailHasilUjian extends PureComponent<DetailHasilUjianPropsModel & RouteC
                         <option value="1">Tabel Nilai Ujian</option>
                       </Input>
                     </Col>
+                    */}
             
-                    <Col className="col-sm-6 text-right">
-                      <Button className="btn-vine btn-brand mr-1 mb-1 ">
+                    <Col className="col-sm-9 text-right">
+                      <Button className="btn-vine btn-brand mr-1 mb-1 "
+                        onClick={()=>{
+                          if(this.state.idkelas)
+                          this.nilai_vm.downloadNilaiujian(this.idujian,this.state.idkelas)
+                        }}
+                        >
                         <i className="fa fa-download"></i><span>Export as CSV</span>
                       </Button>
                     </Col>

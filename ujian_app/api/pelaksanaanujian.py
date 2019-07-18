@@ -16,7 +16,7 @@ class PelaksanaanUjianAPI(MethodView):
         pel_repo = PelaksanaanUjianRepository()
         prog_repo = ProgressRepository()
 
-        ujian = repository.findById(idujian)
+        ujian = repository.find_by_id(idujian)
 
         ujiand = {}
         pesan_progress, progress = prog_repo.get_progress(idujian)
@@ -30,7 +30,7 @@ class PelaksanaanUjianAPI(MethodView):
         ujiand['progress_penilaian'] = progress
         ujiand['pesan_progress_penilaian'] = pesan_progress
 
-        pelaksanaan_ujian = pel_repo.findByKeys(
+        pelaksanaan_ujian = pel_repo.find_by_keys(
             idujian=ujian.idujian,
             flag='1'
         )

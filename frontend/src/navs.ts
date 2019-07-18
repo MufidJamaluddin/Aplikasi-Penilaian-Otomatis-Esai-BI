@@ -16,7 +16,7 @@ const GURU_NAV = {
                   icon: 'icon-notebook',
                   children: [
                         {
-                              name: 'Laporan Skor Setiap Soal',
+                              name: 'Laporan Nilai Satu Ujian',
                               url: '/hasilujian',
                               icon: 'icon-chart',
                         },

@@ -17,7 +17,7 @@ class GuruAPI(MethodView):
         HTTP GET
         Ambil Semua Data Guru
         '''
-        list_guru = self.repository.findAll()
+        list_guru = self.repository.find_all()
         return json.dumps({'list': list_guru }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
 
     def post(self):
@@ -47,7 +47,7 @@ class GuruAPI(MethodView):
         )
         
         # Berikan semua data yg ada di db
-        list_guru = self.repository.findAll()
+        list_guru = self.repository.find_all()
         return json.dumps({'list': list_guru }, cls=AlchemyEncoder), 201, {'Content-Type': 'application/json'}
     
     def put(self, idguru):
@@ -64,13 +64,13 @@ class GuruAPI(MethodView):
         if listpengampu:
             for p in listpengampu:
                 pengampu = Pengampu()
-                if p['idpengampu']:
+                if p.get('idpengampu', None):
                     pengampu.idpengampu = p['idpengampu']
                 pengampu.idkelas = p['idkelas']
                 pengampu.idmapel = p['idmapel']
                 pengampus.append(pengampu)
         
-        guru = self.repository.findById(idguru)
+        guru = self.repository.find_by_id(idguru)
 
         if(data_guru['nip']):
             guru.nip = data_guru['nip']
@@ -86,7 +86,7 @@ class GuruAPI(MethodView):
         self.repository.saveGuru(guru)
 
         # kirim semua data guru
-        list_guru = self.repository.findAll()
+        list_guru = self.repository.find_all()
         return json.dumps({'list': list_guru }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
     
     def delete(self, idguru):
@@ -96,6 +96,6 @@ class GuruAPI(MethodView):
         '''
         self.repository.deleteGuru(idguru)
 
-        list_guru = self.repository.findAll()
+        list_guru = self.repository.find_all()
         return json.dumps({'list': list_guru }, cls=AlchemyEncoder), 200, {'Content-Type': 'application/json'}
 

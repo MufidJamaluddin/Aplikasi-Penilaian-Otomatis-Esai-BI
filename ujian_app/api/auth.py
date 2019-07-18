@@ -46,7 +46,7 @@ class AuthAPI(MethodView):
         if not data_user['username'] and not data_user['password']:
             return '', 400
 
-        user = repo.findById(data_user['username'])
+        user = repo.find_by_id(data_user['username'])
 
         if user:
             if user.password == data_user['password']:

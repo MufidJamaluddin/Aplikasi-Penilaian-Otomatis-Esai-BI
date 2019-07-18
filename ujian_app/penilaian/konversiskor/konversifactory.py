@@ -15,6 +15,6 @@ class KonversiFactory(object):
         '''
         Membuat Konversi Angka ke Huruf
         '''
-        soal = self.__repo.findById(idsoal)
+        soal = self.__repo.find_by_id(idsoal)
         konverter = SkorAngkaKeHuruf(int(soal.skorMax), int(soal.skorMin))
         return konverter

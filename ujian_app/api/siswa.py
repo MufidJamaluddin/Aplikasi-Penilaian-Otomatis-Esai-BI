@@ -9,7 +9,7 @@ class SiswaAPI(MethodView):
         self.repository = SiswaRepository()
     
     def _getAllData(self):
-        list_siswa = self.repository.findAll()
+        list_siswa = self.repository.find_all()
 
         lres_siswa = []
         for siswa in list_siswa:

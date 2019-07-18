@@ -14,7 +14,7 @@ class PanelSiswaAPI(MethodView):
         '''
         cur_user = session.get('user')
         repo = SiswaRepository()
-        siswa = repo.findById(cur_user['username'])
+        siswa = repo.find_by_id(cur_user['username'])
         
         rsiswa = {}
         rsiswa['nis'] = siswa.nis
