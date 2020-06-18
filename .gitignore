@@ -33,9 +33,13 @@ npm-debug.log*
 # redis disk
 dump.rdb
 
-# unofficial 3rd party
+# unofficial windows lib binary (you can get from pypi, works on linux)
 vendor
 
 # cython
 *.c
 *.h
+
+# research data
+data
+template
