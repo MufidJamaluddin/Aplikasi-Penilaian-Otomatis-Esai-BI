@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Modal, CardGroup,  ModalBody, ModalFooter, ModalHeader, Input, Button, Card, CardBody, CardHeader, Col, Row, TabContent, TabPane, Container } from 'reactstrap';
 import FormGroup from 'reactstrap/lib/FormGroup';
 import { RouteComponentProps } from 'react-router-dom';
-import Countdown from "react-countdown-now";
+import Countdown from "react-countdown";
 import JawabanTab from "./JawabanTab";
 import DataSoal from "../../models";
 import DataUjian from "../../models";

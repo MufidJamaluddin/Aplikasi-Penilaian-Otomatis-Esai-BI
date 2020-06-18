@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from .config import Config
-from .celery import make_celery
+from .ncelery import make_celery
 from flask_excel import init_excel
 #from os import urandom
 #from binascii import hexlify
@@ -44,6 +44,8 @@ def make_app():
 
     define_api_routes(app)
     define_root_routes(app)
+
+    from .tasks import init_worker, penilaian_manual, penilaian_otomatis
 
 #    SQLAlchemy Debug Queries
 #    if app.config['DEBUG']:

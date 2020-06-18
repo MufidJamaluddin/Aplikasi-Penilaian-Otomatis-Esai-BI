@@ -203,9 +203,9 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
       list_kelas = [];
   
     return (
-      <Modal isOpen={this.state.tambah} toggle={this.toggleTambahSiswa} className={'modal-success ' + this.props.className}>
+      <Modal isOpen={this.state.tambah} toggle={() => this.toggleTambahSiswa()} className={'modal-success ' + this.props.className}>
         <Form onSubmit={this.tambahSiswa} className="form-horizontal">
-          <ModalHeader toggle={this.toggleTambahSiswa}>Tambah Siswa</ModalHeader>
+          <ModalHeader toggle={() => this.toggleTambahSiswa()}>Tambah Siswa</ModalHeader>
           
           <ModalBody>
             <FormGroup row>
@@ -276,9 +276,9 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
     }
     
     return (
-      <Modal isOpen={this.state.edit} toggle={this.toggleUpdateSiswa} className={'modal-warning modal-md' + this.props.className}>
+      <Modal isOpen={this.state.edit} toggle={() => this.toggleUpdateSiswa(this.state.selected_data)} className={'modal-warning modal-md' + this.props.className}>
       <Form onSubmit={this.editSiswa} className="form-horizontal">
-        <ModalHeader toggle={this.toggleUpdateSiswa}>Edit Data Siswa</ModalHeader>
+        <ModalHeader toggle={() => this.toggleUpdateSiswa()}>Edit Data Siswa</ModalHeader>
         <ModalBody>
      
           <FormGroup row>
@@ -316,7 +316,7 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
           </ModalBody>		  
           
           <ModalFooter>
-            <Button color="danger" onClick= {(e:any) => this.toggleUpdateSiswa() }>Cancel</Button>
+            <Button color="danger" onClick= {(e:any) => this.toggleUpdateSiswa(this.state.selected_data) }>Cancel</Button>
               <Button color="success" type="submit">Edit</Button>
           </ModalFooter>
           </Form>
@@ -332,9 +332,9 @@ class Siswa extends PureComponent<SiswaViewAttribute, SiswaViewStateData>
     var nama = this.state.selected_data.nama;
 
     return (
-    <Modal isOpen={this.state.delete} toggle={this.toggleDeleteSiswa} className={'modal-danger ' + this.props.className}>
+    <Modal isOpen={this.state.delete} toggle={() => this.toggleDeleteSiswa(this.state.selected_data)} className={'modal-danger ' + this.props.className}>
       <Form onSubmit={this.deleteSiswa} className="form-horizontal">
-        <ModalHeader toggle={this.toggleDeleteSiswa}>Hapus Siswa</ModalHeader>
+        <ModalHeader toggle={() => this.toggleDeleteSiswa()}>Hapus Siswa</ModalHeader>
         
         <ModalBody>
         <p> Apakah anda yakin ingin menghapus <b>{nama}</b> dari data Siswa ?</p>

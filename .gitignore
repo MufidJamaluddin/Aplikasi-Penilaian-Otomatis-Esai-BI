@@ -6,6 +6,7 @@
 # python
 __pycache__/
 venv/
+linuxenv/
 deactivate/
 
 # Byte-compiled / optimized / DLL files
@@ -28,3 +29,13 @@ build/
 
 # misc
 npm-debug.log*
+
+# redis disk
+dump.rdb
+
+# unofficial 3rd party
+vendor
+
+# cython
+*.c
+*.h
