@@ -121,13 +121,13 @@ class DetailUjian extends Component<DetailUjianAttribute & RouteComponentProps<R
     if(this.state.cidkelas === undefined) return;
 
     return (
-      <Modal isOpen={this.state.primary} toggle={this.toggleMulaiUjian} className={'modal-primary ' + this.props.className}>
-        <ModalHeader toggle={this.toggleMulaiUjian}>Mulai Ujian</ModalHeader>
+      <Modal isOpen={this.state.primary} toggle={(e:any) => this.toggleMulaiUjian(this.state.cidkelas, this.state.cnamaKelas)} className={'modal-primary ' + this.props.className}>
+        <ModalHeader toggle={() => this.toggleMulaiUjian()}>Mulai Ujian</ModalHeader>
         <ModalBody>
         <p> Apakah anda yakin ingin memulai ujian di kelas <b>{this.state.cnamaKelas||''}</b>?</p>
         </ModalBody>
         <ModalFooter>
-          <Button color="danger" onClick={(e:any)=>{this.toggleMulaiUjian()}}>Tidak</Button>
+          <Button color="danger" onClick={(e:any)=>{this.toggleMulaiUjian(this.state.cidkelas, this.state.cnamaKelas)}}>Tidak</Button>
           <Button color="success" onClick={this.laksanakanUjian}>Ya</Button>
         </ModalFooter>
       </Modal>

@@ -68,7 +68,7 @@ class Layout extends Component<RouteComponentProps<any> & AdminLayoutModel>
         {/* HEADER */}
         <Template.AppHeader fixed>
           <Suspense  fallback={this.loading()}>
-            <Header nama={this.props.nama} onLogout={this.props.onLogout} />
+            <Header nama={this.props.nama} onLogout={this.props.onLogout} {...this.props}  />
           </Suspense>
         </Template.AppHeader>
 

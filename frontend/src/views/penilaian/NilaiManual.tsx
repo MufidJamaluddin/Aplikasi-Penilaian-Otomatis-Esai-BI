@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Table, Button, ButtonGroup,  Card, CardBody, CardHeader, Col, Input,Row, TabContent, TabPane, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Loading } from './../../layout';
 
@@ -77,11 +77,12 @@ class NilaiJawabanTab extends Component<NilaiJawabanTabProps, NilaiJawabanTabSta
                 defaultValue={jawaban.skorAngka}
                 onChange={e => { 
                   var skorAngka = e.target.value;
+                  /*
                   if (this.props.datasoal.skorMin > skorAngka)
                     e.target.value = this.props.datasoal.skorMin;
                   else if (skorAngka > this.props.datasoal.skorMax)
                     e.target.value = this.props.datasoal.skorMax;
-                
+                  */
                   this.penilaian_vm.nilaiManual(jawaban.idjawaban, skorAngka);
                 }}
                 type="number" 
@@ -156,6 +157,7 @@ interface NilaiManualStateModel
   showModal: boolean;
   listjawaban: Array<DataJawabanSoal>;
   ujian?: DataUjian;
+  isLoading?: boolean;
   listsoal: Array<DataSoal>;
 }
 
@@ -190,7 +192,8 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
       activeTab: 0,
       showModal: false,
       listjawaban: [],
-      listsoal: []
+      listsoal: [],
+      isLoading: false,
     };
 
     this.pelaksanaan_vm = new PelaksanaanViewModel();
@@ -230,9 +233,11 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
 
   akhiri_penilaian_manual()
   {
+    this.setState({ isLoading: true });
    var a = this;
     this.penilaian_vm.akhiriPenilaianManual(this.idujian, this.idkelas).then(dt => {
-      a.context.router.history.push(`/penilaian/${this.idujian}`)
+      a.props.history.push(`/penilaian/${this.idujian}`);
+      a.setState({isLoading: false})
     });
   }
 
@@ -263,6 +268,7 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
   render()
   {
     if(this.state.ujian === undefined) return (Loading);
+    if(this.state.isLoading) return (Loading);
 
     return (
       <div className="animated fadeIn">
@@ -349,4 +355,4 @@ class NilaiManual extends Component<NilaiManualModel & RouteComponentProps<Route
   }
 }
 
-export default NilaiManual;
+export default withRouter(NilaiManual);

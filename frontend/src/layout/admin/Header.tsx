@@ -7,7 +7,7 @@ import sygnet from './../../static/img/brand/sygnet.svg';
 const Template = require('@coreui/react/lib');
 const alt_logo = "Logo Aplikasi KoPL9";
 
-interface DefaultHeaderPropsModel { nama: string; onLogout:any; }
+interface DefaultHeaderPropsModel { nama: string; onLogout: any; }
 
 class Header extends Component<DefaultHeaderPropsModel> 
 {  public render() : JSX.Element

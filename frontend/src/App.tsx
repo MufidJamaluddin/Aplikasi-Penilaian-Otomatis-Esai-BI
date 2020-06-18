@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import Loadable from 'react-loadable';
-import '@coreui/icons/css/coreui-icons.min.css';
+import '@coreui/icons/css/all.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'simple-line-icons/scss/simple-line-icons.scss';
 import './App.scss';

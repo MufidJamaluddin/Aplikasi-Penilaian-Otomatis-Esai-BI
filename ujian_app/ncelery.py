@@ -1,3 +1,5 @@
+from __future__ import absolute_import, unicode_literals
+
 from flask import Flask
 from celery import Celery
 from flask_sqlalchemy import SQLAlchemy

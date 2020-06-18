@@ -63,6 +63,7 @@ class ProgressRepository:
         return int(total)
 
 
+    @lru_cache(10)
     def __get_jml_jawaban_uji(self, idujian):
         total = db.session.query(
             func.count(Jawaban.idjawaban)
@@ -78,6 +79,7 @@ class ProgressRepository:
         return int(total)
 
 
+    @lru_cache(10)
     def __get_jml_jawaban_latih(self, idujian):
         total = db.session.query(
             func.count(Jawaban.idjawaban)
@@ -160,12 +162,18 @@ class ProgressRepository:
                             idujian, 
                             kode_proses
                         )
+                
+                elif kode_proses == 2:
+                    total_proses_sudah += self.\
+                        __get_jml_jawaban_uji(idujian) * (1.5)
+
                 else:
                     total_proses_sudah += self.\
                         __get_total_kdproses_jawaban(
                             idujian, 
                             kode_proses
                         ) * (kode_proses - 1)
+
 
             total_proses_seluruh = self.__get_total_proses(idujian)
             progress = int((total_proses_sudah * 100) / total_proses_seluruh)
