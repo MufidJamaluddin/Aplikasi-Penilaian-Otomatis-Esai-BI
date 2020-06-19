@@ -43,3 +43,15 @@ vendor
 # research data
 data
 template
+
+# tools research dev
+baca_data_latih.py
+baca_data_uji.py
+demo_cf_tokenizing.py
+demo_skor_angka.py
+demo_skor_huruf.py
+demo_sorted_dict.py
+demo_teks_preprocessing.py
+demo_timedelta.py
+penilaian_knn.py
+test_set.py

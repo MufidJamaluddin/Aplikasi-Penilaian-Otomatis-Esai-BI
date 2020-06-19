@@ -1,4 +1,4 @@
-from flask import current_app
+from flask import current_app, request
 from .api import (
     GuruAPI, PengampuAPI, SiswaAPI, SoalAPI, UjianEsaiAPI, MatapelajaranAPI,
     AuthAPI, DaftarNilaiAPI, KelasAPI, MatapelajaranAPI, PengerjaanUjianAPI,
@@ -6,6 +6,14 @@ from .api import (
     PenilaianManualAPI, PenilaianOtomatisAPI, DownloadDaftarNilaiAPI,
     NilaiUjianAPI, DownloadNilaiUjianAPI
 )
+
+
+def after_api_request(response):
+    if '/api/' in request.path:
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        response.headers['Pragma'] = 'no-cache'
+    return response
+
 
 def define_api_routes(app):  
     '''
@@ -64,6 +72,8 @@ def define_api_routes(app):
 
     for route in routes_api:
         app.add_url_rule(route['url'], view_func=route['view'].as_view(route['name']), methods=route['methods'])
+
+    app.after_request(after_api_request)
 
 
 def index(path = None):
