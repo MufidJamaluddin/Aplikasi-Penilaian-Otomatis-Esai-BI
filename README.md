@@ -14,29 +14,29 @@ Ujian esai adalah sebuah bentuk evaluasi untuk mengetahui kemampuan siswa dalam 
 
 2. Ujian esai online
 
-![image](https://drive.google.com/file/d/1AUopNnZV20AMxlRAgj3Rb7sw9Ir5v2CH/view?usp=sharing)
+![image](https://drive.google.com/uc?export=view&id=1AUopNnZV20AMxlRAgj3Rb7sw9Ir5v2CH)
 
 3. Penilaian ujian esai online manual per soal per kelas
 
-![image](https://drive.google.com/file/d/14UvXn7aD6Hp8COXcwJD_CbsnTrQ40tDv/view?usp=sharing)
+![image](https://drive.google.com/uc?export=view&id=14UvXn7aD6Hp8COXcwJD_CbsnTrQ40tDv)
 
 4. Penilaian ujian esai otomatis berdasarkan pola-pola ujian yang telah dinilai secara manual
 
-![image](https://drive.google.com/file/d/11C2F1npdLVRir0LuXgtMcSb9KbgUWnmJ/view?usp=sharing)
+![image](https://drive.google.com/uc?export=view&id=11C2F1npdLVRir0LuXgtMcSb9KbgUWnmJ)
 
-![image](https://drive.google.com/file/d/1UsTdqMOlXm7_U9x9yAk6vELGE0KHqWUG/view?usp=sharing)
+![image](https://drive.google.com/uc?export=view&id=1UsTdqMOlXm7_U9x9yAk6vELGE0KHqWUG)
 
 5. Laporan nilai satu ujian
 
-![image](https://drive.google.com/file/d/1OBCDMLt2aPSWeue1FDtFXDZ-DldkzA7l/view?usp=sharing)
+![image](https://drive.google.com/uc?export=view&id=1OBCDMLt2aPSWeue1FDtFXDZ-DldkzA7l)
 
 6. Laporan daftar nilai ujian
 
-![image](https://drive.google.com/file/d/1MGwlwdndF1a7LFH-VkMpjAjfL6FXZIF7/view?usp=sharing)
+![image](https://drive.google.com/uc?export=view&id=1MGwlwdndF1a7LFH-VkMpjAjfL6FXZIF7)
 
 7. Perkembangan nilai ujian
 
-![image](https://drive.google.com/file/d/1xfjvBEIaObm3_Zmv1JG8yTT9izDmMAdv/view?usp=sharing)
+![image](https://drive.google.com/uc?export=view&id=1xfjvBEIaObm3_Zmv1JG8yTT9izDmMAdv)
 
 
 ## Batasan Aplikasi
