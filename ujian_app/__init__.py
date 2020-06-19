@@ -17,7 +17,7 @@ def make_db():
     db = SQLAlchemy()
     return db
 
-def make_app():
+def make_app(config_file):
     '''
     Creator objek app
     '''
@@ -33,7 +33,7 @@ def make_app():
     # http://flask.pocoo.org/docs/1.0/quickstart
     app.secret_key = '228632004176512061657206875912910109'
 
-    app.config.update(Config.get_config())
+    app.config.update(Config.get_config(config_file))
     celery = make_celery(app.import_name, app)
     db = make_db()
 

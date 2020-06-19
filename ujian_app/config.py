@@ -6,17 +6,20 @@ class Config:
     _config = None
 
     @staticmethod
-    def get_config():
+    def get_config(config_file = None):
         '''
-        Membaca File Konfigurasi (config.ini)
+        Membaca File Konfigurasi (config_file : config.ini)
         '''
         if Config._config != None:
             return Config._config
 
+        if config_file is None:
+            raise Exception('Configuration file, which is an make_app argument, is not found. Please specify it!')
+
         config = {}
 
         parser = ConfigParser()
-        parser.read('config.ini')
+        parser.read(config_file)
 
         parser.sections()
 

@@ -39,6 +39,11 @@ vendor
 # cython
 *.c
 *.h
+*.so
+
+# Bdist
+PenilaianUjianEsaiOtomatis.egg-info
+dist
 
 # research data
 data

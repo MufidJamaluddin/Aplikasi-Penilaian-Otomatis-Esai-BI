@@ -11,6 +11,7 @@ from celery.bin import worker
 #      python run_cworker.py
 
 if __name__ == "__main__":
-    app = make_app()
+    config_file = 'config.ini'
+    app = make_app(config_file)
     app.app_context().push()
     app.run(port=5000)

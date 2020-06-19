@@ -4,7 +4,9 @@ from celery.bin import worker
 
 if __name__ == "__main__":
 
-    app = make_app()
+    config_file = 'config.ini'
+
+    app = make_app(config_file)
     app.app_context().push()
 
     celery_app = current_app._get_current_object()
