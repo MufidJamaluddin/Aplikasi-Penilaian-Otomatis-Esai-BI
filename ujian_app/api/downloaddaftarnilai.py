@@ -9,6 +9,9 @@ class DownloadDaftarNilaiAPI(MethodView):
     def __init__(self):
         self.__repository = DaftarNilaiRepository()
 
+    def __del__(self):
+        del self.__repository
+
     def __get_data_nilai(self, idmapel, idkelas):
         dnilai_siswa = self.__repository.get_nilai(idmapel, idkelas)
         list_data_nilai = []

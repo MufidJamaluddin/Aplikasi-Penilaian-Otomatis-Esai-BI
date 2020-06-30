@@ -8,6 +8,9 @@ class SiswaAPI(MethodView):
     def __init__(self):
         self.repository = SiswaRepository()
     
+    def __del__(self):
+        del self.repository
+
     def _getAllData(self):
         list_siswa = self.repository.find_all()
 

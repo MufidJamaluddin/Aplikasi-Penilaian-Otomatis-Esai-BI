@@ -11,6 +11,9 @@ class MatapelajaranAPI(MethodView):
         '''
         self.repository = MapelRepository()
 
+    def __del__(self):
+        del self.repository
+
     def get(self):
         '''
         Mendapatkan semua mapel / berdasarkan page

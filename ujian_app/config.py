@@ -6,7 +6,7 @@ class Config:
     _config = None
 
     @staticmethod
-    def get_config(config_file = None):
+    def get_config(config_file: str = None):
         '''
         Membaca File Konfigurasi (config_file : config.ini)
         '''

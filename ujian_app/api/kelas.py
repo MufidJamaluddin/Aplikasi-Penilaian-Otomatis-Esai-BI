@@ -11,6 +11,9 @@ class KelasAPI(MethodView):
         '''
         self.repository = KelasRepository()
 
+    def __del__(self):
+        del self.repository
+
     def get(self):
         '''
         Mendapatkan semua kelas / berasarkan page

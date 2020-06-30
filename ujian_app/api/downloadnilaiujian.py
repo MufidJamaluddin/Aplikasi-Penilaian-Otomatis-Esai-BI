@@ -9,6 +9,9 @@ class DownloadNilaiUjianAPI(MethodView):
     def __init__(self):
         self.__repository = DaftarNilaiRepository()
 
+    def __del__(self):
+        del self.__repository
+
     def __get_data_skor(self, idujian, idkelas):
         dskor_siswa = self.__repository.get_skor(idujian, idkelas)
 

@@ -11,6 +11,8 @@ class JawabanAPI(MethodView):
         '''
         self.repository = JawabanRepository()
 
+    def __del__(self):
+        del self.repository
 
     def get(self, idsoal):
         cur_user = session.get('user')

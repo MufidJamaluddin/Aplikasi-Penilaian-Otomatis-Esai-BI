@@ -11,6 +11,9 @@ class PengampuAPI(MethodView):
         '''
         self.repository = PengampuRepository()
 
+    def __del__(self):
+        del self.repository
+
     def get(self, idguru = None):
         '''
         HTTP GET

@@ -16,6 +16,9 @@ class PengerjaanUjianAPI(MethodView):
         '''
         self.repository = PelaksanaanUjianRepository()
 
+    def __del__(self):
+        del self.repository
+
     def get(self):
         '''
         Mendapatkan semua Ujian / berasarkan page

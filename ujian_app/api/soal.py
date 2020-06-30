@@ -11,6 +11,9 @@ class SoalAPI(MethodView):
         '''
         self.repository = SoalRepository()
 
+    def __del__(self):
+        del self.repository
+
     def get(self, idujian):
         '''
         Mendapatkan Soal / berasarkan idujian

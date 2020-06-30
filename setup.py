@@ -22,15 +22,14 @@ setup(
     cmdclass={
         'build_py': build_py
     },
-#    installed_reqs=[
-#        'celery==4.3.0',
-#        'cymysql==0.9.14',
-#        'Flask==1.0.3',
-#        'Flask-SQLAlchemy==2.4.0',
-#        'Flask-Excel==0.0.7',
-#        'openpyxl==2.6.2',
-#        'pyamqp==0.0.7.3',
-#        'PySastrawi==1.2.0',
-#        'pyexcel-xlsx==0.5.7',
-#    ],
+    installed_reqs=[
+        'celery==4.3.0',
+        'cymysql==0.9.14',
+        'Flask==1.0.3',
+        'Flask-SQLAlchemy==2.4.0',
+        'Flask-Excel==0.0.7',
+        'openpyxl==2.6.2',
+        'PySastrawi==1.2.0',
+        'pyexcel-xlsx==0.5.7',
+    ],
 )

@@ -12,6 +12,9 @@ class UjianEsaiAPI(MethodView):
         '''
         self.repository = UjianRepository()
 
+    def __del__(self):
+        del self.repository
+
     def get(self, idujian = None):
         '''
         Mendapatkan semua Ujian / berasarkan page

@@ -12,6 +12,9 @@ class GuruAPI(MethodView):
         '''
         self.repository = GuruRepository()
 
+    def __del__(self):
+        del self.repository
+
     def get(self):
         '''
         HTTP GET

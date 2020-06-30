@@ -7,6 +7,9 @@ class DaftarNilaiAPI(MethodView):
     def __init__(self):
         self.__repository = DaftarNilaiRepository()
     
+    def __del__(self):
+        del self.__repository
+
     def post(self):
         data_req = request.get_json()
         dnilai_siswa = self.__repository.get_nilai(data_req.get('idmapel', ''), data_req.get('idkelas', ''))
