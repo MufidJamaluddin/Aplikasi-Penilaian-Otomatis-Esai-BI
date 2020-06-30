@@ -23,13 +23,12 @@ setup(
         'build_py': build_py
     },
     installed_reqs=[
-        'celery==4.3.0',
-        'cymysql==0.9.14',
-        'Flask==1.0.3',
-        'Flask-SQLAlchemy==2.4.0',
-        'Flask-Excel==0.0.7',
-        'openpyxl==2.6.2',
-        'PySastrawi==1.2.0',
-        'pyexcel-xlsx==0.5.7',
+        'celery>=4.3,<4.4',
+        'Flask>=1.0,<1.1',
+        'Flask-SQLAlchemy>=2.4,<2.5',
+        'PySastrawi>=1,<2',
+        'pyexcel-xlsx>=0.5,<1',
+        'flask-continuum>=1.0,<1.1',
+        'flask-migrate>=1.0,<1.1',
     ],
 )

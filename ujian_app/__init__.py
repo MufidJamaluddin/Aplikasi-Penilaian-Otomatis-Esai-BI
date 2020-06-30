@@ -1,22 +1,35 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask_continuum import Continuum
+
 from .config import Config
 from .ncelery import make_celery
-from flask_excel import init_excel
-#from os import urandom
-#from binascii import hexlify
 
 app = None
 db = None
+db_continuum = None 
 celery = None
+migrator = None
+
 
 def make_db(forced:bool = False):
     global db
+    global db_continuum
     if db is not None and forced is False:
         return db
     db = SQLAlchemy()
+    db_continuum = Continuum(db=db)
     return db
     
+
+def make_migrator(forced:bool = False):
+    global migrator
+    if migrator is not None and forced is False:
+        return migrator
+    migrator = Migrate()
+    return migrator
+
 
 def make_app(config_file: str, forced:bool = False):
     config = Config.get_config(config_file)
@@ -29,6 +42,7 @@ def make_app_by_config(config, forced:bool = False):
     '''
     global app
     global celery
+    global migrator
 
     if app is not None and forced is False:
         return app
@@ -43,9 +57,11 @@ def make_app_by_config(config, forced:bool = False):
 
     celery = make_celery(app.import_name, app)
     db = make_db(forced=forced)
+    migrator = make_migrator(forced=forced)
 
     db.init_app(app)
-    init_excel(app)
+    migrator.init_app(app, db)
+    db_continuum.init_app(app)
 
     from .routes import define_api_routes, define_root_routes
 
