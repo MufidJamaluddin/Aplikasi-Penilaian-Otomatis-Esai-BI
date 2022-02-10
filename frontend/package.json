@@ -43,7 +43,7 @@
     "@typescript-eslint/parser": "^2.27.0",
     "mv": "^2.1.1",
     "ncp": "^2.0.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "react-app-rewired": "^2.1.5",
     "react-scripts": "^3.4.1"
   },
