@@ -475,7 +475,7 @@ ALTER TABLE `staftu`
 -- Indexes for table `statepotomatis`
 --
 ALTER TABLE `statepotomatis`
-  ADD PRIMARY KEY (`idujian`, `idsoal`);
+  ADD PRIMARY KEY (`idujian`);
 
 --
 -- Indexes for table `ujian`

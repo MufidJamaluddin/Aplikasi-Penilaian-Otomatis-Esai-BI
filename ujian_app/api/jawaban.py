@@ -1,7 +1,8 @@
 from flask.views import MethodView
 from flask import json, request, session
 from ujian_app.utils import AlchemyEncoder
-from ujian_app.repository import JawabanRepository
+from ujian_app.repository import JawabanRepository, KelasRepository
+
 
 class JawabanAPI(MethodView):
     
@@ -19,11 +20,12 @@ class JawabanAPI(MethodView):
         jawaban = self.repository.find_by_keys(idsoal=idsoal, nis=nis).first()  
 
         if jawaban:
-            dtjawaban = {}
-            dtjawaban['idjawaban'] = jawaban.idjawaban
-            dtjawaban['idsoal'] = jawaban.idsoal
-            dtjawaban['nis'] = jawaban.nis
-            dtjawaban['jawabanEsai'] = jawaban.jawabanEsai
+            dtjawaban = {
+                'idjawaban': jawaban.idjawaban,
+                'idsoal': jawaban.idsoal,
+                'nis': jawaban.nis,
+                'jawabanEsai': jawaban.jawabanEsai
+            }
 
             return json.jsonify({'data': dtjawaban})
         else:
@@ -52,8 +54,11 @@ class JawabanAPI(MethodView):
             jawaban = self.repository.save(
                 idsoal = idsoal,
                 nis = nis,
-                jawabanEsai = jawabanEsai
+                jawabanEsai = jawabanEsai,
             )
+
+            jawaban.namaKelas = jawaban.siswa.kelas.namaKelas
+            self.repository.commit()
 
         return json.dumps({'idjawaban': jawaban.idjawaban}), 200, {'Content-Type': 'application/json'}
 

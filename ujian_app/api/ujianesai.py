@@ -69,27 +69,26 @@ class UjianEsaiAPI(MethodView):
             soal = Soal()
             soal.soalEsai = ''
             listsoal.append(soal)
-        
-        ujian = self.repository.save(
-            idguru=idguru,
-            idmapel=idmapel,
-            namaUjian=namaUjian, 
-            jumlahSoal=jumlahSoal, 
-            durasi=durasi,
-            status_ujian=status_ujian,
-            listsoal=listsoal
-        )
 
+        listPelaksanaanUjian = []
         listpelaksanaan = data_Ujian['pelaksanaan_ujian']
         if listpelaksanaan:
             for p in listpelaksanaan:
                 pelaksanaan = PelaksanaanUjian()
-                pelaksanaan.idujian = ujian.idujian
                 pelaksanaan.idkelas = p['idkelas']
                 pelaksanaan.status_pelaksanaan = 0
-                db.session.add(pelaksanaan)
-        
-        db.session.commit()
+                listPelaksanaanUjian.append(pelaksanaan)
+
+        ujian = self.repository.save(
+            idguru=idguru,
+            idmapel=idmapel,
+            namaUjian=namaUjian,
+            jumlahSoal=jumlahSoal,
+            durasi=durasi,
+            status_ujian=status_ujian,
+            listsoal=listsoal,
+            listPelaksanaanUjian=listPelaksanaanUjian,
+        )
 
         return json.dumps({'idujian':ujian.idujian }), 201, {'Content-Type': 'application/json'}
    

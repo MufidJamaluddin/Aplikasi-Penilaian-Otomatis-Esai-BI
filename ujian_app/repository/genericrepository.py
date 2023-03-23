@@ -49,6 +49,9 @@ class GenericRepository(object):
         '''
         return self.model_class.query.paginate(halaman, per_halaman, eksepsi)
 
+    def commit(self):
+        db.session.commit()
+
     def save(self, **kwargs):
         '''
         Menyimpan satu data

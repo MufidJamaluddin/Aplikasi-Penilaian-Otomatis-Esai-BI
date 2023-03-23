@@ -4,6 +4,8 @@ from ujian_app.utils import AlchemyEncoder
 from ujian_app.repository import GuruRepository
 from ujian_app.models import Pengampu
 
+from hashlib import sha1
+
 class GuruAPI(MethodView):
     
     def __init__(self):
@@ -42,7 +44,7 @@ class GuruAPI(MethodView):
             nuptk = data_guru['nuptk'],
             namaGuru = data_guru['namaGuru'],
             username = data_guru['username'],
-            password = data_guru['password'],
+            password = sha1(str(data_guru['password']).encode('ascii')).hexdigest(),
             listpengampu = pengampus
         )
         
@@ -72,6 +74,12 @@ class GuruAPI(MethodView):
         
         guru = self.repository.find_by_id(idguru)
 
+        for idx, pengampu in enumerate(pengampus):
+            found = [x for x in guru.listpengampu if x.idpengampu == pengampu.idpengampu]
+            if len(found) == 0:
+                continue
+            pengampus[idx] = found[0]
+
         if(data_guru['nip']):
             guru.nip = data_guru['nip']
         
@@ -83,7 +91,7 @@ class GuruAPI(MethodView):
 
         guru.listpengampu = pengampus
 
-        self.repository.saveGuru(guru)
+        self.repository.updateGuru(guru)
 
         # kirim semua data guru
         list_guru = self.repository.find_all()

@@ -16,11 +16,13 @@ class PanelSiswaAPI(MethodView):
         repo = SiswaRepository()
         siswa = repo.find_by_id(cur_user['username'])
         
-        rsiswa = {}
-        rsiswa['nis'] = siswa.nis
-        rsiswa['idkelas'] = siswa.idkelas
-        rsiswa['nama'] = siswa.nama
-        rsiswa['kelas'] = {}
-        rsiswa['kelas']['namaKelas'] = siswa.kelas.namaKelas
+        rsiswa = {
+            'nis': siswa.nis,
+            'idkelas': siswa.idkelas,
+            'nama': siswa.nama,
+            'kelas': {
+                'namaKelas': siswa.kelas.namaKelas,
+            }
+        }
 
         return json.dumps({'data': rsiswa}), 200, {'Content-Type': 'application/json'}

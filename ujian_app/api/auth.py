@@ -1,10 +1,13 @@
+import json
+from hashlib import sha1
+from typing import Optional
+
 from flask import session, request
 from flask.views import MethodView
-from ujian_app.repository import AkunRepository, SiswaRepository, PelaksanaanUjianRepository
+
 from ujian_app.config import Config
-from datetime import timedelta, datetime
-from hashlib import sha1
-import json
+from ujian_app.repository import AkunRepository, PelaksanaanUjianRepository
+
 
 class AuthAPI(MethodView):
 
@@ -15,15 +18,15 @@ class AuthAPI(MethodView):
         pel_repo = PelaksanaanUjianRepository()
 
         cur_user = session.get('user')
-        
-        user = {}
 
         if not cur_user:
             return json.dumps({'role':'', 'nama':'', 'username':''})
 
-        user['role'] = cur_user['role']
-        user['nama'] = cur_user['nama']
-        user['username'] = cur_user['username']
+        user = {
+            'role': cur_user['role'],
+            'nama': cur_user['nama'],
+            'username': cur_user['username']
+        }
 
         if cur_user['role'] == 'siswa':
             pelaksanaan = pel_repo.findPelaksanaanUjianByNim(cur_user['username'])
@@ -55,7 +58,7 @@ class AuthAPI(MethodView):
         if user:
 
             if app_config['APP_PASS_HASH']:
-                user_password = sha1(data_user['password'])
+                user_password = sha1(data_user['password'].encode('ascii')).hexdigest()
             else:
                 user_password = user_password = data_user['password']
 

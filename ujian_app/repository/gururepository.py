@@ -9,6 +9,10 @@ class GuruRepository(GenericRepository):
     def saveGuru(self, guru):
         db.session.add(guru)
         db.session.commit()
+
+    def updateGuru(self, guru):
+        db.session.merge(guru)
+        db.session.commit()
     
     def deleteGuru(self, idguru):
         guru = self.find_by_id(idguru)

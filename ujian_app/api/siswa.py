@@ -3,6 +3,8 @@ from flask import json, request
 from ujian_app.utils import AlchemyEncoder
 from ujian_app.repository import SiswaRepository
 
+from hashlib import sha1
+
 class SiswaAPI(MethodView):
     
     def __init__(self):
@@ -34,7 +36,7 @@ class SiswaAPI(MethodView):
         nis = data_siswa['nis']
         idkelas = data_siswa['idkelas']
         nama = data_siswa['nama']
-        password = data_siswa['password']
+        password = sha1(str(data_siswa['password']).encode('ascii')).hexdigest()
         angkatan = data_siswa['angkatan']
         self.repository.save(
             nis=nis, 

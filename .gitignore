@@ -60,3 +60,8 @@ demo_teks_preprocessing.py
 demo_timedelta.py
 penilaian_knn.py
 test_set.py
+
+# Default ignored files
+.idea
+.bin
+train_data/*

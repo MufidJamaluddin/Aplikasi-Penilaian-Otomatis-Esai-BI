@@ -1,6 +1,4 @@
 from ujian_app import make_app
-from celery import current_app
-from celery.bin import worker
 
 #
 #   Dua Command yg Harus Dieksekusi

@@ -126,13 +126,14 @@ class Ujian(Base):
     guru = relationship('Guru')
     matapelajaran = relationship('Matapelajaran')
     listsoal = relationship('Soal')
+    listPelaksanaanUjian = relationship('PelaksanaanUjian')
 
 
 class StatePOtomatis(Base):
     __tablename__ = 'statepotomatis'
 
     idujian = Column(Integer, primary_key=True)
-    idsoal = Column(BigInteger)
+    idsoal = Column(BigInteger, nullable=True)
     kode_proses = Column(String(1))
     pesan_progress_penilaian = Column(String(100))
 
