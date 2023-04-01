@@ -1,0 +1,4 @@
+FROM redis:7.0.10
+WORKDIR /redis
+COPY redis/init.sh ./
+RUN chmod +x init.sh

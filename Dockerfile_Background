@@ -1,0 +1,19 @@
+# Gunakan base image Python 3.7
+FROM python:3.7
+
+# Set working directory
+WORKDIR /app
+
+# Copy semua file ke dalam container
+COPY . .
+
+# Install dependencies
+RUN pip install -r req.pip
+
+RUN python ./download_train_data.py
+
+# Expose port 5000
+EXPOSE 5000
+
+# Menjalankan command untuk menjalankan aplikasi
+CMD ["python", "run_cworker.py"]

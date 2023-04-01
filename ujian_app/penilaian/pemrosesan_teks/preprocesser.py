@@ -1,7 +1,7 @@
 from .casefolder import CaseFolder
+from .lemmatizer import LemmatizerFactory
 from .tokenizer import Tokenizer
 from .stopwordremover import StopwordRemoverFactory
-from .stemmer import StemmerFactory
 from .ngram import TfUnigram, TfBigram
 
 class Preprocesser(object):
@@ -19,14 +19,14 @@ class Preprocesser(object):
         stopword_remover_factory = StopwordRemoverFactory()
         self.__stopword_remover = stopword_remover_factory.create()
 
-        stemmer_factory = StemmerFactory()
-        self.__stemmer = stemmer_factory.create()
+        lemmatizer_factory = LemmatizerFactory()
+        self.__lemmatizer = lemmatizer_factory.create()
 
         self.__tf_unigram = TfUnigram()
         self.__tf_bigram = TfBigram()
 
         del stopword_remover_factory
-        del stemmer_factory
+        del lemmatizer_factory
     
     def __del__(self):
         '''
@@ -55,7 +55,7 @@ class Preprocesser(object):
         result_text = self.__case_folder.case_fold(teks)
         result_tokens = self.__tokenizer.tokenize(result_text)
         result_tokens = self.__stopword_remover.filter(result_tokens)
-        result_tokens = self.__stemmer.stem_tokens(result_tokens)
+        result_tokens = self.__lemmatizer.stem_tokens(result_tokens)
         
         return result_tokens
 

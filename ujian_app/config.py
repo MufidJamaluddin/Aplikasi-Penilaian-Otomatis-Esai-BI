@@ -1,4 +1,5 @@
-from configparser import ConfigParser
+import os
+from configparser import SafeConfigParser
 from sqlalchemy.pool import QueuePool
 
 class Config:
@@ -18,7 +19,7 @@ class Config:
 
         config = {}
 
-        parser = ConfigParser()
+        parser = SafeConfigParser(os.environ)
         parser.read(config_file)
 
         parser.sections()

@@ -1,0 +1,92 @@
+version: '3'
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile_Utama
+    ports:
+      - "80:5000"
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=True
+      - APP_PASS_HASH=True
+      - DB_URI=mysql+cymysql://ujian_app_user:MajuPaCece234@db:3306/ujian_app
+      - DB_POOL_SIZE=32
+      - DB_POOL_RECYCLE=530
+      - DB_POOL_PRE_PING=True
+      - APP_BROKER_URI=redis://redis:6379/0
+      - APP_BROKER_RESULT_URI=db+mysql://ujian_app_user:MajuPaCece234@db:3306/ujian_app
+    depends_on:
+      - db
+      - redis
+    networks:
+      - ujian_app_net
+
+  automatic_scoring:
+    build: 
+      context: .
+      dockerfile: Dockerfile_Background
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=True
+      - APP_PASS_HASH=True
+      - DB_URI=mysql+cymysql://ujian_app_user:MajuPaCece234@db:3306/ujian_app
+      - DB_POOL_SIZE=1
+      - DB_POOL_RECYCLE=530
+      - DB_POOL_PRE_PING=True
+      - APP_BROKER_URI=redis://redis:6379/0
+      - APP_BROKER_RESULT_URI=db+mysql://ujian_app_user:MajuPaCece234@db:3306/ujian_app
+    depends_on:
+      - db
+      - redis
+    networks:
+      - ujian_app_net
+
+  db:
+    image: bitnami/mysql:8.0.32
+    environment:
+      - MYSQL_USER=ujian_app_user
+      - MYSQL_PASSWORD=MajuPaCece234
+      - MYSQL_DATABASE=ujian_app
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=MajuBersama234GoGo
+    volumes:
+      - mysql_data:/bitnami/mysql/data
+      - './mysql/scripts/my.cnf:/etc/mysql/my.cnf'
+    networks:
+      - ujian_app_net
+
+  redis:
+    build: 
+      context: .
+      dockerfile: Dockerfile_Redis
+    command: sh -c "./redis/init.sh"
+    volumes:
+      - redis_data:/data:rw
+    networks:
+      - ujian_app_net
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.2.1
+    restart: always
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+      - PMA_ARBITRARY=1
+      - MYSQL_USERNAME=root
+      - MYSQL_ROOT_PASSWORD=MajuBersama234GoGo
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    networks:
+      - ujian_app_net
+
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  ujian_app_net:

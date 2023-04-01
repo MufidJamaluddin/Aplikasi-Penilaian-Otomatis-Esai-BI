@@ -1,0 +1,17 @@
+# Gunakan base image Python 3.7
+FROM python:3.7
+
+# Set working directory
+WORKDIR /app
+
+# Copy semua file ke dalam container
+COPY . .
+
+# Install dependencies
+RUN pip install -r req.pip
+
+# Expose port 5000
+EXPOSE 5000
+
+# Menjalankan command untuk menjalankan aplikasi
+CMD ["gunicorn", "--worker-class", "gevent", "--workers", "8", "--bind", "0.0.0.0:5000", "wsgi:app"]

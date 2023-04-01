@@ -1,5 +1,4 @@
-import os
-from functools import lru_cache
+from nltk.corpus import stopwords
 
 class StopwordRemover(object):
     """
@@ -24,26 +23,7 @@ class StopwordRemoverFactory(object):
     """
     Membuat StopwordRemover
     """
-    def __init__(self):
-        current_dir = os.path.dirname(os.path.realpath(__file__))
-        self.__file_dir = current_dir + '/data/stopword_tala_2003.txt'
-
     def create(self):
-        stop_words = self.__get_stop_words_from_file()
+        stop_words = set(stopwords.words('english'))
         stopword_remover = StopwordRemover(stop_words)
         return stopword_remover
-
-    @lru_cache()
-    def __get_stop_words_from_file(self):
-        """
-        Mendapatkan List Stop Word dari File
-        """
-        if not os.path.isfile(self.__file_dir):
-            raise RuntimeError('Stopword file belum ada')
-
-        text = ''
-        with open(self.__file_dir, 'r') as f:
-            text = f.read()
-
-        stop_words = set(text.split('\n'))
-        return stop_words
